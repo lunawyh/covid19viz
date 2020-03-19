@@ -89,37 +89,52 @@ class runVirusViz(object):
         l_mi_covid19=[
                 ['Bay',		1, 465, 480, (0,0,255)],
                 ['Charlevoix',	1, 380, 322, (0,0,255)],
+		['Clinton',     1, 436, 559,(64, 240,64)],
                 ['Detroit',	75, 550, 645, (64,240,64)],
-                ['Ingham',	2, 440, 600, (0,0,255)],
+		['Eaton',	2, 413, 601, (64,240,64)],
+                ['Ingham',	6, 440, 600, (64,240,64)],
                 ['Jackson',	1, 442, 633, (0,0,255)],
-                ['Kent',	6, 360, 559, (64,240,64)],
+                ['Kent',	7, 360, 559, (64,240,64)],
                 ['Leelanau',	1, 320, 355, (0,0,255)],
+                ['Livingston',	1, 476, 600, (64,240,64)],
                 ['Macomb',	55, 550, 600, (64,240,64)],
-                ['Midland', 1, 445,490, (64,240,64)],
-                ['Monroe',	1, 510, 670, (0,0,255)],
+                ['Midland',     1, 445,490, (64,240,64)],
+                ['Monroe',	2, 510, 670, (0,0,255)],
                 ['Montcalm',	1, 380, 537, (0,0,255)],
                 ['Oakland',	105, 500, 600, (64,240,64)],
                 ['Otsego',	1, 425, 355, (0,0,255)],
                 ['Ottawa',	1, 320, 570, (0,0,255)],
                 ['St. Clair',	4, 570, 570, (0,0,255)],
                 ['Washtenaw',	14, 470, 635, (0,0,255)],
-                ['Wayne',	44, 510, 630, (64,240,64)]
+                ['Wayne',	44, 510, 630, (64,240,64)],
+                ['nonreported', 10, 25, 85, (64,240,64)]
         ]
+
+	n_total, ii = 0, 0		
         for cov in l_mi_covid19:
+            n_total += cov[1]
+            cv2.putText(img,cov[0] + '    %d'%(cov[1]), 
+                (10, ii*15+370), 
+                cv2.FONT_HERSHEY_DUPLEX, 
+                0.5,
+                cov[4],
+                1) 
+            ii += 1
+            if('nonreported' in cov[0]): continue
             cv2.putText(img,'%d'%(cov[1]), 
                 (cov[2],cov[3]), 
                 cv2.FONT_HERSHEY_DUPLEX, 
                 0.7,
                 cov[4],
                 1) 
-        cv2.putText(img,'Confirmed Cases', 
-            (310,30), 
+        cv2.putText(img,'%d Confirmed Cases'%(n_total), 
+            (240,30), 
             cv2.FONT_HERSHEY_DUPLEX, 
             1,
             (255,64,0),
             1) 
         cv2.putText(img,'3/%d/2020'%(self.num_date), 
-            (10,650), 
+            (405,65), 
             cv2.FONT_HERSHEY_DUPLEX, 
             1,
             (255,0,0),
