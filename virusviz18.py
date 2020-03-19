@@ -37,7 +37,7 @@ class runVirusViz(object):
         self.fca_overlay = np.zeros(size, dtype=np.uint8)	# overlay image
         self.map_data_updated = 1	# being updated
         self.now_exit = False
-        self.num_date = 18
+        self.num_date = 19
 
 	self.fca_overlay = cv2.imread('mi_county2020.png')
         while (not self.now_exit):
@@ -68,7 +68,7 @@ class runVirusViz(object):
             print (key)
     ## Show SAV 
     def infoShowCoronaVirus(self, img):
-        l_mi_covid19=[
+        l_mi_covid19_20200318=[
                 ['Bay',		1, 465, 480],
                 ['Charlevoix',	1, 380, 322],
                 ['Detroit',	13, 540, 645],
@@ -85,15 +85,33 @@ class runVirusViz(object):
                 ['St. Clair',	2, 580, 570],
                 ['Washtenaw',	7, 470, 635],
                 ['Wayne',	10, 510, 630]
-	]
-	for cov in l_mi_covid19:
-	    
-	    cv2.putText(img,'%d'%(cov[1]), 
-		    (cov[2],cov[3]), 
-		    cv2.FONT_HERSHEY_DUPLEX, 
-		    1,
-		    (0,0,255),
-		    1) 
+        ]
+        l_mi_covid19=[
+                ['Bay',		1, 465, 480, (0,0,255)],
+                ['Charlevoix',	1, 380, 322, (0,0,255)],
+                ['Detroit',	75, 550, 645, (0,0,255)],
+                ['Ingham',	2, 440, 600, (0,0,255)],
+                ['Jackson',	1, 442, 633, (0,0,255)],
+                ['Kent',	6, 360, 559, (0,0,255)],
+                ['Leelanau',	1, 320, 355, (0,0,255)],
+                ['Macomb',	55, 550, 600, (0,0,255)],
+                ['Midland', 1, 445,490, (0,0,255)],
+                ['Monroe',	1, 510, 670, (0,0,255)],
+                ['Montcalm',	1, 380, 537, (0,0,255)],
+                ['Oakland',	105, 500, 600, (64,255,64)],
+                ['Otsego',	1, 425, 355, (0,0,255)],
+                ['Ottawa',	1, 320, 570, (0,0,255)],
+                ['St. Clair',	4, 570, 570, (0,0,255)],
+                ['Washtenaw',	14, 470, 635, (0,0,255)],
+                ['Wayne',	44, 510, 630, (0,0,255)]
+        ]
+        for cov in l_mi_covid19:
+            cv2.putText(img,'%d'%(cov[1]), 
+                (cov[2],cov[3]), 
+                cv2.FONT_HERSHEY_DUPLEX, 
+                0.7,
+                cov[4],
+                1) 
         cv2.putText(img,'Confirmed Cases', 
             (310,30), 
             cv2.FONT_HERSHEY_DUPLEX, 
