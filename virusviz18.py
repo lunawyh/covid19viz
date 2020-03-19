@@ -37,6 +37,7 @@ class runVirusViz(object):
         self.fca_overlay = np.zeros(size, dtype=np.uint8)	# overlay image
         self.map_data_updated = 1	# being updated
         self.now_exit = False
+        self.num_date = 18
 
 	self.fca_overlay = cv2.imread('mi_county2020.png')
         while (not self.now_exit):
@@ -58,7 +59,7 @@ class runVirusViz(object):
         if(key == -1):  
             pass
         elif(key == 115 or key == 1048691):  # s key
-            cv2.imwrite('mi_county20200317.png', self.fca_overlay)
+            cv2.imwrite('./results/mi_county202003%d.png'%(self.num_date), self.fca_overlay)
             pass
         elif(key == 27 or key == 1048603):  # esc
             self.now_exit = True
@@ -99,7 +100,7 @@ class runVirusViz(object):
             1,
             (255,64,0),
             1) 
-        cv2.putText(img,'3/%d/2020'%(19), 
+        cv2.putText(img,'3/%d/2020'%(self.num_date), 
             (10,650), 
             cv2.FONT_HERSHEY_DUPLEX, 
             1,
