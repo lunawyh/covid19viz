@@ -37,7 +37,7 @@ class runVirusViz(object):
         self.fca_overlay = np.zeros(size, dtype=np.uint8)	# overlay image
         self.map_data_updated = 1	# being updated
         self.now_exit = False
-        self.num_date = 19
+        self.num_date = 20
 
 	self.fca_overlay = cv2.imread('mi_county2020.png')
         while (not self.now_exit):
@@ -110,17 +110,42 @@ class runVirusViz(object):
                 ['nonreported', 10, 25, 85, (64,240,64)]
         ]
 
+        l_mi_covid20=[
+                ['Bay',		1, 465, 480, (0,0,255)],
+                ['Charlevoix',	1, 380, 322, (0,0,255)],
+		['Clinton',     1, 436, 559,(0,0,255)],
+                ['Detroit',	149, 550, 645, (64,240,64)],
+		['Eaton',	2, 413, 601, (0,0,255)],
+                ['Genesee',	1, 492, 554, (64,240,64)],
+                ['Ingham',	7, 440, 600, (64,240,64)],
+                ['Jackson',	1, 442, 633, (0,0,255)],
+                ['Kent',	12, 352, 559, (64,240,64)],
+                ['Leelanau',	1, 320, 355, (0,0,255)],
+                ['Livingston',	3, 476, 600, (64,240,64)],
+                ['Macomb',	86, 550, 600, (64,240,64)],
+                ['Midland',     3, 445,490, (64,240,64)],
+                ['Monroe',	3, 510, 670, (64,240,64)],
+                ['Montcalm',	1, 380, 537, (0,0,255)],
+                ['Oakland',	184, 500, 600, (64,240,64)],
+                ['Otsego',	1, 425, 355, (0,0,255)],
+                ['Ottawa',	1, 320, 570, (0,0,255)],
+                ['St. Clair',	7, 570, 570, (64,240,64)],
+                ['Washtenaw',	16, 470, 635, (64,240,64)],
+                ['Wayne',	67, 510, 630, (64,240,64)],
+                ['Out-of-state', 1, 25, 85, (64,240,64)]
+        ]
+
 	n_total, ii = 0, 0		
-        for cov in l_mi_covid19:
+        for cov in l_mi_covid20:
             n_total += cov[1]
             cv2.putText(img,cov[0] + '    %d'%(cov[1]), 
-                (10, ii*15+370), 
+                (10, ii*15+360), 
                 cv2.FONT_HERSHEY_DUPLEX, 
                 0.5,
                 cov[4],
                 1) 
             ii += 1
-            if('nonreported' in cov[0]): continue
+            if('Out-of-state' in cov[0]): continue
             cv2.putText(img,'%d'%(cov[1]), 
                 (cov[2],cov[3]), 
                 cv2.FONT_HERSHEY_DUPLEX, 
