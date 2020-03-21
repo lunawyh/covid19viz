@@ -51,7 +51,7 @@ class runVirusViz(object):
                 ['Clare',       1, 590, 677, (64,240,64)],
                 ['Clinton',     2, 615, 836,(64,240,64)],
                 ['Detroit City',248, 808, 935, (64,240,64)],
-                ['Eaton',	2, 591, 881, (0,0,255)],
+                ['Eaton',	2, 591, 883, (0,0,255)],
                 ['Genesee',	7, 713, 832, (64,240,64)],
                 ['Ingham',	11, 642, 887, (64,240,64)],
                 ['Jackson',	1, 632, 934, (0,0,255)],
@@ -214,19 +214,19 @@ class runVirusViz(object):
         print('total:', wish_total, n_total)
         if(wish_total == n_total):
             cv2.putText(img,'%d Confirmed Cases in MI'%(n_total), 
-		    (427,30), 
+		    (232,30), 
 		    cv2.FONT_HERSHEY_DUPLEX, 
 		    1,
 		    (255,64,0),
 		    1) 
             cv2.putText(img, self.now_date, 
-		    (690,65), 
+		    (490,65), 
 		    cv2.FONT_HERSHEY_DUPLEX, 
 		    1,
 		    (255,64,0),
 		    1) 
         cv2.putText(img, 'press F5 to refresh', 
-		    (782,80), 
+		    (582,80), 
 		    cv2.FONT_HERSHEY_SIMPLEX, 
 		    0.3,
 		    (255,64,0),
