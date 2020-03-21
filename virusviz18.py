@@ -34,9 +34,9 @@ class runVirusViz(object):
 
         # create a node
         print("welcome to node virusviz")
-        #initialize
+        #initialize variables
         size = VIZ_H, VIZ_W, 3
-        self.img_map = np.zeros(size, dtype=np.uint8)	        # overlay image
+        self.img_map = np.zeros(size, dtype=np.uint8)	        # map image
         self.img_overlay = np.zeros(size, dtype=np.uint8)	# overlay image
         self.map_data_updated = 1	                        # being updated
         self.now_exit = False
@@ -65,8 +65,9 @@ class runVirusViz(object):
                 ['Washtenaw',	16, 470, 635, (64,240,64)],
                 ['Wayne',	67, 510, 630, (64,240,64)],
                 ['Out of State', 1, 25, 85, (64,240,64)]
-        ]
+        ]							#data
 
+        # import image of map
 	self.img_map = cv2.imread('mi_county2020.png')
 	self.img_overlay = self.img_map.copy()
 	#
@@ -97,8 +98,12 @@ class runVirusViz(object):
 
         if(key == -1):  
             pass
-        elif(key == 103 or key == 1048679):   # g key
+        elif(key == 65474 ):   # F5 key refresh newest from website
             self.cmdGrabDataFromWebsite()
+            pass  
+        elif(key == 65476 ):   # F7 key previous day
+            pass  
+        elif(key == 65477 ):   # F8 key next day
             pass  
         elif(key == 115 or key == 1048691):  # s key
             cv2.imwrite('./results/mi_county'+self.name_file+'.png', self.img_overlay)
@@ -128,7 +133,7 @@ class runVirusViz(object):
         cov_tables = pd.read_html("https://www.michigan.gov/coronavirus/0,9753,7-406-98163-520743--,00.html")
         # read 1st table: Overall Confirmed COVID-19 Cases by County
         return cov_tables[0]
-    ## parse from list 
+    ## parse from exel format to list 
     def parseDfData(self, df, bSave=False):
         (n_rows, n_columns) = df.shape 
         # check shape
@@ -176,6 +181,7 @@ class runVirusViz(object):
             else:
                 n_total += int( a_case[1] )
 		map_data = self.lookupMapData(a_case[0])
+                # draw the list on the left
                 cv2.putText(img, a_case[0] + '    ' + str(a_case[1]), 
 		        (10, ii*15+360), 
 		        cv2.FONT_HERSHEY_SIMPLEX, 
@@ -184,6 +190,7 @@ class runVirusViz(object):
 		        1) 
                 ii += 1
                 if('Out of State' in a_case[0]): continue
+                # draw on the map, select the location
                 cv2.putText(img, str(a_case[1]), 
 		        (map_data[2],map_data[3]), 
 		        cv2.FONT_HERSHEY_DUPLEX, 
@@ -203,6 +210,12 @@ class runVirusViz(object):
 		    (405,65), 
 		    cv2.FONT_HERSHEY_DUPLEX, 
 		    1,
+		    (255,64,0),
+		    1) 
+        cv2.putText(img, 'press F5 to refresh', 
+		    (495,80), 
+		    cv2.FONT_HERSHEY_SIMPLEX, 
+		    0.3,
 		    (255,64,0),
 		    1) 
             
@@ -240,6 +253,7 @@ class runVirusViz(object):
             1,
             (255,64,0),
             1) 
+
 	    	
     ## exit node
     def exit_hook(self):
