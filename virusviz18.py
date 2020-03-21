@@ -21,8 +21,8 @@ import pandas as pd
 import datetime 
 import csv
 
-VIZ_W  = 599
-VIZ_H  = 681
+VIZ_W  = 880
+VIZ_H  = 1000
 # ==============================================================================
 # -- codes -------------------------------------------------------------------
 # ==============================================================================
@@ -49,9 +49,9 @@ class runVirusViz(object):
                 ['Calhoun',     1, 396, 633, (64,240,64)],
                 ['Charlevoix',	1, 380, 322, (0,0,255)],
                 ['Clare',       1, 407, 462, (64,240,64)],
-		['Clinton',     2, 436, 559,(64,240,64)],
-                ['Detroit City',248, 550, 645, (64,240,64)],
-		['Eaton',	2, 413, 601, (0,0,255)],
+                ['Clinton',     2, 436, 559,(64,240,64)],
+                ['Detroit City',248, 808, 935, (64,240,64)],
+                ['Eaton',	2, 413, 601, (0,0,255)],
                 ['Genesee',	7, 492, 554, (64,240,64)],
                 ['Ingham',	11, 440, 600, (64,240,64)],
                 ['Jackson',	1, 442, 633, (0,0,255)],
@@ -75,11 +75,11 @@ class runVirusViz(object):
         ]							#data
 
         # import image of map
-	self.img_map = cv2.imread('mi_county2020.png')
+	self.img_map = cv2.resize(cv2.imread('mi_county2019.png'), (VIZ_W, VIZ_H))
 	self.img_overlay = self.img_map.copy()
 	#
-	self.name_file = '20200320'
-	self.now_date = '3/20/2020'
+	self.name_file = '20200321'
+	self.now_date = '3/21/2020'
 	df_today = self.open4File()
 	self.l_mi_cases = self.parseDfData(df_today)
 	self.infoShowCases(self.img_overlay, self.l_mi_cases)
@@ -189,10 +189,16 @@ class runVirusViz(object):
                 n_total += int( a_case[1] )
 		map_data = self.lookupMapData(a_case[0])
                 # draw the list on the left
-                cv2.putText(img, a_case[0] + '    ' + str(a_case[1]), 
-		        (10, ii*15+250), 
+                cv2.putText(img, a_case[0], 
+		        (10, ii*20+400), 
 		        cv2.FONT_HERSHEY_SIMPLEX, 
-		        0.5,
+		        0.7,
+		        map_data[4],
+		        1) 
+                cv2.putText(img, str(a_case[1]), 
+		        (170, ii*20+400), 
+		        cv2.FONT_HERSHEY_SIMPLEX, 
+		        0.7,
 		        map_data[4],
 		        1) 
                 ii += 1
@@ -207,20 +213,20 @@ class runVirusViz(object):
                 continue
         print('total:', wish_total, n_total)
         if(wish_total == n_total):
-            cv2.putText(img,'%d Confirmed Cases'%(n_total), 
-		    (240,30), 
+            cv2.putText(img,'%d Confirmed Cases in MI'%(n_total), 
+		    (427,30), 
 		    cv2.FONT_HERSHEY_DUPLEX, 
 		    1,
 		    (255,64,0),
 		    1) 
             cv2.putText(img, self.now_date, 
-		    (405,65), 
+		    (690,65), 
 		    cv2.FONT_HERSHEY_DUPLEX, 
 		    1,
 		    (255,64,0),
 		    1) 
         cv2.putText(img, 'press F5 to refresh', 
-		    (495,80), 
+		    (782,80), 
 		    cv2.FONT_HERSHEY_SIMPLEX, 
 		    0.3,
 		    (255,64,0),
