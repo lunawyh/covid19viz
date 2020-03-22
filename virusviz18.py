@@ -197,13 +197,13 @@ class runVirusViz(object):
                 cv2.putText(img, a_case[0], 
 		        (10, ii*20+370), 
 		        cv2.FONT_HERSHEY_SIMPLEX, 
-		        0.4,
+		        0.35,
 		        map_data[4],
 		        1) 
                 cv2.putText(img, str(a_case[1]), 
 		        (170, ii*20+370), 
 		        cv2.FONT_HERSHEY_SIMPLEX, 
-		        0.4,
+		        0.35,
 		        map_data[4],
 		        1) 
                 ii += 1
