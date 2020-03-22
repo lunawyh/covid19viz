@@ -195,15 +195,15 @@ class runVirusViz(object):
 		map_data = self.lookupMapData(a_case[0])
                 # draw the list on the left
                 cv2.putText(img, a_case[0], 
-		        (10, ii*20+400), 
+		        (10, ii*20+370), 
 		        cv2.FONT_HERSHEY_SIMPLEX, 
-		        0.7,
+		        0.4,
 		        map_data[4],
 		        1) 
                 cv2.putText(img, str(a_case[1]), 
-		        (170, ii*20+400), 
+		        (170, ii*20+370), 
 		        cv2.FONT_HERSHEY_SIMPLEX, 
-		        0.7,
+		        0.4,
 		        map_data[4],
 		        1) 
                 ii += 1
