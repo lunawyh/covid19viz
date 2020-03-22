@@ -83,8 +83,8 @@ class runVirusViz(object):
 	self.img_map = cv2.resize(cv2.imread('mi_county2019.png'), (VIZ_W, VIZ_H))
 	self.img_overlay = self.img_map.copy()
 	#
-	self.name_file = '20200321'
-	self.now_date = '3/21/2020'
+	self.name_file = '20200322'
+	self.now_date = '3/22/2020'
 	df_today = self.open4File()
 	self.l_mi_cases = self.parseDfData(df_today)
 	self.infoShowCases(self.img_overlay, self.l_mi_cases)
@@ -195,15 +195,15 @@ class runVirusViz(object):
 		map_data = self.lookupMapData(a_case[0])
                 # draw the list on the left
                 cv2.putText(img, a_case[0], 
-		        (10, ii*20+370), 
+		        (10, ii*19+370), 
 		        cv2.FONT_HERSHEY_SIMPLEX, 
-		        0.35,
+		        0.7,
 		        map_data[4],
 		        1) 
                 cv2.putText(img, str(a_case[1]), 
-		        (170, ii*20+370), 
+		        (170, ii*19+370), 
 		        cv2.FONT_HERSHEY_SIMPLEX, 
-		        0.35,
+		        0.7,
 		        map_data[4],
 		        1) 
                 ii += 1
