@@ -43,34 +43,6 @@ class runVirusViz(object):
         #
         self.l_mi_cases = []
         self.l_mi_covid20=[
-<<<<<<< HEAD
-                ['Barry',       1, 376, 594, (64,240,64)],
-                ['Bay',		1, 465, 480, (0,0,255)],
-                ['Berrien',     2, 297, 659, (64,240,64)],
-                ['Calhoun',     1, 396, 633, (64,240,64)],
-                ['Charlevoix',	1, 380, 322, (0,0,255)],
-                ['Clare',       1, 407, 462, (64,240,64)],
-		['Clinton',     2, 436, 559,(64,240,64)],
-                ['Detroit City',248, 550, 645, (64,240,64)],
-		['Eaton',	2, 413, 601, (0,0,255)],
-                ['Genesee',	7, 492, 554, (64,240,64)],
-                ['Ingham',	11, 440, 600, (64,240,64)],
-                ['Jackson',	1, 442, 633, (0,0,255)],
-                ['Kent',	21, 352, 559, (64,240,64)],
-                ['Leelanau',	1, 320, 355, (0,0,255)],
-                ['Livingston',	6, 476, 600, (64,240,64)],
-                ['Macomb',	101, 550, 600, (64,240,64)],
-                ['Midland',     3, 445,490, (0,0,255)],
-                ['Monroe',	3, 510, 670, (0,0,255)],
-                ['Montcalm',	1, 380, 537, (0,0,255)],
-                ['Oakland',	229, 500, 600, (64,240,64)],
-                ['Otsego',	1, 425, 355, (0,0,255)],
-                ['Ottawa',	2, 320, 570, (64,240,64)],
-                ['St. Clair',	7, 570, 570, (0,0,255)],
-                ['Washtenaw',	29, 470, 635, (64,240,64)],
-                ['Wayne',	101, 510, 630, (64,240,64)],
-                ['Wexford',	1, 351, 422, (64,240,64)],
-=======
                 ['Barry',       1, 540, 883, (64,240,64)],
                 ['Bay',		1, 690, 695, (0,0,255)],
                 ['Berrien',     2, 436, 955, (64,240,64)],
@@ -99,7 +71,6 @@ class runVirusViz(object):
                 ['Washtenaw',	29, 694, 935, (64,240,64)],
                 ['Wayne',	101, 753, 933, (64,240,64)],
                 ['Wexford',	1, 511, 628, (64,240,64)],
->>>>>>> B_view_history_data
                 ['Out of State', 1, 25, 85, (0,0,255)]
         ]							#data
 
@@ -218,13 +189,8 @@ class runVirusViz(object):
                 n_total += int( a_case[1] )
 		map_data = self.lookupMapData(a_case[0])
                 # draw the list on the left
-<<<<<<< HEAD
-                cv2.putText(img, a_case[0] + '    ' + str(a_case[1]), 
-		        (10, ii*15+250), 
-=======
                 cv2.putText(img, a_case[0], 
 		        (10, ii*20+400), 
->>>>>>> B_view_history_data
 		        cv2.FONT_HERSHEY_SIMPLEX, 
 		        0.7,
 		        map_data[4],
