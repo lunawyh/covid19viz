@@ -20,6 +20,8 @@ import numpy as np
 import pandas as pd
 import datetime 
 import csv
+from os import listdir
+from os.path import isfile, join
 
 VIZ_W  = 880
 VIZ_H  = 1000
@@ -41,7 +43,6 @@ class runVirusViz(object):
         self.map_data_updated = 1	                        # being updated
         self.now_exit = False
         #
-        self.l_mi_cases = []
         self.l_mi_covid20=[
                 ['Allegan',     1, 466, 885, (64,240,64)],
                 ['Barry',       1, 540, 883, (0,0,255)],
@@ -86,12 +87,8 @@ class runVirusViz(object):
         # import image of map
 	self.img_map = cv2.resize(cv2.imread('mi_county2019.png'), (VIZ_W, VIZ_H))
 	self.img_overlay = self.img_map.copy()
-	#
-	self.name_file = '20200323'
-	self.now_date = '3/23/2020'
-	df_today = self.open4File()
-	self.l_mi_cases = self.parseDfData(df_today)
-	self.infoShowCases(self.img_overlay, self.l_mi_cases)
+	# read latest data
+	self.csv_pos_now, self.l_mi_cases = self.readDataByDay(9999999999)
 
         # main loop for processing
         while (not self.now_exit):
@@ -117,10 +114,15 @@ class runVirusViz(object):
         elif(key == 65474 ):   # F5 key refresh newest from website
             self.cmdGrabDataFromWebsite()
             pass  
-        elif(key == 65476 ):   # F7 key previous day
-            pass  
         elif(key == 65477 ):   # F8 key next day
-            pass  
+            self.csv_pos_now, self.l_mi_cases = self.readDataByDay(0) 
+        elif(key == 65478 ):   # F9 key previous day
+            self.csv_pos_now, self.l_mi_cases = self.readDataByDay(self.csv_pos_now-1)   
+        elif(key == 65479 ):   # F10 key next day
+            self.csv_pos_now, self.l_mi_cases = self.readDataByDay(self.csv_pos_now+1) 
+        elif(key == 65480 ):   # F11 key next day
+            self.csv_pos_now, self.l_mi_cases = self.readDataByDay(9999999999) 
+ 
         elif(key == 115 or key == 1048691):  # s key
             cv2.imwrite('./results/mi_county'+self.name_file+'.png', self.img_overlay)
             pass
@@ -130,6 +132,22 @@ class runVirusViz(object):
         else:   
             print (key)
     ## step 2
+    ## read data file given day offset
+    def readDataByDay(self, pos):
+        csv_data_files = sorted( [f for f in listdir('./data') if isfile(join('./data', f))] )
+        #print('-----------', csv_data_files)
+        if(pos >= len(csv_data_files) ): pos = len(csv_data_files) - 1
+	elif(pos < 0): pos = 0
+	offset = 11	
+	year = int(csv_data_files[pos][offset:offset+4])
+	month = int(csv_data_files[pos][offset+4:offset+6])
+	day = int(csv_data_files[pos][offset+6:offset+8])
+	self.name_file = '%d%02d%02d'%(year, month, day)
+	self.now_date = '%d/%d/%d'%(month, day, year)
+        #read data to list
+	df_today = self.open4File()
+	lst_data = self.parseDfData(df_today)
+        return (pos, lst_data)
     ## save to csv 
     def save2File(self, l_data):
         csv_name = './data/mi_covid19_'+self.name_file+'.csv'
