@@ -137,16 +137,16 @@ class runVirusViz(object):
         csv_data_files = sorted( [f for f in listdir('./data') if isfile(join('./data', f))] )
         #print('-----------', csv_data_files)
         if(pos >= len(csv_data_files) ): pos = len(csv_data_files) - 1
-	elif(pos < 0): pos = 0
-	offset = 11	
-	year = int(csv_data_files[pos][offset:offset+4])
-	month = int(csv_data_files[pos][offset+4:offset+6])
-	day = int(csv_data_files[pos][offset+6:offset+8])
-	self.name_file = '%d%02d%02d'%(year, month, day)
-	self.now_date = '%d/%d/%d'%(month, day, year)
+        elif(pos < 0): pos = 0
+        offset = 11	
+        year = int(csv_data_files[pos][offset:offset+4])
+        month = int(csv_data_files[pos][offset+4:offset+6])
+        day = int(csv_data_files[pos][offset+6:offset+8])
+        self.name_file = '%d%02d%02d'%(year, month, day)
+        self.now_date = '%d/%d/%d'%(month, day, year)
         #read data to list
-	df_today = self.open4File()
-	lst_data = self.parseDfData(df_today)
+        df_today = self.open4File()
+        lst_data = self.parseDfData(df_today)
         return (pos, lst_data)
     ## save to csv 
     def save2File(self, l_data):
