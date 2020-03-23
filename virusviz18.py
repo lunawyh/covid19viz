@@ -46,45 +46,49 @@ class runVirusViz(object):
                 ['Allegan',     1, 466, 885, (64,240,64)],
                 ['Barry',       1, 540, 883, (0,0,255)],
                 ['Bay',		1, 690, 695, (0,0,255)],
-                ['Berrien',     3, 436, 955, (64,240,64)],
-                ['Calhoun',     2, 569, 934, (64,240,64)],
-                ['Charlevoix',	2, 577, 482, (64,240,64)],
+                ['Berrien',     5, 436, 955, (64,240,64)],
+                ['Calhoun',     3, 569, 934, (64,240,64)],
+                ['Charlevoix',	2, 577, 482, (0,0,255)],
+                ['Chippewa',    1, 577, 310, (64,240,64)],
                 ['Clare',       1, 590, 677, (0,0,255)],
                 ['Clinton',     2, 615, 836,(0,0,255)],
-                ['Detroit City',325, 808, 935, (64,240,64)],
-                ['Emmet',       1, 609, 455, (64,240,64)],
+                ['Detroit City',411, 808, 935, (64,240,64)],
+                ['Emmet',       1, 609, 455, (0,0,255)],
                 ['Eaton',	2, 591, 883, (0,0,255)],
-                ['Genesee',	14, 710, 832, (64,240,64)],
-                ['Gladwin',	1, 640, 681, (64,240,64)],
-                ['Grand Traverse',1, 511, 577, (64,240,64)],
-                ['Ingham',	11, 642, 887, (0,0,255)],
+                ['Genesee',	23, 710, 832, (64,240,64)],
+                ['Gladwin',	1, 640, 681, (0,0,255)],
+                ['Grand Traverse',1, 511, 577, (0,0,255)],
+                ['Ingham',	12, 642, 887, (64,240,64)],
                 ['Jackson',	1, 632, 934, (0,0,255)],
-                ['Kent',	20, 515, 834, (0,0,255)],
+                ['Kalamazoo',	3, 540, 932, (64,240,64)],
+                ['Kent',	28, 515, 834, (64,240,64)],
                 ['Leelanau',	1, 485, 537, (0,0,255)],
-                ['Livingston',	8, 720, 882, (64,240,64)],
-                ['Macomb',	140, 804, 882, (64,240,64)],
-                ['Midland',     5, 643,732, (64,240,64)],
-                ['Monroe',	6, 732, 986, (64,240,64)],
+                ['Livingston',	9, 720, 882, (64,240,64)],
+                ['Macomb',	175, 804, 882, (64,240,64)],
+                ['Midland',     5, 643,732, (0,0,255)],
+                ['Monroe',	7, 732, 986, (64,240,64)],
                 ['Montcalm',	1, 566, 781, (0,0,255)],
-                ['Oakland',	277, 744, 880, (64,240,64)],
-                ['Otsego',	1, 615, 526, (0,0,255)],
-                ['Ottawa',	6, 467, 836, (64,240,64)],
-                ['Roscommon',	1, 641, 629, (64,240,64)],
-                ['Saginaw',	2, 668, 780, (64,240,64)],
+                ['Muskegon',	1, 450, 760, (64,240,64)],
+                ['Newaygo',	1, 488, 758, (64,240,64)],
+                ['Oakland',	329, 744, 880, (64,240,64)],
+                ['Otsego',	3, 615, 526, (64,240,64)],
+                ['Ottawa',	11, 467, 836, (64,240,64)],
+                ['Roscommon',	1, 641, 629, (0,0,255)],
+                ['Saginaw',	2, 668, 780, (0,0,255)],
                 ['St. Clair',	7, 844, 842, (0,0,255)],
                 ['Tuscola',	1, 739, 767, (0,0,255)],
-                ['Washtenaw',	35, 694, 935, (64,240,64)],
-                ['Wayne',	152, 753, 933, (64,240,64)],
+                ['Washtenaw',	42, 694, 935, (0,0,255)],
+                ['Wayne',	227, 753, 933, (64,240,64)],
                 ['Wexford',	1, 511, 628, (0,0,255)],
-                ['Out of State', 2, 25, 85, (64,240,64)]
+                ['Out of State', 4, 25, 85, (64,240,64)]
         ]							#data
 
         # import image of map
 	self.img_map = cv2.resize(cv2.imread('mi_county2019.png'), (VIZ_W, VIZ_H))
 	self.img_overlay = self.img_map.copy()
 	#
-	self.name_file = '20200322'
-	self.now_date = '3/22/2020'
+	self.name_file = '20200323'
+	self.now_date = '3/23/2020'
 	df_today = self.open4File()
 	self.l_mi_cases = self.parseDfData(df_today)
 	self.infoShowCases(self.img_overlay, self.l_mi_cases)
@@ -195,15 +199,15 @@ class runVirusViz(object):
 		map_data = self.lookupMapData(a_case[0])
                 # draw the list on the left
                 cv2.putText(img, a_case[0], 
-		        (10, ii*19+370), 
+		        (10, ii*15+370), 
 		        cv2.FONT_HERSHEY_SIMPLEX, 
-		        0.7,
+		        0.55,
 		        map_data[4],
 		        1) 
                 cv2.putText(img, str(a_case[1]), 
-		        (170, ii*19+370), 
+		        (170, ii*15+370), 
 		        cv2.FONT_HERSHEY_SIMPLEX, 
-		        0.7,
+		        0.55,
 		        map_data[4],
 		        1) 
                 ii += 1
