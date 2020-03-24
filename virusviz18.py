@@ -22,6 +22,9 @@ import datetime
 import csv
 from os import listdir
 from os.path import isfile, join
+import matplotlib
+from matplotlib.patches import Wedge
+import matplotlib.pyplot as plt
 
 VIZ_W  = 880
 VIZ_H  = 1000
@@ -129,7 +132,8 @@ class runVirusViz(object):
             self.csv_pos_now, self.l_mi_cases = self.readDataByDay(self.csv_pos_now+1) 
         elif(key == 65480 ):   # F11 key next day
             self.csv_pos_now, self.l_mi_cases = self.readDataByDay(9999999999) 
- 
+        elif(key == 114 or key == 1048690):  # r key
+            self.infoShowRainbow(None, self.l_mi_cases) 
         elif(key == 115 or key == 1048691):  # s key
             cv2.imwrite('./results/mi_county'+self.name_file+'.png', self.img_overlay)
             pass
@@ -213,7 +217,7 @@ class runVirusViz(object):
     def infoShowCases(self, img, l_cases):
         wish_total = 0
         n_total, ii = 0, 0
-	line_h=14	
+        line_h=14	
         offset_h = VIZ_H - line_h * len(l_cases)+25
         for a_case in l_cases:
             if('County' in a_case[0]):
@@ -304,7 +308,32 @@ class runVirusViz(object):
             (255,64,0),
             1) 
 
-	    	
+    #
+    def infoShowRainbow(self, img, lst_data):
+        fig=plt.figure()
+        ax=fig.add_subplot(111) 
+
+        # clean list
+        l_d_clean = []
+        for a_case in lst_data:
+            if('Total' in a_case[0]): continue
+            if('Out of State' in a_case[0]): continue
+            if('Not Reported' in a_case[0]): continue
+            l_d_clean.append(a_case)
+
+        # sort list
+        l_d_sort = sorted(l_d_clean, key=lambda k: k[1])
+        len_data = len(l_d_sort)
+        cmap=plt.get_cmap("jet")
+        # draw list
+        for ii in range( len(l_d_sort) ):
+            fov = Wedge((-100,-300), l_d_sort[ii][1]+50, 
+                int(ii*360.0/len_data)+90, int((ii+1)*360.0/len_data+90), 
+                color=cmap(float(ii)/len_data), alpha=1.0)
+            ax.add_artist(fov)
+            #
+        plt.axis([-400, 400, -400, 400])
+        plt.show()	    	
     ## exit node
     def exit_hook(self):
         print("bye bye, node virusviz")
