@@ -68,7 +68,7 @@ class runVirusViz(object):
                 ['Kent',	28, 515, 834, (64,240,64)],
                 ['Lapeer',	1, 767, 820, (64,240,64)],
                 ['Leelanau',	1, 485, 537, (0,0,255)],
-                ['Livingston',	9, 720, 882, (64,240,64)],
+                ['Livingston',	9, 710, 882, (64,240,64)],
                 ['Macomb',	175, 804, 882, (64,240,64)],
                 ['Manistee',	1, 468, 606, (64,240,64)],
                 ['Midland',     5, 643,732, (0,0,255)],
@@ -212,8 +212,9 @@ class runVirusViz(object):
     ## show cases on the map
     def infoShowCases(self, img, l_cases):
         wish_total = 0
-        n_total, ii = 0, 0		
-        offset_h = VIZ_H - 15 * len(l_cases)
+        n_total, ii = 0, 0
+	line_h=14	
+        offset_h = VIZ_H - line_h * len(l_cases)+25
         for a_case in l_cases:
             if('County' in a_case[0]):
                 continue
@@ -225,19 +226,20 @@ class runVirusViz(object):
                 map_data = self.lookupMapData(a_case[0])
                 # draw the list on the left
                 cv2.putText(img, a_case[0], 
-		        (10, ii*15+offset_h), 
+		        (10, ii*line_h+offset_h), 
 		        cv2.FONT_HERSHEY_SIMPLEX, 
-		        0.55,
+		        0.54,
 		        map_data[4],
 		        1) 
                 cv2.putText(img, str(a_case[1]), 
-		        (170, ii*15+offset_h), 
+		        (170, ii*line_h+offset_h), 
 		        cv2.FONT_HERSHEY_SIMPLEX, 
-		        0.55,
+		        0.54,
 		        map_data[4],
 		        1) 
                 ii += 1
                 if('Out of State' in a_case[0]): continue
+                if('Not Reported' in a_case[0]): continue
                 # draw on the map, select the location
                 cv2.putText(img, str(a_case[1]), 
 		        (map_data[2],map_data[3]), 
