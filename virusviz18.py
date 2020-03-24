@@ -82,7 +82,8 @@ class runVirusViz(object):
                 ['Wayne',	227, 753, 933, (64,240,64)],
                 ['Wexford',	1, 511, 628, (0,0,255)],
                 ['Out of State', 4, 25, 85, (64,240,64)]
-        ]							#data
+        ]							
+        #data of coordination
 
         # import image of map
 	self.img_map = cv2.resize(cv2.imread('mi_county2019.png'), (VIZ_W, VIZ_H))
@@ -205,7 +206,8 @@ class runVirusViz(object):
     ## show cases on the map
     def infoShowCases(self, img, l_cases):
         wish_total = 0
-	n_total, ii = 0, 0		
+        n_total, ii = 0, 0		
+        offset_h = VIZ_H - 15 * len(l_cases)
         for a_case in l_cases:
             if('County' in a_case[0]):
                 continue
@@ -214,16 +216,16 @@ class runVirusViz(object):
                 continue
             else:
                 n_total += int( a_case[1] )
-		map_data = self.lookupMapData(a_case[0])
+                map_data = self.lookupMapData(a_case[0])
                 # draw the list on the left
                 cv2.putText(img, a_case[0], 
-		        (10, ii*15+370), 
+		        (10, ii*15+offset_h), 
 		        cv2.FONT_HERSHEY_SIMPLEX, 
 		        0.55,
 		        map_data[4],
 		        1) 
                 cv2.putText(img, str(a_case[1]), 
-		        (170, ii*15+370), 
+		        (170, ii*15+offset_h), 
 		        cv2.FONT_HERSHEY_SIMPLEX, 
 		        0.55,
 		        map_data[4],
