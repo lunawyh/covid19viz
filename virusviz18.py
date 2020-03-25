@@ -143,6 +143,7 @@ class runVirusViz(object):
             self.infoShowRainbow(None, self.l_mi_cases) 
         elif(key == 115 or key == 1048691):  # s key
             cv2.imwrite('./results/mi_county'+self.name_file+'.png', self.img_overlay)
+            cv2.imwrite('./results/mi_county20200000.png', self.img_overlay)
             pass
         elif(key == 27 or key == 1048603):  # esc
             self.now_exit = True
@@ -270,10 +271,10 @@ class runVirusViz(object):
         if(wish_total == n_total):
             if(self.data_daily):
                 info_cases = '%d Daily Confirmed'%(n_total)
-                info_date = 'On ' + self.now_date + ' in MI'
+                info_date = 'COVID-19 on ' + self.now_date + ' in MI'
             else:
                 info_cases = '%d Overall Confirmed'%(n_total)
-                info_date = 'Until ' + self.now_date + ' in MI'
+                info_date = 'COVID-19 until ' + self.now_date + ' in MI'
             cv2.putText(img,info_cases, 
 		    (300,30), 
 		    cv2.FONT_HERSHEY_DUPLEX, 
@@ -373,11 +374,11 @@ class runVirusViz(object):
                 color='w', 
                 rotation_mode='anchor')
         if(self.data_daily):
-            plt.text(-150, 20, 'Daily confirmed in MI')
-            plt.text(-150, 0, 'On '+self.now_date)
+            plt.text(-150, 20, 'Daily confirmed COVID-19')
+            plt.text(-150, 0, 'On '+self.now_date + ' in MI')
         else:
-            plt.text(-200, 20, 'Overall confirmed in MI')
-            plt.text(-200, 0, 'Until '+self.now_date)
+            plt.text(-200, 20, 'Overall confirmed COVID-19')
+            plt.text(-200, 0, 'Until '+self.now_date + ' in MI')
         plt.axis([-l_max_v, l_max_v, -l_max_v, l_max_v])
         plt.show()
         #if(self.data_daily):
