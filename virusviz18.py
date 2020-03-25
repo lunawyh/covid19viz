@@ -97,6 +97,7 @@ class runVirusViz(object):
         # import image of map
 	self.img_map = cv2.resize(cv2.imread('mi_county2019.png'), (VIZ_W, VIZ_H))
 	self.img_overlay = self.img_map.copy()
+	self.data_daily = False   # otherwise overall
 	# read latest data
 	self.csv_pos_now, self.l_mi_cases = self.readDataByDay(9999999999)
 
@@ -121,16 +122,21 @@ class runVirusViz(object):
 
         if(key == -1):  
             pass
-        elif(key == 65474 ):   # F5 key refresh newest from website
-            self.cmdGrabDataFromWebsite()
+        elif(key == 65471 or key == 1114047):   # F2 key refresh newest from website
+            self.data_daily = True
+            self.cmdGrabDataFromWebsite(True)
             pass  
-        elif(key == 65477 ):   # F8 key next day
+        elif(key == 65474 or key == 1114050):   # F5 key refresh newest from website
+            self.data_daily = False
+            self.cmdGrabDataFromWebsite(False)
+            pass  
+        elif(key == 65477 or key == 1114053):   # F8 key next day
             self.csv_pos_now, self.l_mi_cases = self.readDataByDay(0) 
-        elif(key == 65478 ):   # F9 key previous day
+        elif(key == 65478 or key == 1114054):   # F9 key previous day
             self.csv_pos_now, self.l_mi_cases = self.readDataByDay(self.csv_pos_now-1)   
-        elif(key == 65479 ):   # F10 key next day
+        elif(key == 65479 or key == 1114055):   # F10 key next day
             self.csv_pos_now, self.l_mi_cases = self.readDataByDay(self.csv_pos_now+1) 
-        elif(key == 65480 ):   # F11 key next day
+        elif(key == 65480 or key == 1114056):   # F11 key next day
             self.csv_pos_now, self.l_mi_cases = self.readDataByDay(9999999999) 
         elif(key == 114 or key == 1048690):  # r key
             self.infoShowRainbow(None, self.l_mi_cases) 
@@ -158,10 +164,14 @@ class runVirusViz(object):
         #read data to list
         df_today = self.open4File()
         lst_data = self.parseDfData(df_today)
+        self.data_daily = False
         return (pos, lst_data)
     ## save to csv 
     def save2File(self, l_data):
-        csv_name = './data/mi_covid19_'+self.name_file+'.csv'
+        if(self.data_daily):
+            csv_name = './daily/mi_covid19_'+self.name_file+'.csv'
+        else:
+            csv_name = './data/mi_covid19_'+self.name_file+'.csv'        
         csv_data_f = open(csv_name, 'w')
         # create the csv writer 
         csvwriter = csv.writer(csv_data_f)
@@ -174,8 +184,11 @@ class runVirusViz(object):
         df = pd.read_csv(csv_name)
         return df
     ## open a website 
-    def open4Website(self):
-        cov_tables = pd.read_html("https://www.michigan.gov/coronavirus/0,9753,7-406-98163-520743--,00.html")
+    def open4Website(self, bDaily):
+        if(bDaily):
+            cov_tables = pd.read_html("https://www.michigan.gov/coronavirus/")
+        else:
+            cov_tables = pd.read_html("https://www.michigan.gov/coronavirus/0,9753,7-406-98163-520743--,00.html")
         # read 1st table: Overall Confirmed COVID-19 Cases by County
         return cov_tables[0]
     ## parse from exel format to list 
@@ -197,12 +210,12 @@ class runVirusViz(object):
 	return lst_data
     ## step 1
     ## grab data from goverment website
-    def cmdGrabDataFromWebsite(self):
+    def cmdGrabDataFromWebsite(self, bDaily):
         # update date time
         dt_now = datetime.datetime.now()
 	self.name_file = '%d%02d%02d'%(dt_now.year, dt_now.month, dt_now.day)
 	self.now_date = '%d/%d/%d'%(dt_now.month, dt_now.day, dt_now.year)
-        df = self.open4Website()
+        df = self.open4Website(bDaily)
         self.l_mi_cases = self.parseDfData(df, bSave=True)
 
     ## look up table to get pre-set information
@@ -254,20 +267,26 @@ class runVirusViz(object):
                 continue
         print('total:', wish_total, n_total)
         if(wish_total == n_total):
-            cv2.putText(img,'%d Confirmed Cases in MI'%(n_total), 
-		    (232,30), 
+            if(self.data_daily):
+                info_cases = '%d Daily Confirmed'%(n_total)
+                info_date = 'On ' + self.now_date + ' in MI'
+            else:
+                info_cases = '%d Overall Confirmed'%(n_total)
+                info_date = 'Until ' + self.now_date + ' in MI'
+            cv2.putText(img,info_cases, 
+		    (300,30), 
 		    cv2.FONT_HERSHEY_DUPLEX, 
 		    1,
 		    (255,64,0),
 		    1) 
-            cv2.putText(img, self.now_date, 
-		    (490,65), 
+            cv2.putText(img, info_date, 
+		    (300,65), 
 		    cv2.FONT_HERSHEY_DUPLEX, 
-		    1,
+		    0.7,
 		    (255,64,0),
 		    1) 
         cv2.putText(img, 'press F5 to refresh', 
-		    (582,80), 
+		    (782,205), 
 		    cv2.FONT_HERSHEY_SIMPLEX, 
 		    0.3,
 		    (255,64,0),
@@ -315,24 +334,27 @@ class runVirusViz(object):
 
         # clean list
         l_d_clean = []
+        l_max_v = 0
         for a_case in lst_data:
             if('Total' in a_case[0]): continue
             if('Out of State' in a_case[0]): continue
             if('Not Reported' in a_case[0]): continue
             l_d_clean.append(a_case)
+            if(a_case[1] > l_max_v): l_max_v = a_case[1]
 
+        l_max_v = (int(l_max_v / 100.0) * 100 + 100 + 50)
         # sort list
         l_d_sort = sorted(l_d_clean, key=lambda k: k[1])
         len_data = len(l_d_sort)
         cmap=plt.get_cmap("jet")
         # draw list
         for ii in range( len(l_d_sort) ):
-            fov = Wedge((-100,-300), l_d_sort[ii][1]+50, 
+            fov = Wedge((0, 0), l_d_sort[ii][1]+50, 
                 int(ii*360.0/len_data)+90, int((ii+1)*360.0/len_data+90), 
-                color=cmap(float(ii)/len_data), alpha=1.0)
+                color=cmap(float(ii)/len_data*0.6+0.2), alpha=1.0)
             ax.add_artist(fov)
             #
-        plt.axis([-400, 400, -400, 400])
+        plt.axis([-l_max_v, l_max_v, -l_max_v, l_max_v])
         plt.show()	    	
     ## exit node
     def exit_hook(self):
