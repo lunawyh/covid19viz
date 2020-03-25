@@ -25,6 +25,7 @@ from os.path import isfile, join
 import matplotlib
 from matplotlib.patches import Wedge
 import matplotlib.pyplot as plt
+import math
 
 VIZ_W  = 880
 VIZ_H  = 1000
@@ -349,13 +350,39 @@ class runVirusViz(object):
         cmap=plt.get_cmap("jet")
         # draw list
         for ii in range( len(l_d_sort) ):
-            fov = Wedge((0, 0), l_d_sort[ii][1]+50, 
+            fov = Wedge((0, 0-l_max_v/2), l_d_sort[ii][1]+50, 
                 int(ii*360.0/len_data)+90, int((ii+1)*360.0/len_data+90), 
-                color=cmap(float(ii)/len_data*0.6+0.2), alpha=1.0)
+                color=cmap(float(ii)/len_data*0.6+0.2), 
+                alpha=1.0)
             ax.add_artist(fov)
             #
+            theta = (int(ii*360.0/len_data)+90) / 180.0*math.pi
+            radian = l_d_sort[ii][1]+50 + 5
+            plt.text(radian*math.cos(theta), radian*math.sin(theta)-l_max_v/2, 
+                l_d_sort[ii][0], rotation=int(ii*360.0/len_data)+90,
+                color=cmap(float(ii)/len_data*0.6+0.2), 
+                rotation_mode='anchor')
+                #horizontalalignment='center', verticalalignment='bottom')
+            if(l_d_sort[ii][1] < 10): digi_len = 0
+            elif(l_d_sort[ii][1] < 100): digi_len = 1
+            elif(l_d_sort[ii][1] < 1000): digi_len = 2
+            else: digi_len = 3
+            radian = l_d_sort[ii][1]+50 - 5 - digi_len*5
+            plt.text(radian*math.cos(theta), radian*math.sin(theta)-l_max_v/2, 
+                '%d'%(l_d_sort[ii][1]), rotation=int(ii*360.0/len_data)+90,
+                color='w', 
+                rotation_mode='anchor')
+        if(self.data_daily):
+            plt.text(-150, 20, 'Daily confirmed in MI')
+            plt.text(-150, 0, 'On '+self.now_date)
+        else:
+            plt.text(-200, 20, 'Overall confirmed in MI')
+            plt.text(-200, 0, 'Until '+self.now_date)
         plt.axis([-l_max_v, l_max_v, -l_max_v, l_max_v])
-        plt.show()	    	
+        plt.show()
+        #if(self.data_daily):
+        #    fig.savefig('./results/mi_county'+self.name_file+'_daily.png')
+	    	
     ## exit node
     def exit_hook(self):
         print("bye bye, node virusviz")
