@@ -354,12 +354,12 @@ class runVirusViz(object):
         # sort list
         l_d_sort = sorted(l_d_clean, key=lambda k: k[1])
         len_data = len(l_d_sort)
-        cmap=plt.get_cmap("jet")
+        cmap=plt.get_cmap("gist_rainbow")
         # draw list
         for ii in range( len(l_d_sort) ):
             fov = Wedge((0, 0-l_max_v/2), l_d_sort[ii][1]+50, 
                 int(ii*360.0/len_data)+90, int((ii+1)*360.0/len_data+90), 
-                color=cmap(float(ii)/len_data*0.6+0.2), 
+                color=cmap(1.0-(float(ii)/len_data*0.9+0.0)), 
                 alpha=1.0)
             ax.add_artist(fov)
             #
@@ -367,7 +367,7 @@ class runVirusViz(object):
             radian = l_d_sort[ii][1]+50 + 5
             plt.text(radian*math.cos(theta), radian*math.sin(theta)-l_max_v/2, 
                 l_d_sort[ii][0], rotation=int(ii*360.0/len_data)+90,
-                color=cmap(float(ii)/len_data*0.6+0.2), 
+                color=cmap(1.0-(float(ii)/len_data*0.9+0.0)), 
                 rotation_mode='anchor')
                 #horizontalalignment='center', verticalalignment='bottom')
             if(l_d_sort[ii][1] < 10): digi_len = 0
