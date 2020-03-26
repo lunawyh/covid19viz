@@ -129,7 +129,7 @@ class runVirusViz(object):
 
         if(key == -1):  
             pass
-        elif(key == 65471 or key == 1114047):   # F2 key refresh newest from website
+        elif(key == 65471 or key == 1114047 or key == 7405568):   # F2 key refresh newest from website
             self.data_daily = True
             self.cmdGrabDataFromWebsite(True)
             pass  
@@ -137,13 +137,13 @@ class runVirusViz(object):
             self.data_daily = False
             self.cmdGrabDataFromWebsite(False)
             pass  
-        elif(key == 65477 or key == 1114053):   # F8 key next day
+        elif(key == 65477 or key == 1114053 or key == 7798784):   # F8 key next day
             self.csv_pos_now, self.l_mi_cases = self.readDataByDay(0) 
-        elif(key == 65478 or key == 1114054):   # F9 key previous day
+        elif(key == 65478 or key == 1114054 or key == 7864320):   # F9 key previous day
             self.csv_pos_now, self.l_mi_cases = self.readDataByDay(self.csv_pos_now-1)   
-        elif(key == 65479 or key == 1114055):   # F10 key next day
+        elif(key == 65479 or key == 1114055 or key == 7929856):   # F10 key next day
             self.csv_pos_now, self.l_mi_cases = self.readDataByDay(self.csv_pos_now+1) 
-        elif(key == 65480 or key == 1114056):   # F11 key next day
+        elif(key == 65480 or key == 1114056 or key == 7995392):   # F11 key next day
             self.csv_pos_now, self.l_mi_cases = self.readDataByDay(9999999999) 
         elif(key == 114 or key == 1048690):  # r key
             self.infoShowRainbow(None, self.l_mi_cases) 
