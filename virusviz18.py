@@ -247,7 +247,7 @@ class runVirusViz(object):
         wish_total = 0
         n_total, ii = 0, 0
         line_h=13	
-        offset_h = VIZ_H - line_h * len(l_cases)+25
+        offset_h = VIZ_H - line_h * len(l_cases)/2-25
         for a_case in l_cases:
             if('County' in a_case[0]):
                 continue
@@ -255,17 +255,23 @@ class runVirusViz(object):
                 wish_total = int(a_case[1])
                 continue
             else:
+                if(ii < len(l_cases)/2): 
+                    posx = 10
+                    posy = ii*line_h+offset_h
+                else: 
+                    posx = 180+10
+                    posy = (ii-len(l_cases)/2)*line_h+offset_h
                 n_total += int( a_case[1] )
                 map_data = self.lookupMapData(a_case[0])
                 # draw the list on the left
                 cv2.putText(img, a_case[0], 
-		        (10, ii*line_h+offset_h), 
+		        (posx, posy), 
 		        cv2.FONT_HERSHEY_SIMPLEX, 
 		        0.53,
 		        map_data[4],
 		        1) 
                 cv2.putText(img, str(a_case[1]), 
-		        (170, ii*line_h+offset_h), 
+		        (130+posx, posy), 
 		        cv2.FONT_HERSHEY_SIMPLEX, 
 		        0.53,
 		        map_data[4],
