@@ -338,7 +338,9 @@ class runVirusViz(object):
     #
     def infoShowRainbow(self, img, lst_data):
         fig=plt.figure()
-        ax=fig.add_subplot(111) 
+        ax=fig.add_subplot(111)
+        fig.set_figheight(10)
+        fig.set_figwidth(10)
 
         # clean list
         l_d_clean = []
@@ -387,8 +389,9 @@ class runVirusViz(object):
             plt.text(-200, 0, 'Until '+self.now_date + ' in MI')
         plt.axis([-l_max_v, l_max_v, -l_max_v, l_max_v])
         plt.show()
-        #if(self.data_daily):
-        #    fig.savefig('./results/mi_county'+self.name_file+'_daily.png')
+        if(self.data_daily):
+            fig.savefig('./results/mi_county'+self.name_file+'_daily.png')
+            fig.savefig('./results/mi_county20200000_daily.png')
 	    	
     ## exit node
     def exit_hook(self):
