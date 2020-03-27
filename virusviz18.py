@@ -60,7 +60,7 @@ class runVirusViz(object):
                 ['Clinton',     8, 615, 836,(64,240,64)],
                 ['Crawford',     1, 614, 576,(64,240,64)],
                 ['Detroit City',1075, 808, 935, (64,240,64)],
-                ['Dickson',     8, 268, 384,(64,240,64)],
+                ['Dickinson',     8, 268, 384,(64,240,64)],
                 ['Emmet',       3, 609, 455, (64,240,64)],
                 ['Eaton',	8, 591, 883, (64,240,64)],
                 ['Genesee',	91, 710, 832, (64,240,64)],
@@ -143,8 +143,7 @@ class runVirusViz(object):
         if(key == -1):  
             pass
         elif(key == 65471 or key == 1114047 or key == 7405568):   # F2 key refresh newest from website
-            self.data_daily = True
-            self.cmdGrabDataFromWebsite(True)
+            self.data_daily = self.readDataDaily(True)
             pass  
         elif(key == 65474 or key == 1114050):   # F5 key refresh newest from website
             self.data_daily = False
@@ -189,11 +188,7 @@ class runVirusViz(object):
         self.data_daily = False
         return (pos, lst_data)
     ## save to csv 
-    def save2File(self, l_data):
-        if(self.data_daily):
-            csv_name = './daily/mi_covid19_'+self.name_file+'.csv'
-        else:
-            csv_name = './data/mi_covid19_'+self.name_file+'.csv'        
+    def save2File(self, l_data, csv_name):
         csv_data_f = open(csv_name, 'w')
         # create the csv writer 
         csvwriter = csv.writer(csv_data_f)
@@ -228,25 +223,80 @@ class runVirusViz(object):
                 a_case.append( df.iloc[ii, jj] )
             lst_data.append( a_case )
         # save to a database file
-	if(bSave): self.save2File(lst_data)
+	if(bSave): self.save2File( lst_data, './data/mi_covid19_'+self.name_file+'.csv' )
 	return lst_data
     ## step 1
     ## grab data from goverment website
     def cmdGrabDataFromWebsite(self, bDaily):
         # update date time
         dt_now = datetime.datetime.now()
-	self.name_file = '%d%02d%02d'%(dt_now.year, dt_now.month, dt_now.day)
-	self.now_date = '%d/%d/%d'%(dt_now.month, dt_now.day, dt_now.year)
+        self.name_file = '%d%02d%02d'%(dt_now.year, dt_now.month, dt_now.day)
+        self.now_date = '%d/%d/%d'%(dt_now.month, dt_now.day, dt_now.year)
         df = self.open4Website(bDaily)
         self.l_mi_cases = self.parseDfData(df, bSave=True)
 
+    def getOverallYesterday(self, today):
+        csv_data_files = sorted( [f for f in listdir('./data') if isfile(join('./data', f))] )
+        f_last, bFound = None, False
+        for ff in csv_data_files:
+            if(today in ff): 
+                bFound = True
+                break
+            f_last = ff
+        if(not bFound): f_last=None
+        return f_last
+    def generateDataDaily(self, bDaily):
+	# files name
+        csv_daily = './daily/mi_covid19_'+self.name_file+'.csv'
+        csv_all_today = './data/mi_covid19_'+self.name_file+'.csv'
+        csv_all_last = self.getOverallYesterday(self.name_file)
+        if(csv_all_last is None): return False
+        else: print(csv_daily, csv_all_today, csv_all_last)
+        csv_all_last = './data/' + csv_all_last
+	# read data
+	df = pd.read_csv(csv_all_today)
+        l_all_today = self.parseDfData(df)
+	df = pd.read_csv(csv_all_last)
+        l_all_last = self.parseDfData(df)
+        # compare data
+        l_daily = []
+        l_daily.append(['County', 'Cases', 'Deaths'])
+        Total2, Total3 = 0, 0
+        for a_case_today in l_all_today:
+            if("Total" in a_case_today): continue
+            bFound, a_case_last = self.lookupMapData(a_case_today[0], l_all_last)
+            if(bFound):
+                num2 = int(a_case_today[1]) - int(a_case_last[1])
+                num3 = int(a_case_today[2]) - int(a_case_last[2])
+                if(num2 > 0 and num3 > 0): 
+                    l_daily.append([a_case_today[0], num2, num3])
+                Total2 += num2
+                Total3 += num3
+                
+            else:
+                Total2 += int(a_case_today[1])
+                Total3 += int(a_case_today[2])
+                l_daily.append(a_case_today)
+        l_daily.append(["Total", Total2, Total3])
+        # save data
+        self.save2File(l_daily, csv_daily)
+        return True
+    def readDataDaily(self, bDaily):
+        csv_name = './daily/mi_covid19_'+self.name_file+'.csv'
+        if(isfile(csv_name) ):
+            df = pd.read_csv(csv_name)
+        else:
+            if( self.generateDataDaily(True)): df = pd.read_csv(csv_name)
+            else: return False
+        self.l_mi_cases = self.parseDfData(df)
+        return True
     ## look up table to get pre-set information
-    def lookupMapData(self, c_name):
-        for cov in self.l_mi_covid20:
+    def lookupMapData(self, c_name, lst_data):
+        for cov in lst_data:
             if c_name in cov[0]:
-                return cov
+                return True, cov
         print ('Not found', c_name)
-        return [' ',	67, 10, 30, (0,0,255)]
+        return False, [' ',	67, 10, 30, (0,0,255)]
     ## step 3
     ## show cases on the map
     def infoShowCases(self, img, l_cases):
@@ -268,7 +318,7 @@ class runVirusViz(object):
                     posx = 180+10
                     posy = (ii-len(l_cases)/2)*line_h+offset_h
                 n_total += int( a_case[1] )
-                map_data = self.lookupMapData(a_case[0])
+                bFound, map_data = self.lookupMapData(a_case[0], self.l_mi_covid20)
                 # draw the list on the left
                 cv2.putText(img, a_case[0], 
 		        (posx, posy), 
