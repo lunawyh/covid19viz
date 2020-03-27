@@ -263,11 +263,16 @@ class runVirusViz(object):
         l_daily.append(['County', 'Cases', 'Deaths'])
         Total2, Total3 = 0, 0
         for a_case_today in l_all_today:
-            if("Total" in a_case_today): continue
             bFound, a_case_last = self.lookupMapData(a_case_today[0], l_all_last)
             if(bFound):
                 num2 = int(a_case_today[1]) - int(a_case_last[1])
                 num3 = int(a_case_today[2]) - int(a_case_last[2])
+                if("Total" in a_case_today): 
+                    if(Total2 != num2 or Total3 != num3): 
+                        print("Total Daily", num2, Total3, num3)
+                        return False
+                    else: 
+                        break
                 if(num2 > 0 and num3 > 0): 
                     l_daily.append([a_case_today[0], num2, num3])
                 Total2 += num2
