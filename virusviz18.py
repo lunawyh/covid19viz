@@ -51,7 +51,7 @@ class runVirusViz(object):
                 ['Allegan',     1, 466, 885, (0,0,255)],
                 ['Barry',       1, 540, 883, (0,0,255)],
                 ['Bay',		4, 690, 695, (0,0,255)],
-                ['Berrien',     18, 436, 955, (64,240,64)],
+                ['Berrien',     18, 433, 955, (64,240,64)],
                 ['Calhoun',     9, 569, 934, (64,240,64)],
                 ['Cass',	1, 463, 980, (0,0,255)],
                 ['Charlevoix',	4, 577, 482, (0,0,255)],
@@ -60,7 +60,7 @@ class runVirusViz(object):
                 ['Clinton',     8, 615, 836,(64,240,64)],
                 ['Crawford',     1, 614, 576,(64,240,64)],
                 ['Detroit City',1075, 808, 935, (64,240,64)],
-                ['Dickso',     8, 268, 384,(64,240,64)],
+                ['Dickson',     8, 268, 384,(64,240,64)],
                 ['Emmet',       3, 609, 455, (64,240,64)],
                 ['Eaton',	8, 591, 883, (64,240,64)],
                 ['Genesee',	91, 710, 832, (64,240,64)],
@@ -75,7 +75,7 @@ class runVirusViz(object):
                 ['Iosco',	1, 718, 629, (0,0,255)],
                 ['Isabella',	4, 591, 735, (64,240,64)],
                 ['Jackson',	16, 632, 934, (0,0,255)],
-                ['Kalamazoo',	11, 540, 932, (64,240,64)],
+                ['Kalamazoo',	11, 535, 930, (64,240,64)],
                 ['Kalkaska',	4, 567, 578, (64,240,64)],
                 ['Kent',	45, 515, 834, (64,240,64)],
                 ['Lapeer',	4, 767, 820, (64,240,64)],
@@ -102,7 +102,7 @@ class runVirusViz(object):
                 ['Saginaw',	14, 668, 780, (64,240,64)],
                 ['Sanilac',	2, 814, 780, (0,0,255)],
                 ['Shiawassee',	2, 667, 837, (64,240,64)],
-                ['St. Clair',	15, 844, 842, (64,240,64)],
+                ['St. Clair',	15, 840, 842, (64,240,64)],
                 ['Tuscola',	2, 739, 767, (0,0,255)],
                 ['Van Buren',	3, 466, 936, (64,240,64)],
                 ['Washtenaw',	150, 694, 935, (64,240,64)],
@@ -176,6 +176,7 @@ class runVirusViz(object):
         #print('-----------', csv_data_files)
         if(pos >= len(csv_data_files) ): pos = len(csv_data_files) - 1
         elif(pos < 0): pos = 0
+        if( len(csv_data_files[pos]) != 23): return (pos, [])
         offset = 11	
         year = int(csv_data_files[pos][offset:offset+4])
         month = int(csv_data_files[pos][offset+4:offset+6])
@@ -292,6 +293,7 @@ class runVirusViz(object):
 		        0.7,
 		        map_data[4],
 		        1) 
+                if(map_data[2] < 200 and map_data[3] < 200): print('Missing', a_case)
                 continue
         print('total:', wish_total, n_total)
         if(wish_total == n_total):
