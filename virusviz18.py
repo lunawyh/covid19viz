@@ -261,28 +261,36 @@ class runVirusViz(object):
         # compare data
         l_daily = []
         l_daily.append(['County', 'Cases', 'Deaths'])
-        Total2, Total3 = 0, 0
+        Total_now = [0, 0]
+        Total_wish = [0, 0]
+        Total_plus = [0, 0]
         for a_case_today in l_all_today:
             bFound, a_case_last = self.lookupMapData(a_case_today[0], l_all_last)
             if(bFound):
                 num2 = int(a_case_today[1]) - int(a_case_last[1])
                 num3 = int(a_case_today[2]) - int(a_case_last[2])
                 if("Total" in a_case_today): 
-                    if(Total2 != num2 or Total3 != num3): 
-                        print("Total Daily", num2, Total3, num3)
-                        return False
-                    else: 
-                        break
+                    Total_wish = [num2, num3] 
+                    continue
                 if(num2 > 0 and num3 > 0): 
                     l_daily.append([a_case_today[0], num2, num3])
-                Total2 += num2
-                Total3 += num3
+                    print(a_case_today, num2, num3)
+                    Total_plus[0] += num2
+                    Total_plus[1] += num3
+                Total_now[0] += num2
+                Total_now[1] += num3
                 
             else:
-                Total2 += int(a_case_today[1])
-                Total3 += int(a_case_today[2])
+                Total_now[0] += int(a_case_today[1])
+                Total_now[1] += int(a_case_today[2])
+                Total_plus[0] += int(a_case_today[1])
+                Total_plus[1] += int(a_case_today[2])
                 l_daily.append(a_case_today)
-        l_daily.append(["Total", Total2, Total3])
+                print(a_case_today)
+        if(Total_now[0] != Total_wish[0] or Total_now[1] != Total_wish[1]):
+            print("generateDataDaily total number is wrong", Total_now, Total_wish)
+            return False
+        l_daily.append(["Total", Total_plus[0], Total_plus[1]])
         # save data
         self.save2File(l_daily, csv_daily)
         return True
@@ -455,13 +463,13 @@ class runVirusViz(object):
             elif(l_d_sort[ii][1] < 100): digi_len = 1
             elif(l_d_sort[ii][1] < 1000): digi_len = 2
             else: digi_len = 3
-            radian = l_d_sort[ii][1]+50 - 5 - digi_len*5
+            radian = l_d_sort[ii][1]+50 - 10 - digi_len*10
             plt.text(radian*math.cos(theta), radian*math.sin(theta)-l_max_v/2, 
                 '%d'%(l_d_sort[ii][1]), rotation=int(ii*360.0/len_data)+90,
                 color='w', 
                 rotation_mode='anchor')
         if(self.data_daily):
-            plt.text(-150, 20, 'Daily confirmed COVID-19')
+            plt.text(-165, 20, 'Daily confirmed COVID-19')
             plt.text(-150, 0, 'On '+self.now_date + ' in MI')
         else:
             plt.text(-200, 20, 'Overall confirmed COVID-19')
