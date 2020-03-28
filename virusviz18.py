@@ -159,7 +159,12 @@ class runVirusViz(object):
         elif(key == 65480 or key == 1114056 or key == 7995392):   # F11 key next day
             self.csv_pos_now, self.l_mi_cases = self.readDataByDay(9999999999) 
         elif(key == 114 or key == 1048690):  # r key
-            self.infoShowRainbow(None, self.l_mi_cases) 
+            if self.data_daily == True: type_data=1
+            else: type_data =2
+            self.infoShowRainbow(type_data, self.l_mi_cases) 
+        elif(key == 100 or key == 1048676):  # d key
+            list_death= self.getDataListDeath(self.l_mi_cases)
+            self.infoShowRainbow(3, list_death) 
         elif(key == 115 or key == 1048691):  # s key
             cv2.imwrite('./results/mi_county'+self.name_file+'.png', self.img_overlay)
             cv2.imwrite('./results/mi_county20200000.png', self.img_overlay)
@@ -314,6 +319,15 @@ class runVirusViz(object):
                 return True, cov
         print ('Not found', c_name)
         return False, [' ',	67, 10, 30, (0,0,255)]
+
+    ## look up table to get pre-set information for death
+    def getDataListDeath(self, snd_data):
+	lst_out = []
+        for cov in snd_data:
+            if cov[2]>0:
+                lst_out.append(cov)
+        return lst_out
+ 
     ## step 3
     ## show cases on the map
     def infoShowCases(self, img, l_cases):
@@ -426,12 +440,15 @@ class runVirusViz(object):
             1) 
 
     #
-    def infoShowRainbow(self, img, lst_data):
+    def infoShowRainbow(self, type_data, lst_data):
         fig=plt.figure()
         ax=fig.add_subplot(111)
         fig.set_figheight(10)
         fig.set_figwidth(10)
 
+        # select colum
+        if (type_data==3):col=2
+        else : col=1
         # clean list
         l_d_clean = []
         l_max_v = 0
@@ -441,48 +458,55 @@ class runVirusViz(object):
             if('Other' in a_case[0]): continue
             if('Not Reported' in a_case[0]): continue
             l_d_clean.append(a_case)
-            if(a_case[1] > l_max_v): l_max_v = a_case[1]
+            if(a_case[col] > l_max_v): l_max_v = a_case[col]
 
         l_max_v = (int(l_max_v / 100.0) * 100 + 100 + 50)
         # sort list
-        l_d_sort = sorted(l_d_clean, key=lambda k: k[1])
+        l_d_sort = sorted(l_d_clean, key=lambda k: k[col])
         len_data = len(l_d_sort)
         cmap=plt.get_cmap("gist_rainbow")
         # draw list
         for ii in range( len(l_d_sort) ):
-            fov = Wedge((0, 0-l_max_v/2), l_d_sort[ii][1]+50, 
+            fov = Wedge((0, 0-l_max_v/3), l_d_sort[ii][col]+50, 
                 int(ii*360.0/len_data)+90, int((ii+1)*360.0/len_data+90), 
                 color=cmap(1.0-(float(ii)/len_data*0.9+0.0)), 
                 alpha=1.0)
             ax.add_artist(fov)
             #
             theta = (int(ii*360.0/len_data)+90) / 180.0*math.pi
-            radian = l_d_sort[ii][1]+50 + 5
-            plt.text(radian*math.cos(theta), radian*math.sin(theta)-l_max_v/2, 
+            radian = l_d_sort[ii][col]+50 + 5
+            plt.text(radian*math.cos(theta), radian*math.sin(theta)-l_max_v/3, 
                 l_d_sort[ii][0], rotation=int(ii*360.0/len_data)+90,
                 color=cmap(1.0-(float(ii)/len_data*0.9+0.0)), 
                 rotation_mode='anchor')
                 #horizontalalignment='center', verticalalignment='bottom')
-            if(l_d_sort[ii][1] < 10): digi_len = 0
-            elif(l_d_sort[ii][1] < 100): digi_len = 1
-            elif(l_d_sort[ii][1] < 1000): digi_len = 2
+            if(l_d_sort[ii][col] < 10): digi_len = 0
+            elif(l_d_sort[ii][col] < 100): digi_len = 1
+            elif(l_d_sort[ii][col] < 1000): digi_len = 2
             else: digi_len = 3
-            radian = l_d_sort[ii][1]+50 - 10 - digi_len*10
-            plt.text(radian*math.cos(theta), radian*math.sin(theta)-l_max_v/2, 
-                '%d'%(l_d_sort[ii][1]), rotation=int(ii*360.0/len_data)+90,
+            radian = l_d_sort[ii][col]+50 - 10 - digi_len*l_max_v/50
+            plt.text(radian*math.cos(theta), radian*math.sin(theta)-l_max_v/3, 
+                '%d'%(l_d_sort[ii][col]), rotation=int(ii*360.0/len_data)+90,
                 color='w', 
                 rotation_mode='anchor')
-        if(self.data_daily):
+        if(type_data==1):
             plt.text(-165, 20, 'Daily confirmed COVID-19')
             plt.text(-150, 0, 'On '+self.now_date + ' in MI')
-        else:
+        elif type_data ==2:
             plt.text(-200, 20, 'Overall confirmed COVID-19')
             plt.text(-200, 0, 'Until '+self.now_date + ' in MI')
+        elif type_data ==3:
+            plt.text(-100, 60, 'Overall deaths COVID-19')
+            plt.text(-100, 40, 'Until '+self.now_date + ' in MI')
         plt.axis([-l_max_v, l_max_v, -l_max_v, l_max_v])
         plt.show()
-        if(self.data_daily):
+        if(type_data==1):
             fig.savefig('./results/mi_county'+self.name_file+'_daily.png')
             fig.savefig('./results/mi_county20200000_daily.png')
+        elif(type_data==3):
+            fig.savefig('./results/mi_county'+self.name_file+'_death.png')
+            fig.savefig('./results/mi_county20200000_death.png')
+	    	
 	    	
     ## exit node
     def exit_hook(self):
