@@ -457,6 +457,7 @@ class runVirusViz(object):
             if('Out of State' in a_case[0]): continue
             if('Other' in a_case[0]): continue
             if('Not Reported' in a_case[0]): continue
+            if('County' in a_case[0]): continue
             l_d_clean.append(a_case)
             if(a_case[col] > l_max_v): l_max_v = a_case[col]
 
@@ -484,20 +485,20 @@ class runVirusViz(object):
             elif(l_d_sort[ii][col] < 100): digi_len = 1
             elif(l_d_sort[ii][col] < 1000): digi_len = 2
             else: digi_len = 3
-            radian = l_d_sort[ii][col]+50 - 10 - digi_len*l_max_v/50
+            radian = l_d_sort[ii][col]+50 - 10 - digi_len*l_max_v/40
             plt.text(radian*math.cos(theta), radian*math.sin(theta)-l_max_v/3, 
                 '%d'%(l_d_sort[ii][col]), rotation=int(ii*360.0/len_data)+90,
                 color='w', 
                 rotation_mode='anchor')
         if(type_data==1):
-            plt.text(-165, 20, 'Daily confirmed COVID-19')
-            plt.text(-150, 0, 'On '+self.now_date + ' in MI')
+            plt.text(-l_max_v/2, 20, 'Daily confirmed COVID-19')
+            plt.text(-l_max_v/2, 0, 'On '+self.now_date + ' in MI')
         elif type_data ==2:
-            plt.text(-200, 20, 'Overall confirmed COVID-19')
-            plt.text(-200, 0, 'Until '+self.now_date + ' in MI')
+            plt.text(-l_max_v/2, 40, 'Overall confirmed COVID-19')
+            plt.text(-l_max_v/2, 0, 'Until '+self.now_date + ' in MI')
         elif type_data ==3:
-            plt.text(-100, 60, 'Overall deaths COVID-19')
-            plt.text(-100, 40, 'Until '+self.now_date + ' in MI')
+            plt.text(-l_max_v/2, 60, 'Overall deaths COVID-19')
+            plt.text(-l_max_v/2, 40, 'Until '+self.now_date + ' in MI')
         plt.axis([-l_max_v, l_max_v, -l_max_v, l_max_v])
         plt.show()
         if(type_data==1):
