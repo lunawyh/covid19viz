@@ -26,6 +26,7 @@ import matplotlib
 from matplotlib.patches import Wedge
 import matplotlib.pyplot as plt
 import math
+import urllib
 
 VIZ_W  = 880
 VIZ_H  = 1000
@@ -147,7 +148,7 @@ class runVirusViz(object):
             pass  
         elif(key == 65474 or key == 1114050):   # F5 key refresh newest from website
             self.data_daily = False
-            self.cmdGrabDataFromWebsite(False)
+            self.cmdGrabDataFromWebsite()
             pass  
         elif(key == 65477 or key == 1114053 or key == 7798784):   # F8 key next day
             self.csv_pos_now, self.l_mi_cases = self.readDataByDay(0) 
@@ -201,18 +202,19 @@ class runVirusViz(object):
         df = pd.read_csv(csv_name)
         return df
     ## open a website 
-    def open4Website(self, bDaily):
-        if(bDaily):
-            cov_tables = pd.read_html("https://www.michigan.gov/coronavirus/")
-        else:
-            cov_tables = pd.read_html("https://www.michigan.gov/coronavirus/0,9753,7-406-98163-520743--,00.html")
+    def open4Website(self, fRaw):
+        csv_url = "https://www.michigan.gov/coronavirus/0,9753,7-406-98163-520743--,00.html"
+        # save html file
+        urllib.urlretrieve(csv_url, fRaw)
+        # read tables
+        cov_tables = pd.read_html(csv_url)
         # read 1st table: Overall Confirmed COVID-19 Cases by County
         return cov_tables[0]
     ## parse from exel format to list 
-    def parseDfData(self, df, bSave=False):
+    def parseDfData(self, df, fName=None):
         (n_rows, n_columns) = df.shape 
         # check shape
-
+        #print('parseDfData', df.title)
         lst_data = []
         for ii in range(n_rows):
             a_case = []
@@ -223,17 +225,19 @@ class runVirusViz(object):
                 a_case.append( df.iloc[ii, jj] )
             lst_data.append( a_case )
         # save to a database file
-	if(bSave): self.save2File( lst_data, './data/mi_covid19_'+self.name_file+'.csv' )
-	return lst_data
+        if(fName is not None): self.save2File( lst_data, fName )
+        return lst_data
     ## step 1
     ## grab data from goverment website
-    def cmdGrabDataFromWebsite(self, bDaily):
+    def cmdGrabDataFromWebsite(self):
         # update date time
         dt_now = datetime.datetime.now()
         self.name_file = '%d%02d%02d'%(dt_now.year, dt_now.month, dt_now.day)
         self.now_date = '%d/%d/%d'%(dt_now.month, dt_now.day, dt_now.year)
-        df = self.open4Website(bDaily)
-        self.l_mi_cases = self.parseDfData(df, bSave=True)
+        f_name = './data_html/mi_covid19_'+self.name_file+'.html'
+        df_a = self.open4Website(f_name)
+        f_name = './data/mi_covid19_'+self.name_file+'.csv'
+        self.l_mi_cases = self.parseDfData(df_a, fName=f_name)
 
     def getOverallYesterday(self, today):
         csv_data_files = sorted( [f for f in listdir('./data') if isfile(join('./data', f))] )
