@@ -322,7 +322,7 @@ class runVirusViz(object):
 
     ## look up table to get pre-set information for death
     def getDataListDeath(self, snd_data):
-	lst_out = []
+        lst_out = []
         for cov in snd_data:
             if cov[2]>0:
                 lst_out.append(cov)
