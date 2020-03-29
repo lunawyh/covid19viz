@@ -1,7 +1,16 @@
 County,Cases,Deaths
-Clinton,1,0,436.0,559.0,64.0,240.0,64.0
-Eaton,2,0,413.0,601.0,64.0,240.0,64.0
-Livingston,1,0,476.0,600.0,64.0,240.0,64.0
-Midland,1,0,445.0,490.0,64.0,240.0,64.0
-Out of State,10,0,25.0,85.0,64.0,240.0,64.0
-Total,15,0
+Clinton,1,0
+Detroit City,62,0
+Eaton,2,0
+Ingham,4,0
+Kent,2,0
+Livingston,1,0
+Macomb,45,0
+Midland,1,0
+Monroe,1,0
+Oakland,82,0
+St. Clair,2,0
+Washtenaw,7,0
+Wayne,34,0
+Out of State,10,0
+Total,254,0

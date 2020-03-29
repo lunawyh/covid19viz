@@ -47,72 +47,72 @@ class runVirusViz(object):
         self.img_overlay = np.zeros(size, dtype=np.uint8)	# overlay image
         self.map_data_updated = 1	                        # being updated
         self.now_exit = False
-        #
-        self.l_mi_covid20=[
-                ['Allegan',     2, 466, 885, (64,240,64)],
-                ['Barry',       1, 540, 883, (0,0,255)],
-                ['Bay',		4, 690, 695, (0,0,255)],
-                ['Berrien',     22, 433, 955, (64,240,64)],
-                ['Calhoun',     11, 569, 934, (64,240,64)],
-                ['Cass',	2, 463, 980, (64,240,64)],
-                ['Charlevoix',	4, 577, 482, (0,0,255)],
-                ['Chippewa',    0, 577, 310, (0,0,255)],
-                ['Clare',       1, 590, 677, (0,0,255)],
-                ['Clinton',     13, 615, 836,(64,240,64)],
-                ['Crawford',     1, 614, 576,(0,0,255)],
-                ['Detroit City',1377, 808, 935, (64,240,64)],
-                ['Dickinson',     0, 268, 384,(64,240,64)],
-                ['Emmet',       4, 609, 455, (64,240,64)],
-                ['Eaton',	8, 591, 883, (0,0,255)],
-                ['Genesee',	110, 710, 832, (64,240,64)],
-                ['Gladwin',	2, 640, 681, (0,0,255)],
-                ['Gogebic',	1, 144, 326, (0,0,255)],
-                ['Grand Traverse',5, 511, 577, (64,240,64)],
-                ['Gratiot',	2, 616, 784, (64,240,64)],
-                ['Hillsdale',    7, 620, 992, (0,0,255)],
-                ['Huron',	1, 773, 701, (0,0,255)],
-                ['Ingham',	32, 642, 887, (64,240,64)],
-                ['Ionia',	2, 565, 835, (0,0,255)],
-                ['Iosco',	1, 718, 629, (0,0,255)],
-                ['Isabella',	4, 591, 735, (0,0,255)],
-                ['Jackson',	20, 632, 934, (64,240,64)],
-                ['Kalamazoo',	15, 535, 930, (64,240,64)],
-                ['Kalkaska',	4, 567, 578, (0,0,255)],
-                ['Kent',	53, 515, 834, (64,240,64)],
-                ['Lapeer',	4, 767, 820, (0,0,255)],
-                ['Leelanau',	1, 485, 537, (0,0,255)],
-                ['Lenawee',	11, 671, 991, (64,240,64)],
-                ['Livingston',	41, 710, 882, (64,240,64)],
-                ['Luce',	0, 508, 313, (64,240,64)],
-                ['Macomb',	534, 804, 882, (64,240,64)],
-                ['Manistee',	1, 468, 606, (0,0,255)],
-                ['Marquette',	1, 266, 309, (0,0,255)],
-                ['Mecosta',	1, 539, 733, (0,0,255)],
-                ['Midland',     8, 643,732, (0,0,255)],
-                ['Missaukee',	1, 589, 629, (0,0,255)],
-                ['Monroe',	34, 732, 986, (64,240,64)],
-                ['Montcalm',	3, 566, 781, (0,0,255)],
-                ['Muskegon',	7, 450, 760, (64,240,64)],
-                ['Newaygo',	1, 488, 758, (0,0,255)],
-                ['Oakland',	1018, 744, 880, (64,240,64)],
-                ['Oceana',	1, 437, 731, (0,0,255)],
-                ['Ogemaw',	1, 266, 309, (0,0,255)],
-                ['Osceola',	1, 539, 676, (64,240,64)],
-                ['Otsego',	14, 615, 526, (64,240,64)],
-                ['Ottawa',	23, 666, 629, (64,240,64)],
-                ['Roscommon',	1, 641, 629, (0,0,255)],
-                ['Saginaw',	19, 668, 780, (64,240,64)],
-                ['Sanilac',	2, 814, 780, (0,0,255)],
-                ['Shiawassee',	2, 667, 837, (0,0,255)],
-                ['St. Clair',	16, 840, 842, (64,240,64)],
-                ['Tuscola',	4, 739, 767, (64,240,64)],
-                ['Van Buren',	4, 466, 936, (64,240,64)],
-                ['Washtenaw',	185, 694, 935, (64,240,64)],
-                ['Wayne',	939, 753, 933, (64,240,64)],
-                ['Wexford',	1, 511, 628, (0,0,255)],
-                ['Other*',       47, 25, 85, (64,240,64)],
-                ['Out of State', 15, 25, 85, (64,240,64)],
-                ['Not Reported',0, 753, 933, (64,240,64)]
+        # Only the coordinates are used by code
+        self.l_mi_county_coord=[
+                ['Allegan',     0, 466, 885],
+                ['Barry',       0, 540, 883],
+                ['Bay',		0, 690, 695],
+                ['Berrien',     0, 433, 955],
+                ['Calhoun',     0, 569, 934],
+                ['Cass',	0, 463, 980],
+                ['Charlevoix',	0, 577, 482],
+                ['Chippewa',    0, 577, 310],
+                ['Clare',       0, 590, 677],
+                ['Clinton',     0, 615, 836],
+                ['Crawford',    0, 614, 576],
+                ['Detroit City',0, 808, 935],
+                ['Dickinson',   0, 268, 384],
+                ['Emmet',       0, 609, 455],
+                ['Eaton',	0, 591, 883],
+                ['Genesee',	0, 710, 832],
+                ['Gladwin',	0, 640, 681],
+                ['Gogebic',	0, 144, 326],
+                ['Grand Traverse',0, 511, 577],
+                ['Gratiot',	0, 616, 784],
+                ['Hillsdale',   0, 620, 992],
+                ['Huron',	0, 773, 701],
+                ['Ingham',	0, 642, 887],
+                ['Ionia',	0, 565, 835],
+                ['Iosco',	0, 718, 629],
+                ['Isabella',	0, 591, 735],
+                ['Jackson',	0, 632, 934],
+                ['Kalamazoo',	0, 535, 930],
+                ['Kalkaska',	0, 567, 578],
+                ['Kent',	0, 515, 834],
+                ['Lapeer',	0, 767, 820],
+                ['Leelanau',	0, 485, 537],
+                ['Lenawee',	0, 671, 991],
+                ['Livingston',	0, 710, 882],
+                ['Luce',	0, 508, 313],
+                ['Macomb',	0, 804, 882],
+                ['Manistee',	0, 468, 606],
+                ['Marquette',	0, 266, 309],
+                ['Mecosta',	0, 539, 733],
+                ['Midland',     8, 643, 732],
+                ['Missaukee',	0, 589, 629],
+                ['Monroe',	0, 732, 986],
+                ['Montcalm',	0, 566, 781],
+                ['Muskegon',	0, 450, 760],
+                ['Newaygo',	0, 488, 758],
+                ['Oakland',	0, 744, 880],
+                ['Oceana',	0, 437, 731],
+                ['Ogemaw',	0, 266, 309],
+                ['Osceola',	0, 539, 676],
+                ['Otsego',	0, 615, 526],
+                ['Ottawa',	0, 666, 629],
+                ['Roscommon',	0, 641, 629],
+                ['Saginaw',	0, 668, 780],
+                ['Sanilac',	0, 814, 780],
+                ['Shiawassee',	0, 667, 837],
+                ['St. Clair',	0, 840, 842],
+                ['Tuscola',	0, 739, 767],
+                ['Van Buren',	0, 466, 936],
+                ['Washtenaw',	0, 694, 935],
+                ['Wayne',	0, 753, 933],
+                ['Wexford',	0, 511, 628],
+                ['Other*',        0, 25, 85],
+                ['Out of State',  0, 25, 85],
+                ['Not Reported',0, 753, 933]
         ]							
         #data of coordination
 
@@ -121,7 +121,7 @@ class runVirusViz(object):
 	self.img_overlay = self.img_map.copy()
 	self.data_daily = False   # otherwise overall
 	# read latest data
-	self.csv_pos_now, self.l_mi_cases = self.readDataByDay(9999999999)
+	self.csv_pos_now, self.l_mi_cases, self.l_cases_yest = self.readDataByDay(999999)
 
         # main loop for processing
         while (not self.now_exit):
@@ -145,25 +145,30 @@ class runVirusViz(object):
         if(key == -1):  
             pass
         elif(key == 65471 or key == 1114047 or key == 7405568):   # F2 key refresh newest from website
-            self.data_daily = self.readDataDaily(True)
+            self.data_daily, self.l_mi_cases = self.readDataDaily(True)
             pass  
         elif(key == 65474 or key == 1114050):   # F5 key refresh newest from website
             self.data_daily = False
-            self.cmdGrabDataFromWebsite()
+            pos, self.l_mi_cases, self.l_cases_yest = self.cmdGrabDataFromWebsite()
             pass  
         elif(key == 65477 or key == 1114053 or key == 7798784):   # F8 key next day
-            self.csv_pos_now, self.l_mi_cases = self.readDataByDay(0) 
+            self.data_daily = False
+            self.csv_pos_now, self.l_mi_cases, self.l_cases_yest = self.readDataByDay(0) 
         elif(key == 65478 or key == 1114054 or key == 7864320):   # F9 key previous day
-            self.csv_pos_now, self.l_mi_cases = self.readDataByDay(self.csv_pos_now-1)   
+            self.data_daily = False
+            self.csv_pos_now, self.l_mi_cases, self.l_cases_yest = self.readDataByDay(self.csv_pos_now-1)   
         elif(key == 65479 or key == 1114055 or key == 7929856):   # F10 key next day
-            self.csv_pos_now, self.l_mi_cases = self.readDataByDay(self.csv_pos_now+1) 
+            self.data_daily = False
+            self.csv_pos_now, self.l_mi_cases, self.l_cases_yest = self.readDataByDay(self.csv_pos_now+1) 
         elif(key == 65480 or key == 1114056 or key == 7995392):   # F11 key next day
-            self.csv_pos_now, self.l_mi_cases = self.readDataByDay(9999999999) 
+            self.data_daily = False
+            self.csv_pos_now, self.l_mi_cases, self.l_cases_yest = self.readDataByDay(9999999999) 
         elif(key == 114 or key == 1048690):  # r key
             if self.data_daily == True: type_data=1
             else: type_data =2
             self.infoShowRainbow(type_data, self.l_mi_cases) 
         elif(key == 100 or key == 1048676):  # d key
+            if(self.data_daily): return
             list_death= self.getDataListDeath(self.l_mi_cases)
             self.infoShowRainbow(3, list_death) 
         elif(key == 115 or key == 1048691):  # s key
@@ -178,6 +183,7 @@ class runVirusViz(object):
     ## step 2
     ## read data file given day offset
     def readDataByDay(self, pos):
+        print('readDataByDay...', pos)
         csv_data_files = sorted( [f for f in listdir('./data') if isfile(join('./data', f))] )
         #print('-----------', csv_data_files)
         if(pos >= len(csv_data_files) ): pos = len(csv_data_files) - 1
@@ -190,10 +196,15 @@ class runVirusViz(object):
         self.name_file = '%d%02d%02d'%(year, month, day)
         self.now_date = '%d/%d/%d'%(month, day, year)
         #read data to list
-        df_today = self.open4File()
-        lst_data = self.parseDfData(df_today)
-        self.data_daily = False
-        return (pos, lst_data)
+        lst_data = self.open4File('./data/mi_covid19_'+self.name_file+'.csv')
+        
+        #read data on yesterday 
+        name_last = self.getOverallYesterday(self.name_file)
+        if(name_last is not None):
+            lst_data_last = self.open4File('./data/' + name_last)
+        else:
+            lst_data_last = []
+        return (pos, lst_data, lst_data_last)
     ## save to csv 
     def save2File(self, l_data, csv_name):
         csv_data_f = open(csv_name, 'w')
@@ -203,10 +214,12 @@ class runVirusViz(object):
             csvwriter.writerow(a_row)
         csv_data_f.close()
     ## open a csv 
-    def open4File(self):
-        csv_name = './data/mi_covid19_'+self.name_file+'.csv'
-        df = pd.read_csv(csv_name)
-        return df
+    def open4File(self, csv_name):
+        if(isfile(csv_name) ):
+            df = pd.read_csv(csv_name)
+            l_data = self.parseDfData(df)
+        else: return []
+        return l_data
     ## open a website 
     def open4Website(self, fRaw):
         #csv_url = "https://www.michigan.gov/coronavirus/0,9753,7-406-98163-520743--,00.html"
@@ -237,6 +250,7 @@ class runVirusViz(object):
     ## step 1
     ## grab data from goverment website
     def cmdGrabDataFromWebsite(self):
+        print('cmdGrabDataFromWebsite...')
         # update date time
         dt_now = datetime.datetime.now()
         self.name_file = '%d%02d%02d'%(dt_now.year, dt_now.month, dt_now.day)
@@ -244,8 +258,15 @@ class runVirusViz(object):
         f_name = './data_html/mi_covid19_'+self.name_file+'.html'
         df_a = self.open4Website(f_name)
         f_name = './data/mi_covid19_'+self.name_file+'.csv'
-        self.l_mi_cases = self.parseDfData(df_a, fName=f_name)
+        lst_data = self.parseDfData(df_a, fName=f_name)
 
+        #read data on yesterday 
+        name_last = self.getOverallYesterday(self.name_file)
+        if(name_last is not None):
+            lst_data_last = self.open4File('./data/' + name_last)
+        else:
+            lst_data_last = []
+        return (0, lst_data, lst_data_last)
     def getOverallYesterday(self, today):
         csv_data_files = sorted( [f for f in listdir('./data') if isfile(join('./data', f))] )
         f_last, bFound = None, False
@@ -257,19 +278,17 @@ class runVirusViz(object):
         if(not bFound): f_last=None
         return f_last
     def generateDataDaily(self, bDaily):
-	print('generateDataDaily......')
-	# files name
+        print(' generateDataDaily...')
+        # files name
         csv_daily = './daily/mi_covid19_'+self.name_file+'.csv'
         csv_all_today = './data/mi_covid19_'+self.name_file+'.csv'
         csv_all_last = self.getOverallYesterday(self.name_file)
         if(csv_all_last is None): return False
-        else: print(csv_daily, csv_all_today, csv_all_last)
+        else: print('  ', csv_daily, csv_all_today, csv_all_last)
         csv_all_last = './data/' + csv_all_last
 	# read data
-	df = pd.read_csv(csv_all_today)
-        l_all_today = self.parseDfData(df)
-	df = pd.read_csv(csv_all_last)
-        l_all_last = self.parseDfData(df)
+        l_all_today = self.open4File(csv_all_today)
+        l_all_last = self.open4File(csv_all_last)
         # compare data
         l_daily = []
         l_daily.append(['County', 'Cases', 'Deaths'])
@@ -300,7 +319,7 @@ class runVirusViz(object):
                 l_daily.append(a_case_today)
                 #print(a_case_today)
         if(Total_now[0] != Total_wish[0] or Total_now[1] != Total_wish[1]):
-            print("generateDataDaily total number is wrong", Total_now, Total_wish)
+            print(" generateDataDaily total number is wrong", Total_now, Total_wish)
             #return False
         l_daily.append(["Total", Total_plus[0], Total_plus[1]])
         # save data
@@ -308,21 +327,29 @@ class runVirusViz(object):
         return True
     def readDataDaily(self, bDaily):
         csv_name = './daily/mi_covid19_'+self.name_file+'.csv'
+        print('readDataDaily', csv_name)
         if(isfile(csv_name) ):
-            df = pd.read_csv(csv_name)
+            lst_data = self.open4File(csv_name)
         else:
-            if( self.generateDataDaily(True)): df = pd.read_csv(csv_name)
-            else: return False
-        self.l_mi_cases = self.parseDfData(df)
-        return True
+            if( self.generateDataDaily(True)): 
+                lst_data = self.open4File(csv_name)
+            else: return (False, [])
+        
+        return (True, lst_data)
     ## look up table to get pre-set information
     def lookupMapData(self, c_name, lst_data):
         c_name_clean = c_name.replace('*', '')
         for cov in lst_data:
             if c_name_clean in cov[0]:
                 return True, cov
-        print ('Not found', c_name)
-        return False, [' ',	67, 10, 30, (0,0,255)]
+        #print ('Not found', c_name)
+        return False, [' ', 0, 10, 30, (0,0,255)]
+    ## look up table to get pre-set information
+    def getColorByCompare(self, case_today, lst_data=None):
+        if(self.data_daily): return ( (0,255,0) )
+        bfound, case_last = self.lookupMapData(case_today[0], self.l_cases_yest)
+        if( int(case_today[1]) - int(case_last[1]) > 0): return ( (0,255,0) )
+        else: return ( (0,0,255) )
 
     ## look up table to get pre-set information for death
     def getDataListDeath(self, snd_data):
@@ -353,19 +380,20 @@ class runVirusViz(object):
                     posx = 180+10
                     posy = (ii-len(l_cases)/2)*line_h+offset_h
                 n_total += int( a_case[1] )
-                bFound, map_data = self.lookupMapData(a_case[0], self.l_mi_covid20)
+                bFound, map_data = self.lookupMapData(a_case[0], self.l_mi_county_coord)
+                nColor = self.getColorByCompare(a_case)
                 # draw the list on the left
                 cv2.putText(img, a_case[0], 
 		        (posx, posy), 
 		        cv2.FONT_HERSHEY_SIMPLEX, 
 		        0.53,
-		        map_data[4],
+		        nColor,
 		        1) 
                 cv2.putText(img, str(a_case[1]), 
 		        (130+posx, posy), 
 		        cv2.FONT_HERSHEY_SIMPLEX, 
 		        0.53,
-		        map_data[4],
+		        nColor,
 		        1) 
                 ii += 1
                 if('Out of State' in a_case[0]): continue
@@ -376,11 +404,11 @@ class runVirusViz(object):
 		        (map_data[2],map_data[3]), 
 		        cv2.FONT_HERSHEY_DUPLEX, 
 		        0.7,
-		        map_data[4],
+		        nColor,
 		        1) 
                 if(map_data[2] < 200 and map_data[3] < 200): print('Missing', a_case)
                 continue
-        print('total:', wish_total, n_total)
+        #print('total:', wish_total, n_total)
         if(wish_total == n_total):
             if(self.data_daily):
                 info_cases = '%d Daily Confirmed'%(n_total)
@@ -408,7 +436,7 @@ class runVirusViz(object):
 		    1) 
             
     ## This shows one list such as an example
-    # for example: self.infoShowCoronaVirus(self.l_mi_covid20)
+    # for example: self.infoShowCoronaVirus(self.l_mi_county_coord)
     #
     def infoShowCoronaVirus(self, img, lst_data):
 
@@ -445,6 +473,7 @@ class runVirusViz(object):
 
     #
     def infoShowRainbow(self, type_data, lst_data):
+        print('infoShowRainbow...', type_data)
         fig=plt.figure()
         ax=fig.add_subplot(111)
         fig.set_figheight(10)
@@ -464,7 +493,6 @@ class runVirusViz(object):
             if('County' in a_case[0]): continue
             l_d_clean.append(a_case)
             if(int(a_case[col]) > l_max_v): l_max_v = int(a_case[col])
-        print('l_max_v', l_max_v)
         l_max_v += 100 + 50  # base 50*2 + name 25*2
         center_y = -(l_max_v/2 - 75)
         l_max_v = (int(l_max_v / 50.0+1) * 50) / 2

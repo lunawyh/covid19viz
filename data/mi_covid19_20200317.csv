@@ -1,18 +1,18 @@
-County,Cases,Deaths,,
-Bay,1,,465,480
-Charlevoix,1,,380,322
-Detroit City,8,,540,645
-Ingham,2,,440,600
-Jackson,1,,442,633
-Kent,5,,360,559
-Leelanau,1,,320,355
-Macomb,8,,550,600
-Monroe,1,,510,670
-Montcalm,1,,380,537
-Oakland,16,,500,600
-Otsego,1,,425,355
-Ottawa,1,,320,570
-St. Clair,2,,580,570
-Washtenaw,7,,470,635
-Wayne,9,,510,630
-Total,65,,,
+County,Cases,Deaths
+Bay,1,
+Charlevoix,1,
+Detroit City,8,
+Ingham,2,
+Jackson,1,
+Kent,5,
+Leelanau,1,
+Macomb,8,
+Monroe,1,
+Montcalm,1,
+Oakland,16,
+Otsego,1,
+Ottawa,1,
+St. Clair,2,
+Washtenaw,7,
+Wayne,9,
+Total,65,
