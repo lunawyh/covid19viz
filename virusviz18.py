@@ -53,6 +53,7 @@ class runVirusViz(object):
                 ['Barry',       0, 540, 883],
                 ['Bay',		0, 690, 695],
                 ['Berrien',     0, 433, 955],
+                ['Cheboygan',   0, 625, 450],
                 ['Calhoun',     0, 569, 934],
                 ['Cass',	0, 463, 980],
                 ['Charlevoix',	0, 577, 482],
@@ -96,12 +97,12 @@ class runVirusViz(object):
                 ['Newaygo',	0, 488, 758],
                 ['Oakland',	0, 744, 880],
                 ['Oceana',	0, 437, 731],
-                ['Ogemaw',	0, 266, 309],
+                ['Ogemaw',	0, 666, 629],
                 ['Osceola',	0, 539, 676],
                 ['Otsego',	0, 615, 526],
-                ['Ottawa',	0, 666, 629],
+                ['Ottawa',	0, 466, 834],
                 ['Roscommon',	0, 641, 629],
-                ['Saginaw',	0, 668, 780],
+                ['Saginaw',	0, 668, 834],
                 ['Sanilac',	0, 814, 780],
                 ['Shiawassee',	0, 667, 837],
                 ['St. Clair',	0, 840, 842],
@@ -493,11 +494,17 @@ class runVirusViz(object):
             if('County' in a_case[0]): continue
             l_d_clean.append(a_case)
             if(int(a_case[col]) > l_max_v): l_max_v = int(a_case[col])
+        n_total=0		
+        for a_case in lst_data:
+            if('Total' in a_case[0]): continue
+            if('County' in a_case[0]): continue
+            n_total += int(a_case[col])
+
         l_max_v += 100 + 50  # base 50*2 + name 25*2
         center_y = -(l_max_v/2 - 75)
         l_max_v = (int(l_max_v / 50.0+1) * 50) / 2
         # sort list
-        l_d_sort = sorted(l_d_clean, key=lambda k: k[col])
+        l_d_sort = sorted(l_d_clean, key=lambda k: int(k[col]))
         len_data = len(l_d_sort)
         cmap=plt.get_cmap("gist_rainbow")
         # draw list
@@ -526,13 +533,13 @@ class runVirusViz(object):
                 color='w', 
                 rotation_mode='anchor')
         if(type_data==1):
-            plt.text(-l_max_v+10, l_max_v-20, 'Daily confirmed COVID-19')
+            plt.text(-l_max_v+10, l_max_v-20, '%d Daily confirmed COVID-19'%(n_total))
             plt.text(-l_max_v+10, l_max_v-40, 'On '+self.now_date + ' in MI')
         elif type_data ==2:
-            plt.text(-l_max_v+10, l_max_v-40, 'Overall confirmed COVID-19')
+            plt.text(-l_max_v+10, l_max_v-40, '%d Overall confirmed COVID-19'%(n_total))
             plt.text(-l_max_v+10, l_max_v-80, 'Until '+self.now_date + ' in MI')
         elif type_data ==3:
-            plt.text(-l_max_v+10, l_max_v-20, 'Overall deaths COVID-19')
+            plt.text(-l_max_v+10, l_max_v-20, '%d Overall deaths COVID-19'%(n_total))
             plt.text(-l_max_v+10, l_max_v-40, 'Until '+self.now_date + ' in MI')
         plt.axis([-l_max_v, l_max_v, -l_max_v, l_max_v])
         plt.show()
