@@ -257,6 +257,7 @@ class runVirusViz(object):
         if(not bFound): f_last=None
         return f_last
     def generateDataDaily(self, bDaily):
+	print('generateDataDaily......')
 	# files name
         csv_daily = './daily/mi_covid19_'+self.name_file+'.csv'
         csv_all_today = './data/mi_covid19_'+self.name_file+'.csv'
@@ -283,9 +284,9 @@ class runVirusViz(object):
                 if("Total" in a_case_today): 
                     Total_wish = [num2, num3] 
                     continue
-                if(num2 > 0 and num3 > 0): 
+                if(num2 > 0 or num3 > 0): 
                     l_daily.append([a_case_today[0], num2, num3])
-                    print(a_case_today, num2, num3)
+                    #print(a_case_today, num2, num3)
                     Total_plus[0] += num2
                     Total_plus[1] += num3
                 Total_now[0] += num2
@@ -297,10 +298,10 @@ class runVirusViz(object):
                 Total_plus[0] += int(a_case_today[1])
                 Total_plus[1] += int(a_case_today[2])
                 l_daily.append(a_case_today)
-                print(a_case_today)
+                #print(a_case_today)
         if(Total_now[0] != Total_wish[0] or Total_now[1] != Total_wish[1]):
             print("generateDataDaily total number is wrong", Total_now, Total_wish)
-            return False
+            #return False
         l_daily.append(["Total", Total_plus[0], Total_plus[1]])
         # save data
         self.save2File(l_daily, csv_daily)
@@ -316,8 +317,9 @@ class runVirusViz(object):
         return True
     ## look up table to get pre-set information
     def lookupMapData(self, c_name, lst_data):
+        c_name_clean = c_name.replace('*', '')
         for cov in lst_data:
-            if c_name in cov[0]:
+            if c_name_clean in cov[0]:
                 return True, cov
         print ('Not found', c_name)
         return False, [' ',	67, 10, 30, (0,0,255)]
@@ -461,46 +463,49 @@ class runVirusViz(object):
             if('Not Reported' in a_case[0]): continue
             if('County' in a_case[0]): continue
             l_d_clean.append(a_case)
-            if(a_case[col] > l_max_v): l_max_v = a_case[col]
-
-        l_max_v = (int(l_max_v / 100.0) * 100 + 100 + 50)
+            if(int(a_case[col]) > l_max_v): l_max_v = int(a_case[col])
+        print('l_max_v', l_max_v)
+        l_max_v += 100 + 50  # base 50*2 + name 25*2
+        center_y = -(l_max_v/2 - 75)
+        l_max_v = (int(l_max_v / 50.0+1) * 50) / 2
         # sort list
         l_d_sort = sorted(l_d_clean, key=lambda k: k[col])
         len_data = len(l_d_sort)
         cmap=plt.get_cmap("gist_rainbow")
         # draw list
         for ii in range( len(l_d_sort) ):
-            fov = Wedge((0, 0-l_max_v/3), l_d_sort[ii][col]+50, 
+            l_value = int(l_d_sort[ii][col])
+            fov = Wedge((0, 0+center_y), l_value+50, 
                 int(ii*360.0/len_data)+90, int((ii+1)*360.0/len_data+90), 
                 color=cmap(1.0-(float(ii)/len_data*0.9+0.0)), 
                 alpha=1.0)
             ax.add_artist(fov)
             #
             theta = (int(ii*360.0/len_data)+90) / 180.0*math.pi
-            radian = l_d_sort[ii][col]+50 + 5
-            plt.text(radian*math.cos(theta), radian*math.sin(theta)-l_max_v/3, 
+            radian = l_value+50 + 5
+            plt.text(radian*math.cos(theta), radian*math.sin(theta)+center_y, 
                 l_d_sort[ii][0], rotation=int(ii*360.0/len_data)+90,
                 color=cmap(1.0-(float(ii)/len_data*0.9+0.0)), 
                 rotation_mode='anchor')
                 #horizontalalignment='center', verticalalignment='bottom')
-            if(l_d_sort[ii][col] < 10): digi_len = 0
-            elif(l_d_sort[ii][col] < 100): digi_len = 1
-            elif(l_d_sort[ii][col] < 1000): digi_len = 2
+            if(l_value < 10): digi_len = 0
+            elif(l_value < 100): digi_len = 1
+            elif(l_value < 1000): digi_len = 2
             else: digi_len = 3
-            radian = l_d_sort[ii][col]+50 - 10 - digi_len*l_max_v/40
-            plt.text(radian*math.cos(theta), radian*math.sin(theta)-l_max_v/3, 
-                '%d'%(l_d_sort[ii][col]), rotation=int(ii*360.0/len_data)+90,
+            radian = l_value+50 - 10 - digi_len*l_max_v/40
+            plt.text(radian*math.cos(theta), radian*math.sin(theta)+center_y, 
+                '%d'%(l_value), rotation=int(ii*360.0/len_data)+90,
                 color='w', 
                 rotation_mode='anchor')
         if(type_data==1):
-            plt.text(-l_max_v/2, 20, 'Daily confirmed COVID-19')
-            plt.text(-l_max_v/2, 0, 'On '+self.now_date + ' in MI')
+            plt.text(-l_max_v+10, l_max_v-20, 'Daily confirmed COVID-19')
+            plt.text(-l_max_v+10, l_max_v-40, 'On '+self.now_date + ' in MI')
         elif type_data ==2:
-            plt.text(-l_max_v/2, 40, 'Overall confirmed COVID-19')
-            plt.text(-l_max_v/2, 0, 'Until '+self.now_date + ' in MI')
+            plt.text(-l_max_v+10, l_max_v-40, 'Overall confirmed COVID-19')
+            plt.text(-l_max_v+10, l_max_v-80, 'Until '+self.now_date + ' in MI')
         elif type_data ==3:
-            plt.text(-l_max_v/2, 60, 'Overall deaths COVID-19')
-            plt.text(-l_max_v/2, 40, 'Until '+self.now_date + ' in MI')
+            plt.text(-l_max_v+10, l_max_v-20, 'Overall deaths COVID-19')
+            plt.text(-l_max_v+10, l_max_v-40, 'Until '+self.now_date + ' in MI')
         plt.axis([-l_max_v, l_max_v, -l_max_v, l_max_v])
         plt.show()
         if(type_data==1):
