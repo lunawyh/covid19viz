@@ -154,7 +154,11 @@ class runVirusViz(object):
             pass  
         elif(key == 65474 or key == 1114050):   # F5 key refresh newest from website
             self.data_daily = False
+
             pos, self.l_mi_cases, self.l_cases_yest = self.cmdGrabDataFromWebsite()
+            cv2.imwrite('./results/mi_county'+self.name_file+'.png', self.img_overlay)
+            if(self.isNameOnToday(self.name_file)):
+                cv2.imwrite('./results/mi_county20200000.png', self.img_overlay)
             pass  
         elif(key == 65477 or key == 1114053 or key == 7798784):   # F8 key next day
             self.data_daily = False
@@ -178,7 +182,8 @@ class runVirusViz(object):
             self.infoShowRainbow(3, list_death) 
         elif(key == 115 or key == 1048691):  # s key
             cv2.imwrite('./results/mi_county'+self.name_file+'.png', self.img_overlay)
-            cv2.imwrite('./results/mi_county20200000.png', self.img_overlay)
+            if(self.isNameOnToday(self.name_file)):
+                cv2.imwrite('./results/mi_county20200000.png', self.img_overlay)
             pass
         elif(key == 27 or key == 1048603):  # esc
             self.now_exit = True
@@ -252,6 +257,13 @@ class runVirusViz(object):
         # save to a database file
         if(fName is not None): self.save2File( lst_data, fName )
         return lst_data
+    def isNameOnToday(self, f_name):
+        dt_now = datetime.datetime.now()
+        dt_name_file = '%d%02d%02d'%(dt_now.year, dt_now.month, dt_now.day)
+        if f_name == self.name_file:
+            return True
+        else:
+            return False
     ## step 1
     ## grab data from goverment website
     def cmdGrabDataFromWebsite(self):
@@ -549,10 +561,12 @@ class runVirusViz(object):
         plt.show()
         if(type_data==1):
             fig.savefig('./results/mi_county'+self.name_file+'_daily.png')
-            fig.savefig('./results/mi_county20200000_daily.png')
+            if(self.isNameOnToday(self.name_file)):
+                fig.savefig('./results/mi_county20200000_daily.png')
         elif(type_data==3):
             fig.savefig('./results/mi_county'+self.name_file+'_death.png')
-            fig.savefig('./results/mi_county20200000_death.png')
+            if(self.isNameOnToday(self.name_file)):
+                fig.savefig('./results/mi_county20200000_death.png')
 	    	
 	    	
     ## exit node
