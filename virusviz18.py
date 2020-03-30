@@ -156,9 +156,12 @@ class runVirusViz(object):
             self.data_daily = False
 
             pos, self.l_mi_cases, self.l_cases_yest = self.cmdGrabDataFromWebsite()
-            cv2.imwrite('./results/mi_county'+self.name_file+'.png', self.img_overlay)
-            if(self.isNameOnToday(self.name_file)):
-                cv2.imwrite('./results/mi_county20200000.png', self.img_overlay)
+            if(len(self.l_mi_cases) > 0):
+                self.img_overlay = self.img_map.copy()
+                self.infoShowCases(self.img_overlay, self.l_mi_cases)
+                cv2.imwrite('./results/mi_county'+self.name_file+'.png', self.img_overlay)
+                if(self.isNameOnToday(self.name_file)):
+                    cv2.imwrite('./results/mi_county20200000.png', self.img_overlay)
             pass  
         elif(key == 65477 or key == 1114053 or key == 7798784):   # F8 key next day
             self.data_daily = False
@@ -260,7 +263,7 @@ class runVirusViz(object):
     def isNameOnToday(self, f_name):
         dt_now = datetime.datetime.now()
         dt_name_file = '%d%02d%02d'%(dt_now.year, dt_now.month, dt_now.day)
-        if f_name == self.name_file:
+        if f_name == dt_name_file:
             return True
         else:
             return False
