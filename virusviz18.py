@@ -50,6 +50,7 @@ class runVirusViz(object):
         # Only the coordinates are used by code
         self.l_mi_county_coord=[
                 ['Allegan',     0, 466, 885],
+                ['Antrim',      0, 559, 525],
                 ['Barry',       0, 540, 883],
                 ['Bay',		0, 690, 695],
                 ['Berrien',     0, 433, 955],
@@ -61,6 +62,7 @@ class runVirusViz(object):
                 ['Clare',       0, 590, 677],
                 ['Clinton',     0, 615, 836],
                 ['Crawford',    0, 614, 576],
+                ['Delta',       0, 359, 389],
                 ['Detroit City',0, 808, 935],
                 ['Dickinson',   0, 268, 384],
                 ['Emmet',       0, 609, 455],
@@ -71,6 +73,7 @@ class runVirusViz(object):
                 ['Grand Traverse',0, 511, 577],
                 ['Gratiot',	0, 616, 784],
                 ['Hillsdale',   0, 620, 992],
+                ['Houghton',    0, 178, 229],
                 ['Huron',	0, 773, 701],
                 ['Ingham',	0, 642, 887],
                 ['Ionia',	0, 565, 835],
@@ -106,6 +109,7 @@ class runVirusViz(object):
                 ['Sanilac',	0, 814, 780],
                 ['Shiawassee',	0, 667, 837],
                 ['St. Clair',	0, 840, 842],
+                ['St. Joseph',  0, 517, 984],
                 ['Tuscola',	0, 739, 767],
                 ['Van Buren',	0, 466, 936],
                 ['Washtenaw',	0, 694, 935],
