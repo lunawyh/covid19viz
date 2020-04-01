@@ -622,6 +622,7 @@ class runVirusViz(object):
                     break
         # predict the future
         data = lst_data_overall
+        data.append( int(data[-1] * 1.15) )
         days = np.arange(0, len(data), 1)
         popt, pcov = curve_fit(self.SIR, days, data)
 
