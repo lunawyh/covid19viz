@@ -55,9 +55,9 @@ class runVirusViz(object):
                 ['Antrim',      0, 559, 525],
                 ['Branch',      0, 566, 983],
                 ['Barry',       0, 540, 883],
-                ['Bay',		0, 690, 695],
+                ['Bay',		0, 682, 695],
                 ['Berrien',     0, 433, 955],
-                ['Cheboygan',   0, 625, 450],
+                ['Cheboygan',   0, 625, 430],
                 ['Calhoun',     0, 569, 934],
                 ['Cass',	0, 463, 980],
                 ['Charlevoix',	0, 577, 482],
@@ -70,7 +70,7 @@ class runVirusViz(object):
                 ['Dickinson',   0, 268, 384],
                 ['Emmet',       0, 609, 455],
                 ['Eaton',	0, 591, 883],
-                ['Genesee',	0, 710, 832],
+                ['Genesee',	0, 709, 822],
                 ['Gladwin',	0, 640, 681],
                 ['Gogebic',	0, 144, 326],
                 ['Grand Traverse',0, 511, 577],
@@ -79,7 +79,7 @@ class runVirusViz(object):
                 ['Houghton',    0, 178, 229],
                 ['Huron',	0, 773, 701],
                 ['Ingham',	0, 642, 887],
-                ['Ionia',	0, 565, 835],
+                ['Ionia',	0, 570, 835],
                 ['Iosco',	0, 718, 629],
                 ['Isabella',	0, 591, 735],
                 ['Jackson',	0, 632, 934],
@@ -88,10 +88,11 @@ class runVirusViz(object):
                 ['Kent',	0, 515, 834],
                 ['Lapeer',	0, 767, 820],
                 ['Leelanau',	0, 485, 537],
-                ['Lenawee',	0, 671, 991],
-                ['Livingston',	0, 710, 882],
+                ['Lenawee',	0, 669, 989],
+                ['Livingston',	0, 690, 882],
                 ['Luce',	0, 508, 313],
                 ['Macomb',	0, 804, 882],
+                ['Mackinac',     0, 511, 335],
                 ['Manistee',	0, 468, 606],
                 ['Marquette',	0, 266, 309],
                 ['Mecosta',	0, 539, 733],
@@ -118,10 +119,11 @@ class runVirusViz(object):
                 ['Tuscola',	0, 739, 767],
                 ['Van Buren',	0, 466, 936],
                 ['Washtenaw',	0, 694, 935],
-                ['Wayne',	0, 753, 933],
+                ['Wayne',	0, 750, 903],
                 ['Wexford',	0, 511, 628],
                 ['Other*',        0, 25, 85],
                 ['Out of State',  0, 25, 85],
+                ['Unknown',     0, 466, 885],
                 ['Not Reported',0, 753, 933]
         ]							
         #data of coordination
@@ -424,8 +426,9 @@ class runVirusViz(object):
 		        1) 
                 ii += 1
                 if('Out of State' in a_case[0]): continue
-                if('Other' in a_case[0]): continue
+                if('Other*' in a_case[0]): continue
                 if('Not Reported' in a_case[0]): continue
+                if('Unknown' in a_case[0]): continue
                 # draw on the map, select the location
                 cv2.putText(img, str(a_case[1]), 
 		        (map_data[2],map_data[3]), 
@@ -515,6 +518,7 @@ class runVirusViz(object):
         for a_case in lst_data:
             if('Total' in a_case[0]): continue
             if('Out of State' in a_case[0]): continue
+            if('Unknown' in a_case[0]): continue
             if('Other' in a_case[0]): continue
             if('Not Reported' in a_case[0]): continue
             if('County' in a_case[0]): continue
@@ -619,15 +623,15 @@ class runVirusViz(object):
 
         # get daily new cases
         lst_data_daily = []
-        lst_data_daily.append(0)
+        #lst_data_daily.append(0)
         for ii in range(len(lst_data_overall)):
-            if ii < 1: lst_data_daily.append(lst_data_overall[ii])     
+            if ii < 1: continue  # lst_data_daily.append(lst_data_overall[ii])     
             else: lst_data_daily.append(lst_data_overall[ii] - lst_data_overall[ii-1])  
 
         # predict the future
         data = lst_data_daily
         #print(lst_data_overall)
-        data.append( int(data[-1] * 1.05) )
+        data.append( int(data[-1] * 0.98) )
         days = np.arange(0, len(data), 1)
         popt, pcov = curve_fit(self.SIR, days, data)
 
@@ -635,13 +639,14 @@ class runVirusViz(object):
         fig.set_figheight(10)
         fig.set_figwidth(20)
         plt.scatter(days, data, label="Actual new cases per day", color='r')
-        day_future = np.arange(0, 2*len(data), 1)
+        date_s = 18
+        date_len = int(3*len(data))
+        day_future = np.arange(0, date_len, 1)
         day_mmdd = []
-        date_s = 16
-        for jj in range(2*len(data)):
-            if(jj<=14): month, day = 3, (date_s + jj)%32 
-            elif(jj<=44): month, day = 4, (date_s + jj - 31)%31  
-            elif(jj<=75): month, day = 5, (date_s + jj - 31 - 30)%32  
+        for jj in range(date_len):
+            if(jj<=13): month, day = 3, (date_s + jj)%32 
+            elif(jj<=43): month, day = 4, (date_s + jj - 31)%31  
+            elif(jj<=74): month, day = 5, (date_s + jj - 31 - 30)%32  
             else: month, day = 6, (date_s + jj - 31 - 30 - 31)%31  
             day_mmdd.append( '%d/%d'%(month,day) )
             
