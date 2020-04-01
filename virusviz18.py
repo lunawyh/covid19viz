@@ -622,20 +622,32 @@ class runVirusViz(object):
                     break
         # predict the future
         data = lst_data_overall
+        print(lst_data_overall)
         data.append( int(data[-1] * 1.15) )
         days = np.arange(0, len(data), 1)
         popt, pcov = curve_fit(self.SIR, days, data)
 
-        plt.figure(0)
-        plt.scatter(days, data, label="Actual confimed cases")
-        day_future = np.arange(0, 3*len(data), 1)
-        day_mmdd = np.arange(0, 3*len(data), 1)   # rewrite
+        fig = plt.figure(0)
+        fig.set_figheight(10)
+        fig.set_figwidth(20)
+        plt.scatter(days, data, label="Actual confimed cases", color='r')
+        day_future = np.arange(0, 2*len(data), 1)
+        day_mmdd = []
+        for jj in range(2*len(data)):
+            if(jj<=14): month, day = 3, (17 + jj)%32 
+            elif(jj<=44): month, day = 4, (17 + jj - 31)%31  
+            elif(jj<=75): month, day = 5, (17 + jj - 31 - 30)%32  
+            else: month, day = 6, (17 + jj - 31 - 30 - 31)%31  
+            day_mmdd.append( '%d/%d'%(month,day) )
+            
         plt.plot(day_mmdd, self.SIR(day_future, *popt), label="Predicted cases")
         plt.legend()
         plt.xlabel('Date in 2020')
         plt.ylabel('Confirmed Overall')
         plt.title("Prediction of COVID-19 confirmed cases in Michigan")
         plt.show()
+        if(self.isNameOnToday(self.name_file)):
+            fig.savefig('./results/mi_county20200000_predict.png')
     ## exit node
     def exit_hook(self):
         print("bye bye, node virusviz")
