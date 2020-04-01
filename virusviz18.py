@@ -622,7 +622,7 @@ class runVirusViz(object):
                     break
         # predict the future
         data = lst_data_overall
-        print(lst_data_overall)
+        #print(lst_data_overall)
         data.append( int(data[-1] * 1.15) )
         days = np.arange(0, len(data), 1)
         popt, pcov = curve_fit(self.SIR, days, data)
@@ -640,7 +640,7 @@ class runVirusViz(object):
             else: month, day = 6, (17 + jj - 31 - 30 - 31)%31  
             day_mmdd.append( '%d/%d'%(month,day) )
             
-        plt.plot(day_mmdd, self.SIR(day_future, *popt), label="Predicted cases")
+        plt.plot(day_mmdd, self.SIR(day_future, *popt), label="Predicted cases (unreal)")
         plt.legend()
         plt.xlabel('Date in 2020')
         plt.ylabel('Confirmed Overall')
