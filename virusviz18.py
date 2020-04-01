@@ -27,7 +27,8 @@ from matplotlib.patches import Wedge
 import matplotlib.pyplot as plt
 import math
 import urllib
-
+from scipy.integrate import odeint
+from scipy.optimize import curve_fit
 VIZ_W  = 880
 VIZ_H  = 1000
 # ==============================================================================
@@ -576,7 +577,31 @@ class runVirusViz(object):
             fig.savefig('./results/mi_county'+self.name_file+'_death.png')
             if(self.isNameOnToday(self.name_file)):
                 fig.savefig('./results/mi_county20200000_death.png')
-	    	
+    #	    	
+    def SIR(self, t, beta, gamma):
+	    # Total population, N.
+	    N = 1000000
+	    # Initial number of infected and recovered individuals, I0 and R0.
+	    I0, R0 = 65, 5
+	    # Everyone else, S0, is susceptible to infection initially.
+	    S0 = N - I0 - R0
+
+	    # The SIR model differential equations.
+	    # @njit
+	    def deriv(y, t, N, beta, gamma):
+		S, I, R = y
+		dSdt = -beta * S * I / N
+		dIdt = beta * S * I / N - gamma * I
+		dRdt = gamma * I
+		return dSdt, dIdt, dRdt
+
+	    # Initial conditions vector
+	    y0 = S0, I0, R0
+	    # Integrate the SIR equations over the time grid, t.
+	    ret = odeint(deriv, y0, t, args=(N, beta, gamma))
+	    S, I, R = ret.T
+	    return I
+
     #
     def predictByModelSir(self, type_data=0):
         print('predictByModelSir...', type_data)
@@ -595,11 +620,20 @@ class runVirusViz(object):
                     day = int(ff[offset+6:offset+8])
                     lst_data_date.append( '%d/%d'%(month,day) )
                     break
-        #
-        # plot lists
-        plt.plot(lst_data_date, lst_data_overall)
+        # predict the future
+        data = lst_data_overall
+        days = np.arange(0, len(data), 1)
+        popt, pcov = curve_fit(self.SIR, days, data)
+
+        plt.figure(0)
+        plt.scatter(days, data, label="Actual confimed cases")
+        day_future = np.arange(0, 3*len(data), 1)
+        day_mmdd = np.arange(0, 3*len(data), 1)   # rewrite
+        plt.plot(day_mmdd, self.SIR(day_future, *popt), label="Predicted cases")
+        plt.legend()
         plt.xlabel('Date in 2020')
         plt.ylabel('Confirmed Overall')
+        plt.title("Prediction of COVID-19 confirmed cases in Michigan")
         plt.show()
     ## exit node
     def exit_hook(self):
