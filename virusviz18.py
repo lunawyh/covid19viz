@@ -626,7 +626,9 @@ class runVirusViz(object):
         days = np.arange(0, len(data), 1)
         popt, pcov = curve_fit(self.SIR, days, data)
 
-        plt.figure(0)
+        fig = plt.figure(0)
+        fig.set_figheight(10)
+        fig.set_figwidth(20)
         plt.scatter(days, data, label="Actual confimed cases")
         day_future = np.arange(0, 3*len(data), 1)
         day_mmdd = np.arange(0, 3*len(data), 1)   # rewrite
