@@ -298,7 +298,7 @@ class runVirusViz(object):
         return (0, lst_data, lst_data_last)
     def getOverallYesterday(self, today):
         csv_data_files = sorted( [f for f in listdir('./data') if isfile(join('./data', f))] )
-        f_last, bFound = None, False
+        f_last, bFound = csv_data_files[0], False
         for ff in csv_data_files:
             if(today in ff): 
                 bFound = True
