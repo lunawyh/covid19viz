@@ -608,7 +608,6 @@ class runVirusViz(object):
         # read all data file
         csv_data_files = sorted( [f for f in listdir('./data') if isfile(join('./data', f))] )
         lst_data_overall = []
-        lst_data_date = []
         # read total number from data file
         offset = 11	
         for ff in csv_data_files:             
@@ -616,35 +615,41 @@ class runVirusViz(object):
             for a_day in l_data_day:
                 if 'Total' in a_day[0]:
                     lst_data_overall.append(a_day[1])
-                    month = int(ff[offset+4:offset+6])
-                    day = int(ff[offset+6:offset+8])
-                    lst_data_date.append( '%d/%d'%(month,day) )
                     break
+
+        # get daily new cases
+        lst_data_daily = []
+        lst_data_daily.append(0)
+        for ii in range(len(lst_data_overall)):
+            if ii < 1: lst_data_daily.append(lst_data_overall[ii])     
+            else: lst_data_daily.append(lst_data_overall[ii] - lst_data_overall[ii-1])  
+
         # predict the future
-        data = lst_data_overall
+        data = lst_data_daily
         #print(lst_data_overall)
-        data.append( int(data[-1] * 1.15) )
+        data.append( int(data[-1] * 1.05) )
         days = np.arange(0, len(data), 1)
         popt, pcov = curve_fit(self.SIR, days, data)
 
         fig = plt.figure(0)
         fig.set_figheight(10)
         fig.set_figwidth(20)
-        plt.scatter(days, data, label="Actual confimed cases", color='r')
+        plt.scatter(days, data, label="Actual new cases per day", color='r')
         day_future = np.arange(0, 2*len(data), 1)
         day_mmdd = []
+        date_s = 16
         for jj in range(2*len(data)):
-            if(jj<=14): month, day = 3, (17 + jj)%32 
-            elif(jj<=44): month, day = 4, (17 + jj - 31)%31  
-            elif(jj<=75): month, day = 5, (17 + jj - 31 - 30)%32  
-            else: month, day = 6, (17 + jj - 31 - 30 - 31)%31  
+            if(jj<=14): month, day = 3, (date_s + jj)%32 
+            elif(jj<=44): month, day = 4, (date_s + jj - 31)%31  
+            elif(jj<=75): month, day = 5, (date_s + jj - 31 - 30)%32  
+            else: month, day = 6, (date_s + jj - 31 - 30 - 31)%31  
             day_mmdd.append( '%d/%d'%(month,day) )
             
-        plt.plot(day_mmdd, self.SIR(day_future, *popt), label="Predicted cases (unreal)")
+        plt.plot(day_mmdd, self.SIR(day_future, *popt), label="Predicted new cases per day(unreal)")
         plt.legend()
         plt.xlabel('Date in 2020')
-        plt.ylabel('Confirmed Overall')
-        plt.title("Prediction of COVID-19 confirmed cases in Michigan")
+        plt.ylabel('Confirmed Daily New Cases')
+        plt.title("COVID-19 Prediction of daily new cases in Michigan")
         plt.show()
         if(self.isNameOnToday(self.name_file)):
             fig.savefig('./results/mi_county20200000_predict.png')
