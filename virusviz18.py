@@ -179,6 +179,8 @@ class runVirusViz(object):
         elif(key == 65480 or key == 1114056 or key == 7995392):   # F11 key next day
             self.data_daily = False
             self.csv_pos_now, self.l_mi_cases, self.l_cases_yest = self.readDataByDay(9999999999) 
+        elif(key == 65481 or key == 1114057 or key == 7995393):   # F12 key next day
+            self.predictByModelSir()
         elif(key == 114 or key == 1048690):  # r key
             if self.data_daily == True: type_data=1
             else: type_data =2
@@ -575,7 +577,30 @@ class runVirusViz(object):
             if(self.isNameOnToday(self.name_file)):
                 fig.savefig('./results/mi_county20200000_death.png')
 	    	
-	    	
+    #
+    def predictByModelSir(self, type_data=0):
+        print('predictByModelSir...', type_data)
+        # read all data file
+        csv_data_files = sorted( [f for f in listdir('./data') if isfile(join('./data', f))] )
+        lst_data_overall = []
+        lst_data_date = []
+        # read total number from data file
+        offset = 11	
+        for ff in csv_data_files:             
+            l_data_day = self.open4File(join('./data', ff))
+            for a_day in l_data_day:
+                if 'Total' in a_day[0]:
+                    lst_data_overall.append(a_day[1])
+                    month = int(ff[offset+4:offset+6])
+                    day = int(ff[offset+6:offset+8])
+                    lst_data_date.append( '%d/%d'%(month,day) )
+                    break
+        #
+        # plot lists
+        plt.plot(lst_data_date, lst_data_overall)
+        plt.xlabel('Date in 2020')
+        plt.ylabel('Confirmed Overall')
+        plt.show()
     ## exit node
     def exit_hook(self):
         print("bye bye, node virusviz")
