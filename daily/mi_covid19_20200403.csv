@@ -1,4 +1,5 @@
 County,Cases,Deaths
+Allegan,1,0
 Arenac,1,0
 Barry,1,0
 Bay,2,0
@@ -52,5 +53,4 @@ Wexford,1,0
 Other*,21,1
 Unknown,16,0
 Out of State,26,0
-Totals,12744,479.0
-Total,14757,541
+Total,2014,62

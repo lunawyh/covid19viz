@@ -233,6 +233,9 @@ class runVirusViz(object):
         csv_data_f = open(csv_name, 'w')
         # create the csv writer 
         csvwriter = csv.writer(csv_data_f)
+        # make sure the 1st row is colum names
+        if('County' in l_data[0][0]): pass
+        else: csvwriter.writerow(['County', 'Cases', 'Deaths'])
         for a_row in l_data:
             csvwriter.writerow(a_row)
         csv_data_f.close()
@@ -326,11 +329,12 @@ class runVirusViz(object):
         Total_wish = [0, 0]
         Total_plus = [0, 0]
         for a_case_today in l_all_today:
+            if("Total" in a_case_today[0]): a_case_today[0] = 'Total'  # use the same name
             bFound, a_case_last = self.lookupMapData(a_case_today[0], l_all_last)
             if(bFound):
                 num2 = int(a_case_today[1]) - int(a_case_last[1])
                 num3 = int(a_case_today[2]) - int(a_case_last[2])
-                if("Total" in a_case_today): 
+                if("Total" in a_case_today[0]): 
                     Total_wish = [num2, num3] 
                     continue
                 if(num2 > 0 or num3 > 0): 
@@ -427,7 +431,7 @@ class runVirusViz(object):
 		        1) 
                 ii += 1
                 if('Out of State' in a_case[0]): continue
-                if('Other*' in a_case[0]): continue
+                if('Other' in a_case[0]): continue
                 if('Not Reported' in a_case[0]): continue
                 if('Unknown' in a_case[0]): continue
                 # draw on the map, select the location
@@ -459,6 +463,8 @@ class runVirusViz(object):
 		    0.7,
 		    (255,64,0),
 		    1) 
+        else:
+            print( '  wished total: %d, listed total: %d'%( wish_total, n_total) )
         cv2.putText(img, 'press F5 to refresh', 
 		    (782,205), 
 		    cv2.FONT_HERSHEY_SIMPLEX, 
@@ -632,7 +638,7 @@ class runVirusViz(object):
         # predict the future
         data = lst_data_daily
         #print(lst_data_overall)
-        data.append( int(data[-1] * 0.98) )
+        #data.append( int(data[-1] * 0.98) )
         days = np.arange(0, len(data), 1)
         popt, pcov = curve_fit(self.SIR, days, data)
 
@@ -656,6 +662,7 @@ class runVirusViz(object):
         plt.xlabel('Date in 2020')
         plt.ylabel('Confirmed Daily New Cases')
         plt.title("COVID-19 Prediction of daily new cases in Michigan")
+        plt.xticks(rotation=45)
         plt.show()
         if(self.isNameOnToday(self.name_file)):
             fig.savefig('./results/mi_county20200000_predict.png')
