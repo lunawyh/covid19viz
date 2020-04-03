@@ -1,0 +1,56 @@
+County,Cases,Deaths
+Arenac,1,0
+Barry,1,0
+Bay,2,0
+Berrien,12,0
+Branch,1,0
+Calhoun,6,1
+Cheboygan,3,0
+Clare,1,0
+Clinton,6,0
+Delta,1,0
+Detroit City,692,16
+Dickinson,0,1
+Eaton,10,1
+Emmet,0,1
+Genesee,73,1
+Grand Traverse,2,0
+Hillsdale,2,1
+Ingham,24,0
+Ionia,1,0
+Isabella,1,1
+Jackson,2,1
+Kalamazoo,6,0
+Kalkaska,1,0
+Kent,11,0
+Lapeer,1,0
+Livingston,8,0
+Luce,1,0.0
+Mackinac,1,0
+Macomb,228,7
+Marquette,2,0
+Mecosta,1,0
+Midland,1,0
+Monroe,16,0
+Montcalm,2,0
+Muskegon,4,0
+Oakland,357,17
+Oceana,1,0
+Otsego,1,0
+Ottawa,2,0
+Presque Isle,1,0.0
+Roscommon,1,0
+Saginaw,8,0
+Sanilac,2,0
+Shiawassee,1,0
+St Clair,66,0.0
+St Joseph,10,0.0
+Tuscola,1,0
+Washtenaw,39,0
+Wayne,335,13
+Wexford,1,0
+Other*,21,1
+Unknown,16,0
+Out of State,26,0
+Totals,12744,479.0
+Total,14757,541
