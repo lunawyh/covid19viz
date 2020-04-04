@@ -30,11 +30,10 @@ New visualization and prediction of COVID-19 in USA, such as Michigan, CA.
 
 7. Run python virusviz18.py
 
-<<<<<<< HEAD
+# How to run in Ubuntu
+1. Run python virusviz18.py
+
 # websites of CA
 1. 
 
-=======
-# How to run in Ubuntu
-1. Run python virusviz18.py
->>>>>>> master
+
