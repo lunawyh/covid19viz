@@ -48,7 +48,7 @@ class runVirusViz(object):
         self.img_overlay = np.zeros(size, dtype=np.uint8)	# overlay image
         self.map_data_updated = 1	                        # being updated
         self.now_exit = False
-        self.state_dir = './'
+        self.state_dir = './mi/'
         # Only the coordinates are used by code
         self.l_mi_county_coord=[
                 ['Arenac',      0, 695, 665],
@@ -131,7 +131,7 @@ class runVirusViz(object):
         #data of coordination
 
         # import image of map
-        self.img_map = cv2.resize(cv2.imread('mi_county2019.png'), (VIZ_W, VIZ_H))
+        self.img_map = cv2.resize(cv2.imread(self.state_dir+'mi_county2019.png'), (VIZ_W, VIZ_H))
         self.img_overlay = self.img_map.copy()
         self.data_daily = False   # otherwise overall
         # read latest data
@@ -375,7 +375,7 @@ class runVirusViz(object):
         return (True, lst_data)
     ## look up table to get pre-set information
     def lookupMapData(self, c_name, lst_data):
-        c_name_clean = c_name.replace('*', '')
+        c_name_clean = c_name.replace('*', '').replace('.', '')
         for cov in lst_data:
             if c_name_clean in cov[0]:
                 return True, cov
