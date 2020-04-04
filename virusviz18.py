@@ -48,6 +48,7 @@ class runVirusViz(object):
         self.img_overlay = np.zeros(size, dtype=np.uint8)	# overlay image
         self.map_data_updated = 1	                        # being updated
         self.now_exit = False
+        self.state_dir = './'
         # Only the coordinates are used by code
         self.l_mi_county_coord=[
                 ['Arenac',      0, 695, 665],
@@ -130,11 +131,11 @@ class runVirusViz(object):
         #data of coordination
 
         # import image of map
-	self.img_map = cv2.resize(cv2.imread('mi_county2019.png'), (VIZ_W, VIZ_H))
-	self.img_overlay = self.img_map.copy()
-	self.data_daily = False   # otherwise overall
-	# read latest data
-	self.csv_pos_now, self.l_mi_cases, self.l_cases_yest = self.readDataByDay(999999)
+        self.img_map = cv2.resize(cv2.imread('mi_county2019.png'), (VIZ_W, VIZ_H))
+        self.img_overlay = self.img_map.copy()
+        self.data_daily = False   # otherwise overall
+        # read latest data
+        self.csv_pos_now, self.l_mi_cases, self.l_cases_yest = self.readDataByDay(999999)
 
         # main loop for processing
         while (not self.now_exit):
@@ -167,9 +168,9 @@ class runVirusViz(object):
             if(len(self.l_mi_cases) > 0):
                 self.img_overlay = self.img_map.copy()
                 self.infoShowCases(self.img_overlay, self.l_mi_cases)
-                cv2.imwrite('./results/mi_county'+self.name_file+'.png', self.img_overlay)
+                cv2.imwrite(self.state_dir + 'results/mi_county'+self.name_file+'.png', self.img_overlay)
                 if(self.isNameOnToday(self.name_file)):
-                    cv2.imwrite('./results/mi_county20200000.png', self.img_overlay)
+                    cv2.imwrite(self.state_dir + 'results/mi_county20200000.png', self.img_overlay)
             pass  
         elif(key == 65477 or key == 1114053 or key == 7798784):   # F8 key next day
             self.data_daily = False
@@ -194,9 +195,9 @@ class runVirusViz(object):
             list_death= self.getDataListDeath(self.l_mi_cases)
             self.infoShowRainbow(3, list_death) 
         elif(key == 115 or key == 1048691):  # s key
-            cv2.imwrite('./results/mi_county'+self.name_file+'.png', self.img_overlay)
+            cv2.imwrite(self.state_dir + 'results/mi_county'+self.name_file+'.png', self.img_overlay)
             if(self.isNameOnToday(self.name_file)):
-                cv2.imwrite('./results/mi_county20200000.png', self.img_overlay)
+                cv2.imwrite(self.state_dir + 'results/mi_county20200000.png', self.img_overlay)
             pass
         elif(key == 27 or key == 1048603):  # esc
             self.now_exit = True
@@ -207,7 +208,8 @@ class runVirusViz(object):
     ## read data file given day offset
     def readDataByDay(self, pos):
         print('readDataByDay...', pos)
-        csv_data_files = sorted( [f for f in listdir('./data') if isfile(join('./data', f))] )
+        data_dir = self.state_dir + 'data'
+        csv_data_files = sorted( [f for f in listdir(data_dir) if isfile(join(data_dir, f))] )
         #print('-----------', csv_data_files)
         if(pos >= len(csv_data_files) ): pos = len(csv_data_files) - 1
         elif(pos < 0): pos = 0
@@ -219,12 +221,12 @@ class runVirusViz(object):
         self.name_file = '%d%02d%02d'%(year, month, day)
         self.now_date = '%d/%d/%d'%(month, day, year)
         #read data to list
-        lst_data = self.open4File('./data/mi_covid19_'+self.name_file+'.csv')
+        lst_data = self.open4File(self.state_dir + 'data/mi_covid19_'+self.name_file+'.csv')
         
         #read data on yesterday 
         name_last = self.getOverallYesterday(self.name_file)
         if(name_last is not None):
-            lst_data_last = self.open4File('./data/' + name_last)
+            lst_data_last = self.open4File(self.state_dir + 'data/' + name_last)
         else:
             lst_data_last = []
         return (pos, lst_data, lst_data_last)
@@ -288,20 +290,21 @@ class runVirusViz(object):
         dt_now = datetime.datetime.now()
         self.name_file = '%d%02d%02d'%(dt_now.year, dt_now.month, dt_now.day)
         self.now_date = '%d/%d/%d'%(dt_now.month, dt_now.day, dt_now.year)
-        f_name = './data_html/mi_covid19_'+self.name_file+'.html'
+        f_name = self.state_dir + 'data_html/mi_covid19_'+self.name_file+'.html'
         df_a = self.open4Website(f_name)
-        f_name = './data/mi_covid19_'+self.name_file+'.csv'
+        f_name = self.state_dir + 'data/mi_covid19_'+self.name_file+'.csv'
         lst_data = self.parseDfData(df_a, fName=f_name)
 
         #read data on yesterday 
         name_last = self.getOverallYesterday(self.name_file)
         if(name_last is not None):
-            lst_data_last = self.open4File('./data/' + name_last)
+            lst_data_last = self.open4File(self.state_dir + 'data/' + name_last)
         else:
             lst_data_last = []
         return (0, lst_data, lst_data_last)
     def getOverallYesterday(self, today):
-        csv_data_files = sorted( [f for f in listdir('./data') if isfile(join('./data', f))] )
+        data_dir = self.state_dir + 'data'
+        csv_data_files = sorted( [f for f in listdir(data_dir) if isfile(join(data_dir, f))] )
         f_last, bFound = csv_data_files[0], False
         for ff in csv_data_files:
             if(today in ff): 
@@ -313,12 +316,12 @@ class runVirusViz(object):
     def generateDataDaily(self, bDaily):
         print(' generateDataDaily...')
         # files name
-        csv_daily = './daily/mi_covid19_'+self.name_file+'.csv'
-        csv_all_today = './data/mi_covid19_'+self.name_file+'.csv'
+        csv_daily = self.state_dir + 'daily/mi_covid19_'+self.name_file+'.csv'
+        csv_all_today = self.state_dir + 'data/mi_covid19_'+self.name_file+'.csv'
         csv_all_last = self.getOverallYesterday(self.name_file)
         if(csv_all_last is None): return False
         else: print('  ', csv_daily, csv_all_today, csv_all_last)
-        csv_all_last = './data/' + csv_all_last
+        csv_all_last = self.state_dir + 'data/' + csv_all_last
 	# read data
         l_all_today = self.open4File(csv_all_today)
         l_all_last = self.open4File(csv_all_last)
@@ -360,7 +363,7 @@ class runVirusViz(object):
         self.save2File(l_daily, csv_daily)
         return True
     def readDataDaily(self, bDaily):
-        csv_name = './daily/mi_covid19_'+self.name_file+'.csv'
+        csv_name = self.state_dir + 'daily/mi_covid19_'+self.name_file+'.csv'
         print('readDataDaily', csv_name)
         if(isfile(csv_name) ):
             lst_data = self.open4File(csv_name)
@@ -581,13 +584,13 @@ class runVirusViz(object):
         plt.axis([-l_max_v, l_max_v, -l_max_v, l_max_v])
         plt.show()
         if(type_data==1):
-            fig.savefig('./results/mi_county'+self.name_file+'_daily.png')
+            fig.savefig(self.state_dir + 'results/mi_county'+self.name_file+'_daily.png')
             if(self.isNameOnToday(self.name_file)):
-                fig.savefig('./results/mi_county20200000_daily.png')
+                fig.savefig(self.state_dir + 'results/mi_county20200000_daily.png')
         elif(type_data==3):
-            fig.savefig('./results/mi_county'+self.name_file+'_death.png')
+            fig.savefig(self.state_dir + 'results/mi_county'+self.name_file+'_death.png')
             if(self.isNameOnToday(self.name_file)):
-                fig.savefig('./results/mi_county20200000_death.png')
+                fig.savefig(self.state_dir + 'results/mi_county20200000_death.png')
     # refer to https://github.com/HCui91/covid-19-model	    	
 	#   https://zhuanlan.zhihu.com/p/104645873
     def SIR(self, t, beta, gamma):
@@ -618,12 +621,12 @@ class runVirusViz(object):
     def predictByModelSir(self, type_data=0):
         print('predictByModelSir...', type_data)
         # read all data file
-        csv_data_files = sorted( [f for f in listdir('./data') if isfile(join('./data', f))] )
+        csv_data_files = sorted( [f for f in listdir(self.state_dir + 'data') if isfile(join(self.state_dir + 'data', f))] )
         lst_data_overall = []
         # read total number from data file
         offset = 11	
         for ff in csv_data_files:             
-            l_data_day = self.open4File(join('./data', ff))
+            l_data_day = self.open4File(join(self.state_dir + 'data', ff))
             for a_day in l_data_day:
                 if 'Total' in a_day[0]:
                     lst_data_overall.append(a_day[1])
@@ -669,7 +672,7 @@ class runVirusViz(object):
         plt.xticks(rotation=45)
         plt.show()
         if(self.isNameOnToday(self.name_file)):
-            fig.savefig('./results/mi_county20200000_predict.png')
+            fig.savefig(self.state_dir + 'results/mi_county20200000_predict.png')
     ## exit node
     def exit_hook(self):
         print("bye bye, node virusviz")
