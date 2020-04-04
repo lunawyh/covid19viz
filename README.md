@@ -34,6 +34,6 @@ New visualization and prediction of COVID-19 in USA, such as Michigan, CA.
 1. Run python virusviz18.py
 
 # websites of CA
-1. 
+1. https://docs.google.com/spreadsheets/d/1laetL1Z69n5tIfB5hRFvgr0HzZWBYW9t3Py2ycR2zhw/edit?ts=5e83fded#gid=0
 
 
