@@ -50,14 +50,14 @@ class runVirusViz(object):
         self.now_exit = False
         # Only the coordinates are used by code
         self.l_mi_county_coord=[
-                ['Arenac',      0, 693, 665],
+                ['Arenac',      0, 695, 665],
                 ['Allegan',     0, 466, 885],
                 ['Antrim',      0, 559, 525],
                 ['Branch',      0, 566, 983],
                 ['Barry',       0, 540, 883],
-                ['Bay',		0, 690, 695],
+                ['Bay',		0, 682, 695],
                 ['Berrien',     0, 433, 955],
-                ['Cheboygan',   0, 625, 450],
+                ['Cheboygan',   0, 625, 430],
                 ['Calhoun',     0, 569, 934],
                 ['Cass',	0, 463, 980],
                 ['Charlevoix',	0, 577, 482],
@@ -70,7 +70,7 @@ class runVirusViz(object):
                 ['Dickinson',   0, 268, 384],
                 ['Emmet',       0, 609, 455],
                 ['Eaton',	0, 591, 883],
-                ['Genesee',	0, 710, 832],
+                ['Genesee',	0, 709, 822],
                 ['Gladwin',	0, 640, 681],
                 ['Gogebic',	0, 144, 326],
                 ['Grand Traverse',0, 511, 577],
@@ -79,7 +79,7 @@ class runVirusViz(object):
                 ['Houghton',    0, 178, 229],
                 ['Huron',	0, 773, 701],
                 ['Ingham',	0, 642, 887],
-                ['Ionia',	0, 565, 835],
+                ['Ionia',	0, 570, 835],
                 ['Iosco',	0, 718, 629],
                 ['Isabella',	0, 591, 735],
                 ['Jackson',	0, 632, 934],
@@ -88,10 +88,11 @@ class runVirusViz(object):
                 ['Kent',	0, 515, 834],
                 ['Lapeer',	0, 767, 820],
                 ['Leelanau',	0, 485, 537],
-                ['Lenawee',	0, 671, 991],
-                ['Livingston',	0, 710, 882],
+                ['Lenawee',	0, 669, 989],
+                ['Livingston',	0, 690, 882],
                 ['Luce',	0, 508, 313],
                 ['Macomb',	0, 804, 882],
+                ['Mackinac',    0, 511, 335],
                 ['Manistee',	0, 468, 606],
                 ['Marquette',	0, 266, 309],
                 ['Mecosta',	0, 539, 733],
@@ -100,7 +101,7 @@ class runVirusViz(object):
                 ['Monroe',	0, 732, 986],
                 ['Montcalm',	0, 566, 781],
                 ['Muskegon',	0, 450, 760],
-                ['Newaygo',	0, 488, 758],
+                ['Newaygo',	0, 488, 755],
                 ['Oakland',	0, 740, 880],
                 ['Oceana',	0, 437, 731],
                 ['Ogemaw',	0, 666, 629],
@@ -108,20 +109,22 @@ class runVirusViz(object):
                 ['Oscoda',      0, 666, 577],
                 ['Otsego',	0, 615, 526],
                 ['Ottawa',	0, 466, 834],
+                ['Presque Isle',0, 682, 452],
                 ['Roscommon',	0, 641, 629],
                 ['Saginaw',	0, 668, 780],
-                ['Sanilac',	0, 814, 780],
+                ['Sanilac',	0, 814, 778],
                 ['Schoolcraft', 0, 444, 358],
                 ['Shiawassee',	0, 667, 837],
-                ['St. Clair',	0, 840, 842],
-                ['St. Joseph',  0, 517, 984],
+                ['St Clair',	0, 840, 842],
+                ['St Joseph',  0, 517, 984],
                 ['Tuscola',	0, 739, 767],
                 ['Van Buren',	0, 466, 936],
                 ['Washtenaw',	0, 694, 935],
-                ['Wayne',	0, 753, 933],
+                ['Wayne',	0, 750, 903],
                 ['Wexford',	0, 511, 628],
                 ['Other*',        0, 25, 85],
                 ['Out of State',  0, 25, 85],
+                ['Unknown',     0, 466, 885],
                 ['Not Reported',0, 753, 933]
         ]							
         #data of coordination
@@ -230,6 +233,9 @@ class runVirusViz(object):
         csv_data_f = open(csv_name, 'w')
         # create the csv writer 
         csvwriter = csv.writer(csv_data_f)
+        # make sure the 1st row is colum names
+        if('County' in l_data[0][0]): pass
+        else: csvwriter.writerow(['County', 'Cases', 'Deaths'])
         for a_row in l_data:
             csvwriter.writerow(a_row)
         csv_data_f.close()
@@ -296,7 +302,7 @@ class runVirusViz(object):
         return (0, lst_data, lst_data_last)
     def getOverallYesterday(self, today):
         csv_data_files = sorted( [f for f in listdir('./data') if isfile(join('./data', f))] )
-        f_last, bFound = None, False
+        f_last, bFound = csv_data_files[0], False
         for ff in csv_data_files:
             if(today in ff): 
                 bFound = True
@@ -323,11 +329,12 @@ class runVirusViz(object):
         Total_wish = [0, 0]
         Total_plus = [0, 0]
         for a_case_today in l_all_today:
+            if("Total" in a_case_today[0]): a_case_today[0] = 'Total'  # use the same name
             bFound, a_case_last = self.lookupMapData(a_case_today[0], l_all_last)
             if(bFound):
                 num2 = int(a_case_today[1]) - int(a_case_last[1])
                 num3 = int(a_case_today[2]) - int(a_case_last[2])
-                if("Total" in a_case_today): 
+                if("Total" in a_case_today[0]): 
                     Total_wish = [num2, num3] 
                     continue
                 if(num2 > 0 or num3 > 0): 
@@ -426,6 +433,7 @@ class runVirusViz(object):
                 if('Out of State' in a_case[0]): continue
                 if('Other' in a_case[0]): continue
                 if('Not Reported' in a_case[0]): continue
+                if('Unknown' in a_case[0]): continue
                 # draw on the map, select the location
                 cv2.putText(img, str(a_case[1]), 
 		        (map_data[2],map_data[3]), 
@@ -455,6 +463,8 @@ class runVirusViz(object):
 		    0.7,
 		    (255,64,0),
 		    1) 
+        else:
+            print( '  wished total: %d, listed total: %d'%( wish_total, n_total) )
         cv2.putText(img, 'press F5 to refresh', 
 		    (782,205), 
 		    cv2.FONT_HERSHEY_SIMPLEX, 
@@ -515,6 +525,7 @@ class runVirusViz(object):
         for a_case in lst_data:
             if('Total' in a_case[0]): continue
             if('Out of State' in a_case[0]): continue
+            if('Unknown' in a_case[0]): continue
             if('Other' in a_case[0]): continue
             if('Not Reported' in a_case[0]): continue
             if('County' in a_case[0]): continue
@@ -582,7 +593,7 @@ class runVirusViz(object):
 	    # Total population, N.
 	    N = 1000000
 	    # Initial number of infected and recovered individuals, I0 and R0.
-	    I0, R0 = 65, 5
+	    I0, R0 = 65, 65.0/239.0*25.0
 	    # Everyone else, S0, is susceptible to infection initially.
 	    S0 = N - I0 - R0
 
@@ -608,7 +619,6 @@ class runVirusViz(object):
         # read all data file
         csv_data_files = sorted( [f for f in listdir('./data') if isfile(join('./data', f))] )
         lst_data_overall = []
-        lst_data_date = []
         # read total number from data file
         offset = 11	
         for ff in csv_data_files:             
@@ -616,35 +626,46 @@ class runVirusViz(object):
             for a_day in l_data_day:
                 if 'Total' in a_day[0]:
                     lst_data_overall.append(a_day[1])
-                    month = int(ff[offset+4:offset+6])
-                    day = int(ff[offset+6:offset+8])
-                    lst_data_date.append( '%d/%d'%(month,day) )
                     break
+
+        # get daily new cases
+        lst_data_daily = []
+        #lst_data_daily.append(0)
+        for ii in range(len(lst_data_overall)):
+            if ii < 1: continue  # lst_data_daily.append(lst_data_overall[ii])     
+            else: lst_data_daily.append(lst_data_overall[ii] - lst_data_overall[ii-1])  
+
         # predict the future
-        data = lst_data_overall
-        print(lst_data_overall)
-        data.append( int(data[-1] * 1.15) )
+        data = lst_data_daily
+        #print(lst_data_overall)
+        #data.append( int(data[-1] * 0.98) )
         days = np.arange(0, len(data), 1)
         popt, pcov = curve_fit(self.SIR, days, data)
+        print(' contact parameter, recovery rate:', popt)
+        print(" R0:", 1/popt[0], "Recovery days:", 1/popt[1])
+        print(' Covariance matrix:', pcov)
 
         fig = plt.figure(0)
         fig.set_figheight(10)
         fig.set_figwidth(20)
-        plt.scatter(days, data, label="Actual confimed cases", color='r')
-        day_future = np.arange(0, 2*len(data), 1)
+        plt.scatter(days, data, label="Actual new cases per day", color='r')
+        date_s = 18
+        date_len = int(3*len(data))
+        day_future = np.arange(0, date_len, 1)
         day_mmdd = []
-        for jj in range(2*len(data)):
-            if(jj<=14): month, day = 3, (17 + jj)%32 
-            elif(jj<=44): month, day = 4, (17 + jj - 31)%31  
-            elif(jj<=75): month, day = 5, (17 + jj - 31 - 30)%32  
-            else: month, day = 6, (17 + jj - 31 - 30 - 31)%31  
+        for jj in range(date_len):
+            if(jj<=13): month, day = 3, (date_s + jj)%32 
+            elif(jj<=43): month, day = 4, (date_s + jj - 31)%31  
+            elif(jj<=74): month, day = 5, (date_s + jj - 31 - 30)%32  
+            else: month, day = 6, (date_s + jj - 31 - 30 - 31)%31  
             day_mmdd.append( '%d/%d'%(month,day) )
             
-        plt.plot(day_mmdd, self.SIR(day_future, *popt), label="Predicted cases")
+        plt.plot(day_mmdd, self.SIR(day_future, *popt), label="Predicted new cases per day(unreal)")
         plt.legend()
         plt.xlabel('Date in 2020')
-        plt.ylabel('Confirmed Overall')
-        plt.title("Prediction of COVID-19 confirmed cases in Michigan")
+        plt.ylabel('Confirmed Daily New Cases')
+        plt.title("COVID-19 Prediction of daily new cases in Michigan")
+        plt.xticks(rotation=45)
         plt.show()
         if(self.isNameOnToday(self.name_file)):
             fig.savefig('./results/mi_county20200000_predict.png')
