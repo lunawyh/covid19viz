@@ -589,6 +589,7 @@ class runVirusViz(object):
             if(self.isNameOnToday(self.name_file)):
                 fig.savefig('./results/mi_county20200000_death.png')
     # refer to https://github.com/HCui91/covid-19-model	    	
+	#   https://zhuanlan.zhihu.com/p/104645873
     def SIR(self, t, beta, gamma):
 	    # Total population, N.
 	    N = 1000000
