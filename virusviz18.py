@@ -123,7 +123,7 @@ class runVirusViz(object):
                 ['Washtenaw',	0, 694, 935],
                 ['Wayne',	0, 750, 903],
                 ['Wexford',	0, 511, 628],
-                ['Other*',        0, 25, 85],
+                ['Other',        0, 25, 85],
                 ['Out of State',  0, 25, 85],
                 ['Unknown',     0, 466, 885],
                 ['Not Reported',0, 753, 933]
