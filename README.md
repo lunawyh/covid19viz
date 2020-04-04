@@ -1,5 +1,5 @@
 # covid19viz
-New visualization of COVID-19 in Michigan
+New visualization and prediction of COVID-19 in USA, such as Michigan, CA.
 
 # Steps
 1. Grab data from goverment websites
