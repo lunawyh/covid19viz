@@ -29,3 +29,7 @@ New visualization and prediction of COVID-19 in USA, such as Michigan, CA.
      pip install lxml
 
 7. Run python virusviz18.py
+
+# websites of CA
+1. 
+
