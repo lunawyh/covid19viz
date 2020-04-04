@@ -593,7 +593,7 @@ class runVirusViz(object):
 	    # Total population, N.
 	    N = 1000000
 	    # Initial number of infected and recovered individuals, I0 and R0.
-	    I0, R0 = 65, 5
+	    I0, R0 = 65, 65.0/239.0*25.0
 	    # Everyone else, S0, is susceptible to infection initially.
 	    S0 = N - I0 - R0
 
@@ -641,6 +641,9 @@ class runVirusViz(object):
         #data.append( int(data[-1] * 0.98) )
         days = np.arange(0, len(data), 1)
         popt, pcov = curve_fit(self.SIR, days, data)
+        print(' contact parameter, recovery rate:', popt)
+        print(" R0:", 1/popt[0], "Recovery days:", 1/popt[1])
+        print(' Covariance matrix:', pcov)
 
         fig = plt.figure(0)
         fig.set_figheight(10)
