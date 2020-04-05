@@ -517,17 +517,17 @@ class runVirusViz(object):
     # refer to https://github.com/HCui91/covid-19-model	    	
 	#   https://zhuanlan.zhihu.com/p/104645873
     def SIR(self, t, beta, gamma):
-	    # Total population, N.
-	    N = 1000000
-	    # Initial number of infected and recovered individuals, I0 and R0.
-	    I0, R0 = 65, 65.0/239.0*25.0
-	    # Everyone else, S0, is susceptible to infection initially.
-	    S0 = N - I0 - R0
+        # Total population, N.
+        N = 1000000
+        # Initial number of infected and recovered individuals, I0 and R0.
+        I0, R0 = 65, 65.0/239.0*25.0
+        # Everyone else, S0, is susceptible to infection initially.
+        S0 = N - I0 - R0
 
-	    # The SIR model differential equations.
-	    # @njit
-	    def deriv(y, t, N, beta, gamma):
-		    S, I, R = y
+        # The SIR model differential equations.
+        # @njit
+        def deriv(y, t, N, beta, gamma):
+            S, I, R = y
             dSdt = -beta * S * I / N
             dIdt = beta * S * I / N - gamma * I
             dRdt = gamma * I
