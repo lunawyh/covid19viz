@@ -29,7 +29,7 @@ import math
 import urllib
 from scipy.integrate import odeint
 from scipy.optimize import curve_fit
-import gmaps
+import gmplot
 
 VIZ_W  = 880
 VIZ_H  = 1000
@@ -604,10 +604,23 @@ class runVirusViz(object):
 
     ## GMAPS
     def showGmaps(self):
+        print('showGmaps...')
         with open('../google_api_key20.txt') as f:
             api_key1 = f.readline()
-            print('api_key', api_key1)
+            #print('api_key', api_key1)
             f.close
+        gmap = gmplot.GoogleMapPlotter(42.593329, -83.187209, 13)
+        gmap.apikey = api_key1
+        golden_gate_park_lats, golden_gate_park_lons = zip(*[
+	    (42.595074, -83.184570),
+	    (42.594671, -83.183937),
+	    (42.591369, -83.186737),
+	    (42.592167, -83.187971),
+	    (42.595074, -83.184570)
+	    ])
+        gmap.plot(golden_gate_park_lats, golden_gate_park_lons, 'cornflowerblue', edge_width=10)
+        gmap.draw( "/home/t0535zw/gmaps20a.html" )
+        '''
         gmaps.configure(api_key=api_key1)
         #Define location 1 and 2
         Durango = (37.2753,-107.880067)
@@ -619,6 +632,7 @@ class runVirusViz(object):
         #Add the layer
         fig.add_layer(layer)
         fig
+        '''
     ## exit node
     def exit_hook(self):
         print("bye bye, node virusviz")
