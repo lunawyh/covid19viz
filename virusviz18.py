@@ -338,7 +338,7 @@ class runVirusViz(object):
                     posy = ii*line_h+offset_h
                 else: 
                     posx = 180+10
-                    posy = (ii-len(l_cases)/2)*line_h+offset_h
+                    posy = int( )(ii-len(l_cases)/2)*line_h+offset_h )
                 n_total += int( a_case[1] )
                 bFound, map_data = self.lookupMapData(a_case[0], self.l_mi_county_coord)
                 nColor = self.getColorByCompare(a_case)
@@ -403,7 +403,7 @@ class runVirusViz(object):
     #
     def infoShowCoronaVirus(self, img, lst_data):
 
-	n_total, ii = 0, 0		
+        n_total, ii = 0, 0
         for cov in lst_data:
             n_total += cov[1]
             cv2.putText(img,cov[0] + '    %d'%(cov[1]), 
@@ -527,11 +527,11 @@ class runVirusViz(object):
 	    # The SIR model differential equations.
 	    # @njit
 	    def deriv(y, t, N, beta, gamma):
-		S, I, R = y
-		dSdt = -beta * S * I / N
-		dIdt = beta * S * I / N - gamma * I
-		dRdt = gamma * I
-		return dSdt, dIdt, dRdt
+		    S, I, R = y
+            dSdt = -beta * S * I / N
+            dIdt = beta * S * I / N - gamma * I
+            dRdt = gamma * I
+            return dSdt, dIdt, dRdt
 
 	    # Initial conditions vector
 	    y0 = S0, I0, R0
