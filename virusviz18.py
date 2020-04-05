@@ -29,6 +29,8 @@ import math
 import urllib
 from scipy.integrate import odeint
 from scipy.optimize import curve_fit
+import gmaps
+
 VIZ_W  = 880
 VIZ_H  = 1000
 # ==============================================================================
@@ -83,6 +85,9 @@ class runVirusViz(object):
             pass
         elif(key == 65471 or key == 1114047 or key == 7405568):   # F2 key refresh newest from website
             self.data_daily, self.l_mi_cases = self.readDataDaily(True)
+            pass
+        elif(key == 65472 or key == 1114048 or key == 7405569):   # F3 key gmaps
+            self.showGmaps()
             pass  
         elif(key == 65474 or key == 1114050):   # F5 key refresh newest from website
             self.data_daily = False
@@ -596,6 +601,24 @@ class runVirusViz(object):
         plt.show()
         if(self.isNameOnToday(self.name_file)):
             fig.savefig(self.state_dir + 'results/mi_county20200000_predict.png')
+
+    ## GMAPS
+    def showGmaps(self):
+        with open('../google_api_key20.txt') as f:
+            api_key1 = f.readline()
+            print('api_key', api_key1)
+            f.close
+        gmaps.configure(api_key=api_key1)
+        #Define location 1 and 2
+        Durango = (37.2753,-107.880067)
+        SF = (37.7749,-122.419416)
+        #Create the map
+        fig = gmaps.figure()
+        #create the layer
+        layer = gmaps.directions.Directions(Durango, SF,mode='car')
+        #Add the layer
+        fig.add_layer(layer)
+        fig
     ## exit node
     def exit_hook(self):
         print("bye bye, node virusviz")
