@@ -335,7 +335,7 @@ class runVirusViz(object):
             else:
                 if(ii < len(l_cases)/2): 
                     posx = 10
-                    posy = ii*line_h+offset_h
+                    posy = int( ii*line_h+offset_h )
                 else: 
                     posx = 180+10
                     posy = int( (ii-len(l_cases)/2)*line_h+offset_h )
