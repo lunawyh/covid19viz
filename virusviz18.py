@@ -533,12 +533,12 @@ class runVirusViz(object):
             dRdt = gamma * I
             return dSdt, dIdt, dRdt
 
-	    # Initial conditions vector
-	    y0 = S0, I0, R0
-	    # Integrate the SIR equations over the time grid, t.
-	    ret = odeint(deriv, y0, t, args=(N, beta, gamma))
-	    S, I, R = ret.T
-	    return I
+        # Initial conditions vector
+        y0 = S0, I0, R0
+        # Integrate the SIR equations over the time grid, t.
+        ret = odeint(deriv, y0, t, args=(N, beta, gamma))
+        S, I, R = ret.T
+        return I
 
     #
     def predictByModelSir(self, type_data=0):
