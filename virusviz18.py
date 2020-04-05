@@ -338,7 +338,7 @@ class runVirusViz(object):
                     posy = ii*line_h+offset_h
                 else: 
                     posx = 180+10
-                    posy = int( )(ii-len(l_cases)/2)*line_h+offset_h )
+                    posy = int( (ii-len(l_cases)/2)*line_h+offset_h )
                 n_total += int( a_case[1] )
                 bFound, map_data = self.lookupMapData(a_case[0], self.l_mi_county_coord)
                 nColor = self.getColorByCompare(a_case)
