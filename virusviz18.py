@@ -501,10 +501,10 @@ class runVirusViz(object):
                 color='w', 
                 rotation_mode='anchor')
         if(type_data==1):
-            plt.text(-l_max_v+10, l_max_v-20, '%d Daily confirmed COVID-19'%(n_total))
-            plt.text(-l_max_v+10, l_max_v-40, 'On '+self.now_date + ' in MI')
+            plt.text(-l_max_v+5, l_max_v-10, '%d Daily confirmed COVID-19'%(n_total))
+            plt.text(-l_max_v+5, l_max_v-10, 'On '+self.now_date + ' in MI')
         elif type_data ==2:
-            plt.text(-l_max_v+10, l_max_v-40, '%d Overall confirmed COVID-19'%(n_total))
+            plt.text(-l_max_v+5, l_max_v-10, '%d Overall confirmed COVID-19'%(n_total))
             plt.text(-l_max_v+10, l_max_v-80, 'Until '+self.now_date + ' in MI')
         elif type_data ==3:
             plt.text(-l_max_v+10, l_max_v-20, '%d Overall deaths COVID-19'%(n_total))
