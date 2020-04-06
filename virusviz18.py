@@ -402,8 +402,7 @@ class runVirusViz(object):
     # for example: self.infoShowCoronaVirus(self.l_mi_county_coord)
     #
     def infoShowCoronaVirus(self, img, lst_data):
-
-        n_total, ii = 0, 0		
+        n_total, ii = 0, 0
         for cov in lst_data:
             n_total += cov[1]
             cv2.putText(img,cov[0] + '    %d'%(cov[1]), 
