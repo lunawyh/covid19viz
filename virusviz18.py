@@ -609,7 +609,7 @@ class runVirusViz(object):
             api_key1 = f.readline()
             #print('api_key', api_key1)
             f.close
-        gmap = gmplot.GoogleMapPlotter(42.593329, -83.187209, 13)
+        gmap = gmplot.GoogleMapPlotter(44.838134, -86.428187, 7)
         gmap.apikey = api_key1
         golden_gate_park_lats, golden_gate_park_lons = zip(*[
 	    (42.595074, -83.184570),
@@ -619,7 +619,7 @@ class runVirusViz(object):
 	    (42.595074, -83.184570)
 	    ])
         gmap.plot(golden_gate_park_lats, golden_gate_park_lons, 'cornflowerblue', edge_width=10)
-        gmap.draw( "/home/t0535zw/gmaps20a.html" )
+        gmap.draw( "./gmaps2020a.html" )
         '''
         gmaps.configure(api_key=api_key1)
         #Define location 1 and 2
