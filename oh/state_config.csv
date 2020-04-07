@@ -1,0 +1,7 @@
+name,value
+VIZ_W,1280
+VIZ_H,960
+state_map,ny_county2020.png
+cordinate,ny_county_cordination.csv
+weblink_num,1
+weblink_state,https://coronavirus.ohio.gov/static/COVIDSummaryData.csv
