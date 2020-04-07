@@ -619,7 +619,7 @@ class runVirusViz(object):
             api_key1 = f.readline()
             #print('api_key', api_key1)
             f.close
-        '''
+
         gmap = gmplot.GoogleMapPlotter(44.838134, -86.428187, 7)
         gmap.apikey = api_key1
         golden_gate_park_lats, golden_gate_park_lons = zip(*[
@@ -630,7 +630,7 @@ class runVirusViz(object):
 	    (42.595074, -83.184570)
 	    ])
         gmap.plot(golden_gate_park_lats, golden_gate_park_lons, 'cornflowerblue', edge_width=10)
-        gmap.draw( "./gmaps2020a.html" )
+        gmap.draw( "../gmaps2020a.html" )
         '''
         gmaps.configure(api_key=api_key1)
         #Define location 1 and 2
@@ -645,7 +645,7 @@ class runVirusViz(object):
         #Add the layer
         fig.add_layer(gmaps.heatmap_layer(locations))
         fig
-
+        '''
     ## exit node
     def exit_hook(self):
         print("bye bye, node virusviz")
