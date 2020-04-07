@@ -23,15 +23,17 @@ import csv
 import os
 from os import listdir
 from os.path import isfile, join
-import matplotlib
-from matplotlib.patches import Wedge
-import matplotlib.pyplot as plt
 import math
 import urllib
 from scipy.integrate import odeint
 from scipy.optimize import curve_fit
-import gmplot
-import gmaps
+
+# sudo pip install https://github.com/matplotlib/basemap/archive/master.zip
+from mpl_toolkits.basemap import Basemap
+from matplotlib.patches import Wedge
+import matplotlib.pyplot as plt
+from matplotlib.patches import Polygon
+from matplotlib.collections import PatchCollection
 
 VIZ_W  = 880
 VIZ_H  = 1000
@@ -93,7 +95,7 @@ class runVirusViz(object):
             self.data_daily, self.l_mi_cases = self.readDataDaily(True)
             pass
         elif(key == 65472 or key == 1114048 or key == 7405569):   # F3 key gmaps
-            self.showGmaps()
+            self.showCountyInMap()
             pass  
         elif(key == 65474 or key == 1114050):   # F5 key refresh newest from website
             self.data_daily = False
@@ -613,39 +615,32 @@ class runVirusViz(object):
 
     ## GMAPS
 
-    def showGmaps(self):
-        print('showGmaps...')
-        with open('../google_api_key20.txt') as f:
-            api_key1 = f.readline()
-            #print('api_key', api_key1)
-            f.close
+    def showCountyInMap(self):
+        print('showCountyInMap...')
+        landColor, coastColor, oceanColor, popColor, countyColor = '#eedd99','#93ccfa','#93ccfa','#ffee99','#aa9955'
 
-        gmap = gmplot.GoogleMapPlotter(44.838134, -86.428187, 7)
-        gmap.apikey = api_key1
-        golden_gate_park_lats, golden_gate_park_lons = zip(*[
-	    (42.595074, -83.184570),
-	    (42.594671, -83.183937),
-	    (42.591369, -83.186737),
-	    (42.592167, -83.187971),
-	    (42.595074, -83.184570)
-	    ])
-        gmap.plot(golden_gate_park_lats, golden_gate_park_lons, 'cornflowerblue', edge_width=10)
-        gmap.draw( "../gmaps2020a.html" )
-        '''
-        gmaps.configure(api_key=api_key1)
-        #Define location 1 and 2
-        Durango = (37.2753,-107.880067)
-        SF = (37.7749,-122.419416)
-        locations = [Durango,SF]
+        fig = plt.figure()
+        ax = fig.add_subplot(111)
+        s = 500000
+        lat_1, lon_1 = 44.888371, -86.567335
+        m = Basemap(projection='ortho',lon_0=lon_1,lat_0=lat_1,resolution='l',llcrnrx=-s,llcrnry=-s,urcrnrx=s,urcrnry=s)
+        m.drawmapboundary(fill_color=oceanColor) # fill in the ocean
 
-        #Create the map
-        fig = gmaps.figure()
-        #create the layer
-        layer = gmaps.directions.Directions(Durango, SF,mode='car')
-        #Add the layer
-        fig.add_layer(gmaps.heatmap_layer(locations))
-        fig
-        '''
+        # generic function for reading polygons from file and plotting them on the map. This works with Natural Earth shapes.
+        def drawShapesFromFile(filename,facecolor,edgecolor,m):
+            m.readshapefile(filename, 'temp', drawbounds = False)
+            patches = []
+            for info, shape in zip(m.temp_info, m.temp): patches.append( Polygon(np.array(shape), True) )
+            ax.add_collection(PatchCollection(patches, facecolor=facecolor, edgecolor=edgecolor, linewidths=1))
+
+        # read the higher resolution Natural Earth coastline (land polygons) shapefile and display it as a series of polygons
+        drawShapesFromFile('./ne_maps/ne_10m_land/ne_10m_land',landColor,coastColor,m)
+        drawShapesFromFile('./ne_maps/ne_10m_urban_areas/ne_10m_urban_areas',popColor,'none',m)
+
+        m.drawcounties(color=countyColor)
+        plt.gcf().set_size_inches(10,10)      
+        plt.show()
+  
     ## exit node
     def exit_hook(self):
         print("bye bye, node virusviz")
