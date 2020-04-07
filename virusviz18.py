@@ -20,6 +20,7 @@ import numpy as np
 import pandas as pd
 import datetime 
 import csv
+import os
 from os import listdir
 from os.path import isfile, join
 import matplotlib
@@ -45,19 +46,23 @@ class runVirusViz(object):
 
         # create a node
         print("welcome to node virusviz")
+        self.state_dir = './mi/'
+        self.l_state_config= self.open4File (self.state_dir +'state_config.csv')				
+        VIZ_W = int( self.l_state_config[0][1] )
+        VIZ_H = int( self.l_state_config[1][1] )   
+        
         #initialize variables
         size = VIZ_H, VIZ_W, 3
         self.img_map = np.zeros(size, dtype=np.uint8)	        # map image
         self.img_overlay = np.zeros(size, dtype=np.uint8)	# overlay image
         self.map_data_updated = 1	                        # being updated
         self.now_exit = False
-        self.state_dir = './mi/'
         # Only the coordinates are used by code
-        self.l_mi_county_coord= self.open4File (self.state_dir +'mi_county_cordination.csv')				
+        self.l_mi_county_coord= self.open4File (self.state_dir +self.l_state_config[3][1])				
         #data of coordination
 
         # import image of map
-        self.img_map = cv2.resize(cv2.imread(self.state_dir+'mi_county2019.png'), (VIZ_W, VIZ_H))
+        self.img_map = cv2.resize(cv2.imread(self.state_dir+self.l_state_config[2][1]), (VIZ_W, VIZ_H))
         self.img_overlay = self.img_map.copy()
         self.data_daily = False   # otherwise overall
         # read latest data
@@ -138,8 +143,10 @@ class runVirusViz(object):
     def readDataByDay(self, pos):
         print('readDataByDay...', pos)
         data_dir = self.state_dir + 'data'
+        if(not os.path.isdir(data_dir) ): os.mkdir(data_dir)
         csv_data_files = sorted( [f for f in listdir(data_dir) if isfile(join(data_dir, f))] )
         #print('-----------', csv_data_files)
+        if(0 == len(csv_data_files) ): return (0, [], [])
         if(pos >= len(csv_data_files) ): pos = len(csv_data_files) - 1
         elif(pos < 0): pos = 0
         if( len(csv_data_files[pos]) != 23): return (pos, [])
@@ -180,7 +187,8 @@ class runVirusViz(object):
     ## open a website 
     def open4Website(self, fRaw):
         #csv_url = "https://www.michigan.gov/coronavirus/0,9753,7-406-98163-520743--,00.html"
-        csv_url = 'https://www.michigan.gov/coronavirus/0,9753,7-406-98163_98173---,00.html'
+        #csv_url = 'https://www.michigan.gov/coronavirus/0,9753,7-406-98163_98173---,00.html'
+        csv_url = self.l_state_config[5][1]
         # save html file
         urllib.urlretrieve(csv_url, fRaw)
         # read tables
@@ -251,7 +259,7 @@ class runVirusViz(object):
         if(csv_all_last is None): return False
         else: print('  ', csv_daily, csv_all_today, csv_all_last)
         csv_all_last = self.state_dir + 'data/' + csv_all_last
-	# read data
+        # read data
         l_all_today = self.open4File(csv_all_today)
         l_all_last = self.open4File(csv_all_last)
         # compare data
@@ -341,10 +349,10 @@ class runVirusViz(object):
             else:
                 if(ii < len(l_cases)/2): 
                     posx = 10
-                    posy = ii*line_h+offset_h
+                    posy = int( ii*line_h+offset_h )
                 else: 
                     posx = 180+10
-                    posy = (ii-len(l_cases)/2)*line_h+offset_h
+                    posy = int( (ii-len(l_cases)/2)*line_h+offset_h )
                 n_total += int( a_case[1] )
                 bFound, map_data = self.lookupMapData(a_case[0], self.l_mi_county_coord)
                 nColor = self.getColorByCompare(a_case)
@@ -409,7 +417,7 @@ class runVirusViz(object):
     #
     def infoShowCoronaVirus(self, img, lst_data):
 
-	n_total, ii = 0, 0		
+        n_total, ii = 0, 0
         for cov in lst_data:
             n_total += cov[1]
             cv2.putText(img,cov[0] + '    %d'%(cov[1]), 
@@ -505,7 +513,7 @@ class runVirusViz(object):
             plt.text(-l_max_v+5, l_max_v-30, '%d Daily confirmed COVID-19'%(n_total))
             plt.text(-l_max_v+5, l_max_v-60, 'On '+self.now_date + ' in MI')
         elif type_data ==2:
-            plt.text(-l_max_v+5, l_max_v-10, '%d Overall confirmed COVID-19'%(n_total))
+            plt.text(-l_max_v+10, l_max_v-40, '%d Overall confirmed COVID-19'%(n_total))
             plt.text(-l_max_v+10, l_max_v-80, 'Until '+self.now_date + ' in MI')
         elif type_data ==3:
             plt.text(-l_max_v+10, l_max_v-20, '%d Overall deaths COVID-19'%(n_total))
@@ -523,28 +531,28 @@ class runVirusViz(object):
     # refer to https://github.com/HCui91/covid-19-model	    	
 	#   https://zhuanlan.zhihu.com/p/104645873
     def SIR(self, t, beta, gamma):
-	    # Total population, N.
-	    N = 1000000
-	    # Initial number of infected and recovered individuals, I0 and R0.
-	    I0, R0 = 65, 65.0/239.0*25.0
-	    # Everyone else, S0, is susceptible to infection initially.
-	    S0 = N - I0 - R0
+        # Total population, N.
+        N = 1000000
+        # Initial number of infected and recovered individuals, I0 and R0.
+        I0, R0 = 65, 65.0/239.0*25.0
+        # Everyone else, S0, is susceptible to infection initially.
+        S0 = N - I0 - R0
 
-	    # The SIR model differential equations.
-	    # @njit
-	    def deriv(y, t, N, beta, gamma):
-		S, I, R = y
-		dSdt = -beta * S * I / N
-		dIdt = beta * S * I / N - gamma * I
-		dRdt = gamma * I
-		return dSdt, dIdt, dRdt
+        # The SIR model differential equations.
+        # @njit
+        def deriv(y, t, N, beta, gamma):
+            S, I, R = y
+            dSdt = -beta * S * I / N
+            dIdt = beta * S * I / N - gamma * I
+            dRdt = gamma * I
+            return dSdt, dIdt, dRdt
 
-	    # Initial conditions vector
-	    y0 = S0, I0, R0
-	    # Integrate the SIR equations over the time grid, t.
-	    ret = odeint(deriv, y0, t, args=(N, beta, gamma))
-	    S, I, R = ret.T
-	    return I
+        # Initial conditions vector
+        y0 = S0, I0, R0
+        # Integrate the SIR equations over the time grid, t.
+        ret = odeint(deriv, y0, t, args=(N, beta, gamma))
+        S, I, R = ret.T
+        return I
 
     #
     def predictByModelSir(self, type_data=0):
