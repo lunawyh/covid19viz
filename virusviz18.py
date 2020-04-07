@@ -30,6 +30,7 @@ import urllib
 from scipy.integrate import odeint
 from scipy.optimize import curve_fit
 import gmplot
+import gmaps
 
 VIZ_W  = 880
 VIZ_H  = 1000
@@ -582,7 +583,7 @@ class runVirusViz(object):
         fig.set_figwidth(20)
         plt.scatter(days, data, label="Actual new cases per day", color='r')
         date_s = 18
-        date_len = int(2*len(data))
+        date_len = int(3*len(data))
         day_future = np.arange(0, date_len, 1)
         day_mmdd = []
         for jj in range(date_len):
@@ -603,12 +604,14 @@ class runVirusViz(object):
             fig.savefig(self.state_dir + 'results/mi_county20200000_predict.png')
 
     ## GMAPS
+
     def showGmaps(self):
         print('showGmaps...')
         with open('../google_api_key20.txt') as f:
             api_key1 = f.readline()
             #print('api_key', api_key1)
             f.close
+        '''
         gmap = gmplot.GoogleMapPlotter(44.838134, -86.428187, 7)
         gmap.apikey = api_key1
         golden_gate_park_lats, golden_gate_park_lons = zip(*[
@@ -625,14 +628,16 @@ class runVirusViz(object):
         #Define location 1 and 2
         Durango = (37.2753,-107.880067)
         SF = (37.7749,-122.419416)
+        locations = [Durango,SF]
+
         #Create the map
         fig = gmaps.figure()
         #create the layer
         layer = gmaps.directions.Directions(Durango, SF,mode='car')
         #Add the layer
-        fig.add_layer(layer)
+        fig.add_layer(gmaps.heatmap_layer(locations))
         fig
-        '''
+
     ## exit node
     def exit_hook(self):
         print("bye bye, node virusviz")
