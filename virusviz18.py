@@ -29,7 +29,7 @@ from scipy.integrate import odeint
 from scipy.optimize import curve_fit
 
 # sudo pip install https://github.com/matplotlib/basemap/archive/master.zip
-from mpl_toolkits.basemap import Basemap
+
 from matplotlib.patches import Wedge
 import matplotlib.pyplot as plt
 from matplotlib.patches import Polygon
