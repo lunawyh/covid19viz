@@ -1,6 +1,6 @@
 name,value
-VIZ_W,1280
-VIZ_H,960
+VIZ_W,800
+VIZ_H,600
 state_map,ny_county2020.png
 cordinate,ny_county_cordination.csv
 weblink_num,1
