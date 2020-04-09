@@ -617,7 +617,13 @@ class runVirusViz(object):
 
     def showCountyInMap(self):
         print('showCountyInMap...')
-        landColor, coastColor, oceanColor, popColor, countyColor = '#eedd99','#93ccfa','#93ccfa','#ffee99','#aa9955'
+        #
+        #
+        #gdf = gpd.read_file('./ne_maps/UScounties/UScounties.shp')
+        #print(gdf.columns) # [u'NAME', u'STATE_NAME', u'STATE_FIPS', u'CNTY_FIPS', u'FIPS', u'geometry']
+        #print(gdf[gdf['STATE_NAME'] == 'Michigan'])
+        #
+        landColor, coastColor, oceanColor, popColor, countyColor = '#eedd99','#93ccfa','#93ccfa','#ffee99','#ff0000'
 
         fig = plt.figure()
         ax = fig.add_subplot(111)
@@ -630,13 +636,18 @@ class runVirusViz(object):
         def drawShapesFromFile(filename,facecolor,edgecolor,m):
             m.readshapefile(filename, 'temp', drawbounds = False)
             patches = []
-            for info, shape in zip(m.temp_info, m.temp): patches.append( Polygon(np.array(shape), True) )
+            for info, shape in zip(m.temp_info, m.temp): 
+                if('Michigan' in info['STATE_NAME']):
+                    pass
+                else:
+                    continue
+                patches.append( Polygon(np.array(shape), True) )
             ax.add_collection(PatchCollection(patches, facecolor=facecolor, edgecolor=edgecolor, linewidths=1))
 
         # read the higher resolution Natural Earth coastline (land polygons) shapefile and display it as a series of polygons
-        drawShapesFromFile('./ne_maps/ne_10m_land/ne_10m_land',landColor,coastColor,m)
-        drawShapesFromFile('./ne_maps/ne_10m_urban_areas/ne_10m_urban_areas',popColor,'none',m)
-
+        #drawShapesFromFile('./ne_maps/ne_10m_land/ne_10m_land',landColor,coastColor,m)
+        #drawShapesFromFile('./ne_maps/ne_10m_urban_areas/ne_10m_urban_areas',popColor,'none',m)
+        drawShapesFromFile('./ne_maps/UScounties/UScounties',landColor,coastColor,m)
         m.drawcounties(color=countyColor)
         plt.gcf().set_size_inches(10,10)      
         plt.show()
