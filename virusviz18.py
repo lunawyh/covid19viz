@@ -48,7 +48,8 @@ class runVirusViz(object):
 
         # create a node
         print("welcome to node virusviz")
-        self.state_dir = './mi/'
+        self.state_name = 'MI'
+        self.state_dir = './'+self.state_name.lower()+'/'
         self.l_state_config= self.open4File (self.state_dir +'state_config.csv')				
         VIZ_W = int( self.l_state_config[0][1] )
         VIZ_H = int( self.l_state_config[1][1] )   
@@ -176,6 +177,17 @@ class runVirusViz(object):
         # make sure the 1st row is colum names
         if('County' in l_data[0][0]): pass
         else: csvwriter.writerow(['County', 'Cases', 'Deaths'])
+        for a_row in l_data:
+            csvwriter.writerow(a_row)
+        csv_data_f.close()
+    ## save to csv 
+    def saveToFileCoordinate(self, l_data, csv_name):
+        csv_data_f = open(csv_name, 'w')
+        # create the csv writer 
+        csvwriter = csv.writer(csv_data_f)
+        # make sure the 1st row is colum names
+        csvwriter.writerow(['zip','primary_city','state','latitude','longitude','county',\
+            'type','world_region','country','decommissioned','estimated_population','notes'])
         for a_row in l_data:
             csvwriter.writerow(a_row)
         csv_data_f.close()
@@ -614,7 +626,23 @@ class runVirusViz(object):
             fig.savefig(self.state_dir + 'results/mi_county20200000_predict.png')
 
     ## GMAPS
-
+    def isExitedCounty(self, l_counties, a_county):
+        #print('isExitedCounty...')
+        for a_city in l_counties:
+            if(a_city[5] in a_county): return True
+        return False
+    ## GMAPS
+    def getCountiesInState(self, state):
+        #print('getCountiesInState...')
+        lst_us_cities = self.open4File('./ne_maps/Geocodes_USA_with_Counties.csv')
+        lst_counties = []
+        for a_city in lst_us_cities:
+            if(a_city[5] == 0): continue
+            a_city[5] = a_city[5].replace('.', '')
+            if( (a_city[2] in state) and (not self.isExitedCounty(lst_counties, a_city[5])) ):
+                lst_counties.append(a_city)
+        return lst_counties
+    ## GMAPS
     def showCountyInMap(self):
         print('showCountyInMap...')
         #
@@ -626,8 +654,8 @@ class runVirusViz(object):
 
         fig = plt.figure()
         ax = fig.add_subplot(111)
-        s = 400000     
-        lat_1, lon_1 = 44.888371, -86.567335
+        s = 380000     
+        lat_1, lon_1 = 44.889370, -86.577335  #44.888371, -86.567335
         m = Basemap(projection='ortho',lon_0=lon_1,lat_0=lat_1,resolution='l',llcrnrx=-s,llcrnry=-s,urcrnrx=s,urcrnry=s)
         m.drawmapboundary(fill_color=oceanColor) # fill in the ocean
 
@@ -647,15 +675,21 @@ class runVirusViz(object):
         # refer to https://gis.stackexchange.com/questions/136028/finding-gps-coordinates-of-geographic-center-of-us-counties
         drawShapesFromFile('./ne_maps/UScounties/UScounties',landColor,coastColor,m)
         m.drawcounties(color=countyColor)
+        # draw name of counties
+        coord_f = self.state_dir + 'state_county_coord.csv'
+        if(isfile(coord_f) ):
+            l_counties = self.open4File(coord_f)
+        else:
+            l_counties = self.getCountiesInState(self.state_name)
+            l_d_sort = sorted(l_counties, key=lambda k: k[5])
+            self.saveToFileCoordinate( l_d_sort, coord_f)
+        #print(l_counties)
+        for a_county in l_counties:	
+            lat2, lon2 = a_county[3], a_county[4]
+            x, y = m(lon2, lat2) 
+            plt.text(x, y, a_county[5],fontsize=5,fontweight='bold', ha='center',va='center',color='k')
         #
-        lat2, lon2 = 42.58,	-83.14
-        x, y = m(lon2, lat2) 
-        plt.text(x, y, 'Oakland',fontsize=6,fontweight='bold', ha='center',va='center',color='k')
-        lat2, lon2 = 42.8,	-82.75
-        x, y = m(lon2, lat2) 
-        plt.text(x, y, 'Macomb',fontsize=6,fontweight='bold', ha='center',va='center',color='k')
-        #
-        plt.gcf().set_size_inches(10,10)      
+        plt.gcf().set_size_inches(12,12)      
         plt.show()
   
     ## exit node
