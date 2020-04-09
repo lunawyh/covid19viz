@@ -618,7 +618,6 @@ class runVirusViz(object):
     def showCountyInMap(self):
         print('showCountyInMap...')
         #
-        #
         #gdf = gpd.read_file('./ne_maps/UScounties/UScounties.shp')
         #print(gdf.columns) # [u'NAME', u'STATE_NAME', u'STATE_FIPS', u'CNTY_FIPS', u'FIPS', u'geometry']
         #print(gdf[gdf['STATE_NAME'] == 'Michigan'])
@@ -627,7 +626,7 @@ class runVirusViz(object):
 
         fig = plt.figure()
         ax = fig.add_subplot(111)
-        s = 500000
+        s = 400000     
         lat_1, lon_1 = 44.888371, -86.567335
         m = Basemap(projection='ortho',lon_0=lon_1,lat_0=lat_1,resolution='l',llcrnrx=-s,llcrnry=-s,urcrnrx=s,urcrnry=s)
         m.drawmapboundary(fill_color=oceanColor) # fill in the ocean
@@ -645,10 +644,17 @@ class runVirusViz(object):
             ax.add_collection(PatchCollection(patches, facecolor=facecolor, edgecolor=edgecolor, linewidths=1))
 
         # read the higher resolution Natural Earth coastline (land polygons) shapefile and display it as a series of polygons
-        #drawShapesFromFile('./ne_maps/ne_10m_land/ne_10m_land',landColor,coastColor,m)
-        #drawShapesFromFile('./ne_maps/ne_10m_urban_areas/ne_10m_urban_areas',popColor,'none',m)
+        # refer to https://gis.stackexchange.com/questions/136028/finding-gps-coordinates-of-geographic-center-of-us-counties
         drawShapesFromFile('./ne_maps/UScounties/UScounties',landColor,coastColor,m)
         m.drawcounties(color=countyColor)
+        #
+        lat2, lon2 = 42.58,	-83.14
+        x, y = m(lon2, lat2) 
+        plt.text(x, y, 'Oakland',fontsize=6,fontweight='bold', ha='center',va='center',color='k')
+        lat2, lon2 = 42.8,	-82.75
+        x, y = m(lon2, lat2) 
+        plt.text(x, y, 'Macomb',fontsize=6,fontweight='bold', ha='center',va='center',color='k')
+        #
         plt.gcf().set_size_inches(10,10)      
         plt.show()
   
