@@ -390,6 +390,8 @@ class runVirusViz(object):
                 if('Out of State' in a_case[0]): continue
                 if('Other' in a_case[0]): continue
                 if('Not Reported' in a_case[0]): continue
+                if('MDOC**' in a_case[0]): continue
+                if('FCI***' in a_case[0]): continue
                 if('Unknown' in a_case[0]): continue
                 # draw on the map, select the location
                 cv2.putText(img, str(a_case[1]), 
@@ -445,6 +447,8 @@ class runVirusViz(object):
                 1) 
             ii += 1
             if('Out of State' in cov[0]): continue
+            if('FCI***' in cov[0]): continue
+            if('MDOC**' in cov[0]): continue
             if('Other' in cov[0]): continue
             cv2.putText(img,'%d'%(cov[1]), 
                 (cov[2],cov[3]), 
