@@ -339,8 +339,8 @@ class runVirusViz(object):
     def getColorByCompare(self, case_today, lst_data=None):
         if(self.data_daily): return ( (0,255,0) )
         bfound, case_last = self.lookupMapData(case_today[0], self.l_cases_yest)
-        if( int(case_today[1]) - int(case_last[1]) > 0): return ( (0,255,0) )
-        else: return ( (0,0,255) )
+        if( int(case_today[1]) - int(case_last[1]) > 0): return True
+        else: False
 
     ## look up table to get pre-set information for death
     def getDataListDeath(self, snd_data):
@@ -371,7 +371,8 @@ class runVirusViz(object):
                     posx = 180+10
                     posy = int( (ii-len(l_cases)/2)*line_h+offset_h )
                 n_total += int( a_case[1] )
-                nColor = self.getColorByCompare(a_case)
+                if( self.getColorByCompare(a_case) ): nColor = (0,255,0)
+                else: nColor = (0,0,255)
                 # draw the list on the left
                 cv2.putText(img, a_case[0], 
 		        (posx, posy), 
@@ -714,18 +715,20 @@ class runVirusViz(object):
         ii = 0
         lat2, lon2 = lat_1+1.13965200000001, lon_1-4.390411
         lat3, lon3 = lat2-1.0, lon2+2.0
-        for a_county in self.l_mi_cases:	
-            if('Total' in a_county[0]): continue
-            if('County' in a_county[0]): continue
+        for a_case in self.l_mi_cases:	
+            if('Total' in a_case[0]): continue
+            if('County' in a_case[0]): continue
             if(ii == len(self.l_mi_cases)/2+5):
                 lat2, lon2 = lat3, lon3
+            if( self.getColorByCompare(a_case) ): nColor = 'g'
+            else: nColor = 'y'
             # show name
             lat2 -= 0.1
             x, y = m(lon2, lat2) 
-            plt.text(x, y, a_county[0],fontsize=8, ha='left',va='center',color='g')
+            plt.text(x, y, a_case[0],fontsize=8, ha='left',va='center',color=nColor)
             # show number
             x, y = m(lon2 + 1.0, lat2) 
-            plt.text(x, y, str(a_county[1]),fontsize=8, ha='left',va='center',color='y')
+            plt.text(x, y, str(a_case[1]),fontsize=8, ha='left',va='center',color=nColor)
             ii += 1
            
         # 58. draw title 
