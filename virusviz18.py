@@ -34,7 +34,8 @@ from matplotlib.patches import Wedge
 import matplotlib.pyplot as plt
 from matplotlib.patches import Polygon
 from matplotlib.collections import PatchCollection
-
+from matplotlib.offsetbox import TextArea, DrawingArea, OffsetImage, AnnotationBbox
+import matplotlib.image as mpimg
 VIZ_W  = 880
 VIZ_H  = 1000
 # ==============================================================================
@@ -655,33 +656,38 @@ class runVirusViz(object):
         return c_color
     ## set County Info
     def setCountyInfo(self, l_counties, l_cases):
+        case_max, case_col, case_total = 0, 0.0, 0
+        for a_item in l_cases:
+            if('Total' in a_item[0]): continue
+            if('County' in a_item[0]): continue
+            if(a_item[1] > case_max): case_max = a_item[1]
+            case_total += a_item[1]
         c_color = 'w'
         cmap=plt.get_cmap("Blues")
+        #l_info = []
         for a_item in l_counties:
             bFound, map_data = self.lookupMapData(a_item[3], l_cases)
             if(bFound): 
                 a_item[1] = map_data[1]
                 a_item[2] = map_data[2]
-                if(a_item[1] > 7169):
-                    a_item[11] = cmap(1.0)
-                elif(a_item[1] > 3703):
-                    a_item[11] = cmap(0.8)
-                elif(a_item[1] > 1392):
-                    a_item[11] = cmap(0.7)
-                elif(a_item[1] > 292):
-                    a_item[11] = cmap(0.5)
-                elif(a_item[1] > 111):
-                    a_item[11] = cmap(0.4)
-                elif(a_item[1] > 37):
-                    a_item[11] = cmap(0.3)
-                elif(a_item[1] > 10):
-                    a_item[11] = cmap(0.2)
-                elif(a_item[1] > 0):
-                    a_item[11] = cmap(0.1)
-                else:
-                    a_item[11] = cmap(0.0)
+		case_r = float(a_item[1]) / float(case_max)
+                if(case_r >= 0.6): case_col = 1.0
+                elif(case_r >= 0.5): case_col = 0.9
+                elif(case_r >= 0.3): case_col = 0.8
+                elif(case_r >= 0.15): case_col = 0.7
+                elif(case_r >= 0.1): case_col = 0.6
+                elif(case_r >= 0.01): case_col = 0.5
+                elif(case_r >= 0.001): case_col = 0.4
+                elif(case_r >= 0.0001): case_col = 0.3
+                elif(case_r >= 0.00001): case_col = 0.2
+                else: case_col = 0.1
+                a_item[11] = cmap(case_col)
             else:
                 a_item[11] = c_color
+                a_item[1] = 0
+                a_item[2] = 0
+            #l_info.append(a_item)
+        return case_total
     # generic function for reading polygons from file and plotting them on the map. This works with Natural Earth shapes.
     def drawShapesFromFile(self, filename,facecolor,edgecolor,m,ax,l_counties):
             m.readshapefile(filename, 'temp', drawbounds = False)
@@ -707,7 +713,7 @@ class runVirusViz(object):
             l_d_sort = sorted(l_counties, key=lambda k: k[3])
             self.saveToFileCoordinate( l_d_sort, coord_f)
         # 15. set latest cases infomation
-        self.setCountyInfo(l_counties, self.l_mi_cases)
+        n_total = self.setCountyInfo(l_counties, self.l_mi_cases)
         
         # 20. create plot
         fig = plt.figure()
@@ -715,7 +721,7 @@ class runVirusViz(object):
         fig.set_figwidth(11)
         ax = fig.add_subplot(111)
         # 30. create base map
-        landColor, coastColor, oceanColor, popColor, countyColor = '#eedd99','#93ccfa','#93ccfa','#ffee99','#ff0000'
+        landColor, coastColor, oceanColor, popColor, countyColor = '#eedd99','#93ccfa','w','#ffee99','#ff0000'
         s = int(self.l_state_config[9][1])
         lat_1, lon_1 = float(self.l_state_config[7][1]), float(self.l_state_config[8][1])
         m = Basemap(projection='ortho',lon_0=lon_1,lat_0=lat_1,resolution='l',llcrnrx=-s,llcrnry=-s,urcrnrx=s,urcrnry=s)
@@ -735,6 +741,39 @@ class runVirusViz(object):
             lat2, lon2 = float(a_county[8]), float(a_county[9])
             x, y = m(lon2, lat2) 
             plt.text(x, y, a_county[3],fontsize=8, ha='center',va='center',color='k',rotation=a_county[10])
+        # 55. draw list of counties
+        for a_county in l_counties:	
+            if(a_county[1] < 1): continue
+            lat2, lon2 = 44.878023, -90.457746
+            x, y = m(lon2, lat2) 
+            plt.text(x, y, a_county[3],fontsize=12, ha='center',va='center',color='r',rotation=a_county[10])
+            lat2, lon2 = 44.878023, -89.957746
+            x, y = m(lon2, lat2) 
+            plt.text(x, y, str(a_county[1]),fontsize=12, ha='center',va='center',color='g',rotation=a_county[10])
+            break
+
+        # 58. draw title 
+        type_data = 2
+        if(type_data==1):
+            plt.text(-l_max_v+5, l_max_v-30, '%d Daily confirmed COVID-19'%(n_total))
+            plt.text(-l_max_v+5, l_max_v-60, 'On '+self.now_date + ' in MI')
+        elif type_data ==2:
+            lat2, lon2 = 48.095130, -87.966323
+            x, y = m(lon2, lat2) 
+            plt.text(x, y, '%d Overall confirmed'%(n_total),fontsize=20, ha='left',va='center',color='g')
+            lat2, lon2 = 47.895130, -87.966323
+            x, y = m(lon2, lat2) 
+            plt.text(x, y, 'COVID-19 Until '+self.now_date + ' in MI',fontsize=16, ha='left',va='center',color='g')
+        elif type_data ==3:
+            plt.text(-l_max_v+10, l_max_v-20, '%d Overall deaths COVID-19'%(n_total))
+            plt.text(-l_max_v+10, l_max_v-40, 'Until '+self.now_date + ' in MI')
+        # 59. draw logo 
+        lat2, lon2 = 47.415000, -82.283829
+        x, y = m(lon2, lat2) 
+        arr_lena = mpimg.imread('./doc/app_qrcode_logo.png')
+        imagebox = OffsetImage(arr_lena, zoom=0.15)
+        ab = AnnotationBbox(imagebox, (x, y))
+        ax.add_artist(ab)
         # 60. show all
         fig.tight_layout()      
         plt.show()
