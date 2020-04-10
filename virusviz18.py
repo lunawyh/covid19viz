@@ -106,9 +106,9 @@ class runVirusViz(object):
             if(len(self.l_mi_cases) > 0):
                 self.img_overlay = self.img_map.copy()
                 self.infoShowCases(self.img_overlay, self.l_mi_cases)
-                cv2.imwrite(self.state_dir + 'results/mi_county'+self.name_file+'.png', self.img_overlay)
-                if(self.isNameOnToday(self.name_file)):
-                    cv2.imwrite(self.state_dir + 'results/mi_county20200000.png', self.img_overlay)
+                #cv2.imwrite(self.state_dir + 'results/mi_county'+self.name_file+'.png', self.img_overlay)
+                #if(self.isNameOnToday(self.name_file)):
+                #    cv2.imwrite(self.state_dir + 'results/mi_county20200000.png', self.img_overlay)
             pass  
         elif(key == 65477 or key == 1114053 or key == 7798784):   # F8 key next day
             self.data_daily = False
@@ -535,6 +535,7 @@ class runVirusViz(object):
             plt.text(-l_max_v+10, l_max_v-40, 'Until '+self.now_date + ' in MI')
         plt.axis([-l_max_v, l_max_v, -l_max_v, l_max_v])
         fig.tight_layout()      
+        ax.axis('off')  # get rid of the ticks and ticklabels
         plt.show()
         if(type_data==1):
             fig.savefig(self.state_dir + 'results/mi_county'+self.name_file+'_daily.png')
@@ -742,16 +743,23 @@ class runVirusViz(object):
             x, y = m(lon2, lat2) 
             plt.text(x, y, a_county[3],fontsize=8, ha='center',va='center',color='k',rotation=a_county[10])
         # 55. draw list of counties
-        for a_county in l_counties:	
-            if(a_county[1] < 1): continue
-            lat2, lon2 = 44.878023, -90.457746
+        ii = 0
+        lat2, lon2 = 46.078023, -90.457746
+        lat3, lon3 = lat2-1.0, lon2+2.0
+        for a_county in self.l_mi_cases:	
+            if('Total' in a_county[0]): continue
+            if('County' in a_county[0]): continue
+            if(ii == len(self.l_mi_cases)/2+5):
+                lat2, lon2 = lat3, lon3
+            # show name
+            lat2 -= 0.1
             x, y = m(lon2, lat2) 
-            plt.text(x, y, a_county[3],fontsize=12, ha='center',va='center',color='r',rotation=a_county[10])
-            lat2, lon2 = 44.878023, -89.957746
-            x, y = m(lon2, lat2) 
-            plt.text(x, y, str(a_county[1]),fontsize=12, ha='center',va='center',color='g',rotation=a_county[10])
-            break
-
+            plt.text(x, y, a_county[0],fontsize=8, ha='left',va='center',color='g')
+            # show number
+            x, y = m(lon2 + 1.0, lat2) 
+            plt.text(x, y, str(a_county[1]),fontsize=8, ha='left',va='center',color='y')
+            ii += 1
+           
         # 58. draw title 
         type_data = 2
         if(type_data==1):
@@ -774,9 +782,13 @@ class runVirusViz(object):
         imagebox = OffsetImage(arr_lena, zoom=0.15)
         ab = AnnotationBbox(imagebox, (x, y))
         ax.add_artist(ab)
+        ax.axis('off')  # get rid of the ticks and ticklabels
         # 60. show all
         fig.tight_layout()      
         plt.show()
+        fig.savefig(self.state_dir + 'results/mi_county'+self.name_file+'.png')
+        if(self.isNameOnToday(self.name_file)):
+            fig.savefig(self.state_dir + 'results/mi_county20200000.png')
   
     ## exit node
     def exit_hook(self):
