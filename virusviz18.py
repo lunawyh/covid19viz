@@ -527,12 +527,13 @@ class runVirusViz(object):
             plt.text(-l_max_v+5, l_max_v-30, '%d Daily confirmed COVID-19'%(n_total))
             plt.text(-l_max_v+5, l_max_v-60, 'On '+self.now_date + ' in MI')
         elif type_data ==2:
-            plt.text(-l_max_v+10, l_max_v-40, '%d Overall confirmed COVID-19'%(n_total))
-            plt.text(-l_max_v+10, l_max_v-80, 'Until '+self.now_date + ' in MI')
+            plt.text(-l_max_v+10, l_max_v-140, '%d Overall confirmed COVID-19'%(n_total))
+            plt.text(-l_max_v+10, l_max_v-240, 'Until '+self.now_date + ' in MI')
         elif type_data ==3:
             plt.text(-l_max_v+10, l_max_v-20, '%d Overall deaths COVID-19'%(n_total))
             plt.text(-l_max_v+10, l_max_v-40, 'Until '+self.now_date + ' in MI')
         plt.axis([-l_max_v, l_max_v, -l_max_v, l_max_v])
+        fig.tight_layout()      
         plt.show()
         if(type_data==1):
             fig.savefig(self.state_dir + 'results/mi_county'+self.name_file+'_daily.png')
@@ -621,6 +622,7 @@ class runVirusViz(object):
         plt.ylabel('Confirmed Daily New Cases')
         plt.title("COVID-19 Prediction of daily new cases in Michigan")
         plt.xticks(rotation=45)
+        fig.tight_layout()      
         plt.show()
         if(self.isNameOnToday(self.name_file)):
             fig.savefig(self.state_dir + 'results/mi_county20200000_predict.png')
@@ -653,9 +655,12 @@ class runVirusViz(object):
         landColor, coastColor, oceanColor, popColor, countyColor = '#eedd99','#93ccfa','#93ccfa','#ffee99','#ff0000'
 
         fig = plt.figure()
+        fig.set_figheight(11)
+        fig.set_figwidth(11)
+        #plt.gcf().set_size_inches(11,11)
         ax = fig.add_subplot(111)
-        s = 380000     
-        lat_1, lon_1 = 44.889370, -86.577335  #44.888371, -86.567335
+        s = 370000     
+        lat_1, lon_1 = 44.938371, -86.067335  #44.888371, -86.567335
         m = Basemap(projection='ortho',lon_0=lon_1,lat_0=lat_1,resolution='l',llcrnrx=-s,llcrnry=-s,urcrnrx=s,urcrnry=s)
         m.drawmapboundary(fill_color=oceanColor) # fill in the ocean
 
@@ -687,9 +692,9 @@ class runVirusViz(object):
         for a_county in l_counties:	
             lat2, lon2 = float(a_county[8]), float(a_county[9])
             x, y = m(lon2, lat2) 
-            plt.text(x, y, a_county[3],fontsize=5,fontweight='bold', ha='center',va='center',color='k')
+            plt.text(x, y, a_county[3],fontsize=5, ha='center',va='center',color='k')
         #
-        plt.gcf().set_size_inches(12,12)      
+        fig.tight_layout()      
         plt.show()
   
     ## exit node
