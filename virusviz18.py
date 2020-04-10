@@ -186,8 +186,8 @@ class runVirusViz(object):
         # create the csv writer 
         csvwriter = csv.writer(csv_data_f)
         # make sure the 1st row is colum names
-        csvwriter.writerow(['zip','primary_city','state','latitude','longitude','county',\
-            'type','world_region','country','decommissioned','estimated_population','notes'])
+        csvwriter.writerow(['USPS','GEOID','ANSICODE','NAME','ALAND','AWATER',\
+            'ALAND_SQMI','AWATER_SQMI','INTPTLAT','INTPTLONG','ROTATE','NOTES'])
         for a_row in l_data:
             csvwriter.writerow(a_row)
         csv_data_f.close()
@@ -686,13 +686,13 @@ class runVirusViz(object):
             l_counties = self.open4File(coord_f)
         else:
             l_counties = self.getCountiesInState(self.state_name)
-            l_d_sort = sorted(l_counties, key=lambda k: k[5])
+            l_d_sort = sorted(l_counties, key=lambda k: k[3])
             self.saveToFileCoordinate( l_d_sort, coord_f)
         #print(l_counties)
         for a_county in l_counties:	
             lat2, lon2 = float(a_county[8]), float(a_county[9])
             x, y = m(lon2, lat2) 
-            plt.text(x, y, a_county[3],fontsize=5, ha='center',va='center',color='k')
+            plt.text(x, y, a_county[3],fontsize=8, ha='center',va='center',color='k',rotation=a_county[10])
         #
         fig.tight_layout()      
         plt.show()
