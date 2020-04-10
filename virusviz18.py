@@ -125,7 +125,12 @@ class runVirusViz(object):
             self.data_daily = False
             self.csv_pos_now, self.l_mi_cases, self.l_cases_yest = self.readDataByDay(9999999999) 
         elif(key == 65481 or key == 1114057 or key == 7995393):   # F12 key next day
-            self.predictByModelSir()
+            if( self.predictByModelSir() ):
+                l_img = cv2.imread(self.state_dir + 'results/mi_county20200000_predict.png')
+                s_img = cv2.imread('./doc/app_qrcode_logo.jpg')
+                x_offset, y_offset=80, 45
+                l_img[y_offset:y_offset+s_img.shape[0], x_offset:x_offset+s_img.shape[1]] = s_img
+                cv2.imwrite(self.state_dir + 'results/mi_county20200000_predict.png', l_img)
         elif(key == 114 or key == 1048690):  # r key
             if self.data_daily == True: type_data=1
             else: type_data =2
@@ -597,7 +602,8 @@ class runVirusViz(object):
         plt.show()
         if(self.isNameOnToday(self.name_file)):
             fig.savefig(self.state_dir + 'results/mi_county20200000_predict.png')
-
+            return True
+        return False
     ## GMAPS
     def isExitedCounty(self, l_counties, a_county):
         #print('isExitedCounty...')
@@ -751,7 +757,7 @@ class runVirusViz(object):
         lat2, lon2 = lat_1+2.476629, lon_1+3.783506
         x, y = m(lon2, lat2) 
         arr_lena = mpimg.imread('./doc/app_qrcode_logo.png')
-        imagebox = OffsetImage(arr_lena, zoom=0.15)
+        imagebox = OffsetImage(arr_lena)  # , zoom=0.15)
         ab = AnnotationBbox(imagebox, (x, y))
         ax.add_artist(ab)
         ax.axis('off')  # get rid of the ticks and ticklabels
