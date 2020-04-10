@@ -712,7 +712,7 @@ class runVirusViz(object):
             plt.text(x, y, a_county[3],fontsize=8, ha='center',va='center',color='k',rotation=a_county[10])
         # 55. draw list of counties
         ii = 0
-        lat2, lon2 = 46.078023, -90.457746
+        lat2, lon2 = lat_1+1.13965200000001, lon_1-4.390411
         lat3, lon3 = lat2-1.0, lon2+2.0
         for a_county in self.l_mi_cases:	
             if('Total' in a_county[0]): continue
@@ -731,21 +731,21 @@ class runVirusViz(object):
         # 58. draw title 
         #type_data = 2
         if(type_data==1):
-            lat2, lon2 = 48.095130, -87.966323
+            lat2, lon2 = lat_1+3.156759, lon_1-1.898988
             x, y = m(lon2, lat2) 
             plt.text(x, y, '%d Daily confirmed COVID-19'%(n_total),fontsize=20, ha='left',va='center',color='g')
-            lat2, lon2 = 47.895130, -87.966323
+            lat2 -= 0.2
             x, y = m(lon2, lat2) 
             plt.text(x, y, 'On '+self.now_date + ' in MI',fontsize=16, ha='left',va='center',color='g')
         elif type_data ==2:
-            lat2, lon2 = 48.095130, -87.966323
+            lat2, lon2 = lat_1+3.156759, lon_1-1.898988
             x, y = m(lon2, lat2) 
             plt.text(x, y, '%d Overall confirmed'%(n_total),fontsize=20, ha='left',va='center',color='g')
-            lat2, lon2 = 47.895130, -87.966323
+            lat2 -= 0.2
             x, y = m(lon2, lat2) 
             plt.text(x, y, 'COVID-19 Until '+self.now_date + ' in MI',fontsize=16, ha='left',va='center',color='g')
         # 59. draw logo 
-        lat2, lon2 = 47.415000, -82.283829
+        lat2, lon2 = lat_1+2.476629, lon_1+3.783506
         x, y = m(lon2, lat2) 
         arr_lena = mpimg.imread('./doc/app_qrcode_logo.png')
         imagebox = OffsetImage(arr_lena, zoom=0.15)
