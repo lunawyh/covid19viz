@@ -5,3 +5,8 @@ state_map,mi_county2019.png
 cordinate,mi_county_cordination.csv
 weblink_num,1
 weblink_state,"https://www.michigan.gov/coronavirus/0,9753,7-406-98163_98173---,00.html"
+state_name,Michigan
+basemap_lat,44.938371
+basemap_lon,-86.067335
+basemap_lat_len,370000
+basemap_lon_len,370000

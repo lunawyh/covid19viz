@@ -644,43 +644,61 @@ class runVirusViz(object):
             if( (a_city[0] in state) and (not self.isExitedCounty(lst_counties, a_city[3])) ):
                 lst_counties.append(a_city)
         return lst_counties
-    ## GMAPS
-    def showCountyInMap(self):
-        print('showCountyInMap...')
-        #
-        #gdf = gpd.read_file('./ne_maps/UScounties/UScounties.shp')
-        #print(gdf.columns) # [u'NAME', u'STATE_NAME', u'STATE_FIPS', u'CNTY_FIPS', u'FIPS', u'geometry']
-        #print(gdf[gdf['STATE_NAME'] == 'Michigan'])
-        #
-        landColor, coastColor, oceanColor, popColor, countyColor = '#eedd99','#93ccfa','#93ccfa','#ffee99','#ff0000'
-
-        fig = plt.figure()
-        fig.set_figheight(11)
-        fig.set_figwidth(11)
-        #plt.gcf().set_size_inches(11,11)
-        ax = fig.add_subplot(111)
-        s = 370000     
-        lat_1, lon_1 = 44.938371, -86.067335  #44.888371, -86.567335
-        m = Basemap(projection='ortho',lon_0=lon_1,lat_0=lat_1,resolution='l',llcrnrx=-s,llcrnry=-s,urcrnrx=s,urcrnry=s)
-        m.drawmapboundary(fill_color=oceanColor) # fill in the ocean
-
-        # generic function for reading polygons from file and plotting them on the map. This works with Natural Earth shapes.
-        def drawShapesFromFile(filename,facecolor,edgecolor,m):
+    ## get County Info
+    def getCountyInfo(self, l_counties, a_county):
+        c_color = '#eedd99'
+        for a_item in l_counties:
+            if(a_county in a_item[3]):   # .lower()
+                c_color = a_item[11]
+                break
+        #print(a_county, c_color)
+        return c_color
+    ## set County Info
+    def setCountyInfo(self, l_counties, l_cases):
+        c_color = 'w'
+        cmap=plt.get_cmap("Blues")
+        for a_item in l_counties:
+            bFound, map_data = self.lookupMapData(a_item[3], l_cases)
+            if(bFound): 
+                a_item[1] = map_data[1]
+                a_item[2] = map_data[2]
+                if(a_item[1] > 7169):
+                    a_item[11] = cmap(1.0)
+                elif(a_item[1] > 3703):
+                    a_item[11] = cmap(0.8)
+                elif(a_item[1] > 1392):
+                    a_item[11] = cmap(0.7)
+                elif(a_item[1] > 292):
+                    a_item[11] = cmap(0.5)
+                elif(a_item[1] > 111):
+                    a_item[11] = cmap(0.4)
+                elif(a_item[1] > 37):
+                    a_item[11] = cmap(0.3)
+                elif(a_item[1] > 10):
+                    a_item[11] = cmap(0.2)
+                elif(a_item[1] > 0):
+                    a_item[11] = cmap(0.1)
+                else:
+                    a_item[11] = cmap(0.0)
+            else:
+                a_item[11] = c_color
+    # generic function for reading polygons from file and plotting them on the map. This works with Natural Earth shapes.
+    def drawShapesFromFile(self, filename,facecolor,edgecolor,m,ax,l_counties):
             m.readshapefile(filename, 'temp', drawbounds = False)
             patches = []
             for info, shape in zip(m.temp_info, m.temp): 
-                if('Michigan' in info['STATE_NAME']):
+                patches = []
+                if(self.l_state_config[6][1] in info['STATE_NAME']):
+                    facecolor2 = self.getCountyInfo(l_counties, info['NAME'])
                     pass
                 else:
                     continue
                 patches.append( Polygon(np.array(shape), True) )
-            ax.add_collection(PatchCollection(patches, facecolor=facecolor, edgecolor=edgecolor, linewidths=1))
-
-        # read the higher resolution Natural Earth coastline (land polygons) shapefile and display it as a series of polygons
-        # refer to https://gis.stackexchange.com/questions/136028/finding-gps-coordinates-of-geographic-center-of-us-counties
-        drawShapesFromFile('./ne_maps/UScounties/UScounties',landColor,coastColor,m)
-        m.drawcounties(color=countyColor)
-        # draw name of counties
+                ax.add_collection(PatchCollection(patches, facecolor=facecolor2, edgecolor=edgecolor, linewidths=1))
+    ## GMAPS
+    def showCountyInMap(self):
+        print('showCountyInMap...')
+        # 10. read name of counties
         coord_f = self.state_dir + 'state_county_coord.csv'
         if(isfile(coord_f) ):
             l_counties = self.open4File(coord_f)
@@ -688,12 +706,36 @@ class runVirusViz(object):
             l_counties = self.getCountiesInState(self.state_name)
             l_d_sort = sorted(l_counties, key=lambda k: k[3])
             self.saveToFileCoordinate( l_d_sort, coord_f)
-        #print(l_counties)
+        # 15. set latest cases infomation
+        self.setCountyInfo(l_counties, self.l_mi_cases)
+        
+        # 20. create plot
+        fig = plt.figure()
+        fig.set_figheight(11)
+        fig.set_figwidth(11)
+        ax = fig.add_subplot(111)
+        # 30. create base map
+        landColor, coastColor, oceanColor, popColor, countyColor = '#eedd99','#93ccfa','#93ccfa','#ffee99','#ff0000'
+        s = int(self.l_state_config[9][1])
+        lat_1, lon_1 = float(self.l_state_config[7][1]), float(self.l_state_config[8][1])
+        m = Basemap(projection='ortho',lon_0=lon_1,lat_0=lat_1,resolution='l',llcrnrx=-s,llcrnry=-s,urcrnrx=s,urcrnry=s)
+        m.drawmapboundary(fill_color=oceanColor) # fill in the ocean
+
+        # 40. plot counties
+        #gdf = gpd.read_file('./ne_maps/UScounties/UScounties.shp')
+        #print(gdf.columns) # [u'NAME', u'STATE_NAME', u'STATE_FIPS', u'CNTY_FIPS', u'FIPS', u'geometry']
+        #print(gdf[gdf['STATE_NAME'] == 'Michigan'])
+        # read the higher resolution Natural Earth coastline (land polygons) shapefile and display it as a series of polygons
+        # refer to https://gis.stackexchange.com/questions/136028/finding-gps-coordinates-of-geographic-center-of-us-counties
+        self.drawShapesFromFile('./ne_maps/UScounties/UScounties',landColor,coastColor,m,ax,l_counties)
+        m.drawcounties(color=countyColor)
+
+        # 50. draw name of counties
         for a_county in l_counties:	
             lat2, lon2 = float(a_county[8]), float(a_county[9])
             x, y = m(lon2, lat2) 
             plt.text(x, y, a_county[3],fontsize=8, ha='center',va='center',color='k',rotation=a_county[10])
-        #
+        # 60. show all
         fig.tight_layout()      
         plt.show()
   
