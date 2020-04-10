@@ -629,17 +629,17 @@ class runVirusViz(object):
     def isExitedCounty(self, l_counties, a_county):
         #print('isExitedCounty...')
         for a_city in l_counties:
-            if(a_city[5] in a_county): return True
+            if(a_city[3] in a_county): return True
         return False
     ## GMAPS
     def getCountiesInState(self, state):
         #print('getCountiesInState...')
-        lst_us_cities = self.open4File('./ne_maps/Geocodes_USA_with_Counties.csv')
+        lst_us_cities = self.open4File('./ne_maps/2019_Gaz_counties_national.csv')
         lst_counties = []
         for a_city in lst_us_cities:
-            if(a_city[5] == 0): continue
-            a_city[5] = a_city[5].replace('.', '')
-            if( (a_city[2] in state) and (not self.isExitedCounty(lst_counties, a_city[5])) ):
+            #if(a_city[5] == 0): continue
+            a_city[3] = a_city[3].replace(' County', '')
+            if( (a_city[0] in state) and (not self.isExitedCounty(lst_counties, a_city[3])) ):
                 lst_counties.append(a_city)
         return lst_counties
     ## GMAPS
@@ -685,9 +685,9 @@ class runVirusViz(object):
             self.saveToFileCoordinate( l_d_sort, coord_f)
         #print(l_counties)
         for a_county in l_counties:	
-            lat2, lon2 = a_county[3], a_county[4]
+            lat2, lon2 = float(a_county[8]), float(a_county[9])
             x, y = m(lon2, lat2) 
-            plt.text(x, y, a_county[5],fontsize=5,fontweight='bold', ha='center',va='center',color='k')
+            plt.text(x, y, a_county[3],fontsize=5,fontweight='bold', ha='center',va='center',color='k')
         #
         plt.gcf().set_size_inches(12,12)      
         plt.show()
