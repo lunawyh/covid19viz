@@ -371,7 +371,6 @@ class runVirusViz(object):
                     posx = 180+10
                     posy = int( (ii-len(l_cases)/2)*line_h+offset_h )
                 n_total += int( a_case[1] )
-                bFound, map_data = self.lookupMapData(a_case[0], self.l_mi_county_coord)
                 nColor = self.getColorByCompare(a_case)
                 # draw the list on the left
                 cv2.putText(img, a_case[0], 
@@ -387,12 +386,8 @@ class runVirusViz(object):
 		        nColor,
 		        1) 
                 ii += 1
-                if('Out of State' in a_case[0]): continue
-                if('Other' in a_case[0]): continue
-                if('Not Reported' in a_case[0]): continue
-                if('MDOC**' in a_case[0]): continue
-                if('FCI***' in a_case[0]): continue
-                if('Unknown' in a_case[0]): continue
+                bFound, map_data = self.lookupMapData(a_case[0], self.l_mi_county_coord)
+                if(not bFound): continue
                 # draw on the map, select the location
                 cv2.putText(img, str(a_case[1]), 
 		        (map_data[2],map_data[3]), 
@@ -400,8 +395,7 @@ class runVirusViz(object):
 		        0.7,
 		        nColor,
 		        1) 
-                if(map_data[2] < 200 and map_data[3] < 200): print('Missing', a_case)
-                continue
+                
         #print('total:', wish_total, n_total)
         if(wish_total == n_total):
             if(self.data_daily):
@@ -431,44 +425,6 @@ class runVirusViz(object):
 		    (255,64,0),
 		    1) 
             
-    ## This shows one list such as an example
-    # for example: self.infoShowCoronaVirus(self.l_mi_county_coord)
-    #
-    def infoShowCoronaVirus(self, img, lst_data):
-
-        n_total, ii = 0, 0
-        for cov in lst_data:
-            n_total += cov[1]
-            cv2.putText(img,cov[0] + '    %d'%(cov[1]), 
-                (10, ii*15+360), 
-                cv2.FONT_HERSHEY_SIMPLEX, 
-                0.5,
-                cov[4],
-                1) 
-            ii += 1
-            if('Out of State' in cov[0]): continue
-            if('FCI***' in cov[0]): continue
-            if('MDOC**' in cov[0]): continue
-            if('Other' in cov[0]): continue
-            cv2.putText(img,'%d'%(cov[1]), 
-                (cov[2],cov[3]), 
-                cv2.FONT_HERSHEY_DUPLEX, 
-                0.7,
-                cov[4],
-                1) 
-        cv2.putText(img,'%d Confirmed Cases'%(n_total), 
-            (240,30), 
-            cv2.FONT_HERSHEY_DUPLEX, 
-            1,
-            (255,64,0),
-            1) 
-        cv2.putText(img, self.now_date, 
-            (405,65), 
-            cv2.FONT_HERSHEY_DUPLEX, 
-            1,
-            (255,64,0),
-            1) 
-
     #
     def isRealCounty(self, c_name, lst_counties):
         for a_county in lst_counties:
@@ -683,7 +639,7 @@ class runVirusViz(object):
             if(bFound): 
                 a_item[1] = map_data[1]
                 a_item[2] = map_data[2]
-		case_r = float(a_item[1]) / float(case_max)
+                case_r = float(a_item[1]) / float(case_max)
                 if(case_r >= 0.6): case_col = 1.0
                 elif(case_r >= 0.5): case_col = 0.9
                 elif(case_r >= 0.3): case_col = 0.8
