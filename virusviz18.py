@@ -97,7 +97,9 @@ class runVirusViz(object):
             self.data_daily, self.l_mi_cases = self.readDataDaily(True)
             pass
         elif(key == 65472 or key == 1114048 or key == 7405569):   # F3 key gmaps
-            self.showCountyInMap()
+            if self.data_daily == True: type_data=1
+            else: type_data =2
+            self.showCountyInMap(type_data)
             pass  
         elif(key == 65474 or key == 1114050):   # F5 key refresh newest from website
             self.data_daily = False
@@ -464,6 +466,11 @@ class runVirusViz(object):
             1) 
 
     #
+    def isRealCounty(self, c_name, lst_counties):
+        for a_county in lst_counties:
+            if(c_name in a_county[3]): return True
+        return False
+    #
     def infoShowRainbow(self, type_data, lst_data):
         print('infoShowRainbow...', type_data)
         fig=plt.figure()
@@ -477,13 +484,14 @@ class runVirusViz(object):
         # clean list
         l_d_clean = []
         l_max_v = 0
+        l_counties = []
+        coord_f = self.state_dir + 'state_county_coord.csv'
+        if(isfile(coord_f) ):
+            l_counties = self.open4File(coord_f)
+
         for a_case in lst_data:
-            if('Total' in a_case[0]): continue
-            if('Out of State' in a_case[0]): continue
-            if('Unknown' in a_case[0]): continue
-            if('Other' in a_case[0]): continue
-            if('Not Reported' in a_case[0]): continue
-            if('County' in a_case[0]): continue
+            if(self.isRealCounty(a_case[0], l_counties)): pass
+            else: continue
             l_d_clean.append(a_case)
             if(int(a_case[col]) > l_max_v): l_max_v = int(a_case[col])
         n_total=0		
@@ -594,9 +602,9 @@ class runVirusViz(object):
             else: lst_data_daily.append(lst_data_overall[ii] - lst_data_overall[ii-1])  
 
         # predict the future
-        data = lst_data_daily
+        data = lst_data_daily  #[0:-1]
         #print(lst_data_overall)
-        #data.append( int(data[-1] * 0.98) )
+        #data.append( int(data[-1] * 0.9) )
         days = np.arange(0, len(data), 1)
         popt, pcov = curve_fit(self.SIR, days, data)
         print(' contact parameter, recovery rate:', popt)
@@ -608,7 +616,7 @@ class runVirusViz(object):
         fig.set_figwidth(20)
         plt.scatter(days, data, label="Actual new cases per day", color='r')
         date_s = 18
-        date_len = int(2*len(data))
+        date_len = int(3*len(data))
         day_future = np.arange(0, date_len, 1)
         day_mmdd = []
         for jj in range(date_len):
@@ -703,7 +711,7 @@ class runVirusViz(object):
                 patches.append( Polygon(np.array(shape), True) )
                 ax.add_collection(PatchCollection(patches, facecolor=facecolor2, edgecolor=edgecolor, linewidths=1))
     ## GMAPS
-    def showCountyInMap(self):
+    def showCountyInMap(self, type_data):
         print('showCountyInMap...')
         # 10. read name of counties
         coord_f = self.state_dir + 'state_county_coord.csv'
@@ -761,10 +769,14 @@ class runVirusViz(object):
             ii += 1
            
         # 58. draw title 
-        type_data = 2
+        #type_data = 2
         if(type_data==1):
-            plt.text(-l_max_v+5, l_max_v-30, '%d Daily confirmed COVID-19'%(n_total))
-            plt.text(-l_max_v+5, l_max_v-60, 'On '+self.now_date + ' in MI')
+            lat2, lon2 = 48.095130, -87.966323
+            x, y = m(lon2, lat2) 
+            plt.text(x, y, '%d Daily confirmed COVID-19'%(n_total),fontsize=20, ha='left',va='center',color='g')
+            lat2, lon2 = 47.895130, -87.966323
+            x, y = m(lon2, lat2) 
+            plt.text(x, y, 'On '+self.now_date + ' in MI',fontsize=16, ha='left',va='center',color='g')
         elif type_data ==2:
             lat2, lon2 = 48.095130, -87.966323
             x, y = m(lon2, lat2) 
@@ -772,9 +784,6 @@ class runVirusViz(object):
             lat2, lon2 = 47.895130, -87.966323
             x, y = m(lon2, lat2) 
             plt.text(x, y, 'COVID-19 Until '+self.now_date + ' in MI',fontsize=16, ha='left',va='center',color='g')
-        elif type_data ==3:
-            plt.text(-l_max_v+10, l_max_v-20, '%d Overall deaths COVID-19'%(n_total))
-            plt.text(-l_max_v+10, l_max_v-40, 'Until '+self.now_date + ' in MI')
         # 59. draw logo 
         lat2, lon2 = 47.415000, -82.283829
         x, y = m(lon2, lat2) 
@@ -786,9 +795,10 @@ class runVirusViz(object):
         # 60. show all
         fig.tight_layout()      
         plt.show()
-        fig.savefig(self.state_dir + 'results/mi_county'+self.name_file+'.png')
-        if(self.isNameOnToday(self.name_file)):
-            fig.savefig(self.state_dir + 'results/mi_county20200000.png')
+        if(type_data==2):
+            fig.savefig(self.state_dir + 'results/mi_county'+self.name_file+'.png')
+            if(self.isNameOnToday(self.name_file)):
+                fig.savefig(self.state_dir + 'results/mi_county20200000.png')
   
     ## exit node
     def exit_hook(self):
