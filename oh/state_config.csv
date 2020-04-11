@@ -4,4 +4,4 @@ VIZ_H,960
 state_map,ny_county2020.png
 cordinate,ny_county_cordination.csv
 weblink_num,1
-weblink_state,https://covid19tracker.health.ny.gov/views/NYS-COVID19-Tracker/NYSDOHCOVID-19Tracker-Map?%3Aembed=yes&%3Atoolbar=no&%3Atabs=n
+weblink_state,https://coronavirus.ohio.gov/static/COVIDSummaryData.csv

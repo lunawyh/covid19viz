@@ -44,7 +44,7 @@ class runVirusViz(object):
 
         # create a node
         print("welcome to node virusviz")
-        self.state_dir = './ny/'
+        self.state_dir = './oh/'
         self.l_state_config= self.open4File (self.state_dir +'state_config.csv')				
         VIZ_W = int( self.l_state_config[0][1] )
         VIZ_H = int( self.l_state_config[1][1] )   
