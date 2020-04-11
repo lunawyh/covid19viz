@@ -2,6 +2,7 @@ county,type,x,y
 Arenac,0,695,665
 Allegan,0,466,885
 Antrim,0,559,525
+Benzie,0,466,577
 Branch,0,566,983
 Barry,0,540,883
 Bay,0,682,695
@@ -45,8 +46,10 @@ Mackinac,0,511,335
 Manistee,0,468,606
 Marquette,0,266,309
 Mecosta,0,539,733
+Menominee,0,311,396
 Midland,8,643,732
-Missaukee,0,589,629
+Missaukee,0,586,625
+Mason,0,437,676
 Monroe,0,732,986
 Montcalm,0,566,781
 Muskegon,0,450,760
@@ -54,6 +57,7 @@ Newaygo,0,488,755
 Oakland,0,740,880
 Oceana,0,437,731
 Ogemaw,0,666,629
+Ontonagon,0,129,298
 Osceola,0,539,676
 Oscoda,0,666,577
 Otsego,0,615,526
@@ -71,7 +75,3 @@ Van Buren,0,466,936
 Washtenaw,0,694,935
 Wayne,0,750,903
 Wexford,0,511,628
-Other,0,25,85
-Out of State,0,25,85
-Unknown,0,466,885
-Not Reported,0,753,933

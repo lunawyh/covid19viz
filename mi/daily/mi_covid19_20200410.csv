@@ -1,0 +1,51 @@
+County,Cases,Deaths
+Allegan,1,0
+Bay,6,0
+Berrien,8,0
+Branch,1,1
+Calhoun,8,0
+Cass,2,0
+Charlevoix,1,0
+Chippewa,0,1
+Clare,1,1
+Clinton,5,2
+Detroit City,157,52
+Eaton,0,1
+Emmet,1,0
+Genesee,73,9
+Gogebic,1,0
+Grand Traverse,1,0
+Hillsdale,6,0
+Ingham,17,0
+Ionia,1,1
+Isabella,9,0
+Jackson,9,0
+Kalamazoo,3,1
+Kent,17,4
+Lapeer,10,1
+Livingston,15,1
+Macomb,190,32
+Marquette,3,0
+Mecosta,2,0
+Menominee,1,0.0
+Monroe,9,3
+Montcalm,1,0
+Muskegon,4,0
+Newaygo,1,0
+Oakland,264,36
+Ottawa,2,0
+Presque Isle,1,0
+Saginaw,35,2
+Sanilac,2,0
+Shiawassee,3,0
+St Clair,17,0
+St Joseph,2,0
+Tuscola,5,2
+Van Buren,2,0
+Washtenaw,22,0
+Wayne,289,53
+MDOC**,335,5.0
+FCI***,14,0.0
+Unknown,6,1
+Out of State,6,0
+Total,1569,209

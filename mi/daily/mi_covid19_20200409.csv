@@ -1,0 +1,48 @@
+County,Cases,Deaths
+Bay,3,0
+Berrien,8,0
+Branch,6,0
+Calhoun,6,0
+Cass,1,0
+Charlevoix,1,0
+Clinton,3,0
+Delta,1,1
+Detroit City,237,24
+Dickinson,1,0
+Eaton,2,0
+Emmet,1,0
+Genesee,42,9
+Gratiot,1,0
+Hillsdale,2,2
+Huron,1,0
+Ingham,17,1
+Ionia,2,0
+Isabella,6,0
+Jackson,5,0
+Kalamazoo,7,0
+Kent,26,1
+Lapeer,13,0
+Lenawee,3,0
+Livingston,7,0
+Mackinac,1,0
+Macomb,157,24
+Mecosta,1,0
+Midland,4,0
+Monroe,13,1
+Montcalm,1,0
+Muskegon,11,0
+Oakland,240,12
+Oscoda,1,0
+Ottawa,4,1
+Roscommon,2,0
+Saginaw,19,1
+Shiawassee,4,0
+St Clair,22,1
+St Joseph,2,0
+Tuscola,9,1
+Washtenaw,27,2
+Wayne,230,34
+Other*,3,2
+Unknown,1,0
+Out of State,5,0
+Total,1159,117

@@ -23,13 +23,13 @@ import csv
 import os
 from os import listdir
 from os.path import isfile, join
-import matplotlib
 from matplotlib.patches import Wedge
 import matplotlib.pyplot as plt
 import math
 import urllib
 from scipy.integrate import odeint
 from scipy.optimize import curve_fit
+from mapviz20 import *
 
 VIZ_W  = 880
 VIZ_H  = 1000
@@ -44,7 +44,8 @@ class runVirusViz(object):
 
         # create a node
         print("welcome to node virusviz")
-        self.state_dir = './ny/'
+        self.state_name = 'MI'
+        self.state_dir = './'+self.state_name.lower()+'/'
         self.l_state_config= self.open4File (self.state_dir +'state_config.csv')				
         VIZ_W = int( self.l_state_config[0][1] )
         VIZ_H = int( self.l_state_config[1][1] )   
@@ -88,7 +89,23 @@ class runVirusViz(object):
         if(key == -1):  
             pass
         elif(key == 65471 or key == 1114047 or key == 7405568):   # F2 key refresh newest from website
+<<<<<<< HEAD
             self.data_daily, self.l_ny_cases = self.readDataDaily(True)
+=======
+            self.data_daily, self.l_mi_cases = self.readDataDaily(True)
+            pass
+        elif(key == 65472 or key == 1114048 or key == 7405569):   # F3 key gmaps
+            map_viz = mapViz(self.l_state_config, self.state_name)	
+            save_file = None
+            if self.data_daily == True: type_data=1
+            else: 
+                type_data =2
+                if(self.isNameOnToday(self.name_file)): 
+                    save_file = self.state_dir + 'results/mi_county20200000.png'
+            map_viz.showCountyInMap(self.l_mi_cases, 
+                l_type=type_data, l_last = self.l_cases_yest, 
+                save_file=save_file, date=self.now_date)
+>>>>>>> master
             pass  
         elif(key == 65474 or key == 1114050):   # F5 key refresh newest from website
             self.data_daily = False
@@ -96,10 +113,17 @@ class runVirusViz(object):
             pos, self.l_ny_cases, self.l_cases_yest = self.cmdGrabDataFromWebsite()
             if(len(self.l_ny_cases) > 0):
                 self.img_overlay = self.img_map.copy()
+<<<<<<< HEAD
                 self.infoShowCases(self.img_overlay, self.l_ny_cases)
                 cv2.imwrite(self.state_dir + 'results/ny_county'+self.name_file+'.png', self.img_overlay)
                 if(self.isNameOnToday(self.name_file)):
                     cv2.imwrite(self.state_dir + 'results/ny_county20200000.png', self.img_overlay)
+=======
+                self.infoShowCases(self.img_overlay, self.l_mi_cases)
+                #cv2.imwrite(self.state_dir + 'results/mi_county'+self.name_file+'.png', self.img_overlay)
+                #if(self.isNameOnToday(self.name_file)):
+                #    cv2.imwrite(self.state_dir + 'results/mi_county20200000.png', self.img_overlay)
+>>>>>>> master
             pass  
         elif(key == 65477 or key == 1114053 or key == 7798784):   # F8 key next day
             self.data_daily = False
@@ -114,7 +138,12 @@ class runVirusViz(object):
             self.data_daily = False
             self.csv_pos_now, self.l_ny_cases, self.l_cases_yest = self.readDataByDay(9999999999)
         elif(key == 65481 or key == 1114057 or key == 7995393):   # F12 key next day
-            self.predictByModelSir()
+            if( self.predictByModelSir() ):
+                l_img = cv2.imread(self.state_dir + 'results/mi_county20200000_predict.png')
+                s_img = cv2.imread('./doc/app_qrcode_logo.jpg')
+                x_offset, y_offset=80, 45
+                l_img[y_offset:y_offset+s_img.shape[0], x_offset:x_offset+s_img.shape[1]] = s_img
+                cv2.imwrite(self.state_dir + 'results/mi_county20200000_predict.png', l_img)
         elif(key == 114 or key == 1048690):  # r key
             if self.data_daily == True: type_data=1
             else: type_data =2
@@ -254,7 +283,7 @@ class runVirusViz(object):
         if(csv_all_last is None): return False
         else: print('  ', csv_daily, csv_all_today, csv_all_last)
         csv_all_last = self.state_dir + 'data/' + csv_all_last
-	# read data
+        # read data
         l_all_today = self.open4File(csv_all_today)
         l_all_last = self.open4File(csv_all_last)
         # compare data
@@ -317,8 +346,8 @@ class runVirusViz(object):
     def getColorByCompare(self, case_today, lst_data=None):
         if(self.data_daily): return ( (0,255,0) )
         bfound, case_last = self.lookupMapData(case_today[0], self.l_cases_yest)
-        if( int(case_today[1]) - int(case_last[1]) > 0): return ( (0,255,0) )
-        else: return ( (0,0,255) )
+        if( int(case_today[1]) - int(case_last[1]) > 0): return True
+        else: False
 
     ## look up table to get pre-set information for death
     def getDataListDeath(self, snd_data):
@@ -349,8 +378,13 @@ class runVirusViz(object):
                     posx = 180+10
                     posy = int( (ii-len(l_cases)/2)*line_h+offset_h )
                 n_total += int( a_case[1] )
+<<<<<<< HEAD
                 bFound, map_data = self.lookupMapData(a_case[0], self.l_ny_county_coord)
                 nColor = self.getColorByCompare(a_case)
+=======
+                if( self.getColorByCompare(a_case) ): nColor = (0,255,0)
+                else: nColor = (0,0,255)
+>>>>>>> master
                 # draw the list on the left
                 cv2.putText(img, a_case[0], 
 		        (posx, posy), 
@@ -365,10 +399,8 @@ class runVirusViz(object):
 		        nColor,
 		        1) 
                 ii += 1
-                if('Out of State' in a_case[0]): continue
-                if('Other' in a_case[0]): continue
-                if('Not Reported' in a_case[0]): continue
-                if('Unknown' in a_case[0]): continue
+                bFound, map_data = self.lookupMapData(a_case[0], self.l_mi_county_coord)
+                if(not bFound): continue
                 # draw on the map, select the location
                 cv2.putText(img, str(a_case[1]), 
 		        (map_data[2],map_data[3]), 
@@ -376,8 +408,7 @@ class runVirusViz(object):
 		        0.7,
 		        nColor,
 		        1) 
-                if(map_data[2] < 200 and map_data[3] < 200): print('Missing', a_case)
-                continue
+                
         #print('total:', wish_total, n_total)
         if(wish_total == n_total):
             if(self.data_daily):
@@ -407,42 +438,11 @@ class runVirusViz(object):
 		    (255,64,0),
 		    1) 
             
-    ## This shows one list such as an example
-    # for example: self.infoShowCoronaVirus(self.l_mi_county_coord)
     #
-    def infoShowCoronaVirus(self, img, lst_data):
-
-        n_total, ii = 0, 0
-        for cov in lst_data:
-            n_total += cov[1]
-            cv2.putText(img,cov[0] + '    %d'%(cov[1]), 
-                (10, ii*15+360), 
-                cv2.FONT_HERSHEY_SIMPLEX, 
-                0.5,
-                cov[4],
-                1) 
-            ii += 1
-            if('Out of State' in cov[0]): continue
-            if('Other' in cov[0]): continue
-            cv2.putText(img,'%d'%(cov[1]), 
-                (cov[2],cov[3]), 
-                cv2.FONT_HERSHEY_DUPLEX, 
-                0.7,
-                cov[4],
-                1) 
-        cv2.putText(img,'%d Confirmed Cases'%(n_total), 
-            (240,30), 
-            cv2.FONT_HERSHEY_DUPLEX, 
-            1,
-            (255,64,0),
-            1) 
-        cv2.putText(img, self.now_date, 
-            (405,65), 
-            cv2.FONT_HERSHEY_DUPLEX, 
-            1,
-            (255,64,0),
-            1) 
-
+    def isRealCounty(self, c_name, lst_counties):
+        for a_county in lst_counties:
+            if(c_name in a_county[3]): return True
+        return False
     #
     def infoShowRainbow(self, type_data, lst_data):
         print('infoShowRainbow...', type_data)
@@ -457,13 +457,14 @@ class runVirusViz(object):
         # clean list
         l_d_clean = []
         l_max_v = 0
+        l_counties = []
+        coord_f = self.state_dir + 'state_county_coord.csv'
+        if(isfile(coord_f) ):
+            l_counties = self.open4File(coord_f)
+
         for a_case in lst_data:
-            if('Total' in a_case[0]): continue
-            if('Out of State' in a_case[0]): continue
-            if('Unknown' in a_case[0]): continue
-            if('Other' in a_case[0]): continue
-            if('Not Reported' in a_case[0]): continue
-            if('County' in a_case[0]): continue
+            if(self.isRealCounty(a_case[0], l_counties)): pass
+            else: continue
             l_d_clean.append(a_case)
             if(int(a_case[col]) > l_max_v): l_max_v = int(a_case[col])
         n_total=0		
@@ -505,22 +506,32 @@ class runVirusViz(object):
                 color='w', 
                 rotation_mode='anchor')
         if(type_data==1):
-            plt.text(-l_max_v+10, l_max_v-20, '%d Daily confirmed COVID-19'%(n_total))
-            plt.text(-l_max_v+10, l_max_v-40, 'On '+self.now_date + ' in MI')
+            plt.text(-l_max_v+5, l_max_v-30, '%d Daily confirmed COVID-19'%(n_total))
+            plt.text(-l_max_v+5, l_max_v-60, 'On '+self.now_date + ' in MI')
         elif type_data ==2:
-            plt.text(-l_max_v+10, l_max_v-40, '%d Overall confirmed COVID-19'%(n_total))
-            plt.text(-l_max_v+10, l_max_v-80, 'Until '+self.now_date + ' in MI')
+            plt.text(-l_max_v+10, l_max_v-140, '%d Overall confirmed COVID-19'%(n_total))
+            plt.text(-l_max_v+10, l_max_v-240, 'Until '+self.now_date + ' in MI')
         elif type_data ==3:
             plt.text(-l_max_v+10, l_max_v-20, '%d Overall deaths COVID-19'%(n_total))
             plt.text(-l_max_v+10, l_max_v-40, 'Until '+self.now_date + ' in MI')
         plt.axis([-l_max_v, l_max_v, -l_max_v, l_max_v])
+        fig.tight_layout()      
+        ax.axis('off')  # get rid of the ticks and ticklabels
         plt.show()
         if(type_data==1):
+<<<<<<< HEAD
             fig.savefig(self.state_dir + 'results/ny_county'+self.name_file+'_daily.png')
+=======
+            #fig.savefig(self.state_dir + 'results/mi_county'+self.name_file+'_daily.png')
+>>>>>>> master
             if(self.isNameOnToday(self.name_file)):
                 fig.savefig(self.state_dir + 'results/ny_county20200000_daily.png')
         elif(type_data==3):
+<<<<<<< HEAD
             fig.savefig(self.state_dir + 'results/ny_county'+self.name_file+'_death.png')
+=======
+            #fig.savefig(self.state_dir + 'results/mi_county'+self.name_file+'_death.png')
+>>>>>>> master
             if(self.isNameOnToday(self.name_file)):
                 fig.savefig(self.state_dir + 'results/ny_county20200000_death.png')
     # refer to https://github.com/HCui91/covid-19-model	    	
@@ -572,9 +583,9 @@ class runVirusViz(object):
             else: lst_data_daily.append(lst_data_overall[ii] - lst_data_overall[ii-1])  
 
         # predict the future
-        data = lst_data_daily
+        data = lst_data_daily  #[0:-1]
         #print(lst_data_overall)
-        #data.append( int(data[-1] * 0.98) )
+        #data.append( int(data[-1] * 0.9) )
         days = np.arange(0, len(data), 1)
         popt, pcov = curve_fit(self.SIR, days, data)
         print(' contact parameter, recovery rate:', popt)
@@ -602,9 +613,16 @@ class runVirusViz(object):
         plt.ylabel('Confirmed Daily New Cases')
         plt.title("COVID-19 Prediction of daily new cases in Michigan")
         plt.xticks(rotation=45)
+        fig.tight_layout()      
         plt.show()
         if(self.isNameOnToday(self.name_file)):
+<<<<<<< HEAD
             fig.savefig(self.state_dir + 'results/ny_county20200000_predict.png')
+=======
+            fig.savefig(self.state_dir + 'results/mi_county20200000_predict.png')
+            return True
+        return False
+>>>>>>> master
     ## exit node
     def exit_hook(self):
         print("bye bye, node virusviz")
