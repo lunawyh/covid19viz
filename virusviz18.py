@@ -48,7 +48,7 @@ class runVirusViz(object):
         self.img_overlay = np.zeros(size, dtype=np.uint8)	# overlay image
         self.map_data_updated = 1	                        # being updated
         self.now_exit = False
-        self.state_dir = './mi/'
+        self.state_dir = './ca/'
         # Only the coordinates are used by code
         self.l_mi_county_coord= self.open4File (self.state_dir +'mi_county_cordination.csv')				
         #data of coordination
