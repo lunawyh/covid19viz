@@ -44,7 +44,7 @@ class runVirusViz(object):
 
         # create a node
         print("welcome to node virusviz")
-        self.state_name = 'MI'
+        self.state_name = 'NY'
         self.state_dir = './'+self.state_name.lower()+'/'
         self.l_state_config= self.open4File (self.state_dir +'state_config.csv')				
         VIZ_W = int( self.l_state_config[0][1] )
@@ -57,7 +57,7 @@ class runVirusViz(object):
         self.map_data_updated = 1	                        # being updated
         self.now_exit = False
         # Only the coordinates are used by code
-        self.l_ny_county_coord= self.open4File (self.state_dir +self.l_state_config[3][1])
+        self.l_mi_county_coord= self.open4File (self.state_dir +self.l_state_config[3][1])				
         #data of coordination
 
         # import image of map
@@ -65,15 +65,15 @@ class runVirusViz(object):
         self.img_overlay = self.img_map.copy()
         self.data_daily = False   # otherwise overall
         # read latest data
-        self.csv_pos_now, self.l_ny_cases, self.l_cases_yest = self.readDataByDay(999999)
+        self.csv_pos_now, self.l_mi_cases, self.l_cases_yest = self.readDataByDay(999999)
 
         # main loop for processing
         while (not self.now_exit):
             self.cmdProcess( cv2.waitKeyEx(300), 19082601 )
             if(self.map_data_updated > 0):
-                if(len(self.l_ny_cases) > 0):
+                if(len(self.l_mi_cases) > 0):
                     self.img_overlay = self.img_map.copy()
-                    self.infoShowCases(self.img_overlay, self.l_ny_cases)
+                    self.infoShowCases(self.img_overlay, self.l_mi_cases)
                 cv2.imshow("COVID-19 %.0f in Michigan"%2020, self.img_overlay)
                 self.map_data_updated = 0
         self.exit_hook()
@@ -89,9 +89,6 @@ class runVirusViz(object):
         if(key == -1):  
             pass
         elif(key == 65471 or key == 1114047 or key == 7405568):   # F2 key refresh newest from website
-<<<<<<< HEAD
-            self.data_daily, self.l_ny_cases = self.readDataDaily(True)
-=======
             self.data_daily, self.l_mi_cases = self.readDataDaily(True)
             pass
         elif(key == 65472 or key == 1114048 or key == 7405569):   # F3 key gmaps
@@ -105,38 +102,30 @@ class runVirusViz(object):
             map_viz.showCountyInMap(self.l_mi_cases, 
                 l_type=type_data, l_last = self.l_cases_yest, 
                 save_file=save_file, date=self.now_date)
->>>>>>> master
             pass  
         elif(key == 65474 or key == 1114050):   # F5 key refresh newest from website
             self.data_daily = False
 
-            pos, self.l_ny_cases, self.l_cases_yest = self.cmdGrabDataFromWebsite()
-            if(len(self.l_ny_cases) > 0):
+            pos, self.l_mi_cases, self.l_cases_yest = self.cmdGrabDataFromWebsite()
+            if(len(self.l_mi_cases) > 0):
                 self.img_overlay = self.img_map.copy()
-<<<<<<< HEAD
-                self.infoShowCases(self.img_overlay, self.l_ny_cases)
-                cv2.imwrite(self.state_dir + 'results/ny_county'+self.name_file+'.png', self.img_overlay)
-                if(self.isNameOnToday(self.name_file)):
-                    cv2.imwrite(self.state_dir + 'results/ny_county20200000.png', self.img_overlay)
-=======
                 self.infoShowCases(self.img_overlay, self.l_mi_cases)
                 #cv2.imwrite(self.state_dir + 'results/mi_county'+self.name_file+'.png', self.img_overlay)
                 #if(self.isNameOnToday(self.name_file)):
                 #    cv2.imwrite(self.state_dir + 'results/mi_county20200000.png', self.img_overlay)
->>>>>>> master
             pass  
         elif(key == 65477 or key == 1114053 or key == 7798784):   # F8 key next day
             self.data_daily = False
-            self.csv_pos_now, self.l_ny_cases, self.l_cases_yest = self.readDataByDay(0)
+            self.csv_pos_now, self.l_mi_cases, self.l_cases_yest = self.readDataByDay(0) 
         elif(key == 65478 or key == 1114054 or key == 7864320):   # F9 key previous day
             self.data_daily = False
-            self.csv_pos_now, self.l_ny_cases, self.l_cases_yest = self.readDataByDay(self.csv_pos_now-1)
+            self.csv_pos_now, self.l_mi_cases, self.l_cases_yest = self.readDataByDay(self.csv_pos_now-1)   
         elif(key == 65479 or key == 1114055 or key == 7929856):   # F10 key next day
             self.data_daily = False
-            self.csv_pos_now, self.l_ny_cases, self.l_cases_yest = self.readDataByDay(self.csv_pos_now+1)
+            self.csv_pos_now, self.l_mi_cases, self.l_cases_yest = self.readDataByDay(self.csv_pos_now+1) 
         elif(key == 65480 or key == 1114056 or key == 7995392):   # F11 key next day
             self.data_daily = False
-            self.csv_pos_now, self.l_ny_cases, self.l_cases_yest = self.readDataByDay(9999999999)
+            self.csv_pos_now, self.l_mi_cases, self.l_cases_yest = self.readDataByDay(9999999999) 
         elif(key == 65481 or key == 1114057 or key == 7995393):   # F12 key next day
             if( self.predictByModelSir() ):
                 l_img = cv2.imread(self.state_dir + 'results/mi_county20200000_predict.png')
@@ -147,15 +136,15 @@ class runVirusViz(object):
         elif(key == 114 or key == 1048690):  # r key
             if self.data_daily == True: type_data=1
             else: type_data =2
-            self.infoShowRainbow(type_data, self.l_ny_cases)
+            self.infoShowRainbow(type_data, self.l_mi_cases) 
         elif(key == 100 or key == 1048676):  # d key
             if(self.data_daily): return
-            list_death= self.getDataListDeath(self.l_ny_cases)
+            list_death= self.getDataListDeath(self.l_mi_cases)
             self.infoShowRainbow(3, list_death) 
         elif(key == 115 or key == 1048691):  # s key
-            cv2.imwrite(self.state_dir + 'results/ny_county'+self.name_file+'.png', self.img_overlay)
+            cv2.imwrite(self.state_dir + 'results/mi_county'+self.name_file+'.png', self.img_overlay)
             if(self.isNameOnToday(self.name_file)):
-                cv2.imwrite(self.state_dir + 'results/ny_county20200000.png', self.img_overlay)
+                cv2.imwrite(self.state_dir + 'results/mi_county20200000.png', self.img_overlay)
             pass
         elif(key == 27 or key == 1048603):  # esc
             self.now_exit = True
@@ -173,6 +162,7 @@ class runVirusViz(object):
         if(0 == len(csv_data_files) ): return (0, [], [])
         if(pos >= len(csv_data_files) ): pos = len(csv_data_files) - 1
         elif(pos < 0): pos = 0
+        #print('  ', csv_data_files[pos])
         if( len(csv_data_files[pos]) != 23): return (pos, [])
         offset = 11	
         year = int(csv_data_files[pos][offset:offset+4])
@@ -181,7 +171,7 @@ class runVirusViz(object):
         self.name_file = '%d%02d%02d'%(year, month, day)
         self.now_date = '%d/%d/%d'%(month, day, year)
         #read data to list
-        lst_data = self.open4File(self.state_dir + 'data/ny_covid19_'+self.name_file+'.csv')
+        lst_data = self.open4File(self.state_dir + 'data/'+self.state_name.lower()+'_covid19_'+self.name_file+'.csv')
         
         #read data on yesterday 
         name_last = self.getOverallYesterday(self.name_file)
@@ -251,9 +241,9 @@ class runVirusViz(object):
         dt_now = datetime.datetime.now()
         self.name_file = '%d%02d%02d'%(dt_now.year, dt_now.month, dt_now.day)
         self.now_date = '%d/%d/%d'%(dt_now.month, dt_now.day, dt_now.year)
-        f_name = self.state_dir + 'data_html/ny_covid19_'+self.name_file+'.html'
+        f_name = self.state_dir + 'data_html/'+self.state_name.lower()+'_covid19_'+self.name_file+'.html'
         df_a = self.open4Website(f_name)
-        f_name = self.state_dir + 'data/ny_covid19_'+self.name_file+'.csv'
+        f_name = self.state_dir + 'data/'+self.state_name.lower()+'_covid19_'+self.name_file+'.csv'
         lst_data = self.parseDfData(df_a, fName=f_name)
 
         #read data on yesterday 
@@ -277,8 +267,8 @@ class runVirusViz(object):
     def generateDataDaily(self, bDaily):
         print(' generateDataDaily...')
         # files name
-        csv_daily = self.state_dir + 'daily/ny_covid19_'+self.name_file+'.csv'
-        csv_all_today = self.state_dir + 'data/ny_covid19_'+self.name_file+'.csv'
+        csv_daily = self.state_dir + 'daily/'+self.state_name.lower()+'_covid19_'+self.name_file+'.csv'
+        csv_all_today = self.state_dir + 'data/'+self.state_name.lower()+'_covid19_'+self.name_file+'.csv'
         csv_all_last = self.getOverallYesterday(self.name_file)
         if(csv_all_last is None): return False
         else: print('  ', csv_daily, csv_all_today, csv_all_last)
@@ -324,7 +314,7 @@ class runVirusViz(object):
         self.save2File(l_daily, csv_daily)
         return True
     def readDataDaily(self, bDaily):
-        csv_name = self.state_dir + 'daily/ny_covid19_'+self.name_file+'.csv'
+        csv_name = self.state_dir + 'daily/'+self.state_name.lower()+'_covid19_'+self.name_file+'.csv'
         print('readDataDaily', csv_name)
         if(isfile(csv_name) ):
             lst_data = self.open4File(csv_name)
@@ -378,13 +368,8 @@ class runVirusViz(object):
                     posx = 180+10
                     posy = int( (ii-len(l_cases)/2)*line_h+offset_h )
                 n_total += int( a_case[1] )
-<<<<<<< HEAD
-                bFound, map_data = self.lookupMapData(a_case[0], self.l_ny_county_coord)
-                nColor = self.getColorByCompare(a_case)
-=======
                 if( self.getColorByCompare(a_case) ): nColor = (0,255,0)
                 else: nColor = (0,0,255)
->>>>>>> master
                 # draw the list on the left
                 cv2.putText(img, a_case[0], 
 		        (posx, posy), 
@@ -413,10 +398,10 @@ class runVirusViz(object):
         if(wish_total == n_total):
             if(self.data_daily):
                 info_cases = '%d Daily Confirmed'%(n_total)
-                info_date = 'COVID-19 on ' + self.now_date + ' in NY'
+                info_date = 'COVID-19 on ' + self.now_date + ' in '+self.state_name
             else:
                 info_cases = '%d Overall Confirmed'%(n_total)
-                info_date = 'COVID-19 until ' + self.now_date + ' in NY'
+                info_date = 'COVID-19 until ' + self.now_date + ' in '+self.state_name
             cv2.putText(img,info_cases, 
 		    (300,30), 
 		    cv2.FONT_HERSHEY_DUPLEX, 
@@ -519,21 +504,13 @@ class runVirusViz(object):
         ax.axis('off')  # get rid of the ticks and ticklabels
         plt.show()
         if(type_data==1):
-<<<<<<< HEAD
-            fig.savefig(self.state_dir + 'results/ny_county'+self.name_file+'_daily.png')
-=======
             #fig.savefig(self.state_dir + 'results/mi_county'+self.name_file+'_daily.png')
->>>>>>> master
             if(self.isNameOnToday(self.name_file)):
-                fig.savefig(self.state_dir + 'results/ny_county20200000_daily.png')
+                fig.savefig(self.state_dir + 'results/mi_county20200000_daily.png')
         elif(type_data==3):
-<<<<<<< HEAD
-            fig.savefig(self.state_dir + 'results/ny_county'+self.name_file+'_death.png')
-=======
             #fig.savefig(self.state_dir + 'results/mi_county'+self.name_file+'_death.png')
->>>>>>> master
             if(self.isNameOnToday(self.name_file)):
-                fig.savefig(self.state_dir + 'results/ny_county20200000_death.png')
+                fig.savefig(self.state_dir + 'results/mi_county20200000_death.png')
     # refer to https://github.com/HCui91/covid-19-model	    	
 	#   https://zhuanlan.zhihu.com/p/104645873
     def SIR(self, t, beta, gamma):
@@ -616,13 +593,9 @@ class runVirusViz(object):
         fig.tight_layout()      
         plt.show()
         if(self.isNameOnToday(self.name_file)):
-<<<<<<< HEAD
-            fig.savefig(self.state_dir + 'results/ny_county20200000_predict.png')
-=======
             fig.savefig(self.state_dir + 'results/mi_county20200000_predict.png')
             return True
         return False
->>>>>>> master
     ## exit node
     def exit_hook(self):
         print("bye bye, node virusviz")

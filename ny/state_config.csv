@@ -4,4 +4,9 @@ VIZ_H,600
 state_map,ny_county2020.png
 cordinate,ny_county_cordination.csv
 weblink_num,1
-weblink_state,https://covid19tracker.health.ny.gov/views/NYS-COVID19-Tracker/NYSDOHCOVID-19Tracker-Map?%3Aembed=yes&%3Atoolbar=no&%3Atabs=n
+weblink_state,https://health.data.ny.gov/api/views/xdss-u53e/rows.csv?accessType=DOWNLOAD
+state_name,New York
+basemap_lat,42.869935
+basemap_lon,-75.996976
+basemap_lat_len,330000
+basemap_lon_len,330000
