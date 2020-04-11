@@ -162,6 +162,7 @@ class runVirusViz(object):
         if(0 == len(csv_data_files) ): return (0, [], [])
         if(pos >= len(csv_data_files) ): pos = len(csv_data_files) - 1
         elif(pos < 0): pos = 0
+        #print('  ', csv_data_files[pos])
         if( len(csv_data_files[pos]) != 23): return (pos, [])
         offset = 11	
         year = int(csv_data_files[pos][offset:offset+4])
@@ -170,7 +171,7 @@ class runVirusViz(object):
         self.name_file = '%d%02d%02d'%(year, month, day)
         self.now_date = '%d/%d/%d'%(month, day, year)
         #read data to list
-        lst_data = self.open4File(self.state_dir + 'data/mi_covid19_'+self.name_file+'.csv')
+        lst_data = self.open4File(self.state_dir + 'data/'+self.state_name.lower()+'_covid19_'+self.name_file+'.csv')
         
         #read data on yesterday 
         name_last = self.getOverallYesterday(self.name_file)
@@ -240,9 +241,9 @@ class runVirusViz(object):
         dt_now = datetime.datetime.now()
         self.name_file = '%d%02d%02d'%(dt_now.year, dt_now.month, dt_now.day)
         self.now_date = '%d/%d/%d'%(dt_now.month, dt_now.day, dt_now.year)
-        f_name = self.state_dir + 'data_html/mi_covid19_'+self.name_file+'.html'
+        f_name = self.state_dir + 'data_html/'+self.state_name.lower()+'_covid19_'+self.name_file+'.html'
         df_a = self.open4Website(f_name)
-        f_name = self.state_dir + 'data/mi_covid19_'+self.name_file+'.csv'
+        f_name = self.state_dir + 'data/'+self.state_name.lower()+'_covid19_'+self.name_file+'.csv'
         lst_data = self.parseDfData(df_a, fName=f_name)
 
         #read data on yesterday 
@@ -266,8 +267,8 @@ class runVirusViz(object):
     def generateDataDaily(self, bDaily):
         print(' generateDataDaily...')
         # files name
-        csv_daily = self.state_dir + 'daily/mi_covid19_'+self.name_file+'.csv'
-        csv_all_today = self.state_dir + 'data/mi_covid19_'+self.name_file+'.csv'
+        csv_daily = self.state_dir + 'daily/'+self.state_name.lower()+'_covid19_'+self.name_file+'.csv'
+        csv_all_today = self.state_dir + 'data/'+self.state_name.lower()+'_covid19_'+self.name_file+'.csv'
         csv_all_last = self.getOverallYesterday(self.name_file)
         if(csv_all_last is None): return False
         else: print('  ', csv_daily, csv_all_today, csv_all_last)
@@ -313,7 +314,7 @@ class runVirusViz(object):
         self.save2File(l_daily, csv_daily)
         return True
     def readDataDaily(self, bDaily):
-        csv_name = self.state_dir + 'daily/mi_covid19_'+self.name_file+'.csv'
+        csv_name = self.state_dir + 'daily/'+self.state_name.lower()+'_covid19_'+self.name_file+'.csv'
         print('readDataDaily', csv_name)
         if(isfile(csv_name) ):
             lst_data = self.open4File(csv_name)
@@ -397,10 +398,10 @@ class runVirusViz(object):
         if(wish_total == n_total):
             if(self.data_daily):
                 info_cases = '%d Daily Confirmed'%(n_total)
-                info_date = 'COVID-19 on ' + self.now_date + ' in MI'
+                info_date = 'COVID-19 on ' + self.now_date + ' in '+self.state_name
             else:
                 info_cases = '%d Overall Confirmed'%(n_total)
-                info_date = 'COVID-19 until ' + self.now_date + ' in MI'
+                info_date = 'COVID-19 until ' + self.now_date + ' in '+self.state_name
             cv2.putText(img,info_cases, 
 		    (300,30), 
 		    cv2.FONT_HERSHEY_DUPLEX, 

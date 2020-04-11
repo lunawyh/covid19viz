@@ -230,14 +230,14 @@ class mapViz(object):
             plt.text(x, y, '%d Daily confirmed COVID-19'%(n_total),fontsize=20, ha='left',va='center',color='g')
             lat2 -= 0.2
             x, y = m(lon2, lat2) 
-            plt.text(x, y, 'On '+date + ' in MI',fontsize=16, ha='left',va='center',color='g')
+            plt.text(x, y, 'On '+date + ' in '+self.state_name,fontsize=16, ha='left',va='center',color='g')
         elif l_type ==2:
             lat2, lon2 = lat_1+3.156759, lon_1-1.898988
             x, y = m(lon2, lat2) 
             plt.text(x, y, '%d Overall confirmed'%(n_total),fontsize=20, ha='left',va='center',color='g')
             lat2 -= 0.2
             x, y = m(lon2, lat2) 
-            plt.text(x, y, 'COVID-19 Until '+date + ' in MI',fontsize=16, ha='left',va='center',color='g')
+            plt.text(x, y, 'COVID-19 Until '+date + ' in '+self.state_name,fontsize=16, ha='left',va='center',color='g')
         # 59. draw logo 
         lat2, lon2 = lat_1+2.476629, lon_1+3.783506
         x, y = m(lon2, lat2) 
