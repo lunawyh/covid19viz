@@ -23,19 +23,14 @@ import csv
 import os
 from os import listdir
 from os.path import isfile, join
+from matplotlib.patches import Wedge
+import matplotlib.pyplot as plt
 import math
 import urllib
 from scipy.integrate import odeint
 from scipy.optimize import curve_fit
+from mapviz20 import *
 
-# sudo pip install https://github.com/matplotlib/basemap/archive/master.zip
-from mpl_toolkits.basemap import Basemap
-from matplotlib.patches import Wedge
-import matplotlib.pyplot as plt
-from matplotlib.patches import Polygon
-from matplotlib.collections import PatchCollection
-from matplotlib.offsetbox import TextArea, DrawingArea, OffsetImage, AnnotationBbox
-import matplotlib.image as mpimg
 VIZ_W  = 880
 VIZ_H  = 1000
 # ==============================================================================
@@ -97,9 +92,16 @@ class runVirusViz(object):
             self.data_daily, self.l_mi_cases = self.readDataDaily(True)
             pass
         elif(key == 65472 or key == 1114048 or key == 7405569):   # F3 key gmaps
+            map_viz = mapViz(self.l_state_config, self.state_name)	
+            save_file = None
             if self.data_daily == True: type_data=1
-            else: type_data =2
-            self.showCountyInMap(type_data)
+            else: 
+                type_data =2
+                if(self.isNameOnToday(self.name_file)): 
+                    save_file = self.state_dir + 'results/mi_county20200000.png'
+            map_viz.showCountyInMap(self.l_mi_cases, 
+                l_type=type_data, l_last = self.l_cases_yest, 
+                save_file=save_file, date=self.now_date)
             pass  
         elif(key == 65474 or key == 1114050):   # F5 key refresh newest from website
             self.data_daily = False
@@ -512,11 +514,11 @@ class runVirusViz(object):
         ax.axis('off')  # get rid of the ticks and ticklabels
         plt.show()
         if(type_data==1):
-            fig.savefig(self.state_dir + 'results/mi_county'+self.name_file+'_daily.png')
+            #fig.savefig(self.state_dir + 'results/mi_county'+self.name_file+'_daily.png')
             if(self.isNameOnToday(self.name_file)):
                 fig.savefig(self.state_dir + 'results/mi_county20200000_daily.png')
         elif(type_data==3):
-            fig.savefig(self.state_dir + 'results/mi_county'+self.name_file+'_death.png')
+            #fig.savefig(self.state_dir + 'results/mi_county'+self.name_file+'_death.png')
             if(self.isNameOnToday(self.name_file)):
                 fig.savefig(self.state_dir + 'results/mi_county20200000_death.png')
     # refer to https://github.com/HCui91/covid-19-model	    	
@@ -604,171 +606,6 @@ class runVirusViz(object):
             fig.savefig(self.state_dir + 'results/mi_county20200000_predict.png')
             return True
         return False
-    ## GMAPS
-    def isExitedCounty(self, l_counties, a_county):
-        #print('isExitedCounty...')
-        for a_city in l_counties:
-            if(a_city[3] in a_county): return True
-        return False
-    ## GMAPS
-    def getCountiesInState(self, state):
-        #print('getCountiesInState...')
-        lst_us_cities = self.open4File('./ne_maps/2019_Gaz_counties_national.csv')
-        lst_counties = []
-        for a_city in lst_us_cities:
-            #if(a_city[5] == 0): continue
-            a_city[3] = a_city[3].replace(' County', '')
-            if( (a_city[0] in state) and (not self.isExitedCounty(lst_counties, a_city[3])) ):
-                lst_counties.append(a_city)
-        return lst_counties
-    ## get County Info
-    def getCountyInfo(self, l_counties, a_county):
-        c_color = '#eedd99'
-        for a_item in l_counties:
-            if(a_county in a_item[3]):   # .lower()
-                c_color = a_item[11]
-                break
-        #print(a_county, c_color)
-        return c_color
-    ## set County Info
-    def setCountyInfo(self, l_counties, l_cases):
-        case_max, case_col, case_total = 0, 0.0, 0
-        for a_item in l_cases:
-            if('Total' in a_item[0]): continue
-            if('County' in a_item[0]): continue
-            if(a_item[1] > case_max): case_max = a_item[1]
-            case_total += a_item[1]
-        c_color = 'w'
-        cmap=plt.get_cmap("Blues")
-        #l_info = []
-        for a_item in l_counties:
-            bFound, map_data = self.lookupMapData(a_item[3], l_cases)
-            if(bFound): 
-                a_item[1] = map_data[1]
-                a_item[2] = map_data[2]
-                case_r = float(a_item[1]) / float(case_max)
-                if(case_r >= 0.6): case_col = 1.0
-                elif(case_r >= 0.5): case_col = 0.9
-                elif(case_r >= 0.3): case_col = 0.8
-                elif(case_r >= 0.15): case_col = 0.7
-                elif(case_r >= 0.1): case_col = 0.6
-                elif(case_r >= 0.01): case_col = 0.5
-                elif(case_r >= 0.001): case_col = 0.4
-                elif(case_r >= 0.0001): case_col = 0.3
-                elif(case_r >= 0.00001): case_col = 0.2
-                else: case_col = 0.1
-                a_item[11] = cmap(case_col)
-            else:
-                a_item[11] = c_color
-                a_item[1] = 0
-                a_item[2] = 0
-            #l_info.append(a_item)
-        return case_total
-    # generic function for reading polygons from file and plotting them on the map. This works with Natural Earth shapes.
-    def drawShapesFromFile(self, filename,facecolor,edgecolor,m,ax,l_counties):
-            m.readshapefile(filename, 'temp', drawbounds = False)
-            patches = []
-            for info, shape in zip(m.temp_info, m.temp): 
-                patches = []
-                if(self.l_state_config[6][1] in info['STATE_NAME']):
-                    facecolor2 = self.getCountyInfo(l_counties, info['NAME'])
-                    pass
-                else:
-                    continue
-                patches.append( Polygon(np.array(shape), True) )
-                ax.add_collection(PatchCollection(patches, facecolor=facecolor2, edgecolor=edgecolor, linewidths=1))
-    ## GMAPS
-    def showCountyInMap(self, type_data):
-        print('showCountyInMap...')
-        # 10. read name of counties
-        coord_f = self.state_dir + 'state_county_coord.csv'
-        if(isfile(coord_f) ):
-            l_counties = self.open4File(coord_f)
-        else:
-            l_counties = self.getCountiesInState(self.state_name)
-            l_d_sort = sorted(l_counties, key=lambda k: k[3])
-            self.saveToFileCoordinate( l_d_sort, coord_f)
-        # 15. set latest cases infomation
-        n_total = self.setCountyInfo(l_counties, self.l_mi_cases)
-        
-        # 20. create plot
-        fig = plt.figure()
-        fig.set_figheight(11)
-        fig.set_figwidth(11)
-        ax = fig.add_subplot(111)
-        # 30. create base map
-        landColor, coastColor, oceanColor, popColor, countyColor = '#eedd99','#93ccfa','w','#ffee99','#ff0000'
-        s = int(self.l_state_config[9][1])
-        lat_1, lon_1 = float(self.l_state_config[7][1]), float(self.l_state_config[8][1])
-        m = Basemap(projection='ortho',lon_0=lon_1,lat_0=lat_1,resolution='l',llcrnrx=-s,llcrnry=-s,urcrnrx=s,urcrnry=s)
-        m.drawmapboundary(fill_color=oceanColor) # fill in the ocean
-
-        # 40. plot counties
-        #gdf = gpd.read_file('./ne_maps/UScounties/UScounties.shp')
-        #print(gdf.columns) # [u'NAME', u'STATE_NAME', u'STATE_FIPS', u'CNTY_FIPS', u'FIPS', u'geometry']
-        #print(gdf[gdf['STATE_NAME'] == 'Michigan'])
-        # read the higher resolution Natural Earth coastline (land polygons) shapefile and display it as a series of polygons
-        # refer to https://gis.stackexchange.com/questions/136028/finding-gps-coordinates-of-geographic-center-of-us-counties
-        self.drawShapesFromFile('./ne_maps/UScounties/UScounties',landColor,coastColor,m,ax,l_counties)
-        m.drawcounties(color=countyColor)
-
-        # 50. draw name of counties
-        for a_county in l_counties:	
-            lat2, lon2 = float(a_county[8]), float(a_county[9])
-            x, y = m(lon2, lat2) 
-            plt.text(x, y, a_county[3],fontsize=8, ha='center',va='center',color='k',rotation=a_county[10])
-        # 55. draw list of counties
-        ii = 0
-        lat2, lon2 = lat_1+1.13965200000001, lon_1-4.390411
-        lat3, lon3 = lat2-1.0, lon2+2.0
-        for a_case in self.l_mi_cases:	
-            if('Total' in a_case[0]): continue
-            if('County' in a_case[0]): continue
-            if(ii == len(self.l_mi_cases)/2+5):
-                lat2, lon2 = lat3, lon3
-            if( self.getColorByCompare(a_case) ): nColor = 'g'
-            else: nColor = 'y'
-            # show name
-            lat2 -= 0.1
-            x, y = m(lon2, lat2) 
-            plt.text(x, y, a_case[0],fontsize=8, ha='left',va='center',color=nColor)
-            # show number
-            x, y = m(lon2 + 1.0, lat2) 
-            plt.text(x, y, str(a_case[1]),fontsize=8, ha='left',va='center',color=nColor)
-            ii += 1
-           
-        # 58. draw title 
-        #type_data = 2
-        if(type_data==1):
-            lat2, lon2 = lat_1+3.156759, lon_1-1.898988
-            x, y = m(lon2, lat2) 
-            plt.text(x, y, '%d Daily confirmed COVID-19'%(n_total),fontsize=20, ha='left',va='center',color='g')
-            lat2 -= 0.2
-            x, y = m(lon2, lat2) 
-            plt.text(x, y, 'On '+self.now_date + ' in MI',fontsize=16, ha='left',va='center',color='g')
-        elif type_data ==2:
-            lat2, lon2 = lat_1+3.156759, lon_1-1.898988
-            x, y = m(lon2, lat2) 
-            plt.text(x, y, '%d Overall confirmed'%(n_total),fontsize=20, ha='left',va='center',color='g')
-            lat2 -= 0.2
-            x, y = m(lon2, lat2) 
-            plt.text(x, y, 'COVID-19 Until '+self.now_date + ' in MI',fontsize=16, ha='left',va='center',color='g')
-        # 59. draw logo 
-        lat2, lon2 = lat_1+2.476629, lon_1+3.783506
-        x, y = m(lon2, lat2) 
-        arr_lena = mpimg.imread('./doc/app_qrcode_logo.png')
-        imagebox = OffsetImage(arr_lena)  # , zoom=0.15)
-        ab = AnnotationBbox(imagebox, (x, y))
-        ax.add_artist(ab)
-        ax.axis('off')  # get rid of the ticks and ticklabels
-        # 60. show all
-        fig.tight_layout()      
-        plt.show()
-        if(type_data==2):
-            fig.savefig(self.state_dir + 'results/mi_county'+self.name_file+'.png')
-            if(self.isNameOnToday(self.name_file)):
-                fig.savefig(self.state_dir + 'results/mi_county20200000.png')
-  
     ## exit node
     def exit_hook(self):
         print("bye bye, node virusviz")
