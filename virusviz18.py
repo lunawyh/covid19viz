@@ -20,6 +20,7 @@ import numpy as np
 import pandas as pd
 import datetime 
 import csv
+import os
 from os import listdir
 from os.path import isfile, join
 import matplotlib
@@ -29,6 +30,7 @@ import math
 import urllib
 from scipy.integrate import odeint
 from scipy.optimize import curve_fit
+
 VIZ_W  = 880
 VIZ_H  = 1000
 # ==============================================================================
@@ -42,19 +44,27 @@ class runVirusViz(object):
 
         # create a node
         print("welcome to node virusviz")
+        self.state_dir = './oh/'
+        self.l_state_config= self.open4File (self.state_dir +'state_config.csv')				
+        VIZ_W = int( self.l_state_config[0][1] )
+        VIZ_H = int( self.l_state_config[1][1] )   
+        
         #initialize variables
         size = VIZ_H, VIZ_W, 3
         self.img_map = np.zeros(size, dtype=np.uint8)	        # map image
         self.img_overlay = np.zeros(size, dtype=np.uint8)	# overlay image
         self.map_data_updated = 1	                        # being updated
         self.now_exit = False
+<<<<<<< HEAD
         self.state_dir = './ca/'
+=======
+>>>>>>> 2b6fd6bfb4bb6d4cb0068713a350ebe6841b10e5
         # Only the coordinates are used by code
-        self.l_mi_county_coord= self.open4File (self.state_dir +'mi_county_cordination.csv')				
+        self.l_mi_county_coord= self.open4File (self.state_dir +self.l_state_config[3][1])				
         #data of coordination
 
         # import image of map
-        self.img_map = cv2.resize(cv2.imread(self.state_dir+'mi_county2019.png'), (VIZ_W, VIZ_H))
+        self.img_map = cv2.resize(cv2.imread(self.state_dir+self.l_state_config[2][1]), (VIZ_W, VIZ_H))
         self.img_overlay = self.img_map.copy()
         self.data_daily = False   # otherwise overall
         # read latest data
@@ -132,8 +142,10 @@ class runVirusViz(object):
     def readDataByDay(self, pos):
         print('readDataByDay...', pos)
         data_dir = self.state_dir + 'data'
+        if(not os.path.isdir(data_dir) ): os.mkdir(data_dir)
         csv_data_files = sorted( [f for f in listdir(data_dir) if isfile(join(data_dir, f))] )
         #print('-----------', csv_data_files)
+        if(0 == len(csv_data_files) ): return (0, [], [])
         if(pos >= len(csv_data_files) ): pos = len(csv_data_files) - 1
         elif(pos < 0): pos = 0
         if( len(csv_data_files[pos]) != 23): return (pos, [])
@@ -174,7 +186,8 @@ class runVirusViz(object):
     ## open a website 
     def open4Website(self, fRaw):
         #csv_url = "https://www.michigan.gov/coronavirus/0,9753,7-406-98163-520743--,00.html"
-        csv_url = 'https://www.michigan.gov/coronavirus/0,9753,7-406-98163_98173---,00.html'
+        #csv_url = 'https://www.michigan.gov/coronavirus/0,9753,7-406-98163_98173---,00.html'
+        csv_url = self.l_state_config[5][1]
         # save html file
         urllib.urlretrieve(csv_url, fRaw)
         # read tables
@@ -335,10 +348,10 @@ class runVirusViz(object):
             else:
                 if(ii < len(l_cases)/2): 
                     posx = 10
-                    posy = ii*line_h+offset_h
+                    posy = int( ii*line_h+offset_h )
                 else: 
                     posx = 180+10
-                    posy = (ii-len(l_cases)/2)*line_h+offset_h
+                    posy = int( (ii-len(l_cases)/2)*line_h+offset_h )
                 n_total += int( a_case[1] )
                 bFound, map_data = self.lookupMapData(a_case[0], self.l_mi_county_coord)
                 nColor = self.getColorByCompare(a_case)
