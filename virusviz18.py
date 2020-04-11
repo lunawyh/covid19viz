@@ -190,17 +190,6 @@ class runVirusViz(object):
         for a_row in l_data:
             csvwriter.writerow(a_row)
         csv_data_f.close()
-    ## save to csv 
-    def saveToFileCoordinate(self, l_data, csv_name):
-        csv_data_f = open(csv_name, 'w')
-        # create the csv writer 
-        csvwriter = csv.writer(csv_data_f)
-        # make sure the 1st row is colum names
-        csvwriter.writerow(['USPS','GEOID','ANSICODE','NAME','ALAND','AWATER',\
-            'ALAND_SQMI','AWATER_SQMI','INTPTLAT','INTPTLONG','ROTATE','NOTES'])
-        for a_row in l_data:
-            csvwriter.writerow(a_row)
-        csv_data_f.close()
     ## open a csv 
     def open4File(self, csv_name):
         if(isfile(csv_name) ):
