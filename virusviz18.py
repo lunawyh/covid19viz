@@ -56,10 +56,7 @@ class runVirusViz(object):
         self.img_overlay = np.zeros(size, dtype=np.uint8)	# overlay image
         self.map_data_updated = 1	                        # being updated
         self.now_exit = False
-<<<<<<< HEAD
         self.state_dir = './ca/'
-=======
->>>>>>> 2b6fd6bfb4bb6d4cb0068713a350ebe6841b10e5
         # Only the coordinates are used by code
         self.l_mi_county_coord= self.open4File (self.state_dir +self.l_state_config[3][1])				
         #data of coordination
@@ -427,45 +424,10 @@ class runVirusViz(object):
 		    1) 
             
     #
-<<<<<<< HEAD
-    def infoShowCoronaVirus(self, img, lst_data):
-        n_total, ii = 0, 0
-        for cov in lst_data:
-            n_total += cov[1]
-            cv2.putText(img,cov[0] + '    %d'%(cov[1]), 
-                (10, ii*15+360), 
-                cv2.FONT_HERSHEY_SIMPLEX, 
-                0.5,
-                cov[4],
-                1) 
-            ii += 1
-            if('Out of State' in cov[0]): continue
-            if('Other' in cov[0]): continue
-            cv2.putText(img,'%d'%(cov[1]), 
-                (cov[2],cov[3]), 
-                cv2.FONT_HERSHEY_DUPLEX, 
-                0.7,
-                cov[4],
-                1) 
-        cv2.putText(img,'%d Confirmed Cases'%(n_total), 
-            (240,30), 
-            cv2.FONT_HERSHEY_DUPLEX, 
-            1,
-            (255,64,0),
-            1) 
-        cv2.putText(img, self.now_date, 
-            (405,65), 
-            cv2.FONT_HERSHEY_DUPLEX, 
-            1,
-            (255,64,0),
-            1) 
-
-=======
     def isRealCounty(self, c_name, lst_counties):
         for a_county in lst_counties:
             if(c_name in a_county[3]): return True
         return False
->>>>>>> master
     #
     def infoShowRainbow(self, type_data, lst_data):
         print('infoShowRainbow...', type_data)
