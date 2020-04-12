@@ -42,7 +42,7 @@ class runVirusViz(object):
         # create a node
         print("welcome to node virusviz")
         #choose one state in US
-        self.state_name = 'MI'
+        self.state_name = 'OH'
         self.state_dir = './'+self.state_name.lower()+'/'
         if(not os.path.isdir(self.state_dir) ): os.mkdir(self.state_dir)
 
