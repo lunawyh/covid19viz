@@ -23,16 +23,13 @@ import csv
 import os
 from os import listdir
 from os.path import isfile, join
-from matplotlib.patches import Wedge
-import matplotlib.pyplot as plt
 import math
 import urllib
-from scipy.integrate import odeint
-from scipy.optimize import curve_fit
+from shutil import copyfile
 from mapviz20 import *
+from rainbowviz21 import *
+from predictionviz22 import *
 
-VIZ_W  = 880
-VIZ_H  = 1000
 # ==============================================================================
 # -- codes -------------------------------------------------------------------
 # ==============================================================================
@@ -44,13 +41,21 @@ class runVirusViz(object):
 
         # create a node
         print("welcome to node virusviz")
+        #choose one state in US
         self.state_name = 'MI'
         self.state_dir = './'+self.state_name.lower()+'/'
-        self.l_state_config= self.open4File (self.state_dir +'state_config.csv')				
+        if(not os.path.isdir(self.state_dir) ): os.mkdir(self.state_dir)
+
+        #configuration parameters
+        state_cfg = self.state_dir +'state_config.csv'
+        if(not isfile(state_cfg)):
+            copyfile('./doc/state_config.csv', state_cfg)  # src, dst)	
+        self.l_state_config= self.open4File (state_cfg)	
+        			
         VIZ_W = int( self.l_state_config[0][1] )
         VIZ_H = int( self.l_state_config[1][1] )   
         
-        #initialize variables
+        #initialize showing variables
         size = VIZ_H, VIZ_W, 3
         self.img_map = np.zeros(size, dtype=np.uint8)	        # map image
         self.img_overlay = np.zeros(size, dtype=np.uint8)	# overlay image
@@ -61,10 +66,13 @@ class runVirusViz(object):
         #data of coordination
 
         # import image of map
-        self.img_map = cv2.resize(cv2.imread(self.state_dir+self.l_state_config[2][1]), (VIZ_W, VIZ_H))
+        if( isfile(self.state_dir+self.l_state_config[2][1]) ):
+            self.img_map = cv2.resize(cv2.imread(self.state_dir+self.l_state_config[2][1]), (VIZ_W, VIZ_H))
         self.img_overlay = self.img_map.copy()
         self.data_daily = False   # otherwise overall
         # read latest data
+        self.name_file = ''
+        self.now_date = ''
         self.csv_pos_now, self.l_mi_cases, self.l_cases_yest = self.readDataByDay(999999)
 
         # main loop for processing
@@ -74,7 +82,7 @@ class runVirusViz(object):
                 if(len(self.l_mi_cases) > 0):
                     self.img_overlay = self.img_map.copy()
                     self.infoShowCases(self.img_overlay, self.l_mi_cases)
-                cv2.imshow("COVID-19 %.0f in Michigan"%2020, self.img_overlay)
+                cv2.imshow("COVID-19 %.0f in "%2020+self.state_name, self.img_overlay)
                 self.map_data_updated = 0
         self.exit_hook()
     ## key process
@@ -127,7 +135,12 @@ class runVirusViz(object):
             self.data_daily = False
             self.csv_pos_now, self.l_mi_cases, self.l_cases_yest = self.readDataByDay(9999999999) 
         elif(key == 65481 or key == 1114057 or key == 7995393):   # F12 key next day
-            if( self.predictByModelSir() ):
+            save_file = None
+            if(self.isNameOnToday(self.name_file)):
+                save_file = self.state_dir + 'results/mi_county20200000_predict.png'
+            prediction_viz = predictionViz(self.state_name)	
+
+            if( prediction_viz.predictByModelSir(save_file) ):
                 l_img = cv2.imread(self.state_dir + 'results/mi_county20200000_predict.png')
                 s_img = cv2.imread('./doc/app_qrcode_logo.jpg')
                 x_offset, y_offset=80, 45
@@ -136,11 +149,22 @@ class runVirusViz(object):
         elif(key == 114 or key == 1048690):  # r key
             if self.data_daily == True: type_data=1
             else: type_data =2
-            self.infoShowRainbow(type_data, self.l_mi_cases) 
+            save_file = None
+            if(type_data==1):
+                if(self.isNameOnToday(self.name_file)):
+                    save_file = self.state_dir + 'results/mi_county20200000_daily.png'
+            rainbow_viz = rainbowViz(self.state_name)	
+            rainbow_viz.infoShowRainbow(type_data, self.l_mi_cases,
+                save_file=save_file, date=self.now_date)
         elif(key == 100 or key == 1048676):  # d key
             if(self.data_daily): return
             list_death= self.getDataListDeath(self.l_mi_cases)
-            self.infoShowRainbow(3, list_death) 
+            save_file = None
+            if(self.isNameOnToday(self.name_file)):
+                save_file = self.state_dir + 'results/mi_county20200000_death.png'
+            rainbow_viz = rainbowViz(self.state_name)	
+            rainbow_viz.infoShowRainbow(3, list_death,
+                save_file=save_file, date=self.now_date)
         elif(key == 115 or key == 1048691):  # s key
             cv2.imwrite(self.state_dir + 'results/mi_county'+self.name_file+'.png', self.img_overlay)
             if(self.isNameOnToday(self.name_file)):
@@ -256,6 +280,7 @@ class runVirusViz(object):
     def getOverallYesterday(self, today):
         data_dir = self.state_dir + 'data'
         csv_data_files = sorted( [f for f in listdir(data_dir) if isfile(join(data_dir, f))] )
+        if( len(csv_data_files) < 1): return None
         f_last, bFound = csv_data_files[0], False
         for ff in csv_data_files:
             if(today in ff): 
@@ -353,7 +378,7 @@ class runVirusViz(object):
         wish_total = 0
         n_total, ii = 0, 0
         line_h=13	
-        offset_h = VIZ_H - line_h * len(l_cases)/2-25
+        offset_h = int( self.l_state_config[1][1] ) - line_h * len(l_cases)/2-25
         for a_case in l_cases:
             if('County' in a_case[0]):
                 continue
@@ -423,179 +448,6 @@ class runVirusViz(object):
 		    (255,64,0),
 		    1) 
             
-    #
-    def isRealCounty(self, c_name, lst_counties):
-        for a_county in lst_counties:
-            if(c_name in a_county[3]): return True
-        return False
-    #
-    def infoShowRainbow(self, type_data, lst_data):
-        print('infoShowRainbow...', type_data)
-        fig=plt.figure()
-        ax=fig.add_subplot(111)
-        fig.set_figheight(10)
-        fig.set_figwidth(10)
-
-        # select colum
-        if (type_data==3):col=2
-        else : col=1
-        # clean list
-        l_d_clean = []
-        l_max_v = 0
-        l_counties = []
-        coord_f = self.state_dir + 'state_county_coord.csv'
-        if(isfile(coord_f) ):
-            l_counties = self.open4File(coord_f)
-
-        for a_case in lst_data:
-            if(self.isRealCounty(a_case[0], l_counties)): pass
-            else: continue
-            l_d_clean.append(a_case)
-            if(int(a_case[col]) > l_max_v): l_max_v = int(a_case[col])
-        n_total=0		
-        for a_case in lst_data:
-            if('Total' in a_case[0]): continue
-            if('County' in a_case[0]): continue
-            n_total += int(a_case[col])
-
-        l_max_v += 100 + 50  # base 50*2 + name 25*2
-        center_y = -(l_max_v/2 - 75)
-        l_max_v = (int(l_max_v / 50.0+1) * 50) / 2
-        # sort list
-        l_d_sort = sorted(l_d_clean, key=lambda k: int(k[col]))
-        len_data = len(l_d_sort)
-        cmap=plt.get_cmap("gist_rainbow")
-        # draw list
-        for ii in range( len(l_d_sort) ):
-            l_value = int(l_d_sort[ii][col])
-            fov = Wedge((0, 0+center_y), l_value+50, 
-                int(ii*360.0/len_data)+90, int((ii+1)*360.0/len_data+90), 
-                color=cmap(1.0-(float(ii)/len_data*0.9+0.0)), 
-                alpha=1.0)
-            ax.add_artist(fov)
-            #
-            theta = (int(ii*360.0/len_data)+90) / 180.0*math.pi
-            radian = l_value+50 + 5
-            plt.text(radian*math.cos(theta), radian*math.sin(theta)+center_y, 
-                l_d_sort[ii][0], rotation=int(ii*360.0/len_data)+90,
-                color=cmap(1.0-(float(ii)/len_data*0.9+0.0)), 
-                rotation_mode='anchor')
-                #horizontalalignment='center', verticalalignment='bottom')
-            if(l_value < 10): digi_len = 0
-            elif(l_value < 100): digi_len = 1
-            elif(l_value < 1000): digi_len = 2
-            else: digi_len = 3
-            radian = l_value+50 - 10 - digi_len*l_max_v/40
-            plt.text(radian*math.cos(theta), radian*math.sin(theta)+center_y, 
-                '%d'%(l_value), rotation=int(ii*360.0/len_data)+90,
-                color='w', 
-                rotation_mode='anchor')
-        if(type_data==1):
-            plt.text(-l_max_v+5, l_max_v-30, '%d Daily confirmed COVID-19'%(n_total))
-            plt.text(-l_max_v+5, l_max_v-60, 'On '+self.now_date + ' in MI')
-        elif type_data ==2:
-            plt.text(-l_max_v+10, l_max_v-140, '%d Overall confirmed COVID-19'%(n_total))
-            plt.text(-l_max_v+10, l_max_v-240, 'Until '+self.now_date + ' in MI')
-        elif type_data ==3:
-            plt.text(-l_max_v+10, l_max_v-20, '%d Overall deaths COVID-19'%(n_total))
-            plt.text(-l_max_v+10, l_max_v-40, 'Until '+self.now_date + ' in MI')
-        plt.axis([-l_max_v, l_max_v, -l_max_v, l_max_v])
-        fig.tight_layout()      
-        ax.axis('off')  # get rid of the ticks and ticklabels
-        plt.show()
-        if(type_data==1):
-            #fig.savefig(self.state_dir + 'results/mi_county'+self.name_file+'_daily.png')
-            if(self.isNameOnToday(self.name_file)):
-                fig.savefig(self.state_dir + 'results/mi_county20200000_daily.png')
-        elif(type_data==3):
-            #fig.savefig(self.state_dir + 'results/mi_county'+self.name_file+'_death.png')
-            if(self.isNameOnToday(self.name_file)):
-                fig.savefig(self.state_dir + 'results/mi_county20200000_death.png')
-    # refer to https://github.com/HCui91/covid-19-model	    	
-	#   https://zhuanlan.zhihu.com/p/104645873
-    def SIR(self, t, beta, gamma):
-        # Total population, N.
-        N = 1000000
-        # Initial number of infected and recovered individuals, I0 and R0.
-        I0, R0 = 65, 65.0/239.0*25.0
-        # Everyone else, S0, is susceptible to infection initially.
-        S0 = N - I0 - R0
-
-        # The SIR model differential equations.
-        # @njit
-        def deriv(y, t, N, beta, gamma):
-            S, I, R = y
-            dSdt = -beta * S * I / N
-            dIdt = beta * S * I / N - gamma * I
-            dRdt = gamma * I
-            return dSdt, dIdt, dRdt
-
-        # Initial conditions vector
-        y0 = S0, I0, R0
-        # Integrate the SIR equations over the time grid, t.
-        ret = odeint(deriv, y0, t, args=(N, beta, gamma))
-        S, I, R = ret.T
-        return I
-
-    #
-    def predictByModelSir(self, type_data=0):
-        print('predictByModelSir...', type_data)
-        # read all data file
-        csv_data_files = sorted( [f for f in listdir(self.state_dir + 'data') if isfile(join(self.state_dir + 'data', f))] )
-        lst_data_overall = []
-        # read total number from data file
-        offset = 11	
-        for ff in csv_data_files:             
-            l_data_day = self.open4File(join(self.state_dir + 'data', ff))
-            for a_day in l_data_day:
-                if 'Total' in a_day[0]:
-                    lst_data_overall.append(a_day[1])
-                    break
-
-        # get daily new cases
-        lst_data_daily = []
-        #lst_data_daily.append(0)
-        for ii in range(len(lst_data_overall)):
-            if ii < 1: continue  # lst_data_daily.append(lst_data_overall[ii])     
-            else: lst_data_daily.append(lst_data_overall[ii] - lst_data_overall[ii-1])  
-
-        # predict the future
-        data = lst_data_daily  #[0:-1]
-        #print(lst_data_overall)
-        #data.append( int(data[-1] * 0.9) )
-        days = np.arange(0, len(data), 1)
-        popt, pcov = curve_fit(self.SIR, days, data)
-        print(' contact parameter, recovery rate:', popt)
-        print(" R0:", 1/popt[0], "Recovery days:", 1/popt[1])
-        print(' Covariance matrix:', pcov)
-
-        fig = plt.figure(0)
-        fig.set_figheight(10)
-        fig.set_figwidth(20)
-        plt.scatter(days, data, label="Actual new cases per day", color='r')
-        date_s = 18
-        date_len = int(3*len(data))
-        day_future = np.arange(0, date_len, 1)
-        day_mmdd = []
-        for jj in range(date_len):
-            if(jj<=13): month, day = 3, (date_s + jj)%32 
-            elif(jj<=43): month, day = 4, (date_s + jj - 31)%31  
-            elif(jj<=74): month, day = 5, (date_s + jj - 31 - 30)%32  
-            else: month, day = 6, (date_s + jj - 31 - 30 - 31)%31  
-            day_mmdd.append( '%d/%d'%(month,day) )
-            
-        plt.plot(day_mmdd, self.SIR(day_future, *popt), label="Predicted new cases per day(unreal)")
-        plt.legend()
-        plt.xlabel('Date in 2020')
-        plt.ylabel('Confirmed Daily New Cases')
-        plt.title("COVID-19 Prediction of daily new cases in Michigan")
-        plt.xticks(rotation=45)
-        fig.tight_layout()      
-        plt.show()
-        if(self.isNameOnToday(self.name_file)):
-            fig.savefig(self.state_dir + 'results/mi_county20200000_predict.png')
-            return True
-        return False
     ## exit node
     def exit_hook(self):
         print("bye bye, node virusviz")
