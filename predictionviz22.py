@@ -108,7 +108,7 @@ class predictionViz(object):
             else: lst_data_daily.append(lst_data_overall[ii] - lst_data_overall[ii-1])  
 
         # predict the future
-        data = lst_data_daily  #[0:-1]
+        data = lst_data_daily[5:]  #[0:-1]
         #print(lst_data_overall)
         #data.append( int(data[-1] * 0.9) )
         days = np.arange(0, len(data), 1)
@@ -122,7 +122,7 @@ class predictionViz(object):
         fig.set_figwidth(20)
         plt.scatter(days, data, label="Actual new cases per day", color='r')
         date_s = 18
-        date_len = int(3*len(data))
+        date_len = int(2*len(data))
         day_future = np.arange(0, date_len, 1)
         day_mmdd = []
         for jj in range(date_len):
