@@ -205,6 +205,38 @@ class runVirusViz(object):
             lst_data_last = []
         return (pos, lst_data, lst_data_last)
     ## save to csv 
+    def saveLatestDate(self, l_data):
+        a_test_date = None
+        l_daily = []
+        l_overral = []
+        total_daily = 0
+        total_overral = 0
+        for a_item in l_data:
+            if(a_test_date is None):
+                a_test_date =  a_item[0]
+                pos = 0	
+                offset = 0	
+                month = int(a_item[pos][offset:offset+2])
+                day = int(a_item[pos][offset+3:offset+5])
+                year = int(a_item[pos][offset+6:offset+10])
+                self.name_file = '%d%02d%02d'%(year, month, day)
+                self.name_file = '%d%02d%02d'%(year, month, day)
+            elif(a_test_date in a_item[0]):
+                pass
+            else:
+                continue
+            total_daily += int( a_item[2] )
+            total_overral += int( a_item[3] )
+            l_daily.append([a_item[1], a_item[2], 0])
+            l_overral.append([a_item[1], a_item[3], 0])
+        l_daily.append(['Total', total_daily, 0])
+        l_overral.append(['Total', total_overral, 0])
+        if(not os.path.isdir(self.state_dir + 'daily/') ): os.mkdir(self.state_dir + 'daily/')
+        if(not os.path.isdir(self.state_dir + 'data/') ): os.mkdir(self.state_dir + 'data/')
+        self.save2File(l_daily, self.state_dir + 'daily/'+self.state_name.lower()+'_covid19_'+self.name_file+'.csv')
+        self.save2File(l_overral, self.state_dir + 'data/'+self.state_name.lower()+'_covid19_'+self.name_file+'.csv')
+        return l_overral
+    ## save to csv 
     def save2File(self, l_data, csv_name):
         csv_data_f = open(csv_name, 'w')
         # create the csv writer 
@@ -222,6 +254,12 @@ class runVirusViz(object):
             l_data = self.parseDfData(df)
         else: return []
         return l_data
+    ## download a website 
+    def download4Website(self, fRaw):
+        csv_url = self.l_state_config[5][1]
+        # save csv file
+        urllib.urlretrieve(csv_url, fRaw)
+        return True
     ## open a website 
     def open4Website(self, fRaw):
         #csv_url = "https://www.michigan.gov/coronavirus/0,9753,7-406-98163-520743--,00.html"
@@ -265,10 +303,18 @@ class runVirusViz(object):
         dt_now = datetime.datetime.now()
         self.name_file = '%d%02d%02d'%(dt_now.year, dt_now.month, dt_now.day)
         self.now_date = '%d/%d/%d'%(dt_now.month, dt_now.day, dt_now.year)
-        f_name = self.state_dir + 'data_html/'+self.state_name.lower()+'_covid19_'+self.name_file+'.html'
-        df_a = self.open4Website(f_name)
-        f_name = self.state_dir + 'data/'+self.state_name.lower()+'_covid19_'+self.name_file+'.csv'
-        lst_data = self.parseDfData(df_a, fName=f_name)
+        if( int(self.l_state_config[4][1]) == 5):   # download only
+            f_name = self.state_dir + 'data_raw/'+self.state_name.lower()+'_covid19_'+self.name_file+'.csv'
+            if(not os.path.isdir(self.state_dir + 'data_raw/') ): os.mkdir(self.state_dir + 'data_raw/')
+            result = self.download4Website(f_name)
+            lst_raw_data = self.open4File(f_name)
+            lst_data = self.saveLatestDate(lst_raw_data)
+        else:
+            f_name = self.state_dir + 'data_html/'+self.state_name.lower()+'_covid19_'+self.name_file+'.html'
+            if(not os.path.isdir(self.state_dir + 'data_html/') ): os.mkdir(self.state_dir + 'data_html/')
+            df_a = self.open4Website(f_name)
+            f_name = self.state_dir + 'data/'+self.state_name.lower()+'_covid19_'+self.name_file+'.csv'
+            lst_data = self.parseDfData(df_a, fName=f_name)
 
         #read data on yesterday 
         name_last = self.getOverallYesterday(self.name_file)
