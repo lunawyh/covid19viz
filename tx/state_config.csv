@@ -1,12 +1,17 @@
-name,value
-VIZ_W,800
-VIZ_H,600
-state_map,Tzmap.jpg
-cordinate,file name
-weblink_num,1
-weblink_state,link name
-state_name,Texas
-basemap_lat,31.316087
-basemap_lon,-99.994644
-basemap_lat_len,640000
-basemap_lon_len,640000
+name,value,lon,offset
+VIZ_W,880,,0
+VIZ_H,1000,,1
+state_map,map image file,,2
+cordinate,position file,,3
+weblink_num,0,,4
+weblink_state,link url,,5
+state_name,none,,6
+basemap_lat,31.268599,,7
+basemap_lon,0,,8
+basemap_lat_len,600000,,9
+basemap_lon_len,0,,10
+basemap_title,5.156759,0.101012,11
+basemap_logo,4.276629,5.783506,12
+basemap_list1,1.13965200000001,-4.390411,13
+basemap_list2,0.13965200000001,-2.390411,14
+basemap_list3,0,0,15

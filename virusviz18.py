@@ -166,10 +166,12 @@ class runVirusViz(object):
             rainbow_viz.infoShowRainbow(3, list_death,
                 save_file=save_file, date=self.now_date)
         elif(key == 115 or key == 1048691):  # s key
-            cv2.imwrite(self.state_dir + 'results/mi_county'+self.name_file+'.png', self.img_overlay)
-            if(self.isNameOnToday(self.name_file)):
-                cv2.imwrite(self.state_dir + 'results/mi_county20200000.png', self.img_overlay)
+            #cv2.imwrite(self.state_dir + 'results/mi_county'+self.name_file+'.png', self.img_overlay)
             pass
+        elif(key == 119 or key == 1048695):  # w key, for test only
+            cov_tables = pd.read_html('https://www.ipl.org/div/stateknow/popchart.html')
+            #print(cov_tables[0])  
+            self.parseDfData(cov_tables[2], './ne_maps/us_states_land.csv')  
         elif(key == 27 or key == 1048603):  # esc
             self.now_exit = True
             pass  
@@ -242,7 +244,7 @@ class runVirusViz(object):
         # create the csv writer 
         csvwriter = csv.writer(csv_data_f)
         # make sure the 1st row is colum names
-        if('County' in l_data[0][0]): pass
+        if('County' in str(l_data[0][0])): pass
         else: csvwriter.writerow(['County', 'Cases', 'Deaths'])
         for a_row in l_data:
             csvwriter.writerow(a_row)
