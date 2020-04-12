@@ -136,7 +136,7 @@ class predictionViz(object):
         plt.legend()
         plt.xlabel('Date in 2020')
         plt.ylabel('Confirmed Daily New Cases')
-        plt.title("COVID-19 Prediction of daily new cases in Michigan")
+        plt.title("COVID-19 Prediction of daily new cases in " + self.state_name)
         plt.xticks(rotation=45)
         fig.tight_layout()      
         plt.show()

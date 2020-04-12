@@ -64,7 +64,7 @@ class mapViz(object):
         csvwriter = csv.writer(csv_data_f)
         # make sure the 1st row is colum names
         csvwriter.writerow(['USPS','GEOID','ANSICODE','NAME','ALAND','AWATER',\
-            'ALAND_SQMI','AWATER_SQMI','INTPTLAT','INTPTLONG','ROTATE','NOTES'])
+            'ALAND_SQTX','AWATER_SQTX','INTPTLAT','INTPTLONG','ROTATE','NOTES'])
         for a_row in l_data:
             csvwriter.writerow(a_row)
         csv_data_f.close()
