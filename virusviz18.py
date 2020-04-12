@@ -89,9 +89,9 @@ class runVirusViz(object):
         if(key == -1):  
             pass
         elif(key == 65471 or key == 1114047 or key == 7405568):   # F2 key refresh newest from website
-<<<<<<< HEAD
+
             self.data_daily, self.l_ny_cases = self.readDataDaily(True)
-=======
+
             self.data_daily, self.l_mi_cases = self.readDataDaily(True)
             pass
         elif(key == 65472 or key == 1114048 or key == 7405569):   # F3 key gmaps
@@ -105,7 +105,7 @@ class runVirusViz(object):
             map_viz.showCountyInMap(self.l_mi_cases, 
                 l_type=type_data, l_last = self.l_cases_yest, 
                 save_file=save_file, date=self.now_date)
->>>>>>> master
+
             pass  
         elif(key == 65474 or key == 1114050):   # F5 key refresh newest from website
             self.data_daily = False
@@ -113,17 +113,17 @@ class runVirusViz(object):
             pos, self.l_ny_cases, self.l_cases_yest = self.cmdGrabDataFromWebsite()
             if(len(self.l_ny_cases) > 0):
                 self.img_overlay = self.img_map.copy()
-<<<<<<< HEAD
+
                 self.infoShowCases(self.img_overlay, self.l_ny_cases)
                 cv2.imwrite(self.state_dir + 'results/ny_county'+self.name_file+'.png', self.img_overlay)
                 if(self.isNameOnToday(self.name_file)):
                     cv2.imwrite(self.state_dir + 'results/ny_county20200000.png', self.img_overlay)
-=======
+
                 self.infoShowCases(self.img_overlay, self.l_mi_cases)
                 #cv2.imwrite(self.state_dir + 'results/mi_county'+self.name_file+'.png', self.img_overlay)
                 #if(self.isNameOnToday(self.name_file)):
                 #    cv2.imwrite(self.state_dir + 'results/mi_county20200000.png', self.img_overlay)
->>>>>>> master
+
             pass  
         elif(key == 65477 or key == 1114053 or key == 7798784):   # F8 key next day
             self.data_daily = False
@@ -378,13 +378,13 @@ class runVirusViz(object):
                     posx = 180+10
                     posy = int( (ii-len(l_cases)/2)*line_h+offset_h )
                 n_total += int( a_case[1] )
-<<<<<<< HEAD
+
                 bFound, map_data = self.lookupMapData(a_case[0], self.l_ny_county_coord)
                 nColor = self.getColorByCompare(a_case)
-=======
+
                 if( self.getColorByCompare(a_case) ): nColor = (0,255,0)
                 else: nColor = (0,0,255)
->>>>>>> master
+
                 # draw the list on the left
                 cv2.putText(img, a_case[0], 
 		        (posx, posy), 
@@ -519,19 +519,19 @@ class runVirusViz(object):
         ax.axis('off')  # get rid of the ticks and ticklabels
         plt.show()
         if(type_data==1):
-<<<<<<< HEAD
+
             fig.savefig(self.state_dir + 'results/ny_county'+self.name_file+'_daily.png')
-=======
+
             #fig.savefig(self.state_dir + 'results/mi_county'+self.name_file+'_daily.png')
->>>>>>> master
+
             if(self.isNameOnToday(self.name_file)):
                 fig.savefig(self.state_dir + 'results/ny_county20200000_daily.png')
         elif(type_data==3):
-<<<<<<< HEAD
+
             fig.savefig(self.state_dir + 'results/ny_county'+self.name_file+'_death.png')
-=======
+
             #fig.savefig(self.state_dir + 'results/mi_county'+self.name_file+'_death.png')
->>>>>>> master
+
             if(self.isNameOnToday(self.name_file)):
                 fig.savefig(self.state_dir + 'results/ny_county20200000_death.png')
     # refer to https://github.com/HCui91/covid-19-model	    	
@@ -616,13 +616,13 @@ class runVirusViz(object):
         fig.tight_layout()      
         plt.show()
         if(self.isNameOnToday(self.name_file)):
-<<<<<<< HEAD
+
             fig.savefig(self.state_dir + 'results/ny_county20200000_predict.png')
-=======
+
             fig.savefig(self.state_dir + 'results/mi_county20200000_predict.png')
             return True
         return False
->>>>>>> master
+
     ## exit node
     def exit_hook(self):
         print("bye bye, node virusviz")
