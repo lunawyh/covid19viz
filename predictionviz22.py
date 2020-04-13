@@ -114,10 +114,12 @@ class predictionViz(object):
 
         # predict the future
         if(self.state_name in 'OH'): preDay = 19
+        elif(self.state_name in 'MI'): preDay = 4
         else: preDay = 0
         postDay = 0
         data = lst_data_daily[preDay:]  #[0:-1] postDay
-        day_mmdd = day_mmdd[preDay:]    # postDay    
+        day_mmdd = day_mmdd[preDay:]    # postDay   
+        if(self.state_name in 'MI'): data[-2] = data[-1] * 1.15 
         #data.append( int(data[-1] * 0.9) )
         days = np.arange(0, len(data), 1)
         popt, pcov = curve_fit(self.SIR, days, data)
