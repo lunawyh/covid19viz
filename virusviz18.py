@@ -466,6 +466,7 @@ class runVirusViz(object):
             #return False
         l_daily.append(["Total", Total_plus[0], Total_plus[1]])
         # save data
+        if(not os.path.isdir(self.state_dir + 'daily/') ): os.mkdir(self.state_dir + 'daily/')
         self.save2File(l_daily, csv_daily)
         return True
     def readDataDaily(self, bDaily):
