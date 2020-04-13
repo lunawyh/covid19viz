@@ -222,7 +222,7 @@ class runVirusViz(object):
                 day = int(a_item[pos][offset+3:offset+5])
                 year = int(a_item[pos][offset+6:offset+10])
                 self.name_file = '%d%02d%02d'%(year, month, day)
-                self.name_file = '%d%02d%02d'%(year, month, day)
+                self.now_date = '%d/%d/%d'%(month, day, year)
             elif(a_test_date in a_item[0]):
                 pass
             else:
@@ -237,6 +237,9 @@ class runVirusViz(object):
         if(not os.path.isdir(self.state_dir + 'data/') ): os.mkdir(self.state_dir + 'data/')
         self.save2File(l_daily, self.state_dir + 'daily/'+self.state_name.lower()+'_covid19_'+self.name_file+'.csv')
         self.save2File(l_overral, self.state_dir + 'data/'+self.state_name.lower()+'_covid19_'+self.name_file+'.csv')
+        #
+        print('  save to ', self.state_dir + 'daily/'+self.state_name.lower()+'_covid19_'+self.name_file+'.csv')
+        print('  save to ', self.state_dir + 'data/'+self.state_name.lower()+'_covid19_'+self.name_file+'.csv')
         return l_overral
     ## save to csv 
     def save2File(self, l_data, csv_name):

@@ -1,12 +1,17 @@
-name,value
-VIZ_W,800
-VIZ_H,600
-state_map,ny_county2020.png
-cordinate,ny_county_cordination.csv
-weblink_num,5
-weblink_state,https://health.data.ny.gov/api/views/xdss-u53e/rows.csv?accessType=DOWNLOAD
-state_name,New York
-basemap_lat,42.869935
-basemap_lon,-75.996976
-basemap_lat_len,330000
-basemap_lon_len,330000
+name,value,,
+VIZ_W,800,,
+VIZ_H,600,,
+state_map,ny_county2020.png,,
+cordinate,None,,
+weblink_num,5,,
+weblink_state,https://health.data.ny.gov/api/views/xdss-u53e/rows.csv?accessType=DOWNLOAD,,
+state_name,New York,,
+basemap_lat,42.869935,,
+basemap_lon,-75.996976,,
+basemap_lat_len,330000,,
+basemap_lon_len,330000,,
+basemap_title,3.156759,-1.898988,11
+basemap_logo,2.476629,3.783506,12
+basemap_list1,1.13965200000001,-4.390411,13
+basemap_list2,0.13965200000001,-2.390411,14
+basemap_list3,0,0,15
