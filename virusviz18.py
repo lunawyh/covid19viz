@@ -169,9 +169,10 @@ class runVirusViz(object):
             #cv2.imwrite(self.state_dir + 'results/mi_county'+self.name_file+'.png', self.img_overlay)
             pass
         elif(key == 119 or key == 1048695):  # w key, for test only
-            cov_tables = pd.read_html('https://www.ipl.org/div/stateknow/popchart.html')
+            #cov_tables = pd.read_html('https://www.ipl.org/div/stateknow/popchart.html')
             #print(cov_tables[0])  
-            self.parseDfData(cov_tables[2], './ne_maps/us_states_land.csv')  
+            #self.parseDfData(cov_tables[2], './ne_maps/us_states_land.csv')  
+            pass
         elif(key == 27 or key == 1048603):  # esc
             self.now_exit = True
             pass  
