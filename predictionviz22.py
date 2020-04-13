@@ -108,9 +108,9 @@ class predictionViz(object):
             else: lst_data_daily.append(lst_data_overall[ii] - lst_data_overall[ii-1])  
 
         # predict the future
-        preDay = 5
+        preDay = 0
         data = lst_data_daily[preDay:]  #[0:-1]
-        #print(lst_data_overall)
+        #data[-2] = (data[-3] + data[-1]) / 2
         #data.append( int(data[-1] * 0.9) )
         days = np.arange(0, len(data), 1)
         popt, pcov = curve_fit(self.SIR, days, data)
