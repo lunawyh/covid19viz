@@ -128,8 +128,8 @@ class predictionViz(object):
         day_mmdd = []
         for jj in range(date_len):
             if(date_s + jj<=31): month, day = 3, (date_s + jj)%32 
-            elif(date_s + jj<=71): month, day = 4, (date_s + jj - 31)%31  
-            elif(date_s + jj<=102): month, day = 5, (date_s + jj - 31 - 30)%32  
+            elif(date_s + jj<=61): month, day = 4, (date_s + jj - 31)%31  
+            elif(date_s + jj<=92): month, day = 5, (date_s + jj - 31 - 30)%32  
             else: month, day = 6, (date_s + jj - 31 - 30 - 31)%31  
             day_mmdd.append( '%d/%d'%(month,day) )
             
