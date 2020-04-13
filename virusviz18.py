@@ -176,9 +176,10 @@ class runVirusViz(object):
             #cv2.imwrite(self.state_dir + 'results/mi_county'+self.name_file+'.png', self.img_overlay)
             pass
         elif(key == 119 or key == 1048695):  # w key, for test only
-            cov_tables = pd.read_html('https://www.ipl.org/div/stateknow/popchart.html')
+            #cov_tables = pd.read_html('https://www.ipl.org/div/stateknow/popchart.html')
             #print(cov_tables[0])  
-            self.parseDfData(cov_tables[2], './ne_maps/us_states_land.csv')  
+            #self.parseDfData(cov_tables[2], './ne_maps/us_states_land.csv')  
+            pass
         elif(key == 27 or key == 1048603):  # esc
             self.now_exit = True
             pass  
@@ -196,7 +197,7 @@ class runVirusViz(object):
         if(pos >= len(csv_data_files) ): pos = len(csv_data_files) - 1
         elif(pos < 0): pos = 0
         #print('  ', csv_data_files[pos])
-        if( len(csv_data_files[pos]) != 23): return (pos, [])
+        #if( len(csv_data_files[pos]) != 23): return (pos, [])
         offset = 11	
         dt_obj = datetime.datetime.strptime(csv_data_files[pos][offset:offset+8], '%Y%m%d')
         self.name_file = dt_obj.strftime('%Y%02m%02d')

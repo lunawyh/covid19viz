@@ -123,7 +123,7 @@ class predictionViz(object):
         fig.set_figwidth(20)
         plt.scatter(days, data, label="Actual new cases per day", color='r')
         date_s = 18 + preDay
-        date_len = int(2*len(data))
+        date_len = int(3*len(data))
         day_future = np.arange(0, date_len, 1)
         day_mmdd = []
         for jj in range(date_len):
