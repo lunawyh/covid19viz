@@ -30,6 +30,9 @@ from mapviz20 import *
 from rainbowviz21 import *
 from predictionviz22 import *
 
+import sys
+sys.path.insert(0, "./ca")
+from dataGrab58 import *
 # ==============================================================================
 # -- codes -------------------------------------------------------------------
 # ==============================================================================
@@ -42,7 +45,11 @@ class runVirusViz(object):
         # create a node
         print("welcome to node virusviz")
         #choose one state in US
-        self.state_name = 'TX'
+        self.state_name = 'MI'
+        if( isfile('../state.txt')):
+            with open('../state.txt', 'r') as f:
+                self.state_name = f.readlines()[0][0:2]
+                print('  state', self.state_name)
         self.state_dir = './'+self.state_name.lower()+'/'
         if(not os.path.isdir(self.state_dir) ): os.mkdir(self.state_dir)
 
@@ -190,7 +197,7 @@ class runVirusViz(object):
         if(pos >= len(csv_data_files) ): pos = len(csv_data_files) - 1
         elif(pos < 0): pos = 0
         #print('  ', csv_data_files[pos])
-        if( len(csv_data_files[pos]) != 23): return (pos, [])
+        #if( len(csv_data_files[pos]) != 23): return (pos, [])
         offset = 11	
         dt_obj = datetime.datetime.strptime(csv_data_files[pos][offset:offset+8], '%Y%m%d')
         self.name_file = dt_obj.strftime('%Y%02m%02d')
@@ -380,6 +387,7 @@ class runVirusViz(object):
     ## grab data from goverment website
     def cmdGrabDataFromWebsite(self):
         print('cmdGrabDataFromWebsite...')
+        lst_data = []
         # update date time
         dt_now = datetime.datetime.now()
         self.name_file = dt_now.strftime('%Y%02m%02d') 
@@ -394,6 +402,11 @@ class runVirusViz(object):
                 lst_data = self.saveLatestDate(lst_raw_data)
             if( type_download == 15):
                 lst_data = self.saveLatestDateOh(lst_raw_data)
+        elif( type_download == 101 ):   # download counties in the list
+            data_grab = dataGrab(self.l_state_config, self.state_name)	
+            lst_data = data_grab.parseDataCa(self.name_file)		
+            f_name = self.state_dir + 'data/'+self.state_name.lower()+'_covid19_'+self.name_file+'.csv'
+            self.save2File( lst_data, f_name )
         else:
             f_name = self.state_dir + 'data_html/'+self.state_name.lower()+'_covid19_'+self.name_file+'.html'
             if(not os.path.isdir(self.state_dir + 'data_html/') ): os.mkdir(self.state_dir + 'data_html/')
