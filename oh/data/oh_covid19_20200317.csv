@@ -1,18 +1,19 @@
 County,Cases,Deaths
-Franklin,204,1
 Montgomery,34,0
-Cuyahoga,240,0
+Cuyahoga,241,0
+Franklin,206,1
 Hamilton,84,0
 Medina,26,0
-Carroll,5,0
+Carroll,4,0
 Scioto,1,0
-Stark,23,0
+Stark,24,0
 Tuscarawas,5,0
 Lorain,47,0
 Summit,57,0
 Huron,3,0
-Butler,35,0
+Butler,36,0
 Mahoning,72,0
+Allen,2,0
 Highland,1,0
 Licking,13,0
 Seneca,3,0
@@ -21,7 +22,7 @@ Clark,2,0
 Columbiana,9,0
 Defiance,5,0
 Delaware,24,0
-Miami,37,0
+Miami,38,0
 Muskingum,2,0
 Richland,6,0
 Sandusky,3,0
@@ -53,7 +54,6 @@ Fayette,2,0
 Hancock,3,0
 Jefferson,1,0
 Portage,6,0
-Allen,1,0
 Ashland,1,0
 Ashtabula,2,0
 Crawford,4,0
@@ -65,4 +65,4 @@ Knox,5,0
 Madison,2,0
 Pickaway,2,0
 Lawrence,1,0
-Total,1182,1
+Total,1188,1
