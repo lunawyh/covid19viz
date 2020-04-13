@@ -1,0 +1,1285 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+    <head><link rel="stylesheet" type="text/css" href="/WorkArea/FrameworkUI/css/ektron.stylesheet.ashx?id=-1759591071" />
+        <!-- Set Mobile Device Viewport scaling -->
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+        <!-- Chrome Theme Color -->
+        <meta name="theme-color" content="#315470" />
+        <!-- Set IE to Edge Page Compatibility -->
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+            <!-- Meta:Description ~160 Chars -->
+            <meta name="Description" content="San Joaquin offers tremendous opportunities to those that call it home. San Joaquin's communities provide affordable housing along with recreational opportunities and state-of-the-art K-12 schools and higher education institutions. Come see why greatness grows here.">
+            <!-- Meta:Keywords -->
+            <meta name="Keywords" content="Government, County, Agriculture, Economic Development, Residents, Business, Tax">
+        
+        <base href="/">
+        <!--[if lte IE 9]><script type="text/javascript">
+            // Fix for IE ignoring relative base tags.
+            // See http://stackoverflow.com/questions/3926197/html-base-tag-and-local-folder-path-with-internet-explorer
+            (function() {
+                var baseTag = document.getElementsByTagName('base')[0];
+                baseTag.href = baseTag.href;
+            })();
+        </script><![endif]-->
+
+        <!-- Favicon Image -->
+        <!--[if IE]><link rel="shortcut icon" href="/images/brand/SJC-Favicon.ico" /><![endif]-->
+        <link rel="icon" href="/images/brand/SJC-Favicon.png" /><title>
+	COVID-19 | San Joaquin County
+</title><link rel="stylesheet" href="../css/theme/SJC.css?id=1" /><link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" /><link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" /><link href="/css/page-search.css?id=1" rel="stylesheet" />
+    <style>
+        .progress-meter .background {
+            fill: #E5EBEB;
+        }
+
+        .progress-meter .foreground {
+            fill: #5D8990;
+        }
+
+        .progress-meter text {
+            fill: #5D8990;
+            font-size: 2rem;
+        }
+
+        .table thead th {
+            padding: 5.75rem 1.375rem .625rem
+        }
+
+        .dept-news-list .dept-list__description {
+            color: #2a323b;
+            margin-top: 5px;
+            font-weight: 100;
+        }
+
+        .unstyled li {
+            margin: 8px 0;
+        }
+        @media screen and (min-width: 1024px) {
+            .dept-header {
+                padding: 0 8rem;
+            }
+        }
+        .tile {
+            width: 180px;
+            height: 150px;
+            background-color: #315470;
+            margin: 20px 0;
+            color: #eaf0f6;
+            display: inline-flex;
+            justify-content: space-between;
+            flex-direction: column;
+            padding: 5px 10px;
+            border-radius: 4px;
+        }
+        .tile .tile__title {
+
+        }
+        .tile .tile__sub-title {
+            font-size: 10px;
+        }
+        .tile .tile__number {
+            font-size: 60px;
+            line-height: 60px;
+        }
+        a[href$='.pdf'] {
+            box-shadow: none;
+            border: none;
+            font-family: inherit;
+            padding: 0;
+            color: #c3560e;
+            margin: 0;
+            display: inline-block;
+            max-width: unset;
+        }
+        a[href$='.pdf']:hover {
+            color: #c3560e;
+            text-decoration: underline;
+        }
+        a[href$='.pdf']:before {
+            content: '';
+            padding: 0;
+            display: none;
+        }
+        .dept-news-list li a[href$='.pdf']:before, .dept-news-list li a[type='application/pdf']:before {
+            display: none;
+        }
+        .dept-news-list li a[href$='.pdf'], .dept-news-list li a[type='application/pdf'] {
+            font-family: 'Roboto Condensed', 'Roboto';
+            font-weight: 700;
+        }
+        .accordion__content ul {
+            list-style: none;
+            padding-left: unset;
+            margin-bottom: 15px;
+
+        }
+        .accordion__content ul ul {
+            padding-left: 0px;
+            list-style: none;
+        }
+        .button {
+            flex-grow: 1;
+        }
+        .button-container .button:last-child {
+            margin-top: 9px;
+            margin-left: 0 !important;
+        }
+        .button-container {
+            display: flex;
+            justify-content: space-between;
+            flex-flow: row wrap;
+        }
+        .button-container .button + .button {
+            margin-left: 10px;
+        }
+        @media screen and (max-width: 640px) {
+            .button-container {
+                flex-direction: column;
+            }
+            .button-container .button {
+                margin: 5px 0;
+                width: 100%;
+            }
+            .button-container .button + .button {
+                margin-left: 0px;
+            }
+        }
+        .sparklines-full-content {
+            margin: 0 -10px;
+        }
+        .jqstooltip {
+            background-color: #fff !important;
+            border-radius: 3px !important;
+            border: 0 !important;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3) !important;
+            color: #315470 !important;
+            padding: 7px 15px !important;
+            font-size: 13px !important;
+            font-weight: 700 !important;
+            -webkit-box-sizing: content-box;
+            -moz-box-sizing: content-box;
+            box-sizing: content-box;
+            transform: translate(-50%, -50%) !important;
+        }
+        .jqsfield {
+            color: #315470 !important;
+        }
+        .jqsfield>* {
+            border-radius: 50%;
+            font-size: 30px;
+            vertical-align: baseline;
+            box-shadow: inset 0 0 0 50px, 0 0 1px rgba(0,0,0,0.3);
+            width: .5ex;
+            height: .5ex;
+            display: inline-block;
+            overflow: hidden;
+            color: #315470 !important;
+        }
+    </style>
+</head>
+    <body>
+        <form method="post" action="/covid19/" id="aspnetForm">
+<div class="aspNetHidden">
+<input type="hidden" name="EktronClientManager" id="EktronClientManager" value="-1759591071" />
+<input type="hidden" name="__VIEWSTATE" id="__VIEWSTATE" value="/wEPDwUJODI0NDkwMzI2ZGSkqhmrSWn55z3NOBy2IOkq5F8S3vQT1Laodsjj8u34pQ==" />
+</div>
+
+<div class="aspNetHidden">
+
+	<input type="hidden" name="__VIEWSTATEGENERATOR" id="__VIEWSTATEGENERATOR" value="4E59AD0B" />
+	<input type="hidden" name="__EVENTVALIDATION" id="__EVENTVALIDATION" value="/wEdAAXhk9dVm8cyw9Dtk4st7V381nQi0hb9SnQghg2tuF6OiLLygRWBfXhlicKkhIEMDEpBKYO/YfuNX6gNMcI6Y9jcn1RcjtHAj66REed34CUNnrvuCiA7pDHbCx0O4qxp+8uYMOarJUN5G8R1Ldu3Pb9f" />
+</div>
+            <a tab-index="1" href="https://www.sjgov.org/covid19/Default.aspx#main" class="sr-only">Skip to main content</a>
+            <nav class="nav">
+                <div class="sjc" itemscope itemtype="http://schema.org/Organization">
+                    <a itemprop="url" href="https://www.sjgov.org/" target="_self" style="display: inline-block;" title="San Joaquin County California website" alt="San Joaquin County California website" >
+                        <object itemprop="logo" type="image/svg+xml" data="images/brand/sjcLogo.svg" class="logo"><!-- fallback here --></object>
+                    </a>
+                </div>
+                <div class="nav__search">
+                   <div class="search search--inline">
+                        <div class="search__input-group">
+                            <label for="ctl00_search__input" class="sr-only">Search</label>
+                            <input name="ctl00$search__input" id="ctl00_search__input" type="text" class="search__input" name="q" value="" placeholder="How can we help you?" />
+                        </div>
+                        <a id="ctl00_search__button" role="button" class="button button--primary" href="javascript:__doPostBack(&#39;ctl00$search__button&#39;,&#39;&#39;)"><i class="material-icons" aria-hidden="true">&#xE8B6;</i><span class="sr-only">Search</span></a>
+                    </div>
+                </div>
+                <div class="m-search" id="mobile-search">
+                        <input type="checkbox" id="toggle">
+                        <label for="toggle"><i class="material-icons">&#xE8B6;</i></label>
+                        <div class="m-form">
+                            <input name="ctl00$m_search__input" id="ctl00_m_search__input" type="text" class="search__input" name="q" value="" placeholder="How can we help you?" />
+                            <input type="submit" name="ctl00$Button1" value="Send" id="ctl00_Button1" class="m_search_bttn" />
+
+                        </div>
+                </div>
+                <div class="nav__links">
+                    <div class="user">
+                        <span class="user__link" style="padding: 0 2.25rem;">
+                            Translate <i class="material-icons" style="vertical-align: middle;">&#xE313;</i>
+                            <ul class="nav__dropdown">
+                                <!-- <li><a href="javascript:void(0)" id=":2.close" class="goog-close-link">English</a></li> -->
+                                <li><a language="#googtrans(en|es)" class="translate__link">Spanish</a></li>
+                                <li><a class="tarns_more" style="cursor: pointer;">More ...</a></li>
+                            </ul>
+                        </span>
+                        <a role="button" href="#feedbackForm" class="button button--primary feedbackButton"><i class="material-icons">&#xE87F;</i> Feedback</a>
+                    </div>
+                </div>
+            </nav>
+            <main id="main">
+                
+    <!-- <div class="dept-hero__title dept-hero__title--dark">COVID-19</div> -->
+    <div class="dept-hero">
+        <img src="/covid19/covid-19.jpg" style="position: absolute; top: -50%;" alt="COVID-19 Virus">
+
+    </div>
+    <div class="dept-header blue">
+        <h1 class="dept-header__super-title">
+            COVID-19
+        </h1>
+        <!-- <div class="dept-header__title dept-header__title--dark">
+
+        </div> -->
+        <!-- <p class="dept-header__subtitle dept-header--paragraph">
+
+        </p> -->
+        <p>
+            San Joaquin County recently declared a Local Public Health Emergency March 12, 2020 in order to assist in leveraging additional resources and funding to ensure an appropriate response to the COVID-19 outbreak. The County's public health response efforts will now focus on minimizing the impact of COVID-19 in the greater community. These actions are important steps to freeing up public health resources to protect the most vulnerable populations and allow our health care system to prepare for taking care of severely ill patients. San Joaquin County health officials urge residents to follow prevention guidelines for COVID-19 and other respiratory diseases and to visit this site often to review the latest news, information, community guidance and resources. <strong>It is important to note that San Joaquin County may have different guidance than the State or Federal government based on our unique needs.</strong> Visit <a href="http://www.sjready.org" title="SJReady.org" target="_blank">http://www.sjready.org</a> for more information.
+        </p>
+    </div>
+
+                
+    <section style="background: #FFF;">
+        <div id="Div1" class="col-6-12 col-offset-2">
+            <h2>San Joaquin County COVID-19 Latest Updates</h2>
+            <ul class="dept-news-list" style="margin-bottom: 0;">
+                <li class="dept-news-list__item">
+                    <a href="https://www.sjgov.org/covid19/SJC_BOS_COVID-19_ACTONS_4-7-20.pdf" title="San Joaquin County Board of Supervisors Consider COVID-19 Actions">San Joaquin County Board of Supervisors Consider COVID-19 Actions</a>
+                    <div class="dept-list__description">April 7, 2020</div>
+                </li>
+                <li class="dept-news-list__item">
+                    <a href="https://www.sjgov.org/covid19/2020_3-31_San_Joaquin_County_Board_Actions_on_COVID-19.pdf" title="San Joaquin County Board of Supervisors Take Actions Related to COVID-19">San Joaquin County Board of Supervisors Take Actions Related to COVID-19</a>
+                    <div class="dept-list__description">March 31, 2020</div>
+                </li>
+                <li class="dept-news-list__item">
+                    <a href="https://www.sjgov.org/covid19/Public_Health_Officer_Order_Advisory_Letter.03-27-2020_SJOE.pdf" title="Public Health Officer Advisory: Orders of the Health Officer of the County of San Joaquin">Public Health Officer Advisory: Orders of the Health Officer of the County of San Joaquin</a>
+                    <div class="dept-list__description">March 27, 2020</div>
+                </li>
+                <li class="dept-news-list__item">
+                    <a href="https://www.sjgov.org/covid19/SJC_Covid_19_School_PR_3.27.20.pdf" title="Press Release: San Joaquin County Public Health Services and Office of Education Order
+                    School Districts to Remain Closed to Protect Residents from COVID-19">Press Release: San Joaquin County Public Health Services and Office of Education Order
+                    School Districts to Remain Closed to Protect Residents from COVID-19</a>
+                    <div class="dept-list__description">March 27, 2020</div>
+                </li>
+                <li class="dept-news-list__item">
+                    <a href="https://www.sjgov.org/covid19/SJC_Land_Fill_closures_03.27.20.pdf" title="Press Release: San Joaquin County Temporarily Close Lovelace Road and North County Landfills to Public During COVID-19 Health Emergency">Press Release: San Joaquin County Temporarily Close Lovelace Road and North County Landfills to Public During COVID-19 Health Emergency</a>
+                    <div class="dept-list__description">March 27, 2020</div>
+                </li>
+                <li class="dept-news-list__item">
+                    <a href="https://www.sjgov.org/WorkArea/DownloadAsset.aspx?id=32463" title="New Stay At Home Order">New Stay At Home Order</a>
+                    <br />
+                    <a href="https://www.sjgov.org/covid19/Press_Release_New_Order_by_PHO_and_DirEmergSvc_3-26-2020.pdf" title="Press Release: San Joaquin County Public Health Officer and Director of Emergency Services Issue Updated Stay-At-Home Order">Press Release: San Joaquin County Public Health Officer and Director of Emergency Services Issue Updated Stay-At-Home Order</a>
+                    <div class="dept-list__description">March 27, 2020</div>
+                </li>
+                <!-- <li class="dept-news-list__item">
+                    <a href="https://www.sjgov.org/WorkArea/DownloadAsset.aspx?id=32463" title="Stay At Home Order">Stay At Home Order (EN)</a> | <a href="https://www.sjgov.org/WorkArea/DownloadAsset.aspx?id=32465" title="Stay At Home Order">Stay At Home Order (ES)</a>
+                    <br />
+                    <a href="https://www.sjgov.org/WorkArea/DownloadAsset.aspx?id=32464" title="Stay At Home Order FAQ">Stay At Home Order FAQ (EN)</a> | <a href="https://www.sjgov.org/WorkArea/DownloadAsset.aspx?id=32466" title="Stay At Home Order FAQ">Stay At Home Order FAQ (ES)</a>
+                    <div class="dept-list__description">March 21, 2020</div>
+                </li> -->
+                <!-- <li class="dept-news-list__item">
+                    <a href="https://www.gov.ca.gov/wp-content/uploads/2020/03/3.20.20-N-34-20.pdf"
+                        title="Governor Newsom Signs Order to Protect Public Health by Expanding Vote-by-Mail Options and Extending Deadlines for Presidential Primary Canvass  ">
+                        Governor Newsom Signs Order to Protect Public Health by Expanding Vote-by-Mail Options and Extending Deadlines for Presidential Primary Canvass  </a>
+                    <div class="dept-list__description">March 21, 2020</div>
+                </li>
+                <li class="dept-news-list__item">
+                    <a href="https://www.sjgov.org/WorkArea/DownloadAsset.aspx?id=32448"
+                        title="San Joaquin County Response to Governors Stay at Home Order">
+                        San Joaquin County Response to Governor's "Stay at Home" Order</a>
+                    <div class="dept-list__description">March 19, 2020</div>
+                </li> -->
+                <li class="dept-news-list__item">
+                    <a href="https://www.sjgov.org/WorkArea/DownloadAsset.aspx?id=32442"
+                        title="San Joaquin County Board of Supervisors Ratify Local Public Health Emergency on COVID-19">
+                        San Joaquin County Board of Supervisors Ratify Local Public Health Emergency on COVID-19</a>
+                    <div class="dept-list__description">March 17, 2020</div>
+                </li>
+
+                <!-- <li class="dept-news-list__item">
+                    <a href="https://www.sjgov.org/covid19/Declaration_of_Local_Health_Emergency_COVID-19__032020.pdf"
+                        title="Declaration of Local Health Emergency">Declaration of Local Health Emergency</a>
+                    <div class="dept-list__description">March 17, 2020</div>
+                </li>
+                <li class="dept-news-list__item">
+                    <a href="https://www.sjgov.org/covid19/SJC_COVID-19_Guidelines_FINAL_3.17.20.pdf"
+                        title="San Joaquin County COVID-19 Guidelines">San Joaquin County COVID-19 Guidelines</a>
+                    <div class="dept-list__description">March 17, 2020</div>
+                </li>
+                <li class="dept-news-list__item">
+                    <a href="https://www.sjgov.org/WorkArea/DownloadAsset.aspx?id=32430"
+                        title="San Joaquin County Mass Gatherings Guidance">San Joaquin County
+                        Mass Gatherings Guidance </a>
+                    <div class="dept-list__description">March 13, 2020</div>
+                </li> -->
+            </ul>
+            <a href="https://www.sjgov.org/covid19/updates" class="button button--icon pull-right" title="View all updates">View all updates <i class="material-icons">keyboard_arrow_right</i></a>
+            <div style="clear: both;"></div>
+            <br />
+            <hr>
+            <div class="button-container">
+                <a href="https://www.sjgov.org/onlineservices" class="button button--primary button--icon" title="Online Services"><span class="material-icons">devices</span> County Online Services</a>
+                <a href="https://www.sjgov.org/services" class="button button--primary button--icon" title="County Essential Services"><span class="material-icons">list</span> County Essential Services</a>
+                <a href="https://www.sjgov.org/covid19/employees" class="button button--primary button--icon button--block" title="Human Resources Employee Information Page"><span class="material-icons">people</span> Human Resources Employee Information Page</a>
+            </div>
+            <hr>
+            <fieldset>
+                <ul class="accordion">
+                  <li>
+                    <input type="checkbox" id="Item1">
+                    <label for="Item1">
+                      <div class="accordion__header">General Information & Resources
+                        <span class="accordion__icon"><i class="material-icons">&#xE313;</i></span>
+                      </div>
+                    </label>
+                    <div class="accordion__content">
+                        <ul class="unstyled">
+                            <li>
+                                <a href="http://www.sjready.org/assets/docs/JIC_Dir_EM_Svc_Order_FAQ_20200330.pdf" title="San Joaquin County COVID-19 FAQs" target="_blank">San Joaquin County COVID-19 FAQs</a>
+                            </li>
+                            <li>
+                                <a href="https://www.cdc.gov/coronavirus/2019-ncov/downloads/2019-ncov-factsheet.pdf" title="What You Need to Know About COVID-19 (CDC)" target="_blank">What You Need to Know About COVID-19 (CDC)</a>
+                            </li>
+                            <li><a href="https://www.cdc.gov/coronavirus/2019-ncov/downloads/stop-the-spread-of-germs.pdf" target="_blank"
+                                    title="Stop the Spread of Germs (CDC)â€‹">Stop the Spread of Germs (CDC)</a></li>
+                            <li><a href="https://www.cdc.gov/quarantine/quarantineisolation.html" target="_blank"
+                                title="Understanding Isolation and Quarantine (CDC)â€‹">Understanding Isolation and Quarantine (CDC)</a></li>
+                            <li>
+                                <li>
+                                    <a href="http://www.sjready.org" title="SJReady.org" target="_blank">San Joaquin County Office of Emergency Services Updates</a>
+                                </li>
+                            <li>
+                                <a href="https://www.cdph.ca.gov/Programs/CID/DCDC/Pages/Immunization/nCOV2019.aspx" title="CA Department of Public Health COVID-19 Updates (CDPH)" target="_blank">
+                                    CA Department of Public Health COVID-19 Updates (CDPH)
+                                </a>
+                            </li>
+                            <li>
+                                <a href="http://www.sjcphs.org/coronavirus.aspx" title="San Joaquin County Department of Public Health COVID-19 Updates" target="_blank">
+                                    San Joaquin County Department of Public Health COVID-19 Updates
+                                </a>
+                            </li>
+                            <li>
+                                <a href="https://www.cdc.gov/coronavirus/2019-nCoV/index.html" target="_blank"
+                                    title="Centers for Disease Control COVID-19 Updates (CDC)">Centers for Disease Control COVID-19 Updates (CDC)</a></li>
+
+                                <a href="http://www.oesnews.com/" title="CalOES News Site" target="_blank">CalOES News Site</a>
+                            </li>
+                        </ul>
+                    </div>
+                  </li>
+                  <li>
+                    <input type="checkbox" id="Item2">
+                    <label for="Item2">
+                      <div class="accordion__header">State of California Guidance Documents & Resources
+                        <span class="accordion__icon"><i class="material-icons">&#xE313;</i></span>
+                      </div>
+                    </label>
+                    <div class="accordion__content">
+                      <ul class="unstyled">
+                        <li>
+                            <a href="https://covid19.ca.gov/state-local-resources/" title="CA State - Local Information Page" target="_blank">CA State - Local Information Page</a>
+                        </li>
+                        <li>
+                            <a href="https://www.cdph.ca.gov/Programs/CID/DCDC/CDPH Document Library/School Guidance_ADA Compliant_FINAL.pdf" title="Schools" target="_blank">Schools (CDPH)</a>
+                        </li>
+                        <li>
+                            <a href="https://www.cdph.ca.gov/Programs/CID/DCDC/CDPH Document Library/Gathering_Guidance_03.11.20.pdf" title="Gatherings (Small or large)" target="_blank">Gatherings (Small or large) (CDPH)</a>
+                        </li>
+                        <li>
+                            <a href="https://www.labor.ca.gov/coronavirus2019/" title="Businesses (LWDA)" target="_blank">Businesses (LWDA)</a>
+                        </li>
+                        <li>
+                            <a href="https://www.cdph.ca.gov/Programs/OPA/Pages/NR20-024.aspx" title="Guidance Regarding Retail Food, Beverage and Other Service Venues (CDPH)" target="_blank">Guidance Regarding Retail Food, Beverage and Other Service Venues (CDPH)</a>
+                        </li>
+                        <li>
+                            <a href="https://www.cdss.ca.gov/inforesources/community-care-licensing" title="Care Facilities (CDSS)" target="_blank">Care Facilities (CDSS)</a>
+                        </li>
+                        <li>
+                            <a href="https://www.cdph.ca.gov/Programs/CID/DCDC/Pages/Immunization/providers.aspx" title="Information for Health Care Providers (CDPH)" target="_blank">Information for Health Care Providers (CDPH)</a>
+                        </li>
+                        <li>
+                            <a href="https://emsa.ca.gov/wp-content/uploads/sites/71/2020/03/COVID-19-Memo-to-EMS-Partners-007-1.pdf" title="First Responders (EMSA)" target="_blank">First Responders (EMSA)</a>
+                        </li>
+                        <li>
+                            <a href="https://www.cdph.ca.gov/Programs/CID/DCDC/CDPH Document Library/High Risk Populations Guidance ADA Compliant 03.11.20.pdf" title="People at Risk for Serious Illness (CDPH)" target="_blank">People at Risk for Serious Illness (CDPH)</a>
+                        </li>
+                    </ul>
+                    </div>
+                  </li>
+                  <li>
+                    <input type="checkbox" id="Item3">
+                    <label for="Item3">
+                      <div class="accordion__header">CDC Guidance Documents & Resources
+                        <span class="accordion__icon"><i class="material-icons">&#xE313;</i></span>
+                      </div>
+                    </label>
+                    <div class="accordion__content">
+                        <ul class="unstyled">
+                            <li>
+                                <h3>Resources for Schools</h3>
+                                <ul class="unstyled">
+                                    <li><a href="https://www.cdc.gov/coronavirus/2019-ncov/community/schools-childcare/guidance-for-schools.html" target="_blank"
+                                            title="COVID-19 Guidance for Childcare Programs and K-12 (CDC)">COVID-19 Guidance for Childcare Programs and K-12 (CDC)</a></li>
+                                    <li><a href="https://www.cdc.gov/coronavirus/2019-ncov/community/guidance-ihe-response.html" target="_blank"
+                                            title="COVID-19 Guidance for Colleges and Universities (CDC)â€‹">COVID-19 Guidance for Colleges and Universities (CDC)</a></li>
+                                </ul>
+                            </li>
+                            <li>
+                                <h3>Resources for Employers</h3>
+                                <ul class="unstyled">
+                                    <li><a href="https://www.cdc.gov/coronavirus/2019-ncov/community/guidance-business-response.html" target="_blank"
+                                            title="COVID-19 Guidance for Businesses and Employers (CDC)">COVID-19 Guidance for Businesses and Employers (CDC)</a></li>
+                                </ul>
+                            </li>
+                            <li>
+                                <h3>Resources for Health Care Providers</h3>
+                                <ul class="unstyled">
+                                    <li>
+                                        <a href="https://www.cdc.gov/coronavirus/2019-nCoV/hcp/index.html" title="Information for Healthcare Professionals (CDC)" target="_blank">Information for Healthcare Professionals (CDC)</a>
+                                    </li>
+                                    <li>
+                                        <a href="https://www.cdc.gov/coronavirus/2019-nCoV/hcp/infection-control.html" title="Infection Control (CDC)" target="_blank">Infection Control (CDC)</a>
+                                    </li>
+                                    <li>
+                                        <a href="https://www.cdc.gov/coronavirus/2019-ncov/hcp/clinical-guidance-management-patients.html" title="Clinical Care (CDC)" target="_blank">Clinical Care (CDC)</a>
+                                    </li>
+                                    <li>
+                                        <a href="https://www.cdc.gov/coronavirus/2019-ncov/hcp/guidance-risk-assesment-hcp.html" title="Risk Assessment of Healthcare Personnel (CDC)" target="_blank">Risk Assessment of Healthcare Personnel (CDC)</a>
+                                    </li>
+                                    <li>
+                                        <a href="https://www.cdc.gov/coronavirus/2019-ncov/hcp/healthcare-supply-ppe.html" title="Healthcare Supply of Personal Protective Equipment (CDC)" target="_blank">Healthcare Supply of Personal Protective Equipment (CDC)</a>
+                                    </li>
+                                    <li>
+                                        <a href="https://www.cdc.gov/coronavirus/2019-ncov/infection-control/control-recommendations.html?CDC_AA_refVal=https://www.cdc.gov/coronavirus/2019-ncov/hcp/infection-control.html" title="Infection Prevention and Control Recommendations (CDC)" target="_blank">Infection Prevention and Control Recommendations (CDC)</a>
+                                    </li>
+                                    <li>
+                                        <a href="https://www.epa.gov/pesticide-registration/list-n-disinfectants-use-against-sars-cov-2" title="Disinfectants Against COVID-19 (EPA)" target="_blank">Disinfectants Against COVID-19 (EPA)</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>
+                                <h3>Resources for Homeless Shelters and Service Providers</h3>
+                                <ul class="unstyled">
+                                    <li>
+                                        <a href="https://www.cdc.gov/coronavirus/2019-ncov/community/homeless-shelters/plan-prepare-respond.html" title="Guidance for Homeless Shelters (CDC)" target="_blank">Guidance for Homeless Shelters (CDC)</a>
+                                    </li>
+                                    <li>
+                                        <a href="https://www.bcsh.ca.gov/hcfc/documents/covid19_guidelines.pdf" title="Guidance for Homeless Assistance Providers (BCSH)" target="_blank">Guidance for Homeless Assistance Providers (BCSH)</a>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                  </li>
+                  <li>
+                    <input type="checkbox" id="Item4">
+                    <label for="Item4">
+                      <div class="accordion__header">Local City Information
+                        <span class="accordion__icon"><i class="material-icons">&#xE313;</i></span>
+                      </div>
+                    </label>
+                    <div class="accordion__content">
+                        <ul class="unstyled">
+                            <li>
+                              <a href="http://cityofescalon.org/news/" title="Escalon" target="_blank">
+                                  Escalon
+                              </a>
+                            </li>
+                            <li>
+                              <a href="https://www.ci.lathrop.ca.us/" title="Lathrop" target="_blank">
+                                  Lathrop
+                              </a>
+                            </li>
+                            <li>
+                              <a href="https://www.lodi.gov/" title="Lodi" target="_blank">
+                                  Lodi
+                              </a>
+                            </li>
+                            <li>
+                              <a href="https://www.ci.manteca.ca.us/Pages/default.aspx" title="Manteca" target="_blank">
+                                  Manteca
+                              </a>
+                            </li>
+                            <li>
+                              <a href="http://www.cityofripon.org/" title="Ripon" target="_blank">
+                                  Ripon
+                              </a>
+                            </li>
+                            <li>
+                              <a href="http://www.stocktongov.com/government/departments/manager/pubnewsrel.html" title="Stockton" target="_blank">
+                                  Stockton
+                              </a>
+                            </li>
+                            <li>
+                              <a href="http://www.ci.tracy.ca.us/" title="Tracy" target="_blank">
+                                  Tracy
+                              </a>
+                            </li>
+                          </ul>
+                    </div>
+                  </li>
+                </ul>
+              </fieldset>
+
+        </div>
+        <div id="Div2" class="col-2-12">
+            <div class="tile">
+                <div class="tile__number">273</div>
+                <div class="tile__title">Confirmed Cases</div>
+                <div class="tile__sub-title">Updated 4/12/2020</div>
+                <div id="confirmed-cases" class="sparklines-full-content"></div>
+            </div>
+            <div class="tile">
+                <div class="tile__number">16</div>
+                <div class="tile__title">Deaths</div>
+                <div class="tile__sub-title">Updated 4/12/2020</div>
+                <div id="deaths" class="sparklines-full-content"></div>
+            </div>
+        </div>
+    </section>
+    <!-- <section style="background: #FFF;">
+        <div class="col-8-12 col-offset-2">
+            <table class="table">
+          L1@48838
+          <caption style="text-align: left;">
+                    San Joaquin County Numbers at a Glance
+                    <div style="font-size: 50%; color: #333">Last Updated 3/16/2020</div>
+                </caption>
+                <thead>
+                    <tr>
+                        <th>Confirmed Cases</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>8</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section> -->
+
+                
+    <section style="background: #FFF;">
+        <div class="col-3-12"></div>
+        <div class="col-6-12">
+
+        </div>
+        <div class="col-3-12"></div>
+    </section>
+
+                
+
+                <!--googleoff: all-->
+<div style="height: 0; overflow: none;">
+    <div id="feedbackForm" class="card feedback-card" style="width: 50vw;">
+        <div class="card__card-action">
+            <i class="material-icons close">&#xE5CD;</i>
+        </div>
+        <div class="card__title">
+            <i class="material-icons">&#xE87F;</i> Feedback Form</div>
+        <div class="card__content">
+            <p>
+                We hope you will partner with us by providing your thoughts on how the site works for you.
+                We will take your feedback and use it to continue our redevelopment efforts!
+            </p>
+        </div>
+        <label for="Email">Email
+            <!-- <span style="color: #FF0000;">*</span> -->
+        </label>
+        <input id="Email" type="text" style="width: 100%;">
+        <label for="feedbackBody">Feedback</label>
+        <textarea name="" id="feedbackBody" rows="10" style="width: 100%;"></textarea>
+        <br>
+        <br>
+        <a class="button button--success feedbackSend">Send</a>
+    </div>
+</div>
+<!--googleon: all-->
+
+            </main>
+            <footer class="hidden-phone-down">
+               <ul class="col-1-4">                   
+    <li>                                   
+        <div style="color: rgb(255, 255, 255); font-size: 1.2rem; margin-bottom: 0.8rem;">Departments</div>    </li>                   
+    <li>                                   
+        <a title="Agricultural Commissioner" href="department/agcomm/default.aspx">Agricultural Commissioner</a>    </li>                   
+    <li>                                   
+        <a title="Assessor-Recorder-County Clerk" href="department/assr_rec/default.aspx">Assessor-Recorder-County Clerk</a>    </li>                   
+    <li>                                   
+        <a title="Auditor-Controller" href="department/aud/default.aspx">Auditor-Controller</a>    </li>                   
+    <li>                                   
+        <a title="Board of Supervisors" href="department/bos/default.aspx">Board of Supervisors</a>    </li>                   
+    <li>                                   
+        <a title="Clerk of the Board" href="department/cob/default.aspx">Clerk of the Board</a>    </li>                   
+    <li>                                   
+        <a title="Child Support Services" href="/childsupport/">Child Support Services</a>    </li>                   
+    <li>                                   
+        <a title="Community Development" href="https://www.sjgov.org/commdev/">Community Development</a>    </li>                   
+    <li>                                   
+        <a title="Cooperative Extension (UC Davis)" href="http://cesanjoaquin.ucanr.edu/">Cooperative Extension (UC Davis)</a>    </li>                   
+    <li>                                   
+        <a title="County Administrator" href="department/cao/default.aspx">County Administrator</a>    </li>                   
+    <li>                                   
+        <a title="County Counsel" href="department/cc/default.aspx">County Counsel</a>    </li>                   
+    <li>                                   
+        <a title="District Attorney" href="department/da/default.aspx">District Attorney</a>    </li>                   
+    <li>                                   
+        <a title="Employment and Economic Development" href="department/eedd/default.aspx">Employment and Economic Development</a>    </li>                   
+    <li>                                   
+        <a title="Environmental Health" href="department/envhealth/default.aspx">Environmental Health</a>    </li>                   
+    <li>                                   
+        <a title="General Services" href="department/genser/default.aspx">General Services</a>    </li>                   
+    <li>                                   
+        <a title="Health Care Services" href="department/hcs/default.aspx">Health Care Services</a>    </li>                   
+    <li>                                   
+        <a title="Human Resources" href="department/hr/default.aspx">Human Resources</a>    </li>    </ul>
+
+                <ul class="col-1-4 no-title">                                  
+    <li>                                                              
+        <a title="Human Services Agency" href="department/hsa/default.aspx">Human Services Agency</a>    </li>                                  
+    <li>                                                              
+        <a title="Information Systems Division" href="department/isd/default.aspx">Information Systems Division</a>    </li>                                  
+    <li>                                                              
+        <a title="Local Agency Formation Commission" href="commission/lafco/default.aspx">Local Agency Formation Commission</a>    </li>                                  
+    <li>                                                              
+        <a title="Office of Emergency Services" href="department/oes/default.aspx">Office of Emergency Services</a>    </li>                                  
+    <li>                                                              
+        <a title="Parks and Recreation" href="department/prk/default.aspx">Parks and Recreation</a>    </li>                                  
+    <li>                                                              
+        <a title="Probation" href="department/prob/default.aspx">Probation</a>    </li>                                  
+    <li>                                                              
+        <a title="Public Defender" href="department/pubdef/default.aspx">Public Defender</a>    </li>                                  
+    <li>                                                              
+        <a title="Public Works" href="department/pwk/default.aspx">Public Works</a>    </li>                                  
+    <li>                                                              
+        <a title="Purchasing and Support Services" href="department/pss/default.aspx">Purchasing and Support Services</a>    </li>                                  
+    <li>                 
+        <a title="Registrar of Voters" href="department/rov/default.aspx">Registrar of Voters</a>    </li>         
+    <li>                                                              
+        <a title="SJC Employee Retirement Association" href="http://www.sjcera.org/">SJC Employee Retirement Association</a>    </li>                                  
+    <li>                                                              
+        <a title="San Joaquin General Hospital" href="department/sjgh/default.aspx">San Joaquin General Hospital</a>    </li>                                  
+    <li>                                                              
+        <a title="Sheriff-Coroner-Public Administrator" href="department/so/default.aspx">Sheriff-Coroner-Public Administrator</a>    </li>                                  
+    <li>                                                              
+        <a title="Stockton Metropolitan Airport" href="department/air/default.aspx">Stockton Metropolitan Airport</a>    </li>                                  
+    <li>                                                              
+        <a title="Treasurer-Tax Collector" href="department/ttc/default.aspx">Treasurer-Tax Collector</a>    </li>
+</ul>
+
+                <ul class="col-1-4">                             
+    <li>                                                     
+        <div style="color: rgb(255, 255, 255); font-size: 1.2rem; margin-bottom: 0.8rem;"> Resources </div>    </li>                             
+    <li>                                                     
+        <a title="County Calendar" href="calendar">            County Calendar         </a> </li>                             
+    <li>                                                     
+        <a title="Contact Us" href="http://www.sjgov.org/Contactwebmaster.aspx">            Contact Us         </a> </li>                             
+    <li>                                                     
+        <a title="Terms and Conditions" href="terms-conditions">            Terms and Conditions         </a> </li>                             
+    <li>                                                     
+        <a title="Privacy Policy" href="privacy">            Privacy Policy         </a> </li>                             
+    <li>                                                     
+        <a title="Employee Access" href="employee-access">            Employee Access         </a> </li>                             
+    <li>                                                     
+        <a title="Enterprise System Catalog" href="https://www.sjgov.org/department/isd/enterprise-system-catalog">Enterprise System Catalog</a> </li>                             
+    <li>                                                     
+        <a title="Board Meeting Agendas" href="http://sanjoaquincountyca.iqm2.com/Citizens/default.aspx" target="_blank" class="hide-ext">Board Meeting Agendas</a> </li>                                 
+    <li>                                                            
+        <a href="press-releases" title="Press Releases">Press Releases</a>                    </li>                        
+    <li style="margin-top: 20px;">                                                     
+        <div style="color: rgb(255, 255, 255); font-size: 1.2rem; margin-bottom: 0.8rem;"> Get Connected </div>    </li>                             
+    <li class="social">                                                     
+        <a title="Facebook" class="social__link" href="http://www.facebook.com/sjgov">            <em class="fa fa-facebook-official" aria-hidden="true">
+            </em>            <span class="sr-only">
+                Facebook
+            </span>        </a>                                                     
+        <a title="Twitter" class="social__link" href="https://twitter.com/sjgov">            <em class="fa fa-twitter-square" aria-hidden="true">
+            </em>            <span class="sr-only">
+                Twitter
+            </span>        </a>                                                     
+        <!--  <a href="#" class="social__link">
+            <i class="fa fa-google-plus-square" aria-hidden="true">
+            </i>
+            <span class="sr-only">
+                Google Plus
+            </span>
+        </a>
+        <a href="#" class="social__link">
+            <i class="fa fa-instagram" aria-hidden="true">
+            </i>
+            <span class="sr-only">
+                Instagram
+            </span>
+        </a>
+        <a href="#" class="social__link">
+            <i class="fa fa-tumblr-square" aria-hidden="true">
+            </i>
+            <span class="sr-only">
+                Tumbler
+            </span>
+        </a>
+        <a href="#" class="social__link">
+            <i class="fa fa-linkedin-square" aria-hidden="true">
+            </i>
+            <span class="sr-only">
+                Linked In
+            </span>
+        </a> -->    </li>                             
+    <li style="margin-top: 20px;">                                                     
+        <div id="google_translate_element"> </div>                                                     
+        <script  type="text/javascript">            function googleTranslateElementInit() {
+                new google.translate.TranslateElement({ pageLanguage: 'en', layout: google.translate.TranslateElement.InlineLayout.SIMPLE }, 'google_translate_element');
+            }
+        </script>                                                     
+        <script  type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>    </li>                             
+    <li style="margin-top: 20px;">                                                     
+        <div style="color: rgb(255, 255, 255); font-size: 1.2rem; margin-bottom: 0.8rem;"> GoRequest Service Request </div>    </li>                             
+    <li style="color: rgba(255,255,255,0.45);">                                                     
+        <a href="http://www.govoutreach.com/iphoneapp.htm" title="GoRequest - Apple" target="_blank" class="button button--success--outline hide-ext"><i class="fa fa-apple"></i>        </a>                                                     
+        <a href="http://www.govoutreach.com/androidapp.htm" title="GoRequest - Android" target="_blank" class="button button--success--outline hide-ext"><i class="fa fa-android"></i>        </a>                                                     
+        <a href="https://www.sjgov.org/gorequest/request" title="GoRequest - Web" class="button button--success--outline hide-ext"><i class="fa fa-globe"></i> Web</a>        </li>
+</ul>
+
+                <div class="col-1-4">                    
+    <img style="width: 100%;" alt="Seal of San Joaquin County" src="/beta/images/sjc_seal_white.png"/>                </div>
+                <div style="text-align: center;"><img src="images/DCS-Winner.png" alt="Center for Digital Government Digital Counties Survey 2017 Winner"></div>
+            </footer>
+            <footer class="hidden-phone-up">
+                <!-- <img src="images/SJC_seal_white.png" style="width: 45%; margin: 0 auto; display: inherit;" alt=""> -->
+                <br>
+                <fieldset>
+                    <label for="Dept_Select" class="sr-only">Select Department:</label>
+<select name="Department" id="Dept_Select">
+    <option value="">Departments</option>
+    <option value="department/agcomm/default.aspx">Agricultural Commissioner</option>
+    <option value="department/assr_rec/default.aspx">Assessor-Recorder-County Clerk</option>
+    <option value="department/aud/default.aspx">Auditor-Controller</option>
+    <option value="department/bos/default.aspx">Board of Supervisors</option>
+    <option value="department/cob/default.aspx">Clerk of the Board</option>
+    <option value="department/dcss/">Child Support Services</option>
+    <option value="https://www.sjgov.org/commdev/cgi-bin/cdyn.exe">Community Development</option>
+    <option value="http://cesanjoaquin.ucanr.edu/">Cooperative Extension</option>
+    <option value="department/cao/default.aspx">County Administrator</option>
+    <option value="department/cc/default.aspx">County Counsel</option>
+    <option value="department/da/default.aspx">District Attorney</option>
+    <option value="department/eedd/default.aspx">Employment and Economic Development</option>
+    <option value="department/envhealth/default.aspx">Environmental Health</option>
+    <option value="department/genser/default.aspx">General Services</option>
+    <option value="department/hcs/default.aspx">Health Care Services</option>
+    <option value="department/hr/default.aspx">Human Resources</option>
+    <option value="department/hsa/default.aspx">Human Services Agency</option>
+    <option value="department/isd/default.aspx">Information Systems Division</option>
+    <option value="commission/lafco/default.aspx">Local Agency Formation Commission</option>
+    <option value="department/oes/default.aspx">Office of Emergency Services</option>
+    <option value="department/prk/default.aspx">Parks and Recreation</option>
+    <option value="department/prob/default.aspx">Probation</option>
+    <option value="department/pubdef/default.aspx">Public Defender</option>
+    <option value="department/pwk/default.aspx">Public Works</option>
+    <option value="department/pss/default.aspx">Purchasing and Support Services</option>
+    <option value="http://sjcrov.org/">Registrar of Voters</option>
+    <option value="http://www.sjcera.org/">SJC Employee Retirement Association</option>
+    <option value="department/sjgh/default.aspx">San Joaquin General Hospital</option>
+    <option value="department/so/default.aspx">Sheriff-Coroner-Public Administrator</option>
+    <option value="department/air/default.aspx">Stockton Metropolitan Airport</option>
+    <option value="department/ttc/default.aspx">Treasurer-Tax Collector</option>
+</select>
+
+                </fieldset>
+                <br>
+                <ul class="unstyled" style="margin-bottom: 0;">
+                    <li>
+                        <a href="calendar">County Calendar</a>
+                    </li>
+                    <li>
+                        <a href="employee-access">Employee Access</a>
+                    </li>
+                    <li>
+                        <a href="terms-conditions">Terms and Conditions</a>
+                    </li>
+                    <li>
+                        <a href="privacy">Privacy Policy</a>
+                    </li>
+                    <li>
+                        <a title="Enterprise System Catalog" href="https://www.sjgov.org/department/isd/enterprise-system-catalog">Enterprise System Catalog</a>
+                    </li>
+                    <li>
+                        <a href="press-release" title="News Release">News Release</a>
+                    </li>
+                </ul>
+                <a href="http://www.facebook.com/sjgov" class="social__link"><i class="fa fa-facebook-official" aria-hidden="true"></i><span class="sr-only" >Facebook</span></a>
+                <a href="https://twitter.com/sjgov" class="social__link"><i class="fa fa-twitter-square" aria-hidden="true"></i><span class="sr-only">Twitter</span></a>
+                <ul class="unstyled" style="margin-bottom: 0;">
+                    <li style="margin-top: 20px;">
+                        <div style="color: rgb(255, 255, 255); font-size: 1.2rem; margin-bottom: 0.8rem;">
+                            GoRequest Service Request
+                        </div>
+                    </li>
+                    <li style="color: rgba(255,255,255,0.45);">
+                            <a href="http://www.govoutreach.com/iphoneapp.htm" title="GoRequest - Apple" target="_blank" class="button button--success--outline hide-ext"><i class="fa fa-apple"></i></a>
+                            <a href="http://www.govoutreach.com/androidapp.htm" title="GoRequest - Android" target="_blank" class="button button--success--outline hide-ext"><i class="fa fa-android"></i></a>
+                            <a href="https://www.sjgov.org/gorequest/request" title="GoRequest - Web" class="button button--success--outline hide-ext"><i class="fa fa-globe"></i> Web</a>
+                    </li>
+                </ul>
+                <br>
+                <div style="text-align: center;"><img src="images/DCS-Winner.png" alt="Center for Digital Government Digital Counties Survey 2017 Winner"></div>
+            </footer>
+            <div class="copyright">
+                Copyright &copy; 2019 San Joaquin County California
+            </div>
+            <!-- <div class="live-chat">
+                <span style="vertical-align: middle;">Live Chat</span>
+                <i class="material-icons" style="vertical-align: middle;">&#xE8AF;</i>
+            </div> -->
+        </form>
+        <script src="//code.jquery.com/jquery-2.1.4.min.js"></script>
+        <script
+            src="/beta/js/lib/jquery.easyModal.js">
+        </script>
+        <script>
+            $("#Dept_Select").on('change', function(e) {
+                if (this.value.indexOf('http') >= 0)
+                {
+                    window.location=this.value;
+                    return;
+                }
+                window.location=e.currentTarget.baseURI+this.value;
+                return;
+            })
+        </script>
+        <script>
+                $('#feedbackForm').easyModal({
+                    hasVariableWidth: true
+                });
+                $('.feedbackButton').on('click', function(e) {
+                        var target = $(this).attr("href");
+                        $(target).trigger("openModal");
+                        e.preventDefault();
+                });
+                $('.feedbackSend').on('click', function(e) {
+                    let email = $("#Email").val(),
+                    body = $("#feedbackBody").val();
+                    if (email == '' || body == '') {
+                        return false;
+                    }
+                    $.ajax({
+                      type: "POST",
+                      url: 'https://www.sjgov.org/beta/email.ashx',
+                      data: {
+                        sender: email,
+                        body: body
+                      },
+                      success: function() {
+                        $('#feedbackForm').trigger("closeModal");
+                      }
+                    });
+                    e.preventDefault();
+                });
+        </script>
+         <script>
+            $(".translate__link").on('click',
+                function(e) {
+                     e.preventDefault();
+                    window.location=location.href+$(e.currentTarget).attr("language");
+                    location.reload();
+                }
+            )
+            $(".tarns_more").on('click',
+                function(e) {
+                    $("html, body").animate({ scrollTop: $(document).height() }, "slow");
+                    return false;
+                }
+            )
+            // $('#ctl00_search__input').on('keyup', function(e) {
+            //     if (event.keyCode == 13) {
+            //         __doPostBack('ctl00$search__button','');
+            //     }
+            // });
+        </script>
+        <script>
+          (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+          (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+          })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+          ga('create', 'UA-11961407-1', 'auto');
+          ga('send', 'pageview');
+
+        </script>
+         <!-- <script type="text/javascript" src="//cdn.jsdelivr.net/jquery.slick/1.5.9/slick.min.js"></script> -->
+
+        <!-- Cludo Parts -->
+        <script type="text/javascript" src="//customer.cludo.com/scripts/bundles/search-script.min.js"></script>
+        <script>
+            var CludoSearch;
+            (function () {
+                var cludoSettings = {
+                    customerId: 10000660,
+                    engineId: 10001007,
+                    searchUrl: 'https://www.sjgov.org/search',
+                    language: 'en',
+                    searchInputs: ['aspnetForm', 'mobile-search'],
+                    template: 'StandardInlineImages',
+                    type: 'inline'
+                };
+                CludoSearch = new Cludo(cludoSettings);
+                CludoSearch.init();
+            })();
+        </script>
+        <!--[if lte IE 9]>
+                        <script src="https://api.cludo.com/scripts/xdomain.js" slave="https://api.cludo.com/proxy.html" type="text/javascript"></script>
+                        <![endif]-->
+        <!-- Cludo Parts -->
+
+         
+
+    <script
+  src="https://code.jquery.com/jquery-3.4.1.slim.js"
+  integrity="sha256-BTlTdQO9/fascB1drekrDVkaKd9PkwBymMlHOiG+qLI="
+  crossorigin="anonymous"></script>
+  <script src="https://www.sjgov.org/covid19/sparkline.js"></script>
+
+
+
+
+    <script>
+
+        var casesSparkline = function(){
+            $("#confirmed-cases").sparkline([25, 31, 41, 45, 51, 60, 71, 83, 93, 108, 121, 136, 151, 161,178,185,191,203,212,223,237,245,257,260,273], {
+                type: 'line',
+                width: '100%',
+                height: '40',
+                spotRadius: 0,
+                lineWidth: 2,
+                lineColor: '#ffffff',
+                fillColor: false,
+                minSpotColor: false,
+                maxSpotColor: false,
+                highlightLineColor: '#ffffff',
+                highlightSpotColor: '#315470',
+                tooltipChartTitle: 'Confirmed Cases',
+                tooltipPrefix: '',
+                spotColor: '#315470',
+                valueSpots: {
+                    '0:': '#315470'
+                },
+                chartRangeMin: 0
+            });
+        }
+        var deathsSparkline = function(){
+            $("#deaths").sparkline([2,2,2,2,2,3,3,4,4,5,6,8,8,10,11,11,11,11,13,14,14,14,15,16], {
+                type: 'line',
+                width: '100%',
+                height: '40',
+                spotRadius: 0,
+                lineWidth: 2,
+                lineColor: '#ffffff',
+                fillColor: false,
+                minSpotColor: false,
+                maxSpotColor: false,
+                highlightLineColor: '#ffffff',
+                highlightSpotColor: '#315470',
+                tooltipChartTitle: 'Deaths',
+                tooltipPrefix: '',
+                spotColor: '#315470',
+                valueSpots: {
+                    '0:': '#315470'
+                },
+                chartRangeMin: 0
+            });
+        }
+
+        $(window).on('resizeEnd', function(){
+            casesSparkline();
+            deathsSparkline();
+        })
+        casesSparkline();
+        deathsSparkline();
+
+    </script>
+
+
+            <!--BEGIN SJ COUNTY CHATBOT CODE-->
+<div id="chatbot" tabindex="0" style="z-index: 1000000; position: fixed;"></div>
+<style>
+    #chatbot {
+        width: 450px;
+        /* height: 100vh; */
+        position: fixed;
+        right: 0;
+        bottom: 0;
+        border: none;
+    }
+
+    .chatBotIcon {
+        position: fixed;
+        bottom: 10px;
+        right: 15px;
+        cursor: pointer;
+        z-index: 7000;
+        background-color: #D4E2BF;
+        border-radius: 100%;
+        padding: 5px;
+        box-sizing: border-box;
+        transition: background-color 0.2s ease-in-out;
+        width: 48px;
+        height: 48px;
+    }
+
+    .chatBotIcon:focus {
+        background-color: #BBC9A6;
+    }
+
+    .chatBotIcon:hover {
+        background-color: #BBC9A6;
+    }
+
+    .chatBotFrame {
+        cursor: pointer;
+        position: fixed;
+        bottom: 51px;
+        right: 51px;
+        border-color: #EEE;
+        border-radius: 0px;
+        border-width: 1px;
+        border-style: solid;
+        z-index: 700000;
+        display: block;
+    }
+
+    .chatBotFrame:focus {
+        border: none;
+    }
+
+    .chatBotActionBtn {
+        cursor: pointer;
+        position: fixed;
+        font-weight: 600;
+        z-index: 700001;
+        width: 24px;
+        height: 24px;
+        text-align: center;
+        padding: 0;
+        margin: 0;
+    }
+
+
+    @media only screen and (max-width: 600px) {
+        #chatbot {
+            width: 100%;
+            /* height: 100vh; */
+            box-sizing: border-box;
+        }
+
+        .chatBotFrame {
+            bottom: 55px;
+            right: 15px;
+        }
+    }
+</style>
+<script>
+var loadCount = 1;
+var ENABLED = true;
+var PARTNER_PREFIX = "MAIN"
+
+function modifyFrame(cbotframe, cboticon, actionButton, action) {
+    cboticon.style.display = "block";
+    cbotframe.style.display = "none";
+    actionButton.style.display = "none";
+    cboticon.setAttribute("aria-expanded", "false");
+    cbotframe.setAttribute("aria-expanded", "false");
+    cboticon.scrollIntoView();
+    cboticon.focus();
+}
+
+// Does what is says on the tin
+function createChatbotIFrame() {
+    var chatFrame = document.createElement("iframe");
+    // note that the partner querystring parameter can be adjusted for analytics (or other) purposes (for example, if the bot was on a sub-department's page, we could change this parameter and track the bot's engagement from that site, see which questions people are asking on that page, etc.)
+    chatFrame.src = "https://sjcountychat.azurewebsites.net/index.html?partner=" + PARTNER_PREFIX;
+    chatFrame.setAttribute("role", "dialog");
+    chatFrame.setAttribute("aria-expanded", "true");
+    chatFrame.setAttribute("aria-label", "Chatbot Window");
+    chatFrame.setAttribute("id", "chatBotFrame");
+    chatFrame.setAttribute("title", "Chatbot");
+    chatFrame.setAttribute("lang", "en");
+    chatFrame.setAttribute("tabindex", "0");
+    chatFrame.setAttribute("class", "chatBotFrame");
+    chatFrame.setAttribute("width", calcWidth().frameWidth + "px");
+    chatFrame.setAttribute("height", calcWidth().frameHeight + "px");
+    chatFrame.setAttribute("allowtransparency", "false");
+    chatFrame.setAttribute("background", "white");
+
+    return (chatFrame);
+}
+
+// Creates Icon and attaches listners
+function createChatbotIcon() {
+    var img = document.createElement("img");
+    img.src = "https://www.sjgov.org/images/ChatIcon.svg";
+    img.setAttribute("aria-controls", "chatBotFrame");
+    img.setAttribute("aria-role", "button");
+    img.setAttribute("id", "chatbotIcon");
+    img.setAttribute("title", "Open Chatbot Window Icon");
+    img.setAttribute("alt", "Open Chatbot Window Icon");
+    img.setAttribute("aria-label", "Open Chatbot Window Icon");
+    img.setAttribute("tabindex", "0");
+    img.setAttribute("class", "chatBotIcon");
+    img.setAttribute("width", "36px");
+    img.setAttribute("height", "36px");
+
+    img.addEventListener("keypress", function (e) {
+        img.click();
+    });
+
+    img.addEventListener("click", function (e) {
+        var chatbotDiv = document.getElementById('chatbot');
+        var chatbotCloseBtn = document.getElementById('chatbotCLOSEBtn');
+        var cbotframe = document.getElementById("chatBotFrame");
+
+        var actionButtonsHaveBeenCreated = chatbotCloseBtn;
+
+        // IFRAME CLOSE BUTTON
+        if (actionButtonsHaveBeenCreated) {
+            chatbotCloseBtn.style.display = "block";
+        } else {
+            var chatbotCloseBtnNew = createActionButton('CLOSE', 'Close Chatbot Window');
+            chatbotDiv.appendChild(chatbotCloseBtnNew);
+        }
+
+        if (cbotframe) {
+            cbotframe.style.display = "block";
+            cbotframe.setAttribute("width", calcWidth().frameWidth + "px");
+            cbotframe.setAttribute("height", calcWidth().frameHeight + "px");
+            cbotframe.contentWindow.focus();
+            img.setAttribute("aria-expanded", "true");
+            cbotframe.setAttribute("aria-expanded", "true");
+
+        } else {
+            var chatbotIFrame = createChatbotIFrame();
+            chatbotDiv.appendChild(chatbotIFrame);
+            this.setAttribute("aria-expanded", "true");
+            setTimeout(function () {
+                chatbotIFrame.scrollIntoView();
+                chatbotIFrame.contentWindow.focus();
+            }, 300);
+        }
+        this.style.display = 'block';
+
+    });
+    img.addEventListener("blur", function (e) {
+        var cbotframeObj = document.getElementById("chatBotFrame");
+        if (cbotframeObj.style.display !== "none") {
+            cbotframeObj.focus();
+            cbotframeObj.scrollIntoView();
+        }
+    })
+    return (img);
+}
+
+function createActionButton(action, caption, heightPos, leftPos) {
+    var actionBtn = document.createElement("img");
+    actionBtn.setAttribute("id", "chatbot" + action + "Btn");
+    actionBtn.setAttribute("aria-label", caption);
+    actionBtn.setAttribute("title", caption);
+    actionBtn.setAttribute("src", "https://sjcountychat.azurewebsites.net/img/close-24px.svg");
+
+    actionBtn.tabIndex = 0;
+    if (action === "CLOSE") {
+        actionBtn.className = "chatBotActionBtn";
+    }
+
+
+    actionBtn.style.bottom = (calcWidth().frameHeight + getOffset().xBottomOffset) + "px";
+    actionBtn.style.right = (28 + getOffset().xRightOffset) + "px";
+
+    actionBtn.addEventListener("click", function (e) {
+        var cbotframe = document.getElementById("chatBotFrame");
+        var cboticon = document.getElementById("chatbotIcon");
+        if (cbotframe) {
+            modifyFrame(cbotframe, cboticon, this, action);
+        }
+    });
+    return (actionBtn);
+}
+
+// helper function to get offsets
+function getOffset() {
+    var deviceHeight = (window.innerHeight > 0) ? window.innerHeight : screen.height;
+    var deviceWidth = (window.innerWidth > 0) ? window.innerWidth : screen.width;
+    var oritentation = window.orientation;
+
+    var xBottomOffset = (deviceHeight > 500) ? 16 : 16;
+    if (oritentation < 90) {
+        var xRightOffset = (deviceWidth < 604) ? 0 : 36;
+    }
+    else {
+        var xRightOffset = (deviceWidth < 700) ? 0 : 36;
+    }
+
+    return ({xBottomOffset: xBottomOffset, xRightOffset: xRightOffset});
+}
+
+// Helper function to get screen sizes
+function calcWidth() {
+
+    const SMALL_SCREEN_SPARE_PIXELS_HEIGHT = 90;
+    const NORMAL_SCREEN_SPARE_PIXELS_HEIGHT = 150;
+    const SMALL_SCREEN_SPARE_PIXELS_WIDTH = 30;
+    const NORMAL_SCREEN_FULL_PIXELS_WIDTH = 400;
+
+    var deviceWidth = (window.innerWidth > 0) ? window.innerWidth : screen.width;
+    var deviceHeight = (window.innerHeight > 0) ? window.innerHeight : screen.height;
+
+    var frameWidth = (deviceWidth < 420) ? (deviceWidth - SMALL_SCREEN_SPARE_PIXELS_WIDTH) : NORMAL_SCREEN_FULL_PIXELS_WIDTH;
+
+    var frameHeight = (deviceHeight < 420) ? (deviceHeight - SMALL_SCREEN_SPARE_PIXELS_HEIGHT) : (deviceHeight - NORMAL_SCREEN_SPARE_PIXELS_HEIGHT);
+    return ({ frameWidth: frameWidth, frameHeight: frameHeight, deviceWidth: deviceWidth, deviceHeight: deviceHeight });
+}
+
+// Start Chatbot
+(function () {
+    var chatbotDiv = document.getElementById("chatbot");
+    var chatbotIcon = createChatbotIcon();
+    if (ENABLED) {
+        chatbotDiv.appendChild(chatbotIcon);
+    }
+})();
+
+function handleScreenChange () {
+    var cbotframe = document.getElementById("chatBotFrame");
+    var closeBtn = document.getElementById("chatbotCLOSEBtn");
+
+    if (closeBtn) {
+        closeBtn.style.bottom = (calcWidth().frameHeight + getOffset().xBottomOffset) + "px";
+        closeBtn.style.right = (28 + getOffset().xRightOffset) + "px";
+    }
+    if (cbotframe) {
+        cbotframe.setAttribute("width", calcWidth().frameWidth + "px");
+        cbotframe.setAttribute("height", calcWidth().frameHeight + "px");
+    }
+}
+
+window.onresize = handleScreenChange;
+window.onorientationchange = handleScreenChange;
+
+</script>
+<!--END SJ COUNTY CHATBOT CODE-->
+    <script async type="text/javascript" src="/_Incapsula_Resource?SWJIYLWA=719d34d31c8e3a6e6fffd425f7e032f3&ns=2&cb=1280961364"></script>
+</body>
+</html>
+
