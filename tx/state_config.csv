@@ -6,12 +6,12 @@ cordinate,position file,,3
 weblink_num,0,,4
 weblink_state,link url,,5
 state_name,none,,6
-basemap_lat,0,,7
+basemap_lat,31.268599,,7
 basemap_lon,0,,8
-basemap_lat_len,0,,9
+basemap_lat_len,600000,,9
 basemap_lon_len,0,,10
-basemap_title,3.156759,-1.898988,11
-basemap_logo,2.476629,3.783506,12
+basemap_title,5.156759,0.101012,11
+basemap_logo,4.276629,5.783506,12
 basemap_list1,1.13965200000001,-4.390411,13
 basemap_list2,0.13965200000001,-2.390411,14
 basemap_list3,0,0,15

@@ -108,7 +108,8 @@ class predictionViz(object):
             else: lst_data_daily.append(lst_data_overall[ii] - lst_data_overall[ii-1])  
 
         # predict the future
-        data = lst_data_daily  #[0:-1]
+        preDay = 5
+        data = lst_data_daily[preDay:]  #[0:-1]
         #print(lst_data_overall)
         #data.append( int(data[-1] * 0.9) )
         days = np.arange(0, len(data), 1)
@@ -121,14 +122,14 @@ class predictionViz(object):
         fig.set_figheight(10)
         fig.set_figwidth(20)
         plt.scatter(days, data, label="Actual new cases per day", color='r')
-        date_s = 18
-        date_len = int(3*len(data))
+        date_s = 18 + preDay
+        date_len = int(2*len(data))
         day_future = np.arange(0, date_len, 1)
         day_mmdd = []
         for jj in range(date_len):
-            if(jj<=13): month, day = 3, (date_s + jj)%32 
-            elif(jj<=43): month, day = 4, (date_s + jj - 31)%31  
-            elif(jj<=74): month, day = 5, (date_s + jj - 31 - 30)%32  
+            if(date_s + jj<=31): month, day = 3, (date_s + jj)%32 
+            elif(date_s + jj<=61): month, day = 4, (date_s + jj - 31)%31  
+            elif(date_s + jj<=92): month, day = 5, (date_s + jj - 31 - 30)%32  
             else: month, day = 6, (date_s + jj - 31 - 30 - 31)%31  
             day_mmdd.append( '%d/%d'%(month,day) )
             
@@ -136,7 +137,7 @@ class predictionViz(object):
         plt.legend()
         plt.xlabel('Date in 2020')
         plt.ylabel('Confirmed Daily New Cases')
-        plt.title("COVID-19 Prediction of daily new cases in Michigan")
+        plt.title("COVID-19 Prediction of daily new cases in " + self.state_name)
         plt.xticks(rotation=45)
         fig.tight_layout()      
         plt.show()

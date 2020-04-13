@@ -12,7 +12,7 @@ from __future__ import print_function
 # ==============================================================================
 # -- imports -------------------------------------------------------------------
 # ==============================================================================
-
+import math
 import numpy as np
 import csv
 from os.path import isfile, join
@@ -116,6 +116,21 @@ class mapViz(object):
                 break
         #print(a_county, c_color)
         return c_color
+    ## get County Info
+    def getCountyCenterSize(self, a_state):
+        l_centers = self.open4File('./ne_maps/us_states_info.csv')
+        for a_item in l_centers:
+            if(a_state in a_item[0]):
+                if(float(self.l_state_config[7][1]) != 0): lat_2 = float(self.l_state_config[7][1])
+                else: lat_2 = float(a_item[1])
+                if(float(self.l_state_config[8][1]) != 0): lon_2 = float(self.l_state_config[8][1])
+                else: lon_2 = float(a_item[2])
+                if(float(self.l_state_config[9][1]) != 0): s_2 = float(self.l_state_config[9][1])
+                else: 
+                    ratio = math.sqrt( float(a_item[5])/56803.82 )
+                    s_2 = 370000.0*ratio
+                return (lat_2, lon_2, s_2)
+        return (41.850033, -87.6500523, 370000.0)
     ## set County Info
     def setCountyInfo(self, l_counties, l_cases):
         case_max, case_col, case_total = 0, 0.0, 0
@@ -184,9 +199,9 @@ class mapViz(object):
         ax = fig.add_subplot(111)
         # 30. create base map
         landColor, coastColor, oceanColor, popColor, countyColor = '#eedd99','#93ccfa','w','#ffee99','#ff0000'
-        s = int(self.l_state_config[9][1])
-        lat_1, lon_1 = float(self.l_state_config[7][1]), float(self.l_state_config[8][1])
-        m = Basemap(projection='ortho',lon_0=lon_1,lat_0=lat_1,resolution='l',llcrnrx=-s,llcrnry=-s,urcrnrx=s,urcrnry=s)
+        lat_1, lon_1, s_1 = self.getCountyCenterSize(self.state_name)
+        print('  County Center', lat_1, lon_1, s_1)
+        m = Basemap(projection='ortho',lon_0=lon_1,lat_0=lat_1,resolution='l',llcrnrx=-s_1,llcrnry=-s_1,urcrnrx=s_1,urcrnry=s_1)
         m.drawmapboundary(fill_color=oceanColor) # fill in the ocean
 
         # 40. plot counties
@@ -205,8 +220,8 @@ class mapViz(object):
             plt.text(x, y, a_county[3],fontsize=8, ha='center',va='center',color='k',rotation=a_county[10])
         # 55. draw list of counties
         ii = 0
-        lat2, lon2 = lat_1+1.13965200000001, lon_1-4.390411
-        lat3, lon3 = lat2-1.0, lon2+2.0
+        lat2, lon2 = lat_1+float(self.l_state_config[13][1]), lon_1+float(self.l_state_config[13][2])
+        lat3, lon3 = lat_1+float(self.l_state_config[14][1]), lon_1+float(self.l_state_config[14][2])
         for a_case in l_cases_today:	
             if('Total' in a_case[0]): continue
             if('County' in a_case[0]): continue
@@ -225,21 +240,21 @@ class mapViz(object):
            
         # 58. draw title 
         if(l_type==1):
-            lat2, lon2 = lat_1+3.156759, lon_1-1.898988
+            lat2, lon2 = lat_1+float(self.l_state_config[11][1]), lon_1+float(self.l_state_config[11][2])
             x, y = m(lon2, lat2) 
             plt.text(x, y, '%d Daily confirmed COVID-19'%(n_total),fontsize=20, ha='left',va='center',color='g')
             lat2 -= 0.2
             x, y = m(lon2, lat2) 
             plt.text(x, y, 'On '+date + ' in '+self.state_name,fontsize=16, ha='left',va='center',color='g')
         elif l_type ==2:
-            lat2, lon2 = lat_1+3.156759, lon_1-1.898988
+            lat2, lon2 = lat_1+float(self.l_state_config[11][1]), lon_1+float(self.l_state_config[11][2])
             x, y = m(lon2, lat2) 
             plt.text(x, y, '%d Overall confirmed'%(n_total),fontsize=20, ha='left',va='center',color='g')
             lat2 -= 0.2
             x, y = m(lon2, lat2) 
             plt.text(x, y, 'COVID-19 Until '+date + ' in '+self.state_name,fontsize=16, ha='left',va='center',color='g')
         # 59. draw logo 
-        lat2, lon2 = lat_1+2.476629, lon_1+3.783506
+        lat2, lon2 = lat_1+float(self.l_state_config[12][1]), lon_1+float(self.l_state_config[12][2])
         x, y = m(lon2, lat2) 
         arr_lena = mpimg.imread('./doc/app_qrcode_logo.png')
         imagebox = OffsetImage(arr_lena)  # , zoom=0.15)
