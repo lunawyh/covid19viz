@@ -72,6 +72,7 @@ class dataGrab(object):
                 urllib.urlretrieve(a_link[1], f_name)
         '''
         l_data_daily = []
+        l_data_daily.append(['County', 'Cases', 'Deaths', 'Date'])
         for a_link in l_links:
             if(a_link[0] in 'Alameda'):	
                 page = requests.get(a_link[1])
