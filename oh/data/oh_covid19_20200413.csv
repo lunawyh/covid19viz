@@ -1,9 +1,9 @@
 County,Cases,Deaths
 Montgomery,201,7
 Cuyahoga,1197,24
-Franklin,1010,15
-Hamilton,557,20
-Medina,112,7
+Franklin,1012,15
+Hamilton,558,21
+Medina,112,8
 Carroll,14,0
 Scioto,4,0
 Stark,167,12
@@ -11,7 +11,7 @@ Tuscarawas,28,0
 Lorain,184,6
 Summit,262,15
 Huron,14,1
-Butler,120,2
+Butler,121,2
 Mahoning,443,31
 Allen,37,4
 Highland,7,0
@@ -53,7 +53,7 @@ Erie,12,1
 Fayette,10,0
 Hancock,19,1
 Jefferson,24,0
-Portage,144,16
+Portage,144,17
 Ashland,5,0
 Ashtabula,31,2
 Crawford,17,0
@@ -63,7 +63,7 @@ Clinton,16,0
 Hardin,8,0
 Knox,10,1
 Madison,24,3
-Pickaway,82,0
+Pickaway,83,0
 Washington,41,1
 Adams,3,0
 Morrow,9,0
@@ -85,4 +85,4 @@ Putnam,1,0
 Noble,2,0
 Henry,1,0
 Hocking,2,0
-Total,6970,271
+Total,6975,274

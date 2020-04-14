@@ -20,6 +20,7 @@ import matplotlib.pyplot as plt
 from os import listdir
 from scipy.integrate import odeint
 from scipy.optimize import curve_fit
+import datetime 
 # ==============================================================================
 # -- codes -------------------------------------------------------------------
 # ==============================================================================
@@ -90,14 +91,17 @@ class predictionViz(object):
         # read all data file
         csv_data_files = sorted( [f for f in listdir(self.state_dir + 'data') if isfile(join(self.state_dir + 'data', f))] )
         if( len(csv_data_files) < 1): return False
-        lst_data_overall = []
-        # read total number from data file
         offset = 11	
+        day_mmdd = []
+        lst_data_overall = []
+        # read total number from data file	
         for ff in csv_data_files:             
             l_data_day = self.open4File(join(self.state_dir + 'data', ff))
             for a_day in l_data_day:
                 if 'Total' in a_day[0]:
                     lst_data_overall.append(a_day[1])
+                    dt_s = datetime.datetime.strptime(ff[offset:offset+8], '%Y%m%d')
+                    day_mmdd.append( dt_s.strftime('%m/%d') )
                     break
 
         # get daily new cases
@@ -106,11 +110,16 @@ class predictionViz(object):
         for ii in range(len(lst_data_overall)):
             if ii < 1: continue  # lst_data_daily.append(lst_data_overall[ii])     
             else: lst_data_daily.append(lst_data_overall[ii] - lst_data_overall[ii-1])  
+        day_mmdd = day_mmdd[1:]  # the 1st day is removed
 
         # predict the future
-        preDay = 0
-        data = lst_data_daily[preDay:]  #[0:-1]
-        #data[-2] = (data[-3] + data[-1]) / 2
+        if(self.state_name in 'OH'): preDay = 19
+        elif(self.state_name in 'MI'): preDay = 4
+        else: preDay = 0
+        postDay = 0
+        data = lst_data_daily[preDay:]  #[0:-1] postDay
+        day_mmdd = day_mmdd[preDay:]    # postDay   
+        if(self.state_name in 'MI'): data[-2] = data[-1] * 1.15 # updated on 4/12/2020
         #data.append( int(data[-1] * 0.9) )
         days = np.arange(0, len(data), 1)
         popt, pcov = curve_fit(self.SIR, days, data)
@@ -122,16 +131,12 @@ class predictionViz(object):
         fig.set_figheight(10)
         fig.set_figwidth(20)
         plt.scatter(days, data, label="Actual new cases per day", color='r')
-        date_s = 18 + preDay
-        date_len = int(3*len(data))
+
+        date_len = int(2*len(data))
         day_future = np.arange(0, date_len, 1)
-        day_mmdd = []
-        for jj in range(date_len):
-            if(date_s + jj<=31): month, day = 3, (date_s + jj)%32 
-            elif(date_s + jj<=61): month, day = 4, (date_s + jj - 31)%31  
-            elif(date_s + jj<=92): month, day = 5, (date_s + jj - 31 - 30)%32  
-            else: month, day = 6, (date_s + jj - 31 - 30 - 31)%31  
-            day_mmdd.append( '%d/%d'%(month,day) )
+        for jj in range(date_len-len(data)):
+            dt_s += datetime.timedelta(days=1) 
+            day_mmdd.append( dt_s.strftime('%m/%d') )
             
         plt.plot(day_mmdd, self.SIR(day_future, *popt), label="Predicted new cases per day(unreal)")
         plt.legend()
