@@ -10,7 +10,7 @@ from __future__ import print_function
 import os
 from lxml import html
 import requests
-
+import urllib
 # ==============================================================================
 # -- imports -------------------------------------------------------------------
 # ==============================================================================
@@ -65,13 +65,15 @@ class dataGrab(object):
         if(not os.path.isdir(self.state_dir + 'data_html/') ): os.mkdir(self.state_dir + 'data_html/')
         link_dir =  self.state_dir + 'data_html/' + name_file + '/'
         if(not os.path.isdir(link_dir) ): os.mkdir(link_dir)
-        '''
+        # save all web pages
         for a_link in l_links:
                 f_name = link_dir+a_link[0]+'.html'
                 print(a_link[1], f_name)
                 urllib.urlretrieve(a_link[1], f_name)
-        '''
+        # try to parse these pages
         l_data_daily = []
+        total_daily = 0
+        total_death = 0
         l_data_daily.append(['County', 'Cases', 'Deaths', 'Date'])
         for a_link in l_links:
             if(a_link[0] in 'Alameda'):	
@@ -91,7 +93,10 @@ class dataGrab(object):
                         a_case_l = a_case.split(':') 
                         c_death = int(a_case_l[1])
                 l_data_daily.append([a_link[0], c_pos, c_death, c_date])
+                total_daily += c_pos
+                total_death += c_death
                 break
+        l_data_daily.append(['Total', total_daily, total_death, 'Today'])
         return(l_data_daily)  
 
 ## end of file
