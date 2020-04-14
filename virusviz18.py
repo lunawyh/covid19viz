@@ -26,7 +26,6 @@ from os.path import isfile, join
 import math
 import urllib
 from shutil import copyfile
-from mapviz20 import *
 from rainbowviz21 import *
 from predictionviz22 import *
 
@@ -107,6 +106,7 @@ class runVirusViz(object):
             self.data_daily, self.l_mi_cases = self.readDataDaily(True)
             pass
         elif(key == 65472 or key == 1114048 or key == 7405569):   # F3 key gmaps
+            from mapviz20 import *
             map_viz = mapViz(self.l_state_config, self.state_name)	
             save_file = None
             if self.data_daily == True: type_data=1
