@@ -1,15 +1,15 @@
 County,Cases,Deaths
 Montgomery,15,0
-Cuyahoga,125,0
+Cuyahoga,128,1
 Franklin,96,0
-Hamilton,42,0
+Hamilton,45,0
 Medina,9,0
 Carroll,4,0
 Scioto,1,0
-Stark,16,0
+Stark,17,0
 Tuscarawas,3,0
 Lorain,29,0
-Summit,36,0
+Summit,37,0
 Huron,3,0
 Butler,24,0
 Mahoning,40,0
@@ -28,6 +28,7 @@ Richland,5,0
 Sandusky,2,0
 Trumbull,14,0
 Warren,11,0
+Washington,1,0
 Auglaize,2,0
 Champaign,1,0
 Coshocton,2,0
@@ -42,7 +43,7 @@ Fairfield,5,0
 Gallia,1,0
 Greene,2,0
 Lake,8,0
-Lucas,18,0
+Lucas,19,0
 Marion,2,0
 Wyandot,1,0
 Clermont,4,0
@@ -58,4 +59,4 @@ Crawford,2,0
 Knox,2,0
 Lawrence,1,0
 Pickaway,1,0
-Total,615,0
+Total,625,1

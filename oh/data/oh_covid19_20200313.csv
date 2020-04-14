@@ -1,12 +1,12 @@
 County,Cases,Deaths
 Montgomery,14,0
-Cuyahoga,97,0
+Cuyahoga,98,0
 Franklin,85,0
-Hamilton,33,0
+Hamilton,36,0
 Medina,6,0
 Carroll,2,0
 Scioto,1,0
-Stark,13,0
+Stark,14,0
 Tuscarawas,3,0
 Lorain,21,0
 Summit,31,0
@@ -28,6 +28,7 @@ Richland,5,0
 Sandusky,2,0
 Trumbull,13,0
 Warren,10,0
+Washington,1,0
 Auglaize,2,0
 Champaign,1,0
 Coshocton,2,0
@@ -55,4 +56,4 @@ Portage,4,0
 Knox,2,0
 Lawrence,1,0
 Pickaway,1,0
-Total,515,0
+Total,521,0
