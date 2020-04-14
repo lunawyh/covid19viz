@@ -45,7 +45,7 @@ class runVirusViz(object):
         # create a node
         print("welcome to node virusviz")
         #choose one state in US
-        self.state_name = 'MI'
+        self.state_name = 'TX'
         if( isfile('../state.txt')):
             with open('../state.txt', 'r') as f:
                 self.state_name = f.readlines()[0][0:2]
