@@ -26,10 +26,12 @@ from os.path import isfile, join
 import math
 import urllib
 from shutil import copyfile
-from mapviz20 import *
 from rainbowviz21 import *
 from predictionviz22 import *
 
+import sys
+sys.path.insert(0, "./ca")
+from dataGrab58 import *
 # ==============================================================================
 # -- codes -------------------------------------------------------------------
 # ==============================================================================
@@ -42,7 +44,11 @@ class runVirusViz(object):
         # create a node
         print("welcome to node virusviz")
         #choose one state in US
-        self.state_name = 'NY'
+        self.state_name = 'MI'
+        if( isfile('../state.txt')):
+            with open('../state.txt', 'r') as f:
+                self.state_name = f.readlines()[0][0:2]
+                print('  state', self.state_name)
         self.state_dir = './'+self.state_name.lower()+'/'
         if(not os.path.isdir(self.state_dir) ): os.mkdir(self.state_dir)
 
@@ -100,6 +106,7 @@ class runVirusViz(object):
             self.data_daily, self.l_mi_cases = self.readDataDaily(True)
             pass
         elif(key == 65472 or key == 1114048 or key == 7405569):   # F3 key gmaps
+            from mapviz20 import *
             map_viz = mapViz(self.l_state_config, self.state_name)	
             save_file = None
             if self.data_daily == True: type_data=1
@@ -169,9 +176,10 @@ class runVirusViz(object):
             #cv2.imwrite(self.state_dir + 'results/mi_county'+self.name_file+'.png', self.img_overlay)
             pass
         elif(key == 119 or key == 1048695):  # w key, for test only
-            cov_tables = pd.read_html('https://www.ipl.org/div/stateknow/popchart.html')
+            #cov_tables = pd.read_html('https://www.ipl.org/div/stateknow/popchart.html')
             #print(cov_tables[0])  
-            self.parseDfData(cov_tables[2], './ne_maps/us_states_land.csv')  
+            #self.parseDfData(cov_tables[2], './ne_maps/us_states_land.csv')  
+            pass
         elif(key == 27 or key == 1048603):  # esc
             self.now_exit = True
             pass  
@@ -189,13 +197,11 @@ class runVirusViz(object):
         if(pos >= len(csv_data_files) ): pos = len(csv_data_files) - 1
         elif(pos < 0): pos = 0
         #print('  ', csv_data_files[pos])
-        if( len(csv_data_files[pos]) != 23): return (pos, [])
+        #if( len(csv_data_files[pos]) != 23): return (pos, [])
         offset = 11	
-        year = int(csv_data_files[pos][offset:offset+4])
-        month = int(csv_data_files[pos][offset+4:offset+6])
-        day = int(csv_data_files[pos][offset+6:offset+8])
-        self.name_file = '%d%02d%02d'%(year, month, day)
-        self.now_date = '%d/%d/%d'%(month, day, year)
+        dt_obj = datetime.datetime.strptime(csv_data_files[pos][offset:offset+8], '%Y%m%d')
+        self.name_file = dt_obj.strftime('%Y%02m%02d')
+        self.now_date = dt_obj.strftime('%m/%d/%Y')
         #read data to list
         lst_data = self.open4File(self.state_dir + 'data/'+self.state_name.lower()+'_covid19_'+self.name_file+'.csv')
         
@@ -216,13 +222,9 @@ class runVirusViz(object):
         for a_item in l_data:
             if(a_test_date is None):
                 a_test_date =  a_item[0]
-                pos = 0	
-                offset = 0	
-                month = int(a_item[pos][offset:offset+2])
-                day = int(a_item[pos][offset+3:offset+5])
-                year = int(a_item[pos][offset+6:offset+10])
-                self.name_file = '%d%02d%02d'%(year, month, day)
-                self.now_date = '%d/%d/%d'%(month, day, year)
+                dt_obj = datetime.datetime.strptime(a_item[0], '%m/%d/%Y')
+                self.name_file = dt_obj.strftime('%Y%02m%02d')
+                self.now_date = dt_obj.strftime('%m/%d/%Y')
             elif(a_test_date in a_item[0]):
                 pass
             else:
@@ -237,10 +239,91 @@ class runVirusViz(object):
         if(not os.path.isdir(self.state_dir + 'data/') ): os.mkdir(self.state_dir + 'data/')
         self.save2File(l_daily, self.state_dir + 'daily/'+self.state_name.lower()+'_covid19_'+self.name_file+'.csv')
         self.save2File(l_overral, self.state_dir + 'data/'+self.state_name.lower()+'_covid19_'+self.name_file+'.csv')
-        #
-        print('  save to ', self.state_dir + 'daily/'+self.state_name.lower()+'_covid19_'+self.name_file+'.csv')
-        print('  save to ', self.state_dir + 'data/'+self.state_name.lower()+'_covid19_'+self.name_file+'.csv')
         return l_overral
+    ## save to csv 
+    def saveLatestDateOh(self, l_data):
+        l_d_sort = sorted(l_data, key=lambda k: k[3], reverse=False)
+        # find different date time
+        l_date = []
+        for a_item in l_d_sort:
+            if(a_item[3] in 'Total'): continue
+            #
+            bFound = False
+            for a_date in l_date:
+                if(a_date in a_item[3]): 
+                    bFound = True
+                    break
+            if(not bFound):
+                l_date.append(a_item[3])
+        # generate all daily data
+        #print(l_date)
+        l_daily = []
+        for a_date in l_date:
+            l_daily = self.saveDataFromDlOh(l_d_sort, a_date, bDaily=False)
+        return l_daily
+    ## is validated or not 
+    def isValidDate(self, src, dst, bDaily=True):
+        if(bDaily):
+            if( src in dst): return True
+            else: return False
+        else:
+            dt_obj = datetime.datetime.strptime(src, '%m/%d/%Y')
+            dt_src = int( dt_obj.strftime('%Y%02m%02d') )
+            dt_obj = datetime.datetime.strptime(dst, '%m/%d/%Y')
+            dt_dst = int( dt_obj.strftime('%Y%02m%02d') )
+            if( dt_src >= dt_dst): return True
+            else: return False
+    ## save downloaded data to daily or overal data 
+    def saveDataFromDlOh(self, l_data, a_date, bDaily=True):
+        l_daily = []
+        total_daily = 0
+        total_death = 0
+        for a_item in l_data:
+            if(a_item[3] in 'Total'): continue
+            #
+            if( self.isValidDate(a_date, a_item[3], bDaily=bDaily) ):
+                pass
+            else:
+                continue
+            total_daily += int( a_item[5] )            
+            bFound = False
+            for a_daily in l_daily:
+                if(a_daily[0] in a_item[0]): 
+                    bFound = True
+                    a_daily[1] += int(a_item[5])
+            if(not bFound):
+                l_daily.append([a_item[0], int(a_item[5]), 0])
+                #print([a_item[0], int(a_item[5]), 0])
+        #print(' --------', self.now_date)
+        for a_item in l_data:
+            if(str(a_item[4]) in 'Total'): continue
+            if(str(a_item[4]) in '0'): continue
+            #
+            if( self.isValidDate(a_date, a_item[4], bDaily=bDaily) ):
+                bFound = False
+                for a_daily in l_daily:                    
+                    if(a_daily[0] in a_item[0]): 
+                        bFound = True
+                        a_daily[2] += int(a_item[6])
+                if(not bFound):
+                    l_daily.append([a_item[0], 0, int(a_item[6]) ])
+                    #print([a_item[0], 0, int(a_item[6]) ])
+
+                total_death += int( a_item[6] )            
+
+        l_daily.append(['Total', total_daily, total_death])
+        # save to file
+        dt_obj = datetime.datetime.strptime(a_date, '%m/%d/%Y')
+        self.name_file = dt_obj.strftime('%Y%02m%02d')
+        self.now_date = dt_obj.strftime('%m/%d/%Y')
+        if(bDaily): type_dir = 'daily/'
+        else: type_dir = 'data/'
+        if(not os.path.isdir(self.state_dir + type_dir) ): os.mkdir(self.state_dir + type_dir)
+        self.save2File(l_daily, self.state_dir + type_dir+self.state_name.lower()+'_covid19_'+self.name_file+'.csv')
+        print(' Total', total_daily, total_death, a_date)
+        print('   saved to', self.state_dir + type_dir+self.state_name.lower()+'_covid19_'+self.name_file+'.csv')
+        return l_daily
+
     ## save to csv 
     def save2File(self, l_data, csv_name):
         csv_data_f = open(csv_name, 'w')
@@ -295,7 +378,7 @@ class runVirusViz(object):
         return lst_data
     def isNameOnToday(self, f_name):
         dt_now = datetime.datetime.now()
-        dt_name_file = '%d%02d%02d'%(dt_now.year, dt_now.month, dt_now.day)
+        dt_name_file = dt_now.strftime('%Y%02m%02d') 
         if f_name == dt_name_file:
             return True
         else:
@@ -304,16 +387,26 @@ class runVirusViz(object):
     ## grab data from goverment website
     def cmdGrabDataFromWebsite(self):
         print('cmdGrabDataFromWebsite...')
+        lst_data = []
         # update date time
         dt_now = datetime.datetime.now()
-        self.name_file = '%d%02d%02d'%(dt_now.year, dt_now.month, dt_now.day)
-        self.now_date = '%d/%d/%d'%(dt_now.month, dt_now.day, dt_now.year)
-        if( int(self.l_state_config[4][1]) == 5):   # download only
+        self.name_file = dt_now.strftime('%Y%02m%02d') 
+        self.now_date  = dt_now.strftime('%m/%d/%Y')   
+        type_download = int(self.l_state_config[4][1])
+        if( type_download == 5 or type_download == 15):   # download only
             f_name = self.state_dir + 'data_raw/'+self.state_name.lower()+'_covid19_'+self.name_file+'.csv'
             if(not os.path.isdir(self.state_dir + 'data_raw/') ): os.mkdir(self.state_dir + 'data_raw/')
             result = self.download4Website(f_name)
             lst_raw_data = self.open4File(f_name)
-            lst_data = self.saveLatestDate(lst_raw_data)
+            if( type_download == 5):
+                lst_data = self.saveLatestDate(lst_raw_data)
+            if( type_download == 15):
+                lst_data = self.saveLatestDateOh(lst_raw_data)
+        elif( type_download == 101 ):   # download counties in the list
+            data_grab = dataGrab(self.l_state_config, self.state_name)	
+            lst_data = data_grab.parseDataCa(self.name_file)		
+            f_name = self.state_dir + 'data/'+self.state_name.lower()+'_covid19_'+self.name_file+'.csv'
+            self.save2File( lst_data, f_name )
         else:
             f_name = self.state_dir + 'data_html/'+self.state_name.lower()+'_covid19_'+self.name_file+'.html'
             if(not os.path.isdir(self.state_dir + 'data_html/') ): os.mkdir(self.state_dir + 'data_html/')
@@ -387,6 +480,7 @@ class runVirusViz(object):
             #return False
         l_daily.append(["Total", Total_plus[0], Total_plus[1]])
         # save data
+        if(not os.path.isdir(self.state_dir + 'daily/') ): os.mkdir(self.state_dir + 'daily/')
         self.save2File(l_daily, csv_daily)
         return True
     def readDataDaily(self, bDaily):
