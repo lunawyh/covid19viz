@@ -269,9 +269,9 @@ class runVirusViz(object):
             else: return False
         else:
             dt_obj = datetime.datetime.strptime(src, '%m/%d/%Y')
-            dt_src = int( dt_obj.strftime('%Y%02m%02d') )
+            dt_src = int( dt_obj.strftime('%Y%m%d') )
             dt_obj = datetime.datetime.strptime(dst, '%m/%d/%Y')
-            dt_dst = int( dt_obj.strftime('%Y%02m%02d') )
+            dt_dst = int( dt_obj.strftime('%Y%m%d') )
             if( dt_src >= dt_dst): return True
             else: return False
     ## save downloaded data to daily or overal data 
@@ -316,7 +316,7 @@ class runVirusViz(object):
         l_daily.append(['Total', total_daily, total_death])
         # save to file
         dt_obj = datetime.datetime.strptime(a_date, '%m/%d/%Y')
-        self.name_file = dt_obj.strftime('%Y%02m%02d')
+        self.name_file = dt_obj.strftime('%Y%m%d')
         self.now_date = dt_obj.strftime('%m/%d/%Y')
         if(bDaily): type_dir = 'daily/'
         else: type_dir = 'data/'
@@ -406,7 +406,7 @@ class runVirusViz(object):
         return lst_data
     def isNameOnToday(self, f_name):
         dt_now = datetime.datetime.now()
-        dt_name_file = dt_now.strftime('%Y%02m%02d') 
+        dt_name_file = dt_now.strftime('%Y%m%d') 
         if f_name == dt_name_file:
             return True
         else:
