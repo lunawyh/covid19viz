@@ -222,11 +222,21 @@ class mapViz(object):
         ii = 0
         lat2, lon2 = lat_1+float(self.l_state_config[13][1]), lon_1+float(self.l_state_config[13][2])
         lat3, lon3 = lat_1+float(self.l_state_config[14][1]), lon_1+float(self.l_state_config[14][2])
+        if(len(l_cases_today) >= 90):
+            lat4, lon4 = lat_1+float(self.l_state_config[15][1]), lon_1+float(self.l_state_config[15][2])
+            lat5, lon5 = lat_1+float(self.l_state_config[16][1]), lon_1+float(self.l_state_config[16][2])
+            lat6, lon6 = lat_1+float(self.l_state_config[17][1]), lon_1+float(self.l_state_config[17][2])
         for a_case in l_cases_today:	
             if('Total' in a_case[0]): continue
             if('County' in a_case[0]): continue
-            if(ii == len(l_cases_today)/2+5):
+            if(ii == 45):
                 lat2, lon2 = lat3, lon3
+            elif(ii == 90):
+                lat2, lon2 = lat4, lon4
+            elif(ii == 135):
+                lat2, lon2 = lat5, lon5
+            elif(ii == 163):
+                lat2, lon2 = lat6, lon6
             if( self.getColorByCompare(a_case, l_last) ): nColor = 'g'
             else: nColor = 'y'
             # show name

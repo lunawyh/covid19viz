@@ -114,12 +114,12 @@ class predictionViz(object):
 
         # predict the future
         if(self.state_name in 'OH'): preDay = 19
-        elif(self.state_name in 'MI'): preDay = 4
+        elif(self.state_name in 'MI'): preDay = 0
         else: preDay = 0
         postDay = 0
         data = lst_data_daily[preDay:]  #[0:-1] postDay
         day_mmdd = day_mmdd[preDay:]    # postDay   
-        if(self.state_name in 'MI'): data[-2] = data[-1] * 1.15 # updated on 4/12/2020
+        #if(self.state_name in 'MI'): data[-2] = data[-1] * 1.15 # updated on 4/12/2020
         #data.append( int(data[-1] * 0.9) )
         days = np.arange(0, len(data), 1)
         popt, pcov = curve_fit(self.SIR, days, data)
@@ -132,7 +132,7 @@ class predictionViz(object):
         fig.set_figwidth(20)
         plt.scatter(days, data, label="Actual new cases per day", color='r')
 
-        date_len = int(2*len(data))
+        date_len = int(len(data)+30)
         day_future = np.arange(0, date_len, 1)
         for jj in range(date_len-len(data)):
             dt_s += datetime.timedelta(days=1) 
