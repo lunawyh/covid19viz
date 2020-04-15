@@ -224,7 +224,7 @@ class runVirusViz(object):
             if(a_test_date is None):
                 a_test_date =  a_item[0]
                 dt_obj = datetime.datetime.strptime(a_item[0], '%m/%d/%Y')
-                self.name_file = dt_obj.strftime('%Y%02m%02d')
+                self.name_file = dt_obj.strftime('%Y%m%d')
                 self.now_date = dt_obj.strftime('%m/%d/%Y')
             elif(a_test_date in a_item[0]):
                 pass
