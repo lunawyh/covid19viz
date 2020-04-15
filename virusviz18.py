@@ -118,7 +118,7 @@ class runVirusViz(object):
                 l_type=type_data, l_last = self.l_cases_yest, 
                 save_file=save_file, date=self.now_date)
             pass  
-        elif(key == 65474 or key == 1114050):   # F5 key refresh newest from website
+        elif(key == 65474 or key == 1114050 or key == 7602176):   # F5 key refresh newest from website
             self.data_daily = False
 
             pos, self.l_mi_cases, self.l_cases_yest = self.cmdGrabDataFromWebsite()
