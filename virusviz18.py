@@ -200,7 +200,8 @@ class runVirusViz(object):
         #if( len(csv_data_files[pos]) != 23): return (pos, [])
         offset = 11	
         dt_obj = datetime.datetime.strptime(csv_data_files[pos][offset:offset+8], '%Y%m%d')
-        self.name_file = dt_obj.strftime('%Y%02m%02d')
+        self.name_file = dt_obj.strftime('%Y%m%d')
+        print('  ', self.name_file)
         self.now_date = dt_obj.strftime('%m/%d/%Y')
         #read data to list
         lst_data = self.open4File(self.state_dir + 'data/'+self.state_name.lower()+'_covid19_'+self.name_file+'.csv')
