@@ -27,6 +27,8 @@ New visualization and prediction of COVID-19 in USA, such as Michigan, CA.
      pip install matplotlib
      
      pip install lxml
+     
+     pip install scipy
 
 7. Run python virusviz18.py
 

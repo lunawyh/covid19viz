@@ -1,0 +1,2471 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+	<meta http-equiv="Content-type" content="text/html; charset=UTF-8" />
+
+					<script type='text/javascript'>
+						var enableTelemetry = 'false'
+						var aiConfig = {
+						instrumentationKey: '1cde048e-3185-4906-aa46-c92a7312b60f'						
+						}
+						var appInsights = window.appInsights || function (a) { function b(a) { c[a] = function () { var b = arguments; c.queue.push(function () { c[a].apply(c, b) }) } } var c = { config: a }, d = document, e = window; setTimeout(function () { var b = d.createElement('script'); b.src = a.url || 'https://az416426.vo.msecnd.net/scripts/a/ai.0.js', d.getElementsByTagName('script')[0].parentNode.appendChild(b) }); try { c.cookie = d.cookie } catch (a) { } c.queue = []; for (var f = ['Event', 'Exception', 'Metric', 'PageView', 'Trace', 'Dependency']; f.length;)b('track' + f.pop()); if (b('setAuthenticatedUserContext'), b('clearAuthenticatedUserContext'), b('startTrackEvent'), b('stopTrackEvent'), b('startTrackPage'), b('stopTrackPage'), b('flush'), !a.disableExceptionTracking) { f = 'onerror', b('_' + f); var g = e[f]; e[f] = function (a, b, d, e, h) { var i = g && g(a, b, d, e, h); return !0 !== i && c['_' + f](a, b, d, e, h), i } } return c }(aiConfig);
+						window.appInsights = appInsights, appInsights.queue && 0 === appInsights.queue.length;
+						// Add telemetry initializer
+						appInsights.queue.push(function() {
+							appInsights.context.addTelemetryInitializer(function(envelope) {
+								var telemetryItem = envelope.data.baseData;
+								// To check the telemetry item’s type:
+								if (!false)
+								{
+									//If the telemetry is not enabled, we still want to capture Google map custom event, so only allow that
+									if (envelope.name.indexOf('.Event') == -1)
+										return false;
+								}
+							});
+						});						
+						appInsights.trackPageView();
+					</script>
+			<script>
+				document.addEventListener("DOMContentLoaded", function () {
+					var forms = document.getElementsByTagName("form");
+					var absPat = /^https?:\/\/|^\/\//i;
+					for (var i = 0; i < forms.length; i++)
+					{
+						if (forms[i].method == "post" && !forms[i].querySelector('[name="__RequestVerificationToken"]') && !absPat.test(forms[i].getAttribute("action"))) {
+							forms[i].insertAdjacentHTML("beforeend", "<input name=\"__RequestVerificationToken\" type=\"hidden\" value=\"6qoy0ZgB_PDEN4zCDdV7Tfjo5YCw4kxkX1Y0z-v8yd71rDLcJghJtd0NOcBWvaOIS_eiHrzVWRxchc055J9uMshXnF41\" />");
+						}
+					}
+				}, false);
+			</script>
+			
+	<script type="text/javascript">
+		window.isResponsiveEnabled = true;
+		window.isRemoveSetHeights= false;
+		if (window.isRemoveSetHeights) {
+			document.documentElement.className += ' removeSetHeights';
+		}
+		window.mainMenuMediaQuery = 'screen and (max-width: 40em)';
+		window.isMobileBrowserIncludingTablets = false;
+		window.fixedResponsiveMenu = false;
+		window.fullWidthResponsiveMenu = false;
+		window.responsiveMenuHeight = '';
+		window.responsiveMenuFontSize = '';
+		(function () {
+			window.devicePixelRatio = window.devicePixelRatio || Math.round(window.screen.availWidth / document.documentElement.clientWidth);
+			window.innerWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+			window.innerHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+
+			window.setSizeCookie = function () {
+				document.cookie = "dpi=" + window.devicePixelRatio + "; path=/";
+				document.cookie = "viewportWidth=" + window.innerWidth + "; path=/";
+				document.cookie = "viewportHeight=" + window.innerHeight + "; path=/";
+				if (screen && screen.width && screen.height) {
+					document.cookie = "screenWidth=" + screen.width + "; path=/";
+					document.cookie = "screenHeight=" + screen.height + "; path=/";
+				}
+				document.cookie = "responsiveGhost=1; path=/";
+			};
+
+			setSizeCookie();
+		}());
+	</script>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+	
+	
+	<meta name="theme-color" content="#162067">
+	<link rel="icon" href="/images/favicon.ico" type="image/x-icon" />
+	<link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon" />
+	<title>Novel Coronavirus (COVID-19) | Nevada County, CA</title>
+		<meta name="description" content="Nevada County Public Health Department is working closely with County departments such as the Office of Emergency Services and Environmental Health, California Department of Public Health (CDPH) and the Centers for Disease Control &amp; Prevention (CDC) to closely monitor the Coronavirus Disease 2019 (COVID-19), which originated in Wuhan, Hubei Province, China in December 2019.This is an emerging, rapidly evolving situation and Nevada County Public Health will provide updated information as it becomes available.">
+		<meta name="keywords" content="coronavirus,virus,COVID-19,Coronavirus Disease 2019,Wuhan,Public Health,CDC,novel coronavirus">
+							<link rel="stylesheet" type="text/css" href="/Assets/Mystique/Shared/Scripts/froala_editor_2.8.4/css/froala_editor_2.8.4.min.css" />
+
+	<!--[if IE 6]><script language="JavaScript" type="text/javascript"> var isie6 = true; </script><![endif]-->
+	<!--[if IE 7]><script language="JavaScript" type="text/javascript"> var isie7 = true; </script><![endif]-->
+	<!--[if IE 8]><script language="JavaScript" type="text/javascript"> var isie8 = true; </script><![endif]-->
+	<!--[if IE 9]><script language="JavaScript" type="text/javascript"> var isie8 = true; </script><![endif]-->
+	<script type="text/javascript"><!--
+	var intCountryCode = 840;
+	var externalSiteDialogHeight = '390px';
+	var order = '';
+//--></script>
+	
+	<link href="/27375364.css" rel="stylesheet" type="text/css" />	<link href="/561557540.css" rel="stylesheet" type="text/css" />
+
+	<link rel="stylesheet" type="text/css" href="/Assets/Styles/Print.css" media="print">
+<script type="text/javascript" src="/Scripts/2011.3.1115/jquery-1.6.4.min.js"></script>
+	<script type="text/javascript">
+		window.Pages = window.Pages || {};
+		// FrontEnd RWD initialization
+		window.Pages.rwdReady = $.Deferred();
+		window.Pages.toolBarDeferred = $.Deferred();
+		window.Pages.rwdSetupComplete = $.Deferred();
+		window.Pages.megaMenuLoaded = $.Deferred();
+		window.Pages.angularToolbarComplete = $.Deferred();
+		window.Pages.frontEndToolbarComplete = $.Deferred();
+	</script>
+	<!--CPHeadContent-->
+	<script src="/1013992384.js" type="text/javascript"></script>
+	
+	
+	
+	
+
+
+
+
+	<!--[if lte IE 8]><link rel="stylesheet" type="text/css" href="/App_Themes/ie8.css"><![endif]-->
+	<!--[if lte IE 7]><link rel="stylesheet" type="text/css" href="/App_Themes/ie7.css"><![endif]-->
+	<!--[if lte IE 6]><link rel="stylesheet" type="text/css" href="/App_Themes/ie6.css"><![endif]-->
+	<!--[if lt IE 9]><script type="text/javascript" src="/Scripts/html5.js"></script><![endif]-->
+
+	<script type="text/javascript">
+		setEditorVariables(false, 840);
+		function getPrintPreviewType() { return 0; } function printPreview() {pPreview(getPrintPreviewType()); }
+	</script>
+	
+</head>
+<body class="wide " >
+
+	
+
+	<div id="fb-root"></div>
+<div id=skipToContentLinks>
+<a href="#cc5f8c90dc-b4cb-431b-90ee-10648f8df655" target="_self" class="skipToContentLink">Skip to Main Content</a>
+</div>
+	<form id="frmReferenceFormForTelerikEditorDialogs"></form>
+
+		<input type="hidden" id="GoogleMapsKey" value="AIzaSyDWUuE-ifkbhxblF920N8MjpBdTg1Wt784" />
+	<input type="hidden" id="cpcDomain" value="https://cp-civicplusuniversity2.civicplus.com">
+	<input type="hidden" id="hdnStructureID" value="1" />
+	<input type="hidden" id="hdnContentCollectionID" value="4422a37d-4b64-4bc5-afed-bdd4ce6bcbbf" />
+	<input type="hidden" id="hdnWorkingCopyID" value="00000000-0000-0000-0000-000000000000" />
+	<input type="hidden" id="hdnThemeID" value="1" />
+	<input type="hidden" id="pageIsFrontEnd" value="true" />
+	<input type="hidden" id="pageModuleID" />
+	<input type="hidden" id="pagePageID" value="2924" />
+	<input type="hidden" id="hdnModuleEligibleForJquery224Upgrade" value="false" />
+
+			<img id="imgLogoPrintPreview" src="/ImageRepository/Document?documentID=27" alt="Nevada County, CA" />
+	<div id="stickyPlaceholder"></div>
+	<div id="outer-wrap" class="outer-wrap">
+		<div id="inner-wrap" class="inner-wrap">
+				<div id="divToolbars" class="cpToolbars newCP" style="">
+					
+<style>
+    @import url(https://fonts.googleapis.com/css?family=Open+Sans+Condensed:700); 
+
+
+
+.alertText .customAlert {
+    color: #EAEAEA;
+    display: inline-block;
+    font-family: 'Open Sans Condensed', sans-serif; 
+    text-transform: uppercase; 
+    font-size: 27px;
+    font-weight: bold;
+    height: 27px;
+    left: 57px;
+    line-height: 27px;
+    overflow: hidden;
+    position: absolute;
+    top: 15px;
+    white-space: nowrap;
+    width: 268px;
+}
+
+</style>
+  <div id="1_divAlertBar" class="alertToolbar cpToolbar" style="background: #030303 url(/Common/images/AlertCenter/alertBarBlackBckg.png) repeat-x;">
+    <div class="alertToolbarInner">
+        <a href="/AlertCenter.aspx" id="1_lnkAlertText" class="alertText" style="border-right: 1px solid #000000;">
+            <img src="/Common/Images/AlertCenter/alertBarBlinkBlack.gif" id="1_imgDot" alt="Emergency Alert" class="redDot" />
+            <span id="1_customAlert" class="customAlert">Nevada County Update</span>
+        </a>
+        <span id="1_spnAlertContainer" class="alertContainer"><a href="http://www.mynevadacounty.com/coronavirus" class="alert" style="border-left: 1px solid #635e65; border-right: 1px solid #000000;background: #030303 url(/Common/images/AlertCenter/alertBarBlackTextBckg.png) repeat-x; color: #FFFFFF;">
+	Coronavirus Updates and Preparedness at www.mynevadacounty.com/coronavirus
+	<span style="color: #FC4C2F;">Read More</span>
+</a>
+</span>
+    </div>
+  </div>
+  <div id="1_divAlertBarEmpty" class="alertBarEmpty"></div>
+  
+<!--[if lte IE 7]><link rel="stylesheet" type="text/css" href="/App_Themes/CP/ie7.css"><![endif]-->
+<!-- Allow Dashboard, Favorites Enabled -->
+
+				</div>
+			<div id="bodyWrapper">
+				<div id="mainNavHolderMobile" class="mainNavHolderMobile"></div>
+				
+<div data-cpRole="structuralContainer" id="structuralContainer1">
+<div data-cpRole="banner" id="banner1"><div data-cpRole="structuralContainer" id="structuralContainer2">
+<header class="siteHeader"><div class="siteWrap"><h1 data-cpRole="banner" id="banner2" class="logo empty">
+
+
+
+
+				<a style="			display: block; text-align: center;
+" class="bannerObject" href="/416" target="_self"><img alt="Click to Home " class="bannerObject" height="80" src="/ImageRepository/Document?documentID=17653" width="529" /></a>
+
+</h1><aside data-cpRole="contentContainer" id="contentContainer1" class="search_ts">	<div id="cc9540a5a1-564c-46df-a8fc-31dfd195f0aa" data-containerid="9540a5a1-564c-46df-a8fc-31dfd195f0aa" class="pageContent cpGrid cpGrid24 isLockedContainer showInMobile">
+				                
+
+		<div class="row outer wide"><!--
+--><div class="outer col col24 first last" style="" data-widgetcontainerid="59179483-aaee-4a58-8a7c-a6809ec2bef8">				
+	<div class="row nest first last wide">
+	
+	<div class="inner col col24 first last id47f741fd-6ee8-44d0-9ff7-f56e1b432e16" style="" data-widgetcontainerid="47f741fd-6ee8-44d0-9ff7-f56e1b432e16">	
+<div data-widget-id="bc646b3a-d09a-4d35-ad5a-4619b11788fe" data-widget-controller-path="/GraphicLinks/Widget">
+
+
+
+
+<div id="graphicLinkWidgetbc646b3a-d09a-4d35-ad5a-4619b11788fe" class="widget widgetGraphicLinks skin43 widgetOptionSet24 wide" data-elementqueryclasses='{"wide-narrow":"min-width:1em"}' data-elementquerymatch='matchMultiColumn' data-elementqueryunmatch='unmatchMultiColumn' data-modulewidgettype="graphicLinks">
+	<div class="widgetHeader">
+		<div class="">
+				</div>
+	</div>
+	<div class="widgetBody cpGrid cpGrid5 ">	
+			<div class="row autoWidths right wide"><!--
+--><div class="col col1 first "><div class="semanticList"><!--
+	    --><div class="widgetItem GraphicLinks">
+
+<div>
+	<a href="https://www.facebook.com/NevadaCountyCA/" target="_blank" class="fancyButton fancyButton48 "  aria-label="Facebook opens in new window">
+		<span>
+			<span><span class="text">Facebook</span></span>
+		</span>
+	</a>
+</div>
+		<style scoped="scoped">.fancyButton48.fancyButton:link,.fancyButton48.fancyButton:visited, .fancyButton48div.fancyButton{
+	height: 32px;
+	width: 33px;
+	background-image: url(/ImageRepository/Document?documentID=68);
+	background-repeat: no-repeat;
+	background-position: center center;
+float:none;
+margin: 0 auto;
+opacity: 1;
+    -webkit-transition: all 0.3s ease-in-out;
+    -moz-transition: all 0.3s ease-in-out;
+    -o-transition: all 0.3s ease-in-out;
+    transition: all 0.3s ease-in-out;}
+.fancyButton48.fancyButton:hover,.fancyButton48.fancyButton:focus,.fancyButton48.fancyButton:active,.fancyButton48.fancyButton.hover{
+	background-image: url(/ImageRepository/Document?documentID=67);
+	background-repeat: no-repeat;
+	background-position: center center;
+opacity: 1;
+    -webkit-transition: all 0.3s ease-in-out;
+    -moz-transition: all 0.3s ease-in-out;
+    -o-transition: all 0.3s ease-in-out;
+    transition: all 0.3s ease-in-out;}
+.fancyButton48.fancyButton:link > span,.fancyButton48.fancyButton:visited > span, .fancyButton48div.fancyButton > span{
+}
+.fancyButton48.fancyButton:hover > span,.fancyButton48.fancyButton:focus > span,.fancyButton48.fancyButton:active > span,.fancyButton48.fancyButton.hover > span{
+}
+.fancyButton48.fancyButton .text{
+	text-decoration: none;
+	background-repeat: no-repeat;
+	background-position: left top;
+
+opacity:0.0;}
+.fancyButton48.fancyButton:hover .text,.fancyButton48.fancyButton:focus .text,.fancyButton48.fancyButton:active .text,.fancyButton48.fancyButton.hover .text{
+	text-decoration: none;
+	background-repeat: no-repeat;
+	background-position: left top;
+
+
+}
+</style>
+
+ </div><!--
+--></div></div><!----><div class="col col1  "><div class="semanticList"><!--
+	    --><div class="widgetItem GraphicLinks">
+
+<div>
+	<a href="https://twitter.com/NevadaCountyCA" target="_self" class="fancyButton fancyButton49 " >
+		<span>
+			<span><span class="text">Twitter</span></span>
+		</span>
+	</a>
+</div>
+		<style scoped="scoped">.fancyButton49.fancyButton:link,.fancyButton49.fancyButton:visited, .fancyButton49div.fancyButton{
+	height: 32px;
+	width: 33px;
+	background-image: url(/ImageRepository/Document?documentID=72);
+	background-repeat: no-repeat;
+	background-position: center center;
+float:none;
+margin: 0 auto;
+opacity: 1;
+    -webkit-transition: all 0.3s ease-in-out;
+    -moz-transition: all 0.3s ease-in-out;
+    -o-transition: all 0.3s ease-in-out;
+    transition: all 0.3s ease-in-out;}
+.fancyButton49.fancyButton:hover,.fancyButton49.fancyButton:focus,.fancyButton49.fancyButton:active,.fancyButton49.fancyButton.hover{
+	background-image: url(/ImageRepository/Document?documentID=73);
+	background-repeat: no-repeat;
+	background-position: center center;
+opacity: 1;
+    -webkit-transition: all 0.3s ease-in-out;
+    -moz-transition: all 0.3s ease-in-out;
+    -o-transition: all 0.3s ease-in-out;
+    transition: all 0.3s ease-in-out;}
+.fancyButton49.fancyButton:link > span,.fancyButton49.fancyButton:visited > span, .fancyButton49div.fancyButton > span{
+}
+.fancyButton49.fancyButton:hover > span,.fancyButton49.fancyButton:focus > span,.fancyButton49.fancyButton:active > span,.fancyButton49.fancyButton.hover > span{
+}
+.fancyButton49.fancyButton .text{
+	text-decoration: none;
+	background-repeat: no-repeat;
+	background-position: left top;
+
+opacity:0.0;}
+.fancyButton49.fancyButton:hover .text,.fancyButton49.fancyButton:focus .text,.fancyButton49.fancyButton:active .text,.fancyButton49.fancyButton.hover .text{
+	text-decoration: none;
+	background-repeat: no-repeat;
+	background-position: left top;
+
+
+}
+</style>
+
+ </div><!--
+--></div></div><!----><div class="col col1  "><div class="semanticList"><!--
+	    --><div class="widgetItem GraphicLinks">
+
+<div>
+	<a href="https://www.youtube.com/user/CountyofNevadaCA" target="_self" class="fancyButton fancyButton50 " >
+		<span>
+			<span><span class="text">YouTube</span></span>
+		</span>
+	</a>
+</div>
+		<style scoped="scoped">.fancyButton50.fancyButton:link,.fancyButton50.fancyButton:visited, .fancyButton50div.fancyButton{
+	height: 32px;
+	width: 33px;
+	background-image: url(/ImageRepository/Document?documentID=74);
+	background-repeat: no-repeat;
+	background-position: center center;
+float:none;
+margin: 0 auto;
+opacity: 1;
+    -webkit-transition: all 0.3s ease-in-out;
+    -moz-transition: all 0.3s ease-in-out;
+    -o-transition: all 0.3s ease-in-out;
+    transition: all 0.3s ease-in-out;}
+.fancyButton50.fancyButton:hover,.fancyButton50.fancyButton:focus,.fancyButton50.fancyButton:active,.fancyButton50.fancyButton.hover{
+	background-image: url(/ImageRepository/Document?documentID=71);
+	background-repeat: no-repeat;
+	background-position: center center;
+opacity: 1;
+    -webkit-transition: all 0.3s ease-in-out;
+    -moz-transition: all 0.3s ease-in-out;
+    -o-transition: all 0.3s ease-in-out;
+    transition: all 0.3s ease-in-out;}
+.fancyButton50.fancyButton:link > span,.fancyButton50.fancyButton:visited > span, .fancyButton50div.fancyButton > span{
+}
+.fancyButton50.fancyButton:hover > span,.fancyButton50.fancyButton:focus > span,.fancyButton50.fancyButton:active > span,.fancyButton50.fancyButton.hover > span{
+}
+.fancyButton50.fancyButton .text{
+	text-decoration: none;
+	background-repeat: no-repeat;
+	background-position: left top;
+
+opacity:0.0;}
+.fancyButton50.fancyButton:hover .text,.fancyButton50.fancyButton:focus .text,.fancyButton50.fancyButton:active .text,.fancyButton50.fancyButton.hover .text{
+	text-decoration: none;
+	background-repeat: no-repeat;
+	background-position: left top;
+
+
+}
+</style>
+
+ </div><!--
+--></div></div><!----><div class="col col1  "><div class="semanticList"><!--
+	    --><div class="widgetItem GraphicLinks">
+
+<div>
+	<a href="https://www.instagram.com/nevadacountyca/ " target="_self" class="fancyButton fancyButton799 " >
+		<span>
+			<span><span class="text">Instagram</span></span>
+		</span>
+	</a>
+</div>
+		<style scoped="scoped">.fancyButton799.fancyButton:link,.fancyButton799.fancyButton:visited, .fancyButton799div.fancyButton{
+	height: 32px;
+	width: 33px;
+	background-image: url(/ImageRepository/Document?documentID=70);
+	background-repeat: no-repeat;
+	background-position: center center;
+float:none;
+margin: 0 auto;
+opacity: 1;
+    -webkit-transition: all 0.3s ease-in-out;
+    -moz-transition: all 0.3s ease-in-out;
+    -o-transition: all 0.3s ease-in-out;
+    transition: all 0.3s ease-in-out;}
+.fancyButton799.fancyButton:hover,.fancyButton799.fancyButton:focus,.fancyButton799.fancyButton:active,.fancyButton799.fancyButton.hover{
+	background-image: url(/ImageRepository/Document?documentID=18939);
+	background-repeat: no-repeat;
+	background-position: center center;
+opacity: 1;
+    -webkit-transition: all 0.3s ease-in-out;
+    -moz-transition: all 0.3s ease-in-out;
+    -o-transition: all 0.3s ease-in-out;
+    transition: all 0.3s ease-in-out;}
+.fancyButton799.fancyButton:link > span,.fancyButton799.fancyButton:visited > span, .fancyButton799div.fancyButton > span{
+}
+.fancyButton799.fancyButton:hover > span,.fancyButton799.fancyButton:focus > span,.fancyButton799.fancyButton:active > span,.fancyButton799.fancyButton.hover > span{
+}
+.fancyButton799.fancyButton .text{
+	text-decoration: none;
+	background-repeat: no-repeat;
+	background-position: left top;
+
+opacity:0.0;}
+.fancyButton799.fancyButton:hover .text,.fancyButton799.fancyButton:focus .text,.fancyButton799.fancyButton:active .text,.fancyButton799.fancyButton.hover .text{
+	text-decoration: none;
+	background-repeat: no-repeat;
+	background-position: left top;
+
+
+}
+</style>
+
+ </div><!--
+--></div></div><!----><div class="col col1  last"><div class="semanticList"><!--
+	    --><div class="widgetItem GraphicLinks"><a class="widgetDesc widgetGraphicLinksLink" href="/358/Americans-with-Disabilities-Act-Informat" target="_self"  aria-label="ADA Compliance graphic"><img src="/ImageRepository/Document?documentID=20778" 
+     class="graphicButtonLink" alt="ADA Compliance" 
+     onmouseover="this.src='/ImageRepository/Document?documentID=20779'" 
+	onmouseout="this.src='/ImageRepository/Document?documentID=20778'"
+     onfocus="this.src='/ImageRepository/Document?documentID=20779'" 
+	onblur="this.src='/ImageRepository/Document?documentID=20778'"> </a></div><!--
+--></div></div><!--			--></div>
+	</div>
+	<div class="widgetFooter">
+			</div>
+</div>
+
+</div>
+	</div> <!-- inner column -->
+
+	</div> <!-- inner row -->
+
+			</div><!-- outer column --><!--		--></div> <!-- outer row -->
+		<div class="row outer wide"><!--
+--><div class="outer col col24 first last" style="" data-widgetcontainerid="a6acd1a8-0a1c-42d7-a260-fa9feeafb641">				
+	<div class="row nest first last wide">
+	
+	<div class="inner col col24 first last id0fa9a295-22c3-4fab-a2af-45d63794ac04" style="" data-widgetcontainerid="0fa9a295-22c3-4fab-a2af-45d63794ac04">	
+<div data-widget-id="4fb493e0-26f9-4cb3-af15-161405ee9e48" data-widget-controller-path="/Layout/WidgetSearch">
+	
+		<script defer type="text/javascript" src="/Common/Controls/jquery-ui/js/jquery.ui.autocomplete.min.js"></script>
+	<script defer src="/Areas/Layout/Assets/Scripts/Search.js" type="text/javascript"></script>
+	<script defer type="text/javascript">
+
+		$(document).ready(function () {
+			try {
+				$(".widgetSearchButton.widgetSearchButton4fb493e0-26f9-4cb3-af15-161405ee9e48").click(function (e) {
+				e.preventDefault();
+					if ($("#ysnSearchOnlyDept4fb493e0-26f9-4cb3-af15-161405ee9e48").is(':checked')) {
+						doWidgetSearch($(this).siblings(".widgetSearchBox").val(), Number(0));
+					} else {
+						doWidgetSearch($(this).siblings(".widgetSearchBox").val(), 0);
+					}
+			});
+			$("#searchField4fb493e0-26f9-4cb3-af15-161405ee9e48").keypress(function (e) {
+				if (window.clipboardData) {
+					if (e.keyCode == 13) {
+							if ($("#ysnSearchOnlyDept4fb493e0-26f9-4cb3-af15-161405ee9e48").is(':checked')) {
+								doWidgetSearch($(this).val(), Number(0));
+							} else {
+								doWidgetSearch($(this).val(), 0);
+							}
+						return false;
+					}
+				} else {
+					if (e.which == 13) {
+							if ($("#ysnSearchOnlyDept4fb493e0-26f9-4cb3-af15-161405ee9e48").is(':checked')) {
+								doWidgetSearch($(this).val(), Number(0));
+							} else {
+								doWidgetSearch($(this).val(), 0);
+							}
+						return false;
+					}
+				}
+				return true;
+			});
+
+				if (true) {
+                    var currentRequest = null;
+			$("#searchField4fb493e0-26f9-4cb3-af15-161405ee9e48").autocomplete({
+				    source: function (request, response){
+                                currentRequest = $.ajax({
+				                    url: '/Search/AutoComplete',
+				                    dataType: "json",
+				                    timeout: 10000,
+				                    beforeSend : function()    {
+				                        if(currentRequest != null) {
+				                            currentRequest.abort();
+				                        }
+				                    },
+				                    data:
+                                    {
+				                        term: request.term,
+				                    },
+				                    success: function (data)
+				                    {
+                                        response(data);
+                                        $('.autoCompleteError').remove();
+				                    },
+				                    error: function(xmlhttprequest, textstatus, message){
+                                     if(textstatus==="timeout")
+				                     {
+                                        if($("#searchField4fb493e0-26f9-4cb3-af15-161405ee9e48").siblings('.autoCompleteError').length == 0)
+                                            $('<span class="autoCompleteError"><p class="alert error">Search autocomplete is currently not responding. Please try again later.</p></span>').insertAfter($("#searchField4fb493e0-26f9-4cb3-af15-161405ee9e48"));
+				                     }
+				                    }
+				                });
+				            },
+				html: true,
+							delay: 500,
+				select: function (event, ui) {
+					$(this).val(ui.item.value);
+					$(this).next().click();
+				}
+			}).data("autocomplete")._renderItem = function (ul, item) {
+				return $("<li></li>")
+					.data("item.autocomplete", item)
+					.append("<a>" + item.label + "</a>")
+					.appendTo(ul);
+			};
+}
+}
+			catch(e) {} //we're going to eat this error. Autocomplete won't work but we dont wan't to break anything else on the page.
+		});
+	</script>
+
+	<section id="widgetPreviewSearch" class="widget widgetSearch skin43 widgetOptionSet15" style="display: block;" aria-label="Search">
+				<!-- For the button right and inside -->
+		<div class="widgetBody buttonRightInside">
+			<input class="widgetSearchBox widgetSearchBox4fb493e0-26f9-4cb3-af15-161405ee9e48" cp5ph="true" id="searchField4fb493e0-26f9-4cb3-af15-161405ee9e48" name="searchField" onchange="searchBtnApplyQuery();" placeholder="Search..." title="Search..." type="text" value="" />
+						<a href="/Search/Results" id="btnSearchIcon" class="widgetSearchButton widgetSearchButton4fb493e0-26f9-4cb3-af15-161405ee9e48" role="button"><img alt="Search" class="imageHover" data-hover="/ImageRepository/Document?documentID=76" data-image="/ImageRepository/Document?documentID=75" src="/ImageRepository/Document?documentID=75" /></a>
+
+			<label class="searchLabel" for="searchField4fb493e0-26f9-4cb3-af15-161405ee9e48">Search</label>
+		</div>
+
+	</section>
+
+
+<style scoped>
+    
+        .widgetSearch ::-webkit-input-placeholder {
+        color: #ffffff;
+      }
+        .widgetSearch :-moz-placeholder { /* Firefox 18- */
+       color: #ffffff;
+    }
+        .widgetSearch ::-moz-placeholder {  /* Firefox 19+ */
+       color: #ffffff;
+    }
+    .widgetSearch :-ms-input-placeholder {
+       color: #ffffff;
+    }
+    
+
+	.widgetSearch .widgetBody .widgetSearchBox4fb493e0-26f9-4cb3-af15-161405ee9e48
+	{
+        color: #ffffff;
+		border-radius: 10px;background-color: rgb(117, 159, 31);
+ height: 49px; padding: 5px 40px 5px 10px;  border: none;
+	}
+	.widgetSearch .widgetBody .widgetSearchButton4fb493e0-26f9-4cb3-af15-161405ee9e48
+	{
+		margin: 10px 12px 0 0;
+	}
+	.widgetSearch .widgetSearch-onlyDept4fb493e0-26f9-4cb3-af15-161405ee9e48
+	{
+		display: inline-block;
+		color: #333;
+		
+		
+		 padding-top: 10px;
+	}
+	#ysnSearchOnlyDept4fb493e0-26f9-4cb3-af15-161405ee9e48
+	{
+		position: relative;
+		top: .125em;
+	}
+
+</style>
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css">
+
+
+
+<script type="text/javascript">
+	//Updates search icons href to have the correct queryString
+	function searchBtnApplyQuery() {
+		document.getElementById("btnSearchIcon").href = "/Search?searchPhrase=" + document.getElementById("searchField4fb493e0-26f9-4cb3-af15-161405ee9e48").value;
+    }
+</script>
+</div>
+	</div> <!-- inner column -->
+
+	</div> <!-- inner row -->
+
+			</div><!-- outer column --><!--		--></div> <!-- outer row -->
+
+
+	</div>
+</aside></div></header>
+</div><div data-cpRole="structuralContainer" id="structuralContainer3">
+<div class="siteWrap"><aside data-cpRole="contentContainer" id="contentContainer8a">	<div id="ccfd62f756-3472-4f89-8026-542b4c6d4b3b" data-containerid="fd62f756-3472-4f89-8026-542b4c6d4b3b" class="pageContent cpGrid cpGrid24 isLockedContainer showInMobile">
+				                
+
+		<div class="row outer wide"><!--
+--><div class="outer col col24 first last" style="" data-widgetcontainerid="d92afe14-5115-4aff-ab3a-516a3b32dde3">				
+	<div class="row nest first last wide">
+	
+	<div class="inner col col24 first last id613d6097-4b1f-454f-8183-4613bfe18e9d" style="" data-widgetcontainerid="613d6097-4b1f-454f-8183-4613bfe18e9d">	
+<div data-widget-id="ea00ca83-de7f-48da-9dae-d1aaa5c64b0b" data-widget-controller-path="/GraphicLinks/Widget">
+
+
+
+
+<div id="graphicLinkWidgetea00ca83-de7f-48da-9dae-d1aaa5c64b0b" class="widget widgetGraphicLinks skin43 widgetOptionSet4 wide" data-elementqueryclasses='{"wide-narrow":"min-width:25em"}' data-elementquerymatch='matchMultiColumn' data-elementqueryunmatch='unmatchMultiColumn' data-modulewidgettype="graphicLinks">
+	<div class="widgetHeader">
+		<div class="">
+				</div>
+	</div>
+	<div class="widgetBody cpGrid cpGrid1 ">	
+			<div class="semanticList"><!--
+	    --><div class="widgetItem GraphicLinks">
+
+<div>
+	<a href="/" target="_self" class="fancyButton fancyButton722 " >
+		<span>
+			<span><span class="text">Click to home</span></span>
+		</span>
+	</a>
+</div>
+		<style scoped="scoped">.fancyButton722.fancyButton:link,.fancyButton722.fancyButton:visited, .fancyButton722div.fancyButton{
+	height: 31px;
+	width: 32px;
+	background-image: url('/ImageRepository/Document?documentID=19494');
+	background-repeat: no-repeat;
+	background-position: left top;
+}
+.fancyButton722.fancyButton:hover,.fancyButton722.fancyButton:focus,.fancyButton722.fancyButton:active,.fancyButton722.fancyButton.hover{
+	background-image: url('/ImageRepository/Document?documentID=19493');
+	background-repeat: no-repeat;
+	background-position: center center;
+opacity: 1;
+    -webkit-transition: all 0.3s ease-in-out;
+    -moz-transition: all 0.3s ease-in-out;
+    -o-transition: all 0.3s ease-in-out;
+    transition: all 0.3s ease-in-out;
+}
+}
+.fancyButton722.fancyButton:link > span,.fancyButton722.fancyButton:visited > span, .fancyButton722div.fancyButton > span{
+}
+.fancyButton722.fancyButton:hover > span,.fancyButton722.fancyButton:focus > span,.fancyButton722.fancyButton:active > span,.fancyButton722.fancyButton.hover > span{
+}
+.fancyButton722.fancyButton .text{
+	text-decoration: none;
+	background-repeat: no-repeat;
+	background-position: center center;
+
+opacity:0.0;}
+.fancyButton722.fancyButton:hover .text,.fancyButton722.fancyButton:focus .text,.fancyButton722.fancyButton:active .text,.fancyButton722.fancyButton.hover .text{
+	text-decoration: none;
+	background-repeat: no-repeat;
+	background-position: center center;
+
+
+}
+</style>
+
+ </div><!--
+			--></div>
+	</div>
+	<div class="widgetFooter">
+			</div>
+</div>
+
+</div>
+	</div> <!-- inner column -->
+
+	</div> <!-- inner row -->
+
+			</div><!-- outer column --><!--		--></div> <!-- outer row -->
+
+
+	</div>
+</aside><nav data-cpRole="nav" id="mainNav" class="siteNav mainNav" role="navigation">
+<ol id="mainNavMenu" data-parent="416" class="rootNavMenu" role="menu"><!--
+--><li id="MainItem419" class="topMenuItem" aria-haspopup="true" role="menuitem" data-pageid="419" data-displaymegamenu="True"><!--
+			--><!--
+			--><a id="mainNavChildrenFamilies" class="navMainItem mainNavItem mainNavItem1" href="/419/Children-Families" target="_self">Children &amp; Families</a><!--
+			--><!--
+			--></li><!----><li id="MainItem420" class="topMenuItem" aria-haspopup="true" role="menuitem" data-pageid="420" data-displaymegamenu="True"><!--
+			--><!--
+			--><a id="mainNavAdults" class="navMainItem mainNavItem mainNavItem2" href="/420/Adults" target="_self">Adults</a><!--
+			--><!--
+			--></li><!----><li id="MainItem421" class="topMenuItem" aria-haspopup="true" role="menuitem" data-pageid="421" data-displaymegamenu="True"><!--
+			--><!--
+			--><a id="mainNavOlderAdults" class="navMainItem mainNavItem mainNavItem3" href="/421/Older-Adults" target="_self">Older Adults</a><!--
+			--><!--
+			--></li><!----><li id="MainItem422" class="topMenuItem" aria-haspopup="true" role="menuitem" data-pageid="422" data-displaymegamenu="True"><!--
+			--><!--
+			--><a id="mainNavDepartments" class="navMainItem mainNavItem mainNavItem4" href="/422/Departments" target="_self">Departments</a><!--
+			--><!--
+			--></li><!----><li id="MainItem423" class="topMenuItem" aria-haspopup="true" role="menuitem" data-pageid="423" data-displaymegamenu="True"><!--
+			--><!--
+			--><a id="mainNavHowDoI" class="navMainItem mainNavItem mainNavItem5" href="/423/How-Do-I" target="_self">How Do I?</a><!--
+			--><!--
+			--></li><!---->
+</ol>
+
+
+	<script type="text/javascript">
+		$(document).ready(function () {
+			var menuID = 'mainNavMenu';
+			var menuType = MAIN_MENU;
+
+			//setup menu manager properties for main menu
+			if (!menuManager.mobileMainNav && true)
+				menuManager.adjustMainItemsWidth('#' + menuID);
+			menuManager.isMainMenuEditable = false;
+			menuManager.mainMenuMaxSubMenuLevels = 4;
+			menuManager.setMOMMode(2, menuType);
+
+			//Init main menu
+			var setupDraggable = menuManager.isMainMenuEditable;
+			var urlToGetHiddenMenus = '/Pages/MenuMain/HiddenMainSubMenus?pageID=416&moduleID=&themeID=1&menuContainerID=mainNav';
+
+			menuManager.setupMenu(menuID, 'mainNav', menuType, setupDraggable, urlToGetHiddenMenus);
+			menuManager.mainMenuInit = true;
+			menuManager.mainMenuTextResizer = true;
+			if (0.99 > 0)
+				menuManager.mainMenuTextResizerRatio = 0.99;
+			if (window.isResponsiveEnabled)
+				menuManager.mainMenuReady.resolve();
+
+		});
+	</script>
+
+
+<aside data-cpRole="megaMenu" id="megaMenu" class="megaMenu" style="display: none;"><input type="hidden" id="megaMenuPopupDirection" value="0"><input type="hidden" id="megaMenuWidthReference" value="0"><aside data-cpRole="contentContainer" id="mainNavMegaMenu419" class="contentTop mainNavMegaMenu megaMenuContainer pageID_419 hidden" data-orientation="horizontal">	<div id="cc2fcb6cac-4712-4e79-a1ff-0fd720e681a5" data-containerid="2fcb6cac-4712-4e79-a1ff-0fd720e681a5" class="pageContent cpGrid cpGrid24">
+				                
+
+
+
+	</div>
+</aside><aside data-cpRole="contentContainer" id="mainNavMegaMenu420" class="contentTop mainNavMegaMenu megaMenuContainer pageID_420 hidden" data-orientation="horizontal">	<div id="ccd8d82e08-3132-49e7-8048-d71f7f657688" data-containerid="d8d82e08-3132-49e7-8048-d71f7f657688" class="pageContent cpGrid cpGrid24">
+				                
+
+
+
+	</div>
+</aside><aside data-cpRole="contentContainer" id="mainNavMegaMenu421" class="contentTop mainNavMegaMenu megaMenuContainer pageID_421 hidden" data-orientation="horizontal">	<div id="ccb6a0d51a-67f2-4f86-aa0a-7a5a7b1d428e" data-containerid="b6a0d51a-67f2-4f86-aa0a-7a5a7b1d428e" class="pageContent cpGrid cpGrid24">
+				                
+
+
+
+	</div>
+</aside><aside data-cpRole="contentContainer" id="mainNavMegaMenu422" class="contentTop mainNavMegaMenu megaMenuContainer pageID_422 hidden" data-orientation="horizontal">	<div id="ccc992d7a7-85c1-4201-856a-a26b9e7ddff0" data-containerid="c992d7a7-85c1-4201-856a-a26b9e7ddff0" class="pageContent cpGrid cpGrid24">
+				                
+
+
+
+	</div>
+</aside><aside data-cpRole="contentContainer" id="mainNavMegaMenu423" class="contentTop mainNavMegaMenu megaMenuContainer pageID_423 hidden" data-orientation="horizontal">	<div id="ccaba39c7e-968f-4481-ab98-f4c70935b9c9" data-containerid="aba39c7e-968f-4481-ab98-f4c70935b9c9" class="pageContent cpGrid cpGrid24">
+				                
+
+
+
+	</div>
+</aside></aside></nav></div>
+</div><div data-cpRole="structuralContainer" id="structuralContainer14">
+<div class="siteWrap"><aside data-cpRole="contentContainer" id="contentContainer8">	<div id="cc4b10254f-71c5-4d99-8e02-9839df50212d" data-containerid="4b10254f-71c5-4d99-8e02-9839df50212d" class="pageContent cpGrid cpGrid24 showInMobile">
+				                
+
+
+
+	</div>
+</aside></div>
+</div>
+
+
+
+
+			<div id="banner1-67" style="display: none"></div>
+				<script type="text/javascript">
+					onOrLive($(window), function () {
+							$.when(window.Pages.rwdSetupComplete)
+								.done(function () {
+									renderBanner('banner1-67',
+										'banner1',
+										{"BannerOptionID":67,"ThemeID":1,"SlotName":"banner1","Name":"Default - Health","IsDefault":false,"BannerMode":1,"SlideShowSlideTiming":null,"SlideshowTransition":0,"SlideShowTransitionTiming":null,"ImageScale":false,"ImageAlignment":2,"ImageScroll":true,"MuteSound":true,"VideoType":0,"Status":40,"SlideshowControlsPosition":0,"SlideshowControlsAlignment":0,"SlideshowBannerControlsColorScheme":0,"BannerImages":[{"BannerImageID":90,"BannerOptionID":67,"FileName":"/ImageRepository/Document?documentID=17718","Height":455,"Width":2160,"StartingOn":null,"StoppingOn":null,"IsLink":false,"LinkAddress":null,"Sequence":1,"RecordStatus":0,"ModifiedBy":0,"ModifiedOn":"\/Date(-62135575200000)\/","AltText":null}],"BannerVideos":[],"RecordStatus":0,"ModifiedBy":0,"ModifiedOn":"\/Date(-62135575200000)\/"},
+										{"BannerImageID":90,"BannerOptionID":67,"FileName":"/ImageRepository/Document?documentID=17718","Height":455,"Width":2160,"StartingOn":null,"StoppingOn":null,"IsLink":false,"LinkAddress":null,"Sequence":1,"RecordStatus":0,"ModifiedBy":0,"ModifiedOn":"\/Date(-62135575200000)\/","AltText":null},
+										'/App_Themes/Interior/Images/',
+										'<img alt="" class="bannerObject" src="/ImageRepository/Document?documentID=17718" />');
+								});
+						}, "load");
+				</script>
+
+
+</div><div data-cpRole="structuralContainer" id="structuralContainer6">
+<div class="siteWrap"><div data-cpRole="structuralContainer" id="structuralContainer7" class="mainWrap" role="main">
+<div data-cpRole="structuralContainer" id="structuralContainer8" class="outerContentWrap">
+<div data-cpRole="structuralContainer" id="structuralContainer9" class="contentWrap">
+<div data-cpRole="breadCrumbs" class="breadCrumbContainer" id="breadCrumbs">		<ol class="semanticList breadCrumbs">
+			<li><a class="breadCrumb" href="/">Home</a></li><li><a class="breadCrumb" href="/1940/Departments">Departments</a></li><li><a class="breadCrumb" href="/1138/Departments-E---L">Departments E - L</a></li><li><a class="breadCrumb" href="/416/Health-Human-Services-Agency">Health & Human Services Agency</a></li><li><a class="breadCrumb" href="/422/Departments">Departments</a></li><li><a class="breadCrumb" href="/551/Public-Health">Public Health</a></li><li id="currentBCPage" data-pageid="2924">Coronavirus</li>
+		</ol>
+
+	   
+    
+</div><div data-cpRole="mainContentContainer" id="moduleContent">
+	
+	<div id="page" class="moduleContentNew">
+		
+
+	<input id="hdnPageID" name="hdnPageID" type="hidden" value="2924" />
+	<input id="hdnParentID" name="hdnParentID" type="hidden" value="551" />
+	<input id="hdnVersionID" name="hdnVersionID" type="hidden" value="17063" />
+	<input id="pageMenuTitle" name="pageMenuTitle" type="hidden" value="Coronavirus" />
+	<input id="pageShowFeatureColumn" name="pageShowFeatureColumn" type="hidden" value="False" />
+	<input id="hdnIsLayoutPage" name="hdnIsLayoutPage" type="hidden" value="False" />
+	<input id="hdnPageStatus" name="hdnPageStatus" type="hidden" value="Active" />
+
+				<h1 id="versionHeadLine" class="headline">
+Novel Coronavirus (COVID-19)		</h1>
+			<div id="cc5f8c90dc-b4cb-431b-90ee-10648f8df655" data-containerid="5f8c90dc-b4cb-431b-90ee-10648f8df655" class="pageContent cpGrid cpGrid24"  data-contentcontainerbreakpoint="30" data-smoothscrolling="True">
+			
+
+		<div class="row outer wide"><!--
+--><div class="outer col col24 first last" style="" data-widgetcontainerid="6f387766-cd77-4e8f-a61e-8a557a74fb38">				
+	<div class="row nest first last wide">
+	
+	<div class="inner col col24 first last ide564d60e-e116-4ae4-bea3-f76c6406a9c4" style="" data-widgetcontainerid="e564d60e-e116-4ae4-bea3-f76c6406a9c4">	
+
+
+	<script defer src="/Areas/Layout/Assets/Scripts/CarouselWidget.js" type="text/javascript"></script>
+<section id="divCarouseld95d500c-2891-4ef0-bc9f-4c421f5533fb" data-widgetid="d95d500c-2891-4ef0-bc9f-4c421f5533fb" class="widget widgetCarousel wide" data-transition="fade" data-transitiontiming="1" aria-labelledby="headerd95d500c-2891-4ef0-bc9f-4c421f5533fb" aria-label="Carousel">
+	<div class="widgetBody">
+		<div class="widgetCarousel-container">
+			<div class="widgetCarousel-window">
+				<div class="widgetCarousel-slider">
+
+
+<div class="widgetCarousel-group" data-group="1">
+			<div class="widgetCarousel-item widgetCarousel-item--100 col" style="padding: 0 0.5em;">
+				
+<div class="widget image pageStyles" id="divImageOutera9851772-42ae-414d-93f6-46dbb987aa33" data-widget-id="a9851772-42ae-414d-93f6-46dbb987aa33">
+    
+	<div class="widgetBody imageBorder" id="divImagea9851772-42ae-414d-93f6-46dbb987aa33">				<a href="https://www.mynevadacounty.com/2979/COVID-19-Symptoms" target="_blank"><img src="/ImageRepository/Document?documentID=33995" alt="CorrectedPublicHealth_banner" title="CorrectedPublicHealth_banner"/></a>
+	</div></div>
+
+
+			</div>
+	</div>
+
+
+<div class="widgetCarousel-group" data-group="2">
+			<div class="widgetCarousel-item widgetCarousel-item--100 col" style="padding: 0 0.5em;opacity:0;">
+				
+<div class="widget image pageStyles" id="divImageOuter01f88b4d-1ec1-4077-bb21-12b97354d515" data-widget-id="01f88b4d-1ec1-4077-bb21-12b97354d515">
+    
+	<div class="widgetBody imageBorder" id="divImage01f88b4d-1ec1-4077-bb21-12b97354d515">				<a href="https://www.mynevadacounty.com/1553/Online-eServices-Directory" target="_blank"><img src="/ImageRepository/Document?documentID=33996" alt="e-services banner" title="e-services banner"/></a>
+	</div></div>
+
+
+			</div>
+	</div>
+				</div>
+			</div>	
+				<a href="#" class="arrow next widgetCarousel-next disabled" style="display: none;"><span class="arrowBG"></span>Next<span class="arrowInner"></span></a>
+				<a href="#" class="arrow prev widgetCarousel-previous disabled" style="display: none;"><span class="arrowBG"></span>Previous<span class="arrowInner"></span></a>
+				<ol class="semanticList pager dots" style="display: none;"></ol>
+					<script type="text/javascript">
+						$.when(window.Pages.rwdReady).done(function () {
+							var mediaQuerySize = 25;
+							var carouselWidgetID = 'divCarouseld95d500c-2891-4ef0-bc9f-4c421f5533fb';
+							var $carouselWidget = $('#' + carouselWidgetID);
+							var transition = 'fade';
+							var transitionTiming = 1;
+							var groupAdvance = 'automatically';
+							var groupTiming = 10;
+							var showArrows = true;
+							var showPaging = true;
+							var showDots = true;
+
+							if (mediaQuerySize > 0) {
+								var mediaElementQuery = '#' + carouselWidgetID + ':media(this-min-width:' + mediaQuerySize + 'em)';
+								window.cpMedia.unregister(mediaElementQuery).register(mediaElementQuery, {
+									deferSetup: false,
+									setup: function () {
+										$carouselWidget.addClass('narrow').removeClass('wide');
+										cpMedia.diag('$(element).addClass("narrow"), mediaQuery: ' + mediaElementQuery);
+
+										$carouselWidget.carouselWidget({
+											transition: transition,
+											transitionTiming: transitionTiming,
+											groupAdvance: groupAdvance,
+											groupTiming: groupTiming,
+											showArrows: showArrows,
+											showPaging: showPaging,
+											showDots: showDots,
+											sliderSelector : 'div.widgetCarousel-slider',
+											groupSelector: 'div.widgetCarousel-group',
+											itemsSelector: 'div.widgetCarousel-item'
+										});
+									},
+									match: function () {
+										$carouselWidget.addClass('wide').removeClass('narrow');
+										cpMedia.diag('$(element).removeClass("narrow"), mediaQuery: ' + mediaElementQuery);
+
+										$carouselWidget.carouselWidget('destroy');
+										$carouselWidget.carouselWidget('init', {
+											transition: transition,
+											transitionTiming: transitionTiming,
+											groupAdvance: groupAdvance,
+											groupTiming: groupTiming,
+											showArrows: showArrows,
+											showPaging: showPaging,
+											showDots: showDots,
+											sliderSelector : 'div.widgetCarousel-slider',
+											groupSelector: 'div.widgetCarousel-group',
+											itemsSelector: ''
+										});
+									},
+									unmatch: function () {
+										$carouselWidget.addClass('narrow').removeClass('wide');
+										cpMedia.diag('$(element).addClass("narrow"), mediaQuery: ' + mediaElementQuery);
+
+										$carouselWidget.carouselWidget('destroy');
+										$carouselWidget.carouselWidget('init', {
+											transition: transition,
+											transitionTiming: transitionTiming,
+											groupAdvance: groupAdvance,
+											groupTiming: groupTiming,
+											showArrows: showArrows,
+											showPaging: showPaging,
+											showDots: showDots,
+											sliderSelector : 'div.widgetCarousel-slider',
+											groupSelector: 'div.widgetCarousel-group',
+											itemsSelector: 'div.widgetCarousel-item'
+										});
+									}
+								});
+							}
+						});
+
+					</script>
+		</div>
+	</div>
+</section>	</div> <!-- inner column -->
+
+	</div> <!-- inner row -->
+
+			</div><!-- outer column --><!--		--></div> <!-- outer row -->
+		<div class="row outer wide"><!--
+--><div class="outer col col24 first last" style="" data-widgetcontainerid="e96594fc-76c9-49a2-857e-eea48e7eb302">				
+	<div class="row nest first last wide">
+	
+	<div class="inner col col24 first last idcb2321e2-ef7e-4d67-9a00-0e8f40407b46" style="" data-widgetcontainerid="cb2321e2-ef7e-4d67-9a00-0e8f40407b46">	
+<div class="widget editor pageStyles narrow" id="divEditoreb5c808c-779a-4df8-9986-ad00ceacd6e7" data-elementqueryclasses='{"wide-narrow":"min-width:25em"}'>
+        <div class="fr-view">
+
+
+        <style>	.embed-container {		position: relative;		padding-bottom: 64%;		height: 0;		max-width: 100%;	}		.embed-container iframe,	.embed-container object,	.embed-container iframe {		position: absolute;		top: 0;		left: 0;		width: 100%;		height: 100%;	}		small {		position: absolute;		z-index: 40;		bottom: 0;		margin-bottom: -15px;	}</style><div class="embed-container"><iframe width="850" height="600" frameborder="0" scrolling="no" title="Coronavirus Dashboard" src="https://arcgis.com/apps/opsdashboard/index.html#/6b614a5a9d0d4fcb99ab2a3e6606bd0a" id="ae_iframe_nhyi60we"></iframe></div><table style="width: 100%;"><tbody><tr><td style="width: 50.0000%;"><a aria-label="Link to Coronavirus Dashboard Opens in new window" href="https://arcg.is/1HCXG90" rel="noopener noreferrer" target="_blank">Link to Coronavirus Dashboard</a><br></td><td style="width: 50.0000%;"><a aria-label="Link to mobile Coronavirus Dashboard Opens in new window" href="https://arcg.is/0C8qvn" rel="noopener noreferrer" target="_blank">Link to mobile Coronavirus Dashboard</a><br></td></tr></tbody></table><p><em>Positive tests will include those who have died. <br>Counts will be updated as soon as we have new information.&nbsp;</em></p><h3 class="subhead2" style="text-align: center;" tabindex="-1"><a href="https://www.mynevadacounty.com/DocumentCenter/View/33812/Governors-Order-FAQs---DraftKLE" rel="noopener" target="_blank">FAQs on California&rsquo;s Stay-at-Home Order</a></h3><h3 class="subhead2 " style="text-align: center;"><a href="https://covid19.ca.gov/img/EssentialCriticalInfrastructureWorkers.pdf" rel="noopener noreferrer" target="_blank">California Public Health Essential Critical Infrastructure Workers Guidance<span class="ae-compliance-indent" style="display: none;">&nbsp;PDF Download&nbsp;</span></a></h3><table style="width: 100%;"><tbody><tr><td style="width: 33.3333%;"><a href="https://www.mynevadacounty.com/2969/Shelter-in-Place-Order"><img src="/ImageRepository/Document?documentId=33866" class="fr-fil fr-dib ae-img" alt="Shelter in Place Order"></a></td><td style="width: 33.3333%;"><a href="https://www.mynevadacounty.com/2970/16827/Volunteer?activeLiveTab=widgets"><img src="/ImageRepository/Document?documentId=33867" class="fr-fil fr-dib ae-img" alt="Volunteer"></a></td><td style="width: 33.3333%;"><img src="/ImageRepository/Document?documentId=33868" class="fr-fil fr-dib ae-img" alt="Vulnerable Population"></td></tr></tbody></table><table style="margin-left: calc(0%); width: 100%;"><tbody><tr><td><a href="/2964/About-COVID-19"><img data-fr-image-pasted="true" src="https://www.mynevadacounty.com/ImageRepository/Document?documentId=33778" alt="About COVID-19" class="fr-fic fr-dii ae-img"></a></td><td><a href="https://www.mynevadacounty.com/2933/Coronavirus-en-Espaol"><img data-fr-image-pasted="true" src="https://www.mynevadacounty.com/ImageRepository/Document?documentId=33779" alt="COVID-19 en Espanol" class="fr-fic fr-dii ae-img"></a></td><td><a href="/2962/Guidance-for-the-Community"><img data-fr-image-pasted="true" src="https://www.mynevadacounty.com/ImageRepository/Document?documentId=33780" alt="Guidance for the Community" class="fr-fic fr-dii ae-img"></a></td></tr><tr><td><a href="/2968/Guidance-for-Health-Care-and-First-Respo" rel="noopener" target="_blank"><img data-fr-image-pasted="true" src="https://www.mynevadacounty.com/ImageRepository/Document?documentId=33781" alt="Guidance for Healthcare & First Responders Opens in new window" class="fr-fic fr-dii ae-img"></a></td><td><a href="https://www.mynevadacounty.com/2945/Coronavirus-Guidance-for-Homeless-Provid"><img data-fr-image-pasted="true" src="https://www.mynevadacounty.com/ImageRepository/Document?documentId=33782" alt="Guidance for Homeless Service Providers" class="fr-fic fr-dii ae-img"></a></td><td><a href="https://www.mynevadacounty.com/2956/COVID-19-Cases-in-Nevada-County"><img data-fr-image-pasted="true" src="https://www.mynevadacounty.com/ImageRepository/Document?documentId=33783" alt="COVID-19 Cases in Nevada County" class="fr-fic fr-dii ae-img"></a></td></tr><tr><td><a href="https://www.mynevadacounty.com/2927/Coronavirus-Guidance-for-BusinessesEmplo"><img data-fr-image-pasted="true" src="https://www.mynevadacounty.com/ImageRepository/Document?documentId=33790" alt="Resources for Business" class="fr-fic fr-dii ae-img"></a></td><td><a href="https://www.mynevadacounty.com/2957/News"><img data-fr-image-pasted="true" src="https://www.mynevadacounty.com/ImageRepository/Document?documentId=33785" alt="News" class="fr-fic fr-dii ae-img"></a></td><td><a href="https://www.mynevadacounty.com/2958/Safety-Net-Services"><img data-fr-image-pasted="true" src="https://www.mynevadacounty.com/ImageRepository/Document?documentId=33786" alt="Safety Net Services " class="fr-fic fr-dii ae-img"></a></td></tr><tr><td><a href="https://www.mynevadacounty.com/2959/Accessing-Food"><img data-fr-image-pasted="true" src="https://www.mynevadacounty.com/ImageRepository/Document?documentId=33787" alt="Food" class="fr-fic fr-dii ae-img"></a></td><td><a href="/2960/Stay-Informed"><img data-fr-image-pasted="true" src="https://www.mynevadacounty.com/ImageRepository/Document?documentId=33788" alt="Stay Informed" class="fr-fic fr-dii ae-img"></a></td><td><a href="https://www.mynevadacounty.com/2961/Questions"><img data-fr-image-pasted="true" src="https://www.mynevadacounty.com/ImageRepository/Document?documentId=33789" alt="Questions" class="fr-fic fr-dii ae-img"></a></td></tr></tbody></table>
+    </div>
+
+<script type="text/javascript">
+	$(document).ready(function (e) {		
+	    renderSlideshowIfApplicable($('#divEditor' + 'eb5c808c-779a-4df8-9986-ad00ceacd6e7'));
+	});
+</script>
+</div>
+	</div> <!-- inner column -->
+
+	</div> <!-- inner row -->
+
+			</div><!-- outer column --><!--		--></div> <!-- outer row -->
+		<div class="row outer wide"><!--
+--><div class="outer col col24 first last" style="" data-widgetcontainerid="b278384c-7e6f-45c7-8b35-67114441106b">				
+	<div class="row nest first last wide">
+	
+	<div class="inner col col24 first last id1bf89a6d-f6f9-43b0-af4d-54eb1e0f9451" style="" data-widgetcontainerid="1bf89a6d-f6f9-43b0-af4d-54eb1e0f9451">	
+<div class="widget editor pageStyles narrow" id="divEditor01876b40-b87a-45d8-9fcd-c9eeebb975df" data-elementqueryclasses='{"wide-narrow":"min-width:25em"}'>
+        <div class="fr-view">
+
+
+        <h2 class="subhead1 ">Questions? Call 2-1-1</h2><p>To respond to community questions, Public Health has activated a Call Center with Connecting Point. <strong>Dial 2-1-1 or 1-833-DIAL211 (833-342-5211)</strong> to talk with a call center representative about any non-emergency and non-medical inquiries.</p>
+    </div>
+
+<script type="text/javascript">
+	$(document).ready(function (e) {		
+	    renderSlideshowIfApplicable($('#divEditor' + '01876b40-b87a-45d8-9fcd-c9eeebb975df'));
+	});
+</script>
+</div>
+	</div> <!-- inner column -->
+
+	</div> <!-- inner row -->
+
+			</div><!-- outer column --><!--		--></div> <!-- outer row -->
+		<div class="row outer wide"><!--
+--><div class="outer col col24 first last" style="" data-widgetcontainerid="d01ae985-c8f0-4a70-8b87-1ba3b8f3ea5e">				
+	<div class="row nest first last wide">
+	
+	<div class="inner col col24 first last id72de8d3d-928e-4741-89c2-c7a7e203654d" style="" data-widgetcontainerid="72de8d3d-928e-4741-89c2-c7a7e203654d">	
+
+
+	<script defer src="/Areas/Layout/Assets/Scripts/CarouselWidget.js" type="text/javascript"></script>
+<section id="divCarousel8fa22106-35f6-4f45-be4d-073b6e6197a3" data-widgetid="8fa22106-35f6-4f45-be4d-073b6e6197a3" class="widget widgetCarousel wide" data-transition="fade" data-transitiontiming="1" aria-labelledby="header8fa22106-35f6-4f45-be4d-073b6e6197a3" aria-label="Carousel">
+		<header class="widgetHeader" id="header8fa22106-35f6-4f45-be4d-073b6e6197a3">
+			<div>
+				<h3  data-headertext="Local, State and Federal Resources">Local, State and Federal Resources</h3>
+			</div>
+		</header>
+	<div class="widgetBody">
+		<div class="widgetCarousel-container">
+			<div class="widgetCarousel-window">
+				<div class="widgetCarousel-slider">
+
+
+<div class="widgetCarousel-group" data-group="1">
+			<div class="widgetCarousel-item widgetCarousel-item--100 col" style="padding: 0 0.5em;">
+				
+<div class="widget editor pageStyles narrow" id="divEditor59291bdf-1e9c-49e7-857c-fd63111c00f5" data-elementqueryclasses='{"wide-narrow":"min-width:25em"}'>
+        <div class="fr-view">
+
+
+        <h3 aria-level="2" class="subhead2 " role="heading">Local Resources</h3><ul><li><a aria-describedby="audioeye_new_window_message" aria-label="Nevada County FAQs on California Stay-at-Home Order Opens in new window" href="https://www.mynevadacounty.com/DocumentCenter/View/33812/Governors-Order-FAQs---DraftKLE" rel="noopener noreferrer" target="_blank">Nevada County FAQs on California Stay-at-Home Order</a></li><li><a aria-describedby="audioeye_new_window_message" aria-label="Board Resolution 20-101: Limitations on Residential and Commercial Evictions and Judicial Foreclosures, through May 31, 2020 Opens in new window" href="https://nevco.legistar.com/View.ashx?M=F&ID=8221843&GUID=4A01C076-D04D-4FCB-A9E9-DE1C8D9B5B9C" rel="noopener noreferrer" target="_blank">Board Resolution 20-101: Limitations on Residential and Commercial Evictions and Judicial Foreclosures, through May 31, 2020</a></li><li><a aria-describedby="audioeye_new_window_message" aria-label='Nevada County Public Health Order: Clarifies "Stay-at-Home" for Short-term Rentals Opens in new window' href="https://www.mynevadacounty.com/CivicAlerts.aspx?AID=2856" rel="noopener noreferrer" target="_blank">Nevada County Public Health Order: Clarifies &quot;Stay-at-Home&quot; for Short-term Rentals</a></li><li><a aria-describedby="audioeye_new_window_message" aria-label="Board Resolution 20-063 and 20-062: Declaration of Local Health Emergency to Increase Coronavirus Response Resources Opens in new window" href="https://www.mynevadacounty.com/CivicAlerts.aspx?AID=2801" rel="noopener noreferrer" target="_blank">Board Resolution 20-063 and 20-062: Declaration of Local Health Emergency to Increase Coronavirus Response Resources</a></li></ul>
+    </div>
+
+<script type="text/javascript">
+	$(document).ready(function (e) {		
+	    renderSlideshowIfApplicable($('#divEditor' + '59291bdf-1e9c-49e7-857c-fd63111c00f5'));
+	});
+</script>
+</div>
+
+			</div>
+	</div>
+
+
+<div class="widgetCarousel-group" data-group="2">
+			<div class="widgetCarousel-item widgetCarousel-item--50 col" style="padding: 0 0.5em;opacity:0;">
+				
+<div class="widget editor pageStyles narrow" id="divEditor6169ebe3-de4f-4113-8afb-efd3ae0bf6f3" data-elementqueryclasses='{"wide-narrow":"min-width:25em"}'>
+        <div class="fr-view">
+
+
+        <h3 aria-level="2" class="subhead2 " role="heading">State Resources</h3><header role="presentation"><ul><li><nav><a aria-describedby="audioeye_new_window_message" aria-label="COVID19.ca.gov: California Coronavirus (COVID-19) Response Opens in new window" href="https://covid19.ca.gov/" rel="noopener noreferrer" target="_blank">COVID19.ca.gov: California Coronavirus (COVID-19) Response</a></nav></li><li><nav><a aria-describedby="audioeye_new_window_message" aria-label="California Department of Public Health (CDPH) COVID-19 Updates Opens in new window" href="https://www.cdph.ca.gov/Programs/CID/DCDC/Pages/Immunization/ncov2019.aspx" rel="noopener noreferrer" target="_blank">California Department of Public Health (CDPH) COVID-19 Updates</a></nav></li><li><nav><a aria-describedby="audioeye_new_window_message audioeye_pdf_message" aria-label="California Public Health Essential Critical Infrastructure Workers Guidance Opens in new window" href="https://covid19.ca.gov/img/EssentialCriticalInfrastructureWorkers.pdf" rel="noopener noreferrer" target="_blank">California Public Health Essential Critical Infrastructure Workers Guidance</a></nav></li></ul></header>
+    </div>
+
+<script type="text/javascript">
+	$(document).ready(function (e) {		
+	    renderSlideshowIfApplicable($('#divEditor' + '6169ebe3-de4f-4113-8afb-efd3ae0bf6f3'));
+	});
+</script>
+</div>
+
+			</div>
+			<div class="widgetCarousel-item widgetCarousel-item--50 col" style="padding: 0 0.5em;opacity:0;">
+				
+<div class="widget editor pageStyles narrow" id="divEditor1f67c786-ff0c-41cc-a740-13309bb6786e" data-elementqueryclasses='{"wide-narrow":"min-width:25em"}'>
+        <div class="fr-view">
+
+
+        <h3 aria-level="2" class="subhead2 " role="heading">Federal Resources</h3><ul><li><a aria-describedby="audioeye_new_window_message" aria-label="Coronavirus.gov: US Coronavirus (COVID-19) Task Force Response Opens in new window" href="https://coronavirus.gov/" rel="noopener noreferrer" target="_blank">Coronavirus.gov: US Coronavirus (COVID-19) Task Force Response</a></li><li><a aria-describedby="audioeye_new_window_message" aria-label="CDC Coronavirus Website Opens in new window" href="https://www.cdc.gov/coronavirus/2019-ncov/index.html?CDC_AA_refVal=https%3A%2F%2Fwww.cdc.gov%2Fcoronavirus%2Findex.html" rel="noopener noreferrer" target="_blank">CDC Coronavirus Website</a></li><li><a aria-describedby="audioeye_new_window_message" href="https://www.fema.gov/Coronavirus-Rumor-Control" rel="noopener noreferrer" target="_blank">FEMA Coronavirus Rumor Control</a></li></ul>
+    </div>
+
+<script type="text/javascript">
+	$(document).ready(function (e) {		
+	    renderSlideshowIfApplicable($('#divEditor' + '1f67c786-ff0c-41cc-a740-13309bb6786e'));
+	});
+</script>
+</div>
+
+			</div>
+	</div>
+				</div>
+			</div>	
+				<a href="#" class="arrow next widgetCarousel-next disabled" style="display: none;"><span class="arrowBG"></span>Next<span class="arrowInner"></span></a>
+				<a href="#" class="arrow prev widgetCarousel-previous disabled" style="display: none;"><span class="arrowBG"></span>Previous<span class="arrowInner"></span></a>
+				<ol class="semanticList pager dots" style="display: none;"></ol>
+					<script type="text/javascript">
+						$.when(window.Pages.rwdReady).done(function () {
+							var mediaQuerySize = 25;
+							var carouselWidgetID = 'divCarousel8fa22106-35f6-4f45-be4d-073b6e6197a3';
+							var $carouselWidget = $('#' + carouselWidgetID);
+							var transition = 'fade';
+							var transitionTiming = 1;
+							var groupAdvance = 'manually';
+							var groupTiming = 5;
+							var showArrows = true;
+							var showPaging = true;
+							var showDots = true;
+
+							if (mediaQuerySize > 0) {
+								var mediaElementQuery = '#' + carouselWidgetID + ':media(this-min-width:' + mediaQuerySize + 'em)';
+								window.cpMedia.unregister(mediaElementQuery).register(mediaElementQuery, {
+									deferSetup: false,
+									setup: function () {
+										$carouselWidget.addClass('narrow').removeClass('wide');
+										cpMedia.diag('$(element).addClass("narrow"), mediaQuery: ' + mediaElementQuery);
+
+										$carouselWidget.carouselWidget({
+											transition: transition,
+											transitionTiming: transitionTiming,
+											groupAdvance: groupAdvance,
+											groupTiming: groupTiming,
+											showArrows: showArrows,
+											showPaging: showPaging,
+											showDots: showDots,
+											sliderSelector : 'div.widgetCarousel-slider',
+											groupSelector: 'div.widgetCarousel-group',
+											itemsSelector: 'div.widgetCarousel-item'
+										});
+									},
+									match: function () {
+										$carouselWidget.addClass('wide').removeClass('narrow');
+										cpMedia.diag('$(element).removeClass("narrow"), mediaQuery: ' + mediaElementQuery);
+
+										$carouselWidget.carouselWidget('destroy');
+										$carouselWidget.carouselWidget('init', {
+											transition: transition,
+											transitionTiming: transitionTiming,
+											groupAdvance: groupAdvance,
+											groupTiming: groupTiming,
+											showArrows: showArrows,
+											showPaging: showPaging,
+											showDots: showDots,
+											sliderSelector : 'div.widgetCarousel-slider',
+											groupSelector: 'div.widgetCarousel-group',
+											itemsSelector: ''
+										});
+									},
+									unmatch: function () {
+										$carouselWidget.addClass('narrow').removeClass('wide');
+										cpMedia.diag('$(element).addClass("narrow"), mediaQuery: ' + mediaElementQuery);
+
+										$carouselWidget.carouselWidget('destroy');
+										$carouselWidget.carouselWidget('init', {
+											transition: transition,
+											transitionTiming: transitionTiming,
+											groupAdvance: groupAdvance,
+											groupTiming: groupTiming,
+											showArrows: showArrows,
+											showPaging: showPaging,
+											showDots: showDots,
+											sliderSelector : 'div.widgetCarousel-slider',
+											groupSelector: 'div.widgetCarousel-group',
+											itemsSelector: 'div.widgetCarousel-item'
+										});
+									}
+								});
+							}
+						});
+
+					</script>
+		</div>
+	</div>
+</section>	</div> <!-- inner column -->
+
+	</div> <!-- inner row -->
+
+			</div><!-- outer column --><!--		--></div> <!-- outer row -->
+		<div class="row outer wide"><!--
+--><div class="outer col col24 first last" style="" data-widgetcontainerid="e61514f7-a23d-443c-97e9-d8eae26fd431">				
+	<div class="row nest first last wide">
+	
+	<div class="inner col col24 first last id84d001ee-530a-4d0b-8b22-2d2f7a82a0d6" style="" data-widgetcontainerid="84d001ee-530a-4d0b-8b22-2d2f7a82a0d6">	
+<div data-widget-id="a793cd9a-96cd-4034-9514-2be03dfefaf0" data-widget-controller-path="/NewsFlash/Widget">
+	<script defer src="/Areas/NewsFlash/Assets/Scripts/Carousel.jquery.js" type="text/javascript"></script>
+	<script defer src="/Areas/NewsFlash/Assets/Scripts/Easing.1.3.jquery.js" type="text/javascript"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+	<style scoped type="text/css">.widgetOptionSet29 .text {
+background-color:#ffffff;
+padding:2em 1em;
+margin-top:-10px;}</style>
+
+
+	<section class="widget widgetNewsFlash skin43 widgetOptionSet29 wide" data-modulewidgettype="newsFlash" id="widgetNewsFlasha793cd9a-96cd-4034-9514-2be03dfefaf0" data-elementqueryclasses='{"wide-narrow":"min-width:25em"}' data-elementquerymatch='matchMultiColumn' data-elementqueryunmatch='unmatchMultiColumn' aria-labelledby="newsFlashHeadera793cd9a-96cd-4034-9514-2be03dfefaf0">
+				<header class="widgetHeader" id="newsFlashHeadera793cd9a-96cd-4034-9514-2be03dfefaf0">
+			<div class="">
+						<h3><a  style="" href="/CivicAlerts.aspx?CID=41" >Nevada County Coronavirus News</a></h3>
+											</div>
+		</header>
+	<div class="widgetBody cpGrid cpGrid1 ">
+
+
+
+
+<div class="cpCarousel cpCarousela793cd9a-96cd-4034-9514-2be03dfefaf0">
+	<div class="cpWindow cpWindowa793cd9a-96cd-4034-9514-2be03dfefaf0">
+		<ol class="semanticList cpSlider">
+					<li class="widgetItem" data-index="0">
+								<a href="/CivicAlerts.aspx?AID=2879"><img class="media" src="/ImageRepository/Document?documentID=33966" alt="Coronavirus NewsFlash Template (7)" data-delayed-image=""/></a>
+						<div class="text">
+								<h4 id="newsFlashItemHeader2879" class="widgetTitle"><a href="/CivicAlerts.aspx?AID=2879">Nevada County Public Health Officer Issues Self Isolation and Quarantine for COVID-19 </a></h4>
+	<div class="widgetDesc">
+In an effort to slow the spread of COVID-19 and to protect vulnerable individuals and to help prevent the local healthcare system from being overwhelmed, the Nevada County Health Officer, Dr. Ken Cutler, has issued two new separate, but related orders.				<a id="newsFlashReadOn2879" href="/CivicAlerts.aspx?AID=2879" class="readOn" aria-labelledby="newsFlashItemHeader2879 newsFlashReadOn2879">Read on...</a>            
+	</div>
+
+						</div>
+					</li>
+					<li class="widgetItem" data-index="1">
+								<a href="/CivicAlerts.aspx?AID=2878"><img class="media" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-delay-load="/ImageRepository/Document?documentID=33939" alt="Coronavirus NewsFlash Template (6)" data-delayed-image=""/></a>
+						<div class="text">
+								<h4 id="newsFlashItemHeader2878" class="widgetTitle"><a href="/CivicAlerts.aspx?AID=2878">Nevada County Public Health Reports the First COVID-19 Related Death </a></h4>
+	<div class="widgetDesc">
+Nevada County Public Health is reporting the first Nevada County death related to the COVID-19 pandemic.  For additional information on the Stay-at-Home Order and recommendations, please visit www.mynevadacounty.com/coronavirus.				<a id="newsFlashReadOn2878" href="/CivicAlerts.aspx?AID=2878" class="readOn" aria-labelledby="newsFlashItemHeader2878 newsFlashReadOn2878">Read on...</a>            
+	</div>
+
+						</div>
+					</li>
+					<li class="widgetItem" data-index="2">
+								<a href="/CivicAlerts.aspx?AID=2872"><img class="media" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-delay-load="/ImageRepository/Document?documentID=33928" alt="StayHome_Sq-1" data-delayed-image=""/></a>
+						<div class="text">
+								<h4 id="newsFlashItemHeader2872" class="widgetTitle"><a href="/CivicAlerts.aspx?AID=2872">Stay Home & Save Lives from COVID-19 </a></h4>
+	<div class="widgetDesc">
+Nevada County Public Health needs your help in combating coronavirus in our community. At this critical time, you can make an important contribution to the battle against COVID-19 by sheltering in place.				<a id="newsFlashReadOn2872" href="/CivicAlerts.aspx?AID=2872" class="readOn" aria-labelledby="newsFlashItemHeader2872 newsFlashReadOn2872">Read on...</a>            
+	</div>
+
+						</div>
+					</li>
+					<li class="widgetItem" data-index="3">
+								<a href="/CivicAlerts.aspx?AID=2869"><img class="media" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-delay-load="/ImageRepository/Document?documentID=33912" alt="Gold Country Service Alert" data-delayed-image=""/></a>
+						<div class="text">
+								<h4 id="newsFlashItemHeader2869" class="widgetTitle"><a href="/CivicAlerts.aspx?AID=2869">Gold Country Stage & Lift Service Alert </a></h4>
+	<div class="widgetDesc">
+Due to issues surrounding COVID-19 including a 60 percent decrease in ridership, Gold Country Stage and Gold Country Lift will begin operating on a reduced service schedule.				<a id="newsFlashReadOn2869" href="/CivicAlerts.aspx?AID=2869" class="readOn" aria-labelledby="newsFlashItemHeader2869 newsFlashReadOn2869">Read on...</a>            
+	</div>
+
+						</div>
+					</li>
+					<li class="widgetItem" data-index="4">
+								<a href="/CivicAlerts.aspx?AID=2866"><img class="media" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-delay-load="/ImageRepository/Document?documentID=33898" alt="CARES ACT " data-delayed-image=""/></a>
+						<div class="text">
+								<h4 id="newsFlashItemHeader2866" class="widgetTitle"><a href="/CivicAlerts.aspx?AID=2866">Coronavirus Aid, Relief, and Economic Security (CARES) Act Frequently Asked Questions </a></h4>
+	<div class="widgetDesc">
+The Coronavirus Aid, Relief, and Economic Security (CARES) Act passed on Friday, March 27. The state of California issued a comprehensive Frequently Asked Questions document to help make sense of the new relief legislation.				<a id="newsFlashReadOn2866" href="/CivicAlerts.aspx?AID=2866" class="readOn" aria-labelledby="newsFlashItemHeader2866 newsFlashReadOn2866">Read on...</a>            
+	</div>
+
+						</div>
+					</li>
+					<li class="widgetItem" data-index="5">
+								<a href="/CivicAlerts.aspx?AID=2862"><img class="media" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-delay-load="/ImageRepository/Document?documentID=33885" alt="State Park Press Release" data-delayed-image=""/></a>
+						<div class="text">
+								<h4 id="newsFlashItemHeader2862" class="widgetTitle"><a href="/CivicAlerts.aspx?AID=2862">California State Parks Takes Additional Steps to Help Slow Down the Spread of COVID-19 </a></h4>
+	<div class="widgetDesc">
+California State Parks is temporarily closing vehicle access to 59 additional state parks and beaches to avoid dangerous visitation surges and help prevent the spread of coronavirus (COVID-19).				<a id="newsFlashReadOn2862" href="/CivicAlerts.aspx?AID=2862" class="readOn" aria-labelledby="newsFlashItemHeader2862 newsFlashReadOn2862">Read on...</a>            
+	</div>
+
+						</div>
+					</li>
+					<li class="widgetItem" data-index="6">
+								<a href="/CivicAlerts.aspx?AID=2864"><img class="media" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-delay-load="/ImageRepository/Document?documentID=33886" alt="Emergency Economic Response_NewsFlash" data-delayed-image=""/></a>
+						<div class="text">
+								<h4 id="newsFlashItemHeader2864" class="widgetTitle"><a href="/CivicAlerts.aspx?AID=2864">Supervisors Launch Nevada County COVID-19 Business Task Force </a></h4>
+	<div class="widgetDesc">
+Last Friday, over seventy-five business and nonprofit leaders participated in a kick-off video call to launch the “Nevada County COVID-19 Business Task Force,” co-chaired by Board Chair Heidi Hall and Vice Chair Dan Miller.				<a id="newsFlashReadOn2864" href="/CivicAlerts.aspx?AID=2864" class="readOn" aria-labelledby="newsFlashItemHeader2864 newsFlashReadOn2864">Read on...</a>            
+	</div>
+
+						</div>
+					</li>
+					<li class="widgetItem" data-index="7">
+								<a href="/CivicAlerts.aspx?AID=2859"><img class="media" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-delay-load="/ImageRepository/Document?documentID=33860" alt="Interfaith Food Ministry_Volunteers Needed" data-delayed-image=""/></a>
+						<div class="text">
+								<h4 id="newsFlashItemHeader2859" class="widgetTitle"><a href="/CivicAlerts.aspx?AID=2859">Interfaith Food Ministry Urgently Needs Volunteers </a></h4>
+	<div class="widgetDesc">
+Interfaith Food Ministry is currently experiencing a shortage of volunteers due to the statewide Order to Stay at Home.				<a id="newsFlashReadOn2859" href="/CivicAlerts.aspx?AID=2859" class="readOn" aria-labelledby="newsFlashItemHeader2859 newsFlashReadOn2859">Read on...</a>            
+	</div>
+
+						</div>
+					</li>
+					<li class="widgetItem" data-index="8">
+								<a href="/CivicAlerts.aspx?AID=2858"><img class="media" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-delay-load="/ImageRepository/Document?documentID=33851" alt="WIC Card" data-delayed-image=""/></a>
+						<div class="text">
+								<h4 id="newsFlashItemHeader2858" class="widgetTitle"><a href="/CivicAlerts.aspx?AID=2858">All WIC Services are Available by Phone or Video Chat </a></h4>
+	<div class="widgetDesc">
+All WIC services are available by phone or video chat. Community members should call their local clinic to enroll or certify, obtain future food benefits, reschedule, get breastfeeding help, or to get questions answered.				<a id="newsFlashReadOn2858" href="/CivicAlerts.aspx?AID=2858" class="readOn" aria-labelledby="newsFlashItemHeader2858 newsFlashReadOn2858">Read on...</a>            
+	</div>
+
+						</div>
+					</li>
+					<li class="widgetItem" data-index="9">
+								<a href="/CivicAlerts.aspx?AID=2857"><img class="media" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-delay-load="/ImageRepository/Document?documentID=33847" alt="Coronavirus NewsFlash Template (5)" data-delayed-image=""/></a>
+						<div class="text">
+								<h4 id="newsFlashItemHeader2857" class="widgetTitle"><a href="/CivicAlerts.aspx?AID=2857">Nevada County Public Health Reports Fourth Person with Confirmed COVID-19 </a></h4>
+	<div class="widgetDesc">
+The person who was diagnosed is an adult who resides in Eastern Nevada County, and self-isolated while symptomatic.  California’s Stay-At-Home Order is more important than ever to help protect the community.				<a id="newsFlashReadOn2857" href="/CivicAlerts.aspx?AID=2857" class="readOn" aria-labelledby="newsFlashItemHeader2857 newsFlashReadOn2857">Read on...</a>            
+	</div>
+
+						</div>
+					</li>
+					<li class="widgetItem" data-index="10">
+								<a href="/CivicAlerts.aspx?AID=2856"><img class="media" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-delay-load="/ImageRepository/Document?documentID=33846" alt="3-24-2020 Public Health" data-delayed-image=""/></a>
+						<div class="text">
+								<h4 id="newsFlashItemHeader2856" class="widgetTitle"><a href="/CivicAlerts.aspx?AID=2856">Nevada County Public Health Clarifies "Stay-at-Home" for Short-term Rentals </a></h4>
+	<div class="widgetDesc">
+Nevada County Health Officer, Dr. Ken Cutler, has issued a local Order to clarify that short-term lodging should not be used to house people for non-essential needs such as short-term vacation rentals, including hotels, motels, and condominiums.				<a id="newsFlashReadOn2856" href="/CivicAlerts.aspx?AID=2856" class="readOn" aria-labelledby="newsFlashItemHeader2856 newsFlashReadOn2856">Read on...</a>            
+	</div>
+
+						</div>
+					</li>
+					<li class="widgetItem" data-index="11">
+								<a href="/CivicAlerts.aspx?AID=2852"><img class="media" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-delay-load="/ImageRepository/Document?documentID=33831" alt="Coronavirus NewsFlash Template (4)" data-delayed-image=""/></a>
+						<div class="text">
+								<h4 id="newsFlashItemHeader2852" class="widgetTitle"><a href="/CivicAlerts.aspx?AID=2852">Nevada County Public Health Reports Third Person with Confirmed COVID-19 </a></h4>
+	<div class="widgetDesc">
+The adult, who resides in Western Nevada County, recently traveled outside the country. At this time, it appears COVID-19 was acquired during international travel. California’s Stay-At-Home Order is more important than ever to help protect the community.				<a id="newsFlashReadOn2852" href="/CivicAlerts.aspx?AID=2852" class="readOn" aria-labelledby="newsFlashItemHeader2852 newsFlashReadOn2852">Read on...</a>            
+	</div>
+
+						</div>
+					</li>
+					<li class="widgetItem" data-index="12">
+								<a href="/CivicAlerts.aspx?AID=2847"><img class="media" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-delay-load="/ImageRepository/Document?documentID=33830" alt="NewsFlash - CodeRED Shelter in Place Notice" data-delayed-image=""/></a>
+						<div class="text">
+								<h4 id="newsFlashItemHeader2847" class="widgetTitle"><a href="/CivicAlerts.aspx?AID=2847">CodeRED Alert on Requirements of California’s Stay at Home Order on Tuesday Morning, March 24th </a></h4>
+	<div class="widgetDesc">
+A CodeRED Alert will go to all Nevada County residents on Tuesday morning, March 24th, to inform everyone about the requirements of California's Stay at Home Order. Those subscribed to CodeRED will receive notifications staggered throughout the morning.				<a id="newsFlashReadOn2847" href="/CivicAlerts.aspx?AID=2847" class="readOn" aria-labelledby="newsFlashItemHeader2847 newsFlashReadOn2847">Read on...</a>            
+	</div>
+
+						</div>
+					</li>
+					<li class="widgetItem" data-index="13">
+								<a href="/CivicAlerts.aspx?AID=2841"><img class="media" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-delay-load="/ImageRepository/Document?documentID=33827" alt="Coronavirus NewsFlash - 2nd Confirmed Case" data-delayed-image=""/></a>
+						<div class="text">
+								<h4 id="newsFlashItemHeader2841" class="widgetTitle"><a href="/CivicAlerts.aspx?AID=2841">Nevada County Public Health Reports Second Person with Confirmed COVID-19 </a></h4>
+	<div class="widgetDesc">
+This case appears to be a community transmission case. Community transmission is occurring in many parts of California and ­only reinforces the need for social distancing and California’s Stay-At-Home Order.				<a id="newsFlashReadOn2841" href="/CivicAlerts.aspx?AID=2841" class="readOn" aria-labelledby="newsFlashItemHeader2841 newsFlashReadOn2841">Read on...</a>            
+	</div>
+
+						</div>
+					</li>
+					<li class="widgetItem" data-index="14">
+								<a href="/CivicAlerts.aspx?AID=2840"><img class="media" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-delay-load="/ImageRepository/Document?documentID=20254" alt="BOS NewsFlash" data-delayed-image=""/></a>
+						<div class="text">
+								<h4 id="newsFlashItemHeader2840" class="widgetTitle"><a href="/CivicAlerts.aspx?AID=2840">Nevada County’s Public Meeting Protocol in Response to Coronavirus COVID-19 </a></h4>
+	<div class="widgetDesc">
+Nevada County will continue to convene its regularly scheduled public meetings of the Board of Supervisors. The Board Supervisors will attend meetings remotely and will participate in the meeting to the same extent as if they were present.				<a id="newsFlashReadOn2840" href="/CivicAlerts.aspx?AID=2840" class="readOn" aria-labelledby="newsFlashItemHeader2840 newsFlashReadOn2840">Read on...</a>            
+	</div>
+
+						</div>
+					</li>
+					<li class="widgetItem" data-index="15">
+								<a href="/CivicAlerts.aspx?AID=2839"><img class="media" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-delay-load="/ImageRepository/Document?documentID=33765" alt="Coronavirus NewsFlash Template (2)" data-delayed-image=""/></a>
+						<div class="text">
+								<h4 id="newsFlashItemHeader2839" class="widgetTitle"><a href="/CivicAlerts.aspx?AID=2839">Nevada County Limits Public Counter Services and Temporarily Close Buildings Starting March 19th </a></h4>
+	<div class="widgetDesc">
+To protect the community and slow the spread of COVID-19, the County of Nevada is temporarily closing County facilities to the public beginning Thursday, March 19th.				<a id="newsFlashReadOn2839" href="/CivicAlerts.aspx?AID=2839" class="readOn" aria-labelledby="newsFlashItemHeader2839 newsFlashReadOn2839">Read on...</a>            
+	</div>
+
+						</div>
+					</li>
+					<li class="widgetItem" data-index="16">
+								<a href="/CivicAlerts.aspx?AID=2827"><img class="media" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-delay-load="/ImageRepository/Document?documentID=32601" alt="Wash Hands_NewsFlash" data-delayed-image=""/></a>
+						<div class="text">
+								<h4 id="newsFlashItemHeader2827" class="widgetTitle"><a href="/CivicAlerts.aspx?AID=2827">Nevada County Public Health Reports First Confirmed Case of COVID-19 </a></h4>
+	<div class="widgetDesc">
+Nevada County is announcing its first laboratory confirmed case of COVID-19, the disease caused by the novel coronavirus. The person is an adult, resides in Eastern County, and has been isolated at home.				<a id="newsFlashReadOn2827" href="/CivicAlerts.aspx?AID=2827" class="readOn" aria-labelledby="newsFlashItemHeader2827 newsFlashReadOn2827">Read on...</a>            
+	</div>
+
+						</div>
+					</li>
+					<li class="widgetItem" data-index="17">
+								<a href="/CivicAlerts.aspx?AID=2825"><img class="media" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-delay-load="/ImageRepository/Document?documentID=21316" alt="Library Logo NewsFlash" data-delayed-image=""/></a>
+						<div class="text">
+								<h4 id="newsFlashItemHeader2825" class="widgetTitle"><a href="/CivicAlerts.aspx?AID=2825">All Nevada County Libraries Temporarily Closed through April 12, 2020 </a></h4>
+	<div class="widgetDesc">
+Beginning March 16th, all Nevada County Library locations will be closed to the public through April 12th in an effort to slow the spread of coronavirus in our community. Various programs are being developed into virtual formats to be accessed from home.				<a id="newsFlashReadOn2825" href="/CivicAlerts.aspx?AID=2825" class="readOn" aria-labelledby="newsFlashItemHeader2825 newsFlashReadOn2825">Nevada County Library&#39;s Open except...</a>            
+	</div>
+
+						</div>
+					</li>
+					<li class="widgetItem" data-index="18">
+								<a href="/CivicAlerts.aspx?AID=2812"><img class="media" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-delay-load="/ImageRepository/Document?documentID=32601" alt="Wash Hands_NewsFlash" data-delayed-image=""/></a>
+						<div class="text">
+								<h4 id="newsFlashItemHeader2812" class="widgetTitle"><a href="/CivicAlerts.aspx?AID=2812">Nevada County Public Health Confirms 10 Persons Under Investigation for COVID-19 </a></h4>
+	<div class="widgetDesc">
+Nevada County has had ten persons under investigation for coronavirus, nine of whom have tested negative for COVID-19.  The one that is currently under investigation is being tested, and there are still no confirmed cases of coronavirus in Nevada County.				<a id="newsFlashReadOn2812" href="/CivicAlerts.aspx?AID=2812" class="readOn" aria-labelledby="newsFlashItemHeader2812 newsFlashReadOn2812">Read on...</a>            
+	</div>
+
+						</div>
+					</li>
+					<li class="widgetItem" data-index="19">
+								<a href="/CivicAlerts.aspx?AID=2801"><img class="media" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-delay-load="/ImageRepository/Document?documentID=32601" alt="Wash Hands_NewsFlash" data-delayed-image=""/></a>
+						<div class="text">
+								<h4 id="newsFlashItemHeader2801" class="widgetTitle"><a href="/CivicAlerts.aspx?AID=2801">Nevada County Declares Local Health Emergency to Increase Coronavirus Response Resources </a></h4>
+	<div class="widgetDesc">
+Nevada County is declaring a local health emergency and local emergency in response to the emerging, rapidly evolving situation and increasing spread of novel coronavirus and COVID-19. There are no known cases of coronavirus in Nevada County currently.				<a id="newsFlashReadOn2801" href="/CivicAlerts.aspx?AID=2801" class="readOn" aria-labelledby="newsFlashItemHeader2801 newsFlashReadOn2801">Read on...</a>            
+	</div>
+
+						</div>
+					</li>
+					<li class="widgetItem" data-index="20">
+								<a href="/CivicAlerts.aspx?AID=2794"><img class="media" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-delay-load="/ImageRepository/Document?documentID=32601" alt="Wash Hands_NewsFlash" data-delayed-image=""/></a>
+						<div class="text">
+								<h4 id="newsFlashItemHeader2794" class="widgetTitle"><a href="/CivicAlerts.aspx?AID=2794">3/1 Update: Still No Cases of Coronavirus in Nevada County </a></h4>
+	<div class="widgetDesc">
+There are no known cases of coronavirus in Nevada County currently. Local health care providers are partnering closely with Nevada County Public Health to be able to quickly respond if a possible coronavirus case were to happen here.				<a id="newsFlashReadOn2794" href="/CivicAlerts.aspx?AID=2794" class="readOn" aria-labelledby="newsFlashItemHeader2794 newsFlashReadOn2794">Read on...</a>            
+	</div>
+
+						</div>
+					</li>
+					<li class="widgetItem" data-index="21">
+								<a href="/CivicAlerts.aspx?AID=2775"><img class="media" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-delay-load="/ImageRepository/Document?documentID=33439" alt="Coronavirus web screenshot NewsFlash" data-delayed-image=""/></a>
+						<div class="text">
+								<h4 id="newsFlashItemHeader2775" class="widgetTitle"><a href="/CivicAlerts.aspx?AID=2775">Public Health Launches 211 Call Center and Updated Website to Encourage Community Preparedness </a></h4>
+	<div class="widgetDesc">
+Coronavirus is an emerging, rapidly evolving situation and Public Health will provide local, updated information at www.mynevadacounty.com/coronavirus. Public Health has also activated Connecting Point's Call Center to answer community questions.				<a id="newsFlashReadOn2775" href="/CivicAlerts.aspx?AID=2775" class="readOn" aria-labelledby="newsFlashItemHeader2775 newsFlashReadOn2775">Read on...</a>            
+	</div>
+
+						</div>
+					</li>
+					<li class="widgetItem" data-index="22">
+								<a href="/CivicAlerts.aspx?AID=2773"><img class="media" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-delay-load="/ImageRepository/Document?documentID=32601" alt="Wash Hands_NewsFlash" data-delayed-image=""/></a>
+						<div class="text">
+								<h4 id="newsFlashItemHeader2773" class="widgetTitle"><a href="/CivicAlerts.aspx?AID=2773">2/27 Update: No Cases of Coronavirus in Nevada County </a></h4>
+	<div class="widgetDesc">
+The 2019 novel coronavirus (COVID-19) remains in the media and of concern to many, so the Nevada County Public Health Department created a new “News and Updates” tab on our website, in an effort to keep the community better informed.				<a id="newsFlashReadOn2773" href="/CivicAlerts.aspx?AID=2773" class="readOn" aria-labelledby="newsFlashItemHeader2773 newsFlashReadOn2773">Read on...</a>            
+	</div>
+
+						</div>
+					</li>
+					<li class="widgetItem" data-index="23">
+								<a href="/CivicAlerts.aspx?AID=2772"><img class="media" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-delay-load="/ImageRepository/Document?documentID=33435" alt="Coronavirus Home and Residence Disinfection Guidance NCDEH_Page_1_NewsFlash" data-delayed-image=""/></a>
+						<div class="text">
+								<h4 id="newsFlashItemHeader2772" class="widgetTitle"><a href="/CivicAlerts.aspx?AID=2772">Cleaning Recommendations for Homes with Known/Suspected Coronavirus Infections </a></h4>
+	<div class="widgetDesc">
+These recommendations are based on what is currently known about the Coronavirus Disease 2019 (COVID-19) and will be updated as needed and as additional information becomes available. Recommendations are given for cleaning, laundry and disposal of waste.				<a id="newsFlashReadOn2772" href="/CivicAlerts.aspx?AID=2772" class="readOn" aria-labelledby="newsFlashItemHeader2772 newsFlashReadOn2772">Read on...</a>            
+	</div>
+
+						</div>
+					</li>
+					<li class="widgetItem" data-index="24">
+								<a href="/CivicAlerts.aspx?AID=2771"><img class="media" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-delay-load="/ImageRepository/Document?documentID=32601" alt="Wash Hands_NewsFlash" data-delayed-image=""/></a>
+						<div class="text">
+								<h4 id="newsFlashItemHeader2771" class="widgetTitle"><a href="/CivicAlerts.aspx?AID=2771">1/28 Update: No Cases of Coronavirus in Nevada County </a></h4>
+	<div class="widgetDesc">
+Due to recent inquiries and to promote the health and safety of residents, the Public Health Department is closely monitoring the recent coronavirus outbreak in China. There have been no suspected or confirmed cases of coronavirus in Nevada County.				<a id="newsFlashReadOn2771" href="/CivicAlerts.aspx?AID=2771" class="readOn" aria-labelledby="newsFlashItemHeader2771 newsFlashReadOn2771">Read on...</a>            
+	</div>
+
+						</div>
+					</li>
+
+		</ol>
+	</div>
+</div>
+<script type="text/javascript">
+	// <!--
+	window.$ = window.$ || window.parent.$;
+	
+	$(document).ready(function () {
+		//Wait for the DOM to load completely before executing carousel logic since its all based on carousel width which wont come out correct until the DOM has loaded. Vishal
+		if(!window.carouselsToInit){
+			window.carouselsToInit = new Array();
+		}
+		var widgetNewsFlasha793cd9a96cd403495142be03dfefaf0 = function()
+		{
+			var widgetWindow = $('#widgetNewsFlasha793cd9a-96cd-4034-9514-2be03dfefaf0').find('.cpWindow')[0];
+			if(widgetWindow){
+				if(widgetWindow.clientWidth != 0){
+					window.setTimeout(function(){
+						$('#widgetNewsFlasha793cd9a-96cd-4034-9514-2be03dfefaf0').adaptiveCarousel({
+							minSlideWidth: 200,
+							maxSlideWidth: 350,
+							gutterWidth: 40,
+							circular: true,
+							teaser: false,
+							transitionTiming: 500
+							});
+					}, 250);
+					var index = window.carouselsToInit.indexOf(widgetNewsFlasha793cd9a96cd403495142be03dfefaf0); 
+					if (index > -1) {
+						window.carouselsToInit.splice(index, 1);
+					}
+				}
+			}
+		}
+		if(!window.carouselsToInit.widgetNewsFlasha793cd9a96cd403495142be03dfefaf0){
+			window.carouselsToInit.push(widgetNewsFlasha793cd9a96cd403495142be03dfefaf0);
+		}
+		window.carouselsToInit.forEach(function(carouselToInit) {carouselToInit();});
+		if(window.Pages.onResizeHandlers){
+			window.Pages.onResizeHandlers.forEach(function(car){car();});
+		}
+	});
+
+	if (Modernizr.touch) {
+		var $pages = typeof window.Pages == 'undefined' ? window.parent.Pages : window.Pages;
+		$.when($pages.rwdReady).done(function () {
+			//only for responsive sites
+			if (typeof($$) !== 'undefined') {
+				$$('#widgetNewsFlasha793cd9a-96cd-4034-9514-2be03dfefaf0').on('swipeRight', function (e, a) {
+					$(this).adaptiveCarousel("moveBack");
+				});
+				$$('#widgetNewsFlasha793cd9a-96cd-4034-9514-2be03dfefaf0').on('swipeLeft', function (e) {
+					$(this).adaptiveCarousel("moveForward");
+				});
+			}
+		});
+	}
+	// -->
+</script>
+
+			</div>
+	<div class="widgetFooter">
+	</div>
+	<div class="addItemModal hidden">
+		<div class="url hidden">/CivicAlerts.aspx</div>
+	</div>
+
+	</section>
+
+
+
+
+
+
+
+
+</div>	</div> <!-- inner column -->
+
+	</div> <!-- inner row -->
+
+			</div><!-- outer column --><!--		--></div> <!-- outer row -->
+
+
+		</div>
+
+	</div>
+
+	
+	<div class="newCP">
+
+	</div>
+</div>
+</div><aside data-cpRole="contentContainer" id="featureColumn" class="secondaryContent">	<div id="ccd6923f64-2522-4bce-8783-61ad1b416b69" data-containerid="d6923f64-2522-4bce-8783-61ad1b416b69" class="pageContent cpGrid cpGrid24 showInMobile" data-contentcontainerbreakpoint="40">
+				                
+
+
+
+	</div>
+</aside>
+</div><div data-cpRole="structuralContainer" id="structuralContaine10" class="siteSidebar">
+<aside data-cpRole="contentContainer" id="contentContainer3">	<div id="cc17fc1b17-a660-41d3-b47a-b7691b8b110a" data-containerid="17fc1b17-a660-41d3-b47a-b7691b8b110a" class="pageContent cpGrid cpGrid24 isLockedContainer showInMobile" data-contentcontainerbreakpoint="40">
+				                
+
+
+
+	</div>
+</aside><nav data-cpRole="nav" id="secondaryNav" class="siteNav secondaryNav">
+
+
+
+
+    <ol role="menu" id="secondaryMenusecondaryNav" data-parent="2924" class="rootNavMenu flyoutNav">
+    <li role="menuitem" aria-haspopup="true" id="SideItem2969" class="topMenuItem" data-display-main-item-sub-menu-indicators="True" data-pageid="2969" data-displaymegamenu="False">
+                    <a class="navMainItem secondaryNavItem" href="/2969/Shelter-in-Place-Order" target="_self">Shelter in Place Order</a>
+            </li>
+    <li role="menuitem" aria-haspopup="true" id="SideItem2979" class="topMenuItem" data-display-main-item-sub-menu-indicators="True" data-pageid="2979" data-displaymegamenu="False">
+                    <a class="navMainItem secondaryNavItem" href="/2979/COVID-19-Symptoms" target="_self">COVID-19 Symptoms</a>
+            </li>
+    <li role="menuitem" aria-haspopup="true" id="SideItem2964" class="topMenuItem" data-display-main-item-sub-menu-indicators="True" data-pageid="2964" data-displaymegamenu="False">
+                    <a class="navMainItem secondaryNavItem" href="/2964/About-COVID-19" target="_self">About COVID-19</a>
+            </li>
+    <li role="menuitem" aria-haspopup="true" id="SideItem2970" class="topMenuItem" data-display-main-item-sub-menu-indicators="True" data-pageid="2970" data-displaymegamenu="False">
+                    <a class="navMainItem secondaryNavItem" href="/2970/Volunteer" target="_self">Volunteer</a>
+            </li>
+    <li role="menuitem" aria-haspopup="true" id="SideItem2971" class="topMenuItem" data-display-main-item-sub-menu-indicators="True" data-pageid="2971" data-displaymegamenu="False">
+                    <a class="navMainItem secondaryNavItem" href="/2971/Vulnerable-Populations" target="_self">Vulnerable Populations</a>
+            </li>
+    <li role="menuitem" aria-haspopup="true" id="SideItem2981" class="topMenuItem" data-display-main-item-sub-menu-indicators="True" data-pageid="2981" data-displaymegamenu="False">
+                    <a class="navMainItem secondaryNavItem" href="https://www.mynevadacounty.com/CivicAlerts.aspx?AID=2856" target="_blank">Short-Term Rentals</a>
+            </li>
+    <li role="menuitem" aria-haspopup="true" id="SideItem2933" class="topMenuItem" data-display-main-item-sub-menu-indicators="True" data-pageid="2933" data-displaymegamenu="False">
+                    <a class="navMainItem secondaryNavItem" href="/2933/Coronavirus-en-Espaol" target="_self">Coronavirus en Espa&#241;ol</a>
+            </li>
+    <li role="menuitem" aria-haspopup="true" id="SideItem2962" class="topMenuItem" data-display-main-item-sub-menu-indicators="True" data-pageid="2962" data-displaymegamenu="False">
+                    <a class="navMainItem secondaryNavItem" href="/2962/Guidance-for-the-Community" target="_self">Guidance for the Community</a>
+            </li>
+    <li role="menuitem" aria-haspopup="true" id="SideItem2968" class="topMenuItem" data-display-main-item-sub-menu-indicators="True" data-pageid="2968" data-displaymegamenu="False">
+                    <a class="navMainItem secondaryNavItem" href="/2968/Guidance-for-Health-Care-and-First-Respo" target="_self">Guidance for Health Care and First Responders</a>
+            </li>
+    <li role="menuitem" aria-haspopup="true" id="SideItem2945" class="topMenuItem" data-display-main-item-sub-menu-indicators="True" data-pageid="2945" data-displaymegamenu="False">
+                    <a class="navMainItem secondaryNavItem" href="/2945/Coronavirus-Guidance-for-Homeless-Provid" target="_self">Coronavirus Guidance for Homeless Providers</a>
+            </li>
+    <li role="menuitem" aria-haspopup="true" id="SideItem2927" class="topMenuItem" data-display-main-item-sub-menu-indicators="True" data-pageid="2927" data-displaymegamenu="False">
+                    <a class="navMainItem secondaryNavItem" href="/2927/Coronavirus-Guidance-for-BusinessesEmplo" target="_self">Coronavirus Guidance for Businesses/Employers</a>
+            </li>
+    <li role="menuitem" aria-haspopup="true" id="SideItem2956" class="topMenuItem" data-display-main-item-sub-menu-indicators="True" data-pageid="2956" data-displaymegamenu="False">
+                    <a class="navMainItem secondaryNavItem" href="/2956/COVID-19-Cases-in-Nevada-County" target="_self">COVID-19 Cases in Nevada County</a>
+            </li>
+    <li role="menuitem" aria-haspopup="true" id="SideItem2958" class="topMenuItem" data-display-main-item-sub-menu-indicators="True" data-pageid="2958" data-displaymegamenu="False">
+                    <a class="navMainItem secondaryNavItem" href="/2958/Safety-Net-Services" target="_self">Safety Net Services</a>
+            </li>
+    <li role="menuitem" aria-haspopup="true" id="SideItem2957" class="topMenuItem" data-display-main-item-sub-menu-indicators="True" data-pageid="2957" data-displaymegamenu="False">
+                    <a class="navMainItem secondaryNavItem" href="/2957/News" target="_self">News</a>
+            </li>
+    <li role="menuitem" aria-haspopup="true" id="SideItem2959" class="topMenuItem" data-display-main-item-sub-menu-indicators="True" data-pageid="2959" data-displaymegamenu="False">
+                    <a class="navMainItem secondaryNavItem" href="/2959/Accessing-Food" target="_self">Accessing Food </a>
+            </li>
+    <li role="menuitem" aria-haspopup="true" id="SideItem2960" class="topMenuItem" data-display-main-item-sub-menu-indicators="True" data-pageid="2960" data-displaymegamenu="False">
+                    <a class="navMainItem secondaryNavItem" href="/2960/Stay-Informed" target="_self">Stay Informed</a>
+            </li>
+    <li role="menuitem" aria-haspopup="true" id="SideItem2961" class="topMenuItem" data-display-main-item-sub-menu-indicators="True" data-pageid="2961" data-displaymegamenu="False">
+                    <a class="navMainItem secondaryNavItem" href="/2961/Questions" target="_self">Questions</a>
+            </li>
+    <li role="menuitem" aria-haspopup="true" id="SideItem2930" class="topMenuItem" data-display-main-item-sub-menu-indicators="True" data-pageid="2930" data-displaymegamenu="False">
+                    <a class="navMainItem secondaryNavItem" href="/2930/Coronavirus-Guidance-for-ElderlyVulnerab" target="_self">Coronavirus Guidance for Elderly/Vulnerable</a>
+            </li>
+    <li role="menuitem" aria-haspopup="true" id="SideItem2934" class="topMenuItem" data-display-main-item-sub-menu-indicators="True" data-pageid="2934" data-displaymegamenu="False">
+                    <a class="navMainItem secondaryNavItem" href="https://www.cdph.ca.gov/Programs/CID/DCDC/Pages/Guidance.aspx" target="_blank">California Department of Public Health (CDPH) Coronavirus Guidance Documents</a>
+            </li>
+    <li role="menuitem" aria-haspopup="true" id="SideItem2936" class="topMenuItem" data-display-main-item-sub-menu-indicators="True" data-pageid="2936" data-displaymegamenu="False">
+                    <a class="navMainItem secondaryNavItem" href="https://www.cdc.gov/coronavirus/2019-ncov/lab/testing-laboratories.html" target="_blank">CDC FAQ on COVID-19 Testing</a>
+            </li>
+    <li role="menuitem" aria-haspopup="true" id="SideItem2935" class="topMenuItem" data-display-main-item-sub-menu-indicators="True" data-pageid="2935" data-displaymegamenu="False">
+                    <a class="navMainItem secondaryNavItem" href="https://www.cdc.gov/coronavirus/2019-ncov/travelers/index.html" target="_blank">CDC Coronavirus Guidance for Travel</a>
+            </li>
+    <li role="menuitem" aria-haspopup="true" id="SideItem2937" class="topMenuItem" data-display-main-item-sub-menu-indicators="True" data-pageid="2937" data-displaymegamenu="False">
+                    <a class="navMainItem secondaryNavItem" href="https://www.cdc.gov/coronavirus/2019-ncov/community/schools-childcare/index.html" target="_blank">CDC Coronavirus Guidance for Schools</a>
+            </li>
+    <li role="menuitem" aria-haspopup="true" id="SideItem2972" class="topMenuItem" data-display-main-item-sub-menu-indicators="True" data-pageid="2972" data-displaymegamenu="False">
+                    <a class="navMainItem secondaryNavItem" href="https://www.mynevadacounty.com/2965/COVID-19-Resources-for-Managing-Mental-H" target="_self">COVID-19 Resources for Managing Mental Health</a>
+            </li>
+    <li role="menuitem" aria-haspopup="true" id="SideItem2982" class="topMenuItem" data-display-main-item-sub-menu-indicators="True" data-pageid="2982" data-displaymegamenu="False">
+                    <a class="navMainItem secondaryNavItem" href="https://www.cdc.gov/coronavirus/2019-ncov/prevent-getting-sick/cloth-face-cover.html" target="_blank">CDC Recommendation on Cloth Face Coverings</a>
+            </li>
+
+    </ol>
+
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            //setup menu manager properties for secondary menu
+            menuManager.isSideMenuEditable = false;
+		    menuManager.sideMenuMaxSubMenuLevels = 4;
+            menuManager.sideMenuHasCustomLinks = false;
+        });
+    </script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            //Init secondary menu
+            var setupDraggable = menuManager.isSideMenuEditable;
+			var urlToGetHiddenMenus = '/Pages/MenuSecondary/HiddenSecondarySubMenus?pageID=2924&moduleID=&themeID=1&menuContainerID=secondaryNav';
+            var menuID = 'secondaryMenusecondaryNav';
+            menuManager.setMOMMode(2, SIDE_MENU);
+            menuManager.setupMenu(menuID, 'secondaryNav', SIDE_MENU, setupDraggable, urlToGetHiddenMenus);
+        });
+    </script>
+
+
+
+
+</nav><aside data-cpRole="contentContainer" id="contentContainer4">	<div id="cc59051760-3cf5-4d76-b748-0f1d3a9a7a96" data-containerid="59051760-3cf5-4d76-b748-0f1d3a9a7a96" class="pageContent cpGrid cpGrid24 isLockedContainer showInMobile" data-contentcontainerbreakpoint="40">
+				                
+
+
+
+	</div>
+</aside>
+</div>
+</div></div>
+</div><div data-cpRole="structuralContainer" id="structuralContainer11">
+<div class="siteWrapTwo"><aside data-cpRole="contentContainer" id="contentContainer5">	<div id="cc2638a3eb-6f5f-4465-a771-b66463ce4f85" data-containerid="2638a3eb-6f5f-4465-a771-b66463ce4f85" class="pageContent cpGrid cpGrid24 isLockedContainer showInMobile" data-contentcontainerbreakpoint="85">
+				                
+
+		<div class="row outer wide"><!--
+--><div class="outer col col24 first last" style="" data-widgetcontainerid="88a7afef-32d6-44a1-8311-0ec6c54db56e">				
+	<div class="row nest first last wide">
+	
+	<div class="inner col col24 first last id34077fc3-f4c5-4e28-a4ab-402b06295854" style="" data-widgetcontainerid="34077fc3-f4c5-4e28-a4ab-402b06295854">	
+<div data-widget-id="1daec8f8-b143-46aa-8a04-e8f5c808095c" data-widget-controller-path="/GraphicLinks/Widget">
+
+
+
+
+<div id="graphicLinkWidget1daec8f8-b143-46aa-8a04-e8f5c808095c" class="widget widgetGraphicLinks skin45 widgetOptionSet26 wide" data-elementqueryclasses='{"wide-narrow":"min-width:45em"}' data-elementquerymatch='matchMultiColumn' data-elementqueryunmatch='unmatchMultiColumn' data-modulewidgettype="graphicLinks">
+	<div class="widgetHeader">
+		<div class="">
+				</div>
+	</div>
+	<div class="widgetBody cpGrid cpGrid4 ">	
+			<div class="row   wide"><!--
+--><div class="col col1 first "><div class="semanticList"><!--
+	    --><div class="widgetItem GraphicLinks">
+
+<div>
+	<a href="/470/Emergency-Urgent-Care" target="_self" class="fancyButton fancyButton659 " >
+		<span>
+			<span><span class="text">Emergency Services</span></span>
+		</span>
+	</a>
+</div>
+		<style scoped="scoped">.fancyButton659.fancyButton:link,.fancyButton659.fancyButton:visited, .fancyButton659div.fancyButton{
+	background-image: url('/ImageRepository/Document?documentID=18885');
+	background-repeat: no-repeat;
+	background-position: center 12px ;
+opacity: 1;
+    -webkit-transition: all 0.3s ease-in-out;
+    -moz-transition: all 0.3s ease-in-out;
+    -o-transition: all 0.3s ease-in-out;
+    transition: all 0.3s ease-in-out;}
+.fancyButton659.fancyButton:hover,.fancyButton659.fancyButton:focus,.fancyButton659.fancyButton:active,.fancyButton659.fancyButton.hover{
+	background-image: url('/ImageRepository/Document?documentID=19154');
+	background-repeat: no-repeat;
+	background-position: center top;
+opacity: 1;
+    -webkit-transition: all 0.3s ease-in-out;
+    -moz-transition: all 0.3s ease-in-out;
+    -o-transition: all 0.3s ease-in-out;
+    transition: all 0.3s ease-in-out;}
+.fancyButton659.fancyButton:link > span,.fancyButton659.fancyButton:visited > span, .fancyButton659div.fancyButton > span{
+}
+.fancyButton659.fancyButton:hover > span,.fancyButton659.fancyButton:focus > span,.fancyButton659.fancyButton:active > span,.fancyButton659.fancyButton.hover > span{
+}
+.fancyButton659.fancyButton .text{
+	color: #404da4;
+	font-size: 1.3em;
+	font-family: "Dosis";
+	text-align: center;
+	padding-top: 232px;
+	font-weight: 600;
+	text-decoration: none;
+	padding-top: 232px;
+	background-image: url('/ImageRepository/Document?documentID=66');
+	background-repeat: no-repeat;
+	background-position: center 11em ;
+
+
+}
+.fancyButton659.fancyButton:hover .text,.fancyButton659.fancyButton:focus .text,.fancyButton659.fancyButton:active .text,.fancyButton659.fancyButton.hover .text{
+	color: #404da4;
+	text-decoration: none;
+	background-repeat: no-repeat;
+
+
+}
+</style>
+
+ </div><!--
+--></div></div><!----><div class="col col1  "><div class="semanticList"><!--
+	    --><div class="widgetItem GraphicLinks">
+
+<div>
+	<a href="/902/Public-Assistance" target="_self" class="fancyButton fancyButton660 " >
+		<span>
+			<span><span class="text">Public Assistance</span></span>
+		</span>
+	</a>
+</div>
+		<style scoped="scoped">.fancyButton660.fancyButton:link,.fancyButton660.fancyButton:visited, .fancyButton660div.fancyButton{
+	background-image: url('/ImageRepository/Document?documentID=18891');
+	background-repeat: no-repeat;
+	background-position: center 12px ;
+opacity: 1;
+    -webkit-transition: all 0.3s ease-in-out;
+    -moz-transition: all 0.3s ease-in-out;
+    -o-transition: all 0.3s ease-in-out;
+    transition: all 0.3s ease-in-out;}
+.fancyButton660.fancyButton:hover,.fancyButton660.fancyButton:focus,.fancyButton660.fancyButton:active,.fancyButton660.fancyButton.hover{
+	background-image: url('/ImageRepository/Document?documentID=19157');
+	background-repeat: no-repeat;
+	background-position: center top;
+opacity: 1;
+    -webkit-transition: all 0.3s ease-in-out;
+    -moz-transition: all 0.3s ease-in-out;
+    -o-transition: all 0.3s ease-in-out;
+    transition: all 0.3s ease-in-out;}
+.fancyButton660.fancyButton:link > span,.fancyButton660.fancyButton:visited > span, .fancyButton660div.fancyButton > span{
+}
+.fancyButton660.fancyButton:hover > span,.fancyButton660.fancyButton:focus > span,.fancyButton660.fancyButton:active > span,.fancyButton660.fancyButton.hover > span{
+}
+.fancyButton660.fancyButton .text{
+	color: #404da4;
+	font-size: 1.3em;
+	font-family: "Dosis";
+	text-align: center;
+	padding-top: 232px;
+	font-weight: 600;
+	text-decoration: none;
+	padding-top: 232px;
+	background-image: url('/ImageRepository/Document?documentID=66');
+	background-repeat: no-repeat;
+	background-position: center 11em ;
+
+
+}
+.fancyButton660.fancyButton:hover .text,.fancyButton660.fancyButton:focus .text,.fancyButton660.fancyButton:active .text,.fancyButton660.fancyButton.hover .text{
+	color: #404da4;
+	text-decoration: none;
+	background-repeat: no-repeat;
+
+
+}
+</style>
+
+ </div><!--
+--></div></div><!----><div class="col col1  "><div class="semanticList"><!--
+	    --><div class="widgetItem GraphicLinks">
+
+<div>
+	<a href="/678/Health-Wellness" target="_self" class="fancyButton fancyButton661 " >
+		<span>
+			<span><span class="text">Health Services</span></span>
+		</span>
+	</a>
+</div>
+		<style scoped="scoped">.fancyButton661.fancyButton:link,.fancyButton661.fancyButton:visited, .fancyButton661div.fancyButton{
+	background-image: url('/ImageRepository/Document?documentID=18887');
+	background-repeat: no-repeat;
+	background-position: center 12px ;
+opacity: 1;
+    -webkit-transition: all 0.3s ease-in-out;
+    -moz-transition: all 0.3s ease-in-out;
+    -o-transition: all 0.3s ease-in-out;
+    transition: all 0.3s ease-in-out;}
+.fancyButton661.fancyButton:hover,.fancyButton661.fancyButton:focus,.fancyButton661.fancyButton:active,.fancyButton661.fancyButton.hover{
+	background-image: url('/ImageRepository/Document?documentID=19155');
+	background-repeat: no-repeat;
+	background-position: center top;
+opacity: 1;
+    -webkit-transition: all 0.3s ease-in-out;
+    -moz-transition: all 0.3s ease-in-out;
+    -o-transition: all 0.3s ease-in-out;
+    transition: all 0.3s ease-in-out;}
+.fancyButton661.fancyButton:link > span,.fancyButton661.fancyButton:visited > span, .fancyButton661div.fancyButton > span{
+}
+.fancyButton661.fancyButton:hover > span,.fancyButton661.fancyButton:focus > span,.fancyButton661.fancyButton:active > span,.fancyButton661.fancyButton.hover > span{
+}
+.fancyButton661.fancyButton .text{
+	color: #404da4;
+	font-size: 1.3em;
+	font-family: "Dosis";
+	text-align: center;
+	padding-top: 232px;
+	font-weight: 600;
+	text-decoration: none;
+	padding-top: 232px;
+	background-image: url('/ImageRepository/Document?documentID=66');
+	background-repeat: no-repeat;
+	background-position: center 11em ;
+
+
+}
+.fancyButton661.fancyButton:hover .text,.fancyButton661.fancyButton:focus .text,.fancyButton661.fancyButton:active .text,.fancyButton661.fancyButton.hover .text{
+	color: #404da4;
+	text-decoration: none;
+	background-repeat: no-repeat;
+
+
+}
+</style>
+
+ </div><!--
+--></div></div><!----><div class="col col1  last"><div class="semanticList"><!--
+	    --><div class="widgetItem GraphicLinks">
+
+<div>
+	<a href="/539/Housing-Community-Services" target="_self" class="fancyButton fancyButton662 " >
+		<span>
+			<span><span class="text">Housing Resources</span></span>
+		</span>
+	</a>
+</div>
+		<style scoped="scoped">.fancyButton662.fancyButton:link,.fancyButton662.fancyButton:visited, .fancyButton662div.fancyButton{
+	background-image: url('/ImageRepository/Document?documentID=18889');
+	background-repeat: no-repeat;
+	background-position: center 12px ;
+opacity: 1;
+    -webkit-transition: all 0.3s ease-in-out;
+    -moz-transition: all 0.3s ease-in-out;
+    -o-transition: all 0.3s ease-in-out;
+    transition: all 0.3s ease-in-out;}
+.fancyButton662.fancyButton:hover,.fancyButton662.fancyButton:focus,.fancyButton662.fancyButton:active,.fancyButton662.fancyButton.hover{
+	background-image: url('/ImageRepository/Document?documentID=19156');
+	background-repeat: no-repeat;
+	background-position: center top;
+opacity: 1;
+    -webkit-transition: all 0.3s ease-in-out;
+    -moz-transition: all 0.3s ease-in-out;
+    -o-transition: all 0.3s ease-in-out;
+    transition: all 0.3s ease-in-out;}
+.fancyButton662.fancyButton:link > span,.fancyButton662.fancyButton:visited > span, .fancyButton662div.fancyButton > span{
+}
+.fancyButton662.fancyButton:hover > span,.fancyButton662.fancyButton:focus > span,.fancyButton662.fancyButton:active > span,.fancyButton662.fancyButton.hover > span{
+}
+.fancyButton662.fancyButton .text{
+	color: #404da4;
+	font-size: 1.3em;
+	font-family: "Dosis";
+	text-align: center;
+	padding-top: 232px;
+	font-weight: 600;
+	text-decoration: none;
+	padding-top: 232px;
+	background-image: url('/ImageRepository/Document?documentID=66');
+	background-repeat: no-repeat;
+	background-position: center 11em ;
+
+
+}
+.fancyButton662.fancyButton:hover .text,.fancyButton662.fancyButton:focus .text,.fancyButton662.fancyButton:active .text,.fancyButton662.fancyButton.hover .text{
+	color: #404da4;
+	text-decoration: none;
+	background-repeat: no-repeat;
+
+
+}
+</style>
+
+ </div><!--
+--></div></div><!--			--></div>
+	</div>
+	<div class="widgetFooter">
+			</div>
+</div>
+
+</div>
+	</div> <!-- inner column -->
+
+	</div> <!-- inner row -->
+
+			</div><!-- outer column --><!--		--></div> <!-- outer row -->
+
+
+	</div>
+</aside></div>
+</div><div data-cpRole="structuralContainer" id="structuralContainer15">
+<div class="siteWrap"><aside data-cpRole="contentContainer" id="contentContainer9">	<div id="ccb0954780-3842-4ec7-8c5a-dfc3403e5731" data-containerid="b0954780-3842-4ec7-8c5a-dfc3403e5731" class="pageContent cpGrid cpGrid24 isLockedContainer showInMobile" data-contentcontainerbreakpoint="48">
+				                
+
+		<div class="row outer wide"><!--
+--><div class="outer col col6 first" style="" data-widgetcontainerid="5b35c97c-7722-4ef0-9a69-165e01f8d08b">				
+	<div class="row nest first last wide">
+	
+	<div class="inner col col6 first last id5691ee89-793b-4cc7-8b8f-3ba96d622c37" style="" data-widgetcontainerid="5691ee89-793b-4cc7-8b8f-3ba96d622c37">	
+    <div data-widget-id="5e01f350-9457-4aa8-92f8-622bf7de0501" data-widget-controller-path="/InfoAdvanced/Widget">
+
+
+
+
+
+	<section id="divInfoAdv5e01f350-9457-4aa8-92f8-622bf7de0501" class="widget widgetInfoAdvanced skin54 widgetOptionSet5 wide" data-modulewidgettype="infoAdv" data-elementqueryclasses='{"wide-narrow":"min-width:25em"}' data-elementquerymatch='matchMultiColumn' data-elementqueryunmatch='unmatchMultiColumn' aria-label="Info Advanced">
+			<header class="widgetHeader" id="header5e01f350-9457-4aa8-92f8-622bf7de0501">
+		<div class="">
+								</div>
+	</header>
+	<div class="widgetBody  cpGrid cpGrid1 ">
+		<div class="row  wide">
+					<div class="col col1 first last">
+						<ol class="pageStyles semanticList">
+
+<li class="InfoAdvanced widgetItem ">
+	<img src="/ImageRepository/Document?documentID=28729" alt="ContactPhoto_RyanGruver" title="ContactPhoto_RyanGruver"><br>
+</li>						</ol>
+					</div>
+		</div>
+	</div>
+	<div class="widgetFooter">
+
+	</div>
+
+	</section>
+
+
+
+<script type="text/javascript">
+	//Render slideshow if info advacned items contain one.
+	$(document).ready(function (e) {
+		$('#divInfoAdv5e01f350-9457-4aa8-92f8-622bf7de0501 .InfoAdvanced.widgetItem').each(function () {
+			renderSlideshowIfApplicable($(this));		
+		});
+	});
+</script></div>	</div> <!-- inner column -->
+
+	</div> <!-- inner row -->
+
+			</div><!-- outer column --><!----><div class="outer col col7" style="" data-widgetcontainerid="849ceb08-4820-447c-98a4-7bd3e013ad6b">				
+	<div class="row nest first last wide">
+	
+	<div class="inner col col7 first last idef2ea3ec-ee7b-481b-997f-f68dc1763d28" style="" data-widgetcontainerid="ef2ea3ec-ee7b-481b-997f-f68dc1763d28">	
+    <div data-widget-id="7fa0bdbf-5f29-43c6-bd48-df0f2ef6dee6" data-widget-controller-path="/InfoAdvanced/Widget">
+
+
+
+
+
+	<section id="divInfoAdv7fa0bdbf-5f29-43c6-bd48-df0f2ef6dee6" class="widget widgetInfoAdvanced skin55 widgetOptionSet5 wide" data-modulewidgettype="infoAdv" data-elementqueryclasses='{"wide-narrow":"min-width:25em"}' data-elementquerymatch='matchMultiColumn' data-elementqueryunmatch='unmatchMultiColumn' aria-labelledby="header7fa0bdbf-5f29-43c6-bd48-df0f2ef6dee6">
+			<header class="widgetHeader" id="header7fa0bdbf-5f29-43c6-bd48-df0f2ef6dee6">
+		<div class="">
+					<h3 >Contact Us</h3>
+								</div>
+	</header>
+	<div class="widgetBody  cpGrid cpGrid1 ">
+		<div class="row  wide">
+					<div class="col col1 first last">
+						<ol class="pageStyles semanticList">
+
+<li class="InfoAdvanced widgetItem ">
+	<span style="font-family: raleway;"><strong style="color: rgb(56, 80, 134);"><span style="font-size: 12pt;">Ryan Gruver</span></strong><br>
+<span style="font-family: raleway; color: rgb(0, 0, 0);">Director of Health and Human Services Agency<br>
+950 Maidu Avenue, Suite 120<br>
+Nevada City, CA 95959<br>
+Hours: 8 a.m. - 5 p.m. Monday-Friday<br>
+<span style="font-family: raleway;">Phone:&nbsp;</span>530-265-1627<br>
+Fax: 530-265-9860</span><br>
+<br>
+<span style="font-weight: 500; font-family: raleway; color: rgb(56, 80, 134);"><a class="Hyperlink" href="mailto:hhsa@co.nevada.ca.us" target="_self">Email</a></span><br>
+<br>
+</span>
+</li>						</ol>
+					</div>
+		</div>
+	</div>
+	<div class="widgetFooter">
+
+	</div>
+
+	</section>
+
+
+
+<script type="text/javascript">
+	//Render slideshow if info advacned items contain one.
+	$(document).ready(function (e) {
+		$('#divInfoAdv7fa0bdbf-5f29-43c6-bd48-df0f2ef6dee6 .InfoAdvanced.widgetItem').each(function () {
+			renderSlideshowIfApplicable($(this));		
+		});
+	});
+</script></div>	</div> <!-- inner column -->
+
+	</div> <!-- inner row -->
+
+			</div><!-- outer column --><!----><div class="outer col col11 last" style="" data-widgetcontainerid="a8212882-e974-4496-ace6-9ca8ad831475">				
+	<div class="row nest first last wide">
+	
+	<div class="inner col col11 first last idb2655b94-3251-4b89-95a4-e464751ed0e1" style="" data-widgetcontainerid="b2655b94-3251-4b89-95a4-e464751ed0e1">	
+	<div data-widget-id="19a18656-3b4b-4e51-b1e1-cca7af20092f" data-widget-controller-path="/QuickLinks/Widget">
+
+
+
+
+
+ 
+
+
+	<section id="widgetQuicklink19a18656-3b4b-4e51-b1e1-cca7af20092f" class="widget widgetQuickLinks skin55 widgetOptionSet28 narrow" data-modulewidgettype="quickLinks" data-elementqueryclasses='{"wide-narrow":"min-width:25em"}' data-elementquerymatch='matchMultiColumn' data-elementqueryunmatch='unmatchMultiColumn' aria-labelledby="quickLinksHeader19a18656-3b4b-4e51-b1e1-cca7af20092f">
+			<header class="widgetHeader" id="quickLinksHeader19a18656-3b4b-4e51-b1e1-cca7af20092f">
+		<div class="">
+					<h3><a  style="" href="/QuickLinks.aspx?CID=14,56,155," >Helpful Links</a></h3>
+						</div>
+	</header>
+	<div class="widgetBody cpGrid cpGrid2 ">
+        <div class="row  narrow">
+				<div class="col col1 first ">
+					<ol class="semanticList">
+
+    <li style="position:relative" class="widgetItem QuickLinks">
+        <a class="widgetDesc widgetQuickLinksLink" href="https://www.cdph.ca.gov/" target="_self" >California Department of Public Health</a>
+    </li>
+
+    <li style="position:relative" class="widgetItem QuickLinks">
+        <a class="widgetDesc widgetQuickLinksLink" href="https://www.cdph.ca.gov/Pages/rc000121.aspx" target="_self" >What Is Public Health?</a>
+    </li>
+
+    <li style="position:relative" class="widgetItem QuickLinks">
+        <a class="widgetDesc widgetQuickLinksLink" href="http://agencyonaging4.org/" target="_self" >Agency on Aging Area 4</a>
+    </li>
+					</ol>
+				</div>
+				<div class="col col1  last">
+					<ol class="semanticList">
+
+    <li style="position:relative" class="widgetItem QuickLinks">
+        <a class="widgetDesc widgetQuickLinksLink" href="/1780/Appointed-Officials" target="_self" >Appointed Officials</a>
+    </li>
+
+    <li style="position:relative" class="widgetItem QuickLinks">
+        <a class="widgetDesc widgetQuickLinksLink" href="https://www.mynevadacounty.com/731/Board-of-Supervisors" target="_self" >Board of Supervisors</a>
+    </li>
+
+    <li style="position:relative" class="widgetItem QuickLinks">
+        <a class="widgetDesc widgetQuickLinksLink" href="/356/County-Executive-Office" target="_self" >County Executive Office</a>
+    </li>
+					</ol>
+				</div>
+		</div>
+        
+	</div>
+	<div class="widgetFooter">
+	</div>
+	<div class="addItemModal hidden">
+		<div class="url hidden">/QuickLinks.aspx</div>
+	</div>
+
+	</section>
+</div>
+	</div> <!-- inner column -->
+
+	</div> <!-- inner row -->
+
+			</div><!-- outer column --><!--		--></div> <!-- outer row -->
+
+
+	</div>
+</aside></div>
+</div><div data-cpRole="structuralContainer" id="structuralContainer13">
+<div class="siteWrap"><footer data-cpRole="contentContainer" id="contentContainer7" class="siteFooter">	<div id="cc5b24f373-74e1-4cca-a2a5-1996a86d566e" data-containerid="5b24f373-74e1-4cca-a2a5-1996a86d566e" class="pageContent cpGrid cpGrid24 isLockedContainer showInMobile" data-contentcontainerbreakpoint="40">
+				                
+
+		<div class="row outer wide"><!--
+--><div class="outer col col22 first" style="" data-widgetcontainerid="0db4e7cc-5420-448f-9771-7787f53a202d">				
+	<div class="row nest first last wide">
+	
+	<div class="inner col col22 first last idf5cc494c-57f2-4a1e-a790-0c7e938ae896" style="" data-widgetcontainerid="f5cc494c-57f2-4a1e-a790-0c7e938ae896">	
+	<div data-widget-id="fbf21e28-83ea-4c45-9c47-6425115c0e8f" data-widget-controller-path="/QuickLinks/Widget">
+
+
+
+
+
+ 
+
+
+	<section id="widgetQuicklinkfbf21e28-83ea-4c45-9c47-6425115c0e8f" class="widget widgetQuickLinks skin37 widgetOptionSet27 narrow" data-modulewidgettype="quickLinks" data-elementqueryclasses='{"wide-narrow":"min-width:25em"}' data-elementquerymatch='matchMultiColumn' data-elementqueryunmatch='unmatchMultiColumn' aria-label="Quick Links">
+			<header class="widgetHeader" id="quickLinksHeaderfbf21e28-83ea-4c45-9c47-6425115c0e8f">
+		<div class="">
+						</div>
+	</header>
+	<div class="widgetBody cpGrid cpGrid5 ">
+        <div class="row autoWidths left narrow">
+				<div class="col col1 first ">
+					<ol class="semanticList">
+
+    <li style="position:relative" class="widgetItem QuickLinks">
+        <a class="widgetDesc widgetQuickLinksLink" href="/" target="_self" >Home</a>
+    </li>
+					</ol>
+				</div>
+				<div class="col col1  ">
+					<ol class="semanticList">
+
+    <li style="position:relative" class="widgetItem QuickLinks">
+        <a class="widgetDesc widgetQuickLinksLink" href="/accessibility" target="_self" >Accessibility</a>
+    </li>
+					</ol>
+				</div>
+				<div class="col col1  ">
+					<ol class="semanticList">
+
+    <li style="position:relative" class="widgetItem QuickLinks">
+        <a class="widgetDesc widgetQuickLinksLink" href="/privacy" target="_self" >Privacy</a>
+    </li>
+					</ol>
+				</div>
+				<div class="col col1  ">
+					<ol class="semanticList">
+
+    <li style="position:relative" class="widgetItem QuickLinks">
+        <a class="widgetDesc widgetQuickLinksLink" href="/site/copyright" target="_self" >Copyright Notices</a>
+    </li>
+					</ol>
+				</div>
+				<div class="col col1  last">
+					<ol class="semanticList">
+
+    <li style="position:relative" class="widgetItem QuickLinks">
+        <a class="widgetDesc widgetQuickLinksLink" href="/sitemap" target="_self" >Site Map</a>
+    </li>
+					</ol>
+				</div>
+		</div>
+        
+	</div>
+	<div class="widgetFooter">
+	</div>
+	<div class="addItemModal hidden">
+		<div class="url hidden">/QuickLinks.aspx</div>
+	</div>
+
+	</section>
+</div>
+	</div> <!-- inner column -->
+
+	</div> <!-- inner row -->
+
+			</div><!-- outer column --><!----><div class="outer col col2 last" style="" data-widgetcontainerid="df832371-d6ab-4327-acb4-5423b0e80db0">				
+	<div class="row nest first wide">
+	
+	<div class="inner col col1 first id692a14c1-50b7-4740-81bd-7d29218d4efd" style="" data-widgetcontainerid="692a14c1-50b7-4740-81bd-7d29218d4efd">	
+<div data-widget-id="a892ac88-aa9c-41aa-bf77-0926fe55aee6" data-widget-controller-path="/Layout/WidgetShare">
+
+		<script type="text/javascript">
+			$(document).ready(function () {
+				setWidgetServiceClicking($("#widgetShareHeadera892ac88-aa9c-41aa-bf77-0926fe55aee6"), true, function () {
+					var $widgetBody = $('#widgetShareBodya892ac88-aa9c-41aa-bf77-0926fe55aee6');
+
+					if ($widgetBody.is(':visible')) {
+						var menuItems = $('.widgetItem a', $widgetBody);
+
+						$(menuItems[0]).focus();
+
+						$('.widgetItem', $widgetBody).unbind("keydown").bind("keydown", function (e) {
+
+							if (e.which === 9) {
+								var index = menuItems.index(e.target);
+
+								if ((index === 0 && e.shiftKey) || (index === (menuItems.length - 1) && !e.shiftKey)) {
+									$("#widgetShareHeadera892ac88-aa9c-41aa-bf77-0926fe55aee6").trigger('click').focus();
+								}
+							}
+			});
+					} else {
+						$('.widgetItem', $widgetBody).unbind("keydown");
+					}
+				});
+			});
+		</script>
+
+	<section id="widgetSharea892ac88-aa9c-41aa-bf77-0926fe55aee6" class="widget widgetShare skin41 widgetOptionSet14 flyOutParent wide"  aria-label="Share">
+			<header id="widgetShareHeadera892ac88-aa9c-41aa-bf77-0926fe55aee6" class="widgetHeader" tabindex="0" role="button" aria-haspopup="true">
+				<h3><img alt="Share" class="imageHover" data-hover="/ImageRepository/Document?documentID=79" data-image="/ImageRepository/Document?documentID=78" src="/ImageRepository/Document?documentID=78" /></h3>
+	</header>
+    <div id="widgetShareBodya892ac88-aa9c-41aa-bf77-0926fe55aee6" class="widgetBody flyOut top rightEdge widget widgetShare skin41 cpGrid cpGrid1" style="display:none;">
+        <div class="row                   
+ wide">
+	<div class="col col1 first last">
+		<ol class="semanticList">
+                <li class="widgetItem" ><a tabindex="0" role="button" class="widgetShareFacebook shareService" onkeypress="if(event.which == 13) { this.onclick(); }" href="/Layout/WidgetShare/ShareLink/Facebook" target="_blank" aria-label="Share on Facebook opens in new window">Facebook</a></li>
+                <li class="widgetItem" ><a tabindex="0" role="button" class="widgetShareTwitter shareService" onkeypress="if(event.which == 13) { this.onclick(); }" href="/Layout/WidgetShare/ShareLink/Twitter" target="_blank" aria-label="Share on Twitter opens in new window">Twitter</a></li>
+                <li class="widgetItem" ><a tabindex="0" role="button" class="widgetSharePinterest shareService" onkeypress="if(event.which == 13) { this.onclick(); }" href="/Layout/WidgetShare/ShareLink/Pinterest" target="_blank" aria-label="Share on Pinterest opens in new window">Pinterest</a></li>
+                <li class="widgetItem" ><a tabindex="0" role="button" class="widgetShareDelicious shareService" onkeypress="if(event.which == 13) { this.onclick(); }" href="/Layout/WidgetShare/ShareLink/Delicious" target="_blank" aria-label="Share on Delicious opens in new window">Delicious</a></li>
+                <li class="widgetItem" ><a tabindex="0" role="button" class="widgetShareBlogger shareService" onkeypress="if(event.which == 13) { this.onclick(); }" href="/Layout/WidgetShare/ShareLink/Blogger" target="_blank" aria-label="Share on Blogger opens in new window">Blogger</a></li>
+                <li class="widgetItem" ><a tabindex="0" role="button" class="widgetShareLinkedIn shareService" onkeypress="if(event.which == 13) { this.onclick(); }" href="/Layout/WidgetShare/ShareLink/LinkedIn" target="_blank" aria-label="Share on LinkedIn opens in new window">LinkedIn</a></li>
+		</ol>
+	</div>
+
+        </div>
+    </div>
+
+	</section>
+
+</div>
+	</div> <!-- inner column -->
+	<div class="inner col col1 last idb99a6d04-716f-44b6-ad92-8a3ef5c9c66e" style="" data-widgetcontainerid="b99a6d04-716f-44b6-ad92-8a3ef5c9c66e">	
+<div data-widget-id="6edb6a8a-5b9f-41e8-97f9-ea79b2f0bc0d" data-widget-controller-path="/Layout/WidgetSiteTools">
+
+		<script type="text/javascript">
+			$(document).ready(function () {
+				setWidgetServiceClicking($("#widgetSiteToolsHeader6edb6a8a-5b9f-41e8-97f9-ea79b2f0bc0d"), true, function () {
+					var $widgetBody = $('#widgetSiteToolsBody6edb6a8a-5b9f-41e8-97f9-ea79b2f0bc0d');
+
+					if ($widgetBody.is(':visible')) {
+						var menuItems = $('.widgetItem a', $widgetBody);
+
+						$(menuItems[0]).focus();
+
+						$('.widgetItem', $widgetBody).unbind("keydown").bind("keydown", function (e) {
+
+							if (e.which === 9) {
+								var index = menuItems.index(e.target);
+
+								if ((index === 0 && e.shiftKey) || (index === (menuItems.length - 1) && !e.shiftKey)) {
+									$("#widgetSiteToolsHeader6edb6a8a-5b9f-41e8-97f9-ea79b2f0bc0d").trigger('click').focus();
+								}
+							}
+						});
+					} else {
+						$('.widgetItem', $widgetBody).unbind("keydown");
+					}
+				});
+			});
+		</script>
+
+	<section id="widgetSiteTools6edb6a8a-5b9f-41e8-97f9-ea79b2f0bc0d" class="widget widgetSiteTools skin41 widgetOptionSet7 flyOutParent wide"  aria-label="Site Tools">
+				<header id="widgetSiteToolsHeader6edb6a8a-5b9f-41e8-97f9-ea79b2f0bc0d" class="widgetHeader" tabindex="0" role="button" aria-haspopup="true">
+			<h3><img alt="Site Tools" class="imageHover" data-hover="/ImageRepository/Document?documentID=77" data-image="/ImageRepository/Document?documentID=80" src="/ImageRepository/Document?documentID=80" /></h3>
+		</header>
+	<div id="widgetSiteToolsBody6edb6a8a-5b9f-41e8-97f9-ea79b2f0bc0d" class="widgetBody whiteIcons flyOut top rightEdge widget widgetSiteTools skin41 cpGrid cpGrid1" style="display:none;">
+         <div class="row                   
+ wide">
+	<div class="col col1 first last">
+		<ol class="semanticList">
+					<li class="widgetItem"><a tabindex="0" role="button" aria-label="Site Tools Home" class="widgetSiteToolsHome siteToolsService" href="/">Home</a></li>
+					<li class="widgetItem"><a tabindex="0" role="button" aria-label="Site Tools My Account" class="widgetSiteToolsMyAccount siteToolsService" href="/MyAccount">My Account</a></li>
+					<li id="PrinterFriendly6edb6a8a-5b9f-41e8-97f9-ea79b2f0bc0d" class="widgetItem"><a tabindex="0" aria-label="Site Tools Printer Friendly opens in new window" role="button" class="widgetSiteToolsPrinterFriendly siteToolsService" onkeypress="if (event.which == 13) { this.onclick(); }" onclick="Core.Layout.dynamicJavascript('printPreview();'); return false;" href="#PrinterFriendly6edb6a8a-5b9f-41e8-97f9-ea79b2f0bc0d">Printer Friendly</a></li>
+					<li class="widgetItem"><a tabindex="0" role="button" aria-label="Site Tools Email Page" class="widgetSiteToolsEmailPage siteToolsService" href="/EmailPage">Email Page</a></li>
+					<li class="widgetItem"><a tabindex="0" role="button" aria-label="Site Tools Contact Us" class="widgetSiteToolsContactUs siteToolsService" href="/directory.aspx">Contact Us</a></li>
+					<li class="widgetItem"><a tabindex="0" role="button" aria-label="Site Tools RSS" class="widgetSiteToolsRSS siteToolsService" href="/rss.aspx">RSS</a></li>
+					<li class="widgetItem"><a tabindex="0" role="button" aria-label="Site Tools Site Map" class="widgetSiteToolsSiteMap siteToolsService" href="/SiteMap">Site Map</a></li>
+					<li id="TranslatePage6edb6a8a-5b9f-41e8-97f9-ea79b2f0bc0d" class="widgetItem"><a tabindex="0" aria-label="Site Tools Translate Page opens in new window" role="button" class="widgetSiteToolsTranslatePage siteToolsService" onkeypress="if (event.which == 13) { this.onclick(); }" onclick="Core.Layout.dynamicJavascript('window.open(\&#39;http://translate.google.com/translate?js=n&amp;sl=auto&amp;tl=es&amp;u=\&#39; + document.location.href, \&quot;TranslateWindow\&quot;);'); return false;" href="#TranslatePage6edb6a8a-5b9f-41e8-97f9-ea79b2f0bc0d">Translate Page</a></li>
+					<li class="widgetItem"><a tabindex="0" role="button" aria-label="Site Tools Notifications" class="widgetSiteToolsNotifications siteToolsService" href="/list.aspx">Notifications</a></li>
+					<li class="widgetItem"><a tabindex="0" role="button" aria-label="Site Tools Documents" class="widgetSiteToolsDocuments siteToolsService" href="/DocumentCenter">Documents</a></li>
+		</ol>
+	</div>
+
+		 </div>
+	</div>
+
+	</section>
+
+
+
+</div>
+	</div> <!-- inner column -->
+
+	</div> <!-- inner row -->
+	<div class="row nest last wide">
+	
+	<div class="inner col col2 first last id07240ab2-0f22-473f-9756-f5cba59c12f2" style="" data-widgetcontainerid="07240ab2-0f22-473f-9756-f5cba59c12f2">	
+
+<div class="widget widgetSpacer" id="e35b9f1a-113a-428b-b0af-72bd49bbbcff"></div>	</div> <!-- inner column -->
+
+	</div> <!-- inner row -->
+
+			</div><!-- outer column --><!--		--></div> <!-- outer row -->
+
+
+	</div>
+</footer></div>
+</div>
+</div>
+
+			</div>
+		</div>
+	</div>
+	
+	
+	
+	
+	
+
+
+
+	<script type="text/javascript">function dynamicStretchContainers () {Core.Layout.stretchContainers('#structuralContainer2, #structuralContainer1, #structuralContainer3');}</script>
+
+
+
+
+
+
+	<script src="/731439609.js" type="text/javascript"></script>
+	<!-- Piwik -->
+<script type="text/javascript">
+  var _paq = _paq || [];
+  _paq.push(['trackPageView']);
+  _paq.push(['enableLinkTracking']);
+  (function() {
+    var u="//analytics.civicplus.com/";
+    _paq.push(['setTrackerUrl', u+'piwik.php']);
+    _paq.push(['setSiteId', 4683]);
+    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+    g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+  })();
+</script>
+<noscript><p><img src="//analytics.civicplus.com/piwik.php?idsite=4683" style="border:0;" alt="" /></p></noscript>
+<!-- End Piwik Code -->
+
+<!-- Global Site Tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-30583808-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments)};
+  gtag('js', new Date());
+
+  gtag('config', 'UA-30583808-1');
+</script>
+
+
+  <script type="text/javascript">
+    var _monsido = _monsido || [];
+    _monsido.push(['_setDomainToken', '8wJv61GAu2OU6a95SRJzCA']);
+    _monsido.push(['_withStatistics', 'true']);
+  </script>
+  <script src="//cdn.monsido.com/tool/javascripts/monsido.js"></script>
+	
+<!-- AudioEye -->  <script type="text/javascript">  !function(){var t=function(){var t=document.createElement("script");t.src="https://ws.audioeye.com/ae.js",t.type="text/javascript",t.setAttribute("async",""),document.getElementsByTagName("body")[0].appendChild(t)};"complete"!==document.readyState?window.addEventListener?window.addEventListener("load",t):window.attachEvent&&window.attachEvent("onload",t):t()}()  </script>  <!-- End AudioEye -->
+
+
+	<script type="text/javascript">
+		$(function () {
+			document.cookie = "responsiveGhost=0; path=/";
+		});
+		onOrLive($(window), function () {
+			$('body').addClass('doneLoading').removeClass('hideContent');
+
+			if ($('#404Content').length > 0)
+				$('div#bodyWrapper').css('padding', '0px');
+		}, 'load');		
+	</script>
+
+	<noscript>
+		<style>
+			body.hideContent {
+				opacity: 1 !important;
+			}
+		</style>
+	</noscript>
+
+		
+<div style="display: none;">
+	<svg xmlns="http://www.w3.org/2000/svg" style="display:none;">
+
+		<symbol id="iconArrow--left" viewbox="0 0 25 25">
+			<title>Arrow Left</title>
+			<polygon style="fill:currentcolor" points="18.044,25 19.498,23.545 8.409,12.454 19.408,1.455 17.954,0 5.502,12.452"></polygon>
+		</symbol>
+
+		<symbol id="iconArrow--right" viewbox="0 0 25 25">
+			<title>Arrow Right</title>
+			<polygon style="fill:currentcolor" points="6.957,0 5.502,1.455 16.591,12.546 5.592,23.545 7.047,25 19.498,12.548"></polygon>
+		</symbol>
+
+	</svg>
+</div>
+	<script type="text/javascript">loadCSS('//fonts.googleapis.com/css?family=Dosis:500,600,700,regular|Raleway:500,600,700,regular|Ubuntu:500,700,regular|');</script>
+	
+
+	<div class="hidden activeWidgetSkinComponentsOnPageJson">[]</div>
+		<div style="display: none;">
+			<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+				<symbol id="iconSlideshowArrowLeft" viewBox="0 0 22.68 40">
+					<title>Slideshow Left Arrow</title>
+					<g>
+						<path style="fill:currentcolor;" d="M20,40a2.67,2.67,0,0,1-1.9-.79L.79,21.9a2.68,2.68,0,0,1,0-3.79L18.1.79a2.68,2.68,0,1,1,3.79,3.79L6.47,20,21.89,35.42A2.68,2.68,0,0,1,20,40Z"></path>
+					</g>
+				</symbol>
+				<symbol id="iconSlideshowArrowRight" viewBox="0 0 22.68 40">
+					<title>Slideshow Right Arrow</title>
+					<g>
+						<path style="fill:currentcolor;" d="M2.68,0a2.67,2.67,0,0,1,1.9.79L21.89,18.1a2.68,2.68,0,0,1,0,3.79L4.58,39.21A2.68,2.68,0,0,1,.79,35.42L16.21,20,.79,4.58A2.68,2.68,0,0,1,2.68,0Z"></path>
+					</g>
+				</symbol>
+			</svg>
+		</div>
+	
+</body>
+</html>
