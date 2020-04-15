@@ -326,35 +326,22 @@ class runVirusViz(object):
 
 
     ## save downloaded data to daily or overal data 
-    def saveDataFromDltx(self, l_data, a_date, bDaily=True):
-        l_daily = []
-        total_daily = 0
-        total_death = 0
-        for a_item in l_data:
-            if(a_item[2] in 'Total'): continue
-            #
-            if( self.isValidDate(a_date, a_item[3], bDaily=bDaily) ):
-                pass
-            else:
-                continue
+    def saveLatestDateTx(self, l_raw_data):
+        l_overall = []
+        
+        l_overall.append(['County', 'Cases', 'Deaths'])
+        for a_item in l_raw_data:
+            if 'County' in str(a_item[1]):continue
+            if str(a_item [1]) in '0':
+                a_item[1]='Total'
+                
+            l_overall.append(a_item[1:])
+        #for a_item in l_overall:
+        #    print (a_item)
+        self.save2File(l_overall, self.state_dir + 'data/'+self.state_name.lower()+'_covid19_'+self.name_file+'.csv')
+        return l_overall
 
-        for a_item in l_data:
-            if(str(a_item[3]) in 'Total'): continue
-            if(str(a_item[3]) in '0'): continue
-            total_death += int( a_item[3] )            
 
-        l_daily.append(['Total', total_daily, total_death])
-        # save to file
-        dt_obj = datetime.datetime.strptime(a_date, '%m/%d/%Y')
-        self.name_file = dt_obj.strftime('%Y%02m%02d')
-        self.now_date = dt_obj.strftime('%m/%d/%Y')
-        if(bDaily): type_dir = 'daily/'
-        else: type_dir = 'data/'
-        if(not os.path.isdir(self.state_dir + type_dir) ): os.mkdir(self.state_dir + type_dir)
-        self.save2File(l_daily, self.state_dir + type_dir+self.state_name.lower()+'_covid19_'+self.name_file+'.csv')
-        print(' Total', total_daily, total_death, a_date)
-        print('   saved to', self.state_dir + type_dir+self.state_name.lower()+'_covid19_'+self.name_file+'.csv')
-        return l_daily
     ## save to csv 
     def save2File(self, l_data, csv_name):
         csv_data_f = open(csv_name, 'w')
@@ -447,8 +434,8 @@ class runVirusViz(object):
             gcontext = ssl._create_unverified_context()
             urllib.urlretrieve(self.l_state_config[5][1], f_name, context=gcontext)
             lst_raw_data = self.open4Xlsx(f_name)
-            print(lst_raw_data[0])
-            lst_data = self.saveLatestDate(lst_raw_data)
+            #print(lst_raw_data[0])
+            lst_data = self.saveLatestDateTx(lst_raw_data)
         elif( type_download == 101 ):   # download counties in the list
             data_grab = dataGrab(self.l_state_config, self.state_name)	
             lst_data = data_grab.parseDataCa(self.name_file)		
