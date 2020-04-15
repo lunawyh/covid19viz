@@ -28,7 +28,7 @@ import urllib
 from shutil import copyfile
 from rainbowviz21 import *
 from predictionviz22 import *
-
+import ssl
 import sys
 sys.path.insert(0, "./ca")
 from dataGrab58 import *
@@ -311,6 +311,7 @@ class runVirusViz(object):
 
                 total_death += int( a_item[6] )            
 
+        l_daily = sorted(l_daily, key=lambda k: k[0], reverse=False)
         l_daily.append(['Total', total_daily, total_death])
         # save to file
         dt_obj = datetime.datetime.strptime(a_date, '%m/%d/%Y')
@@ -323,6 +324,24 @@ class runVirusViz(object):
         print(' Total', total_daily, total_death, a_date)
         print('   saved to', self.state_dir + type_dir+self.state_name.lower()+'_covid19_'+self.name_file+'.csv')
         return l_daily
+
+
+    ## save downloaded data to daily or overal data 
+    def saveLatestDateTx(self, l_raw_data):
+        l_overall = []
+        
+        l_overall.append(['County', 'Cases', 'Deaths'])
+        for a_item in l_raw_data:
+            if 'County' in str(a_item[1]):continue
+            if str(a_item [1]) in '0':
+                a_item[1]='Total'
+                
+            l_overall.append(a_item[1:])
+        #for a_item in l_overall:
+        #    print (a_item)
+        self.save2File(l_overall, self.state_dir + 'data/'+self.state_name.lower()+'_covid19_'+self.name_file+'.csv')
+        return l_overall
+
 
     ## save to csv 
     def save2File(self, l_data, csv_name):
@@ -339,6 +358,14 @@ class runVirusViz(object):
     def open4File(self, csv_name):
         if(isfile(csv_name) ):
             df = pd.read_csv(csv_name)
+            l_data = self.parseDfData(df)
+        else: return []
+        return l_data
+    ## open a xlsx 
+    def open4Xlsx(self, xlsx_name):
+        if(isfile(xlsx_name) ):
+            xl_file = pd.ExcelFile(xlsx_name)
+            df = xl_file.parse('Cases and Fatalities')
             l_data = self.parseDfData(df)
         else: return []
         return l_data
@@ -402,6 +429,14 @@ class runVirusViz(object):
                 lst_data = self.saveLatestDate(lst_raw_data)
             if( type_download == 15):
                 lst_data = self.saveLatestDateOh(lst_raw_data)
+        elif( type_download == 25):   # download only
+            f_name = self.state_dir + 'data_raw/'+self.state_name.lower()+'_covid19_'+self.name_file+'.xlsx'
+            if(not os.path.isdir(self.state_dir + 'data_raw/') ): os.mkdir(self.state_dir + 'data_raw/')
+            gcontext = ssl._create_unverified_context()
+            urllib.urlretrieve(self.l_state_config[5][1], f_name, context=gcontext)
+            lst_raw_data = self.open4Xlsx(f_name)
+            #print(lst_raw_data[0])
+            lst_data = self.saveLatestDateTx(lst_raw_data)
         elif( type_download == 101 ):   # download counties in the list
             data_grab = dataGrab(self.l_state_config, self.state_name)	
             lst_data = data_grab.parseDataCa(self.name_file)		
