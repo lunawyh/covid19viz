@@ -141,7 +141,7 @@ class runVirusViz(object):
         elif(key == 65480 or key == 1114056 or key == 7995392):   # F11 key next day
             self.data_daily = False
             self.csv_pos_now, self.l_mi_cases, self.l_cases_yest = self.readDataByDay(9999999999) 
-        elif(key == 65481 or key == 1114057 or key == 7995393):   # F12 key next day
+        elif(key == 65481 or key == 1114057 or key == 7995393 or key == 8060928):   # F12 key next day
             save_file = None
             if(self.isNameOnToday(self.name_file)):
                 save_file = self.state_dir + 'results/mi_county20200000_predict.png'
@@ -419,7 +419,7 @@ class runVirusViz(object):
         # update date time
         dt_now = datetime.datetime.now()
         self.name_file = dt_now.strftime('%Y%m%d') 
-        print(' grab today', self.name_file)
+        #print(' grab today', self.name_file)
         self.now_date  = dt_now.strftime('%m/%d/%Y')   
         type_download = int(self.l_state_config[4][1])
         if( type_download == 5 or type_download == 15):   # download only
