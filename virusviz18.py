@@ -28,7 +28,7 @@ import urllib
 from shutil import copyfile
 from rainbowviz21 import *
 from predictionviz22 import *
-
+import ssl
 import sys
 sys.path.insert(0, "./ca")
 from dataGrab58 import *
@@ -44,7 +44,7 @@ class runVirusViz(object):
         # create a node
         print("welcome to node virusviz")
         #choose one state in US
-        self.state_name = 'TX'
+        self.state_name = 'MI'
         if( isfile('../state.txt')):
             with open('../state.txt', 'r') as f:
                 self.state_name = f.readlines()[0][0:2]
@@ -342,6 +342,14 @@ class runVirusViz(object):
             l_data = self.parseDfData(df)
         else: return []
         return l_data
+    ## open a xlsx 
+    def open4Xlsx(self, xlsx_name):
+        if(isfile(xlsx_name) ):
+            xl_file = pd.ExcelFile(xlsx_name)
+            df = xl_file.parse('Cases and Fatalities')
+            l_data = self.parseDfData(df)
+        else: return []
+        return l_data
     ## download a website 
     def download4Website(self, fRaw):
         csv_url = self.l_state_config[5][1]
@@ -402,6 +410,13 @@ class runVirusViz(object):
                 lst_data = self.saveLatestDate(lst_raw_data)
             if( type_download == 15):
                 lst_data = self.saveLatestDateOh(lst_raw_data)
+        elif( type_download == 25):   # download only
+            f_name = self.state_dir + 'data_raw/'+self.state_name.lower()+'_covid19_'+self.name_file+'.xlsx'
+            if(not os.path.isdir(self.state_dir + 'data_raw/') ): os.mkdir(self.state_dir + 'data_raw/')
+            gcontext = ssl._create_unverified_context()
+            urllib.urlretrieve(self.l_state_config[5][1], f_name, context=gcontext)
+            lst_raw_data = self.open4Xlsx(f_name)
+            print(lst_raw_data[0])
         elif( type_download == 101 ):   # download counties in the list
             data_grab = dataGrab(self.l_state_config, self.state_name)	
             lst_data = data_grab.parseDataCa(self.name_file)		

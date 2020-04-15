@@ -222,7 +222,6 @@ class mapViz(object):
         ii = 0
         lat2, lon2 = lat_1+float(self.l_state_config[13][1]), lon_1+float(self.l_state_config[13][2])
         lat3, lon3 = lat_1+float(self.l_state_config[14][1]), lon_1+float(self.l_state_config[14][2])
-
         for a_case in l_cases_today:	
             if('Total' in a_case[0]): continue
             if('County' in a_case[0]): continue
