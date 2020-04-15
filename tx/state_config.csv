@@ -12,6 +12,9 @@ basemap_lat_len,600000,,9
 basemap_lon_len,0,,10
 basemap_title,5.156759,0.101012,11
 basemap_logo,4.276629,5.783506,12
-basemap_list1,5.156759,-6.390411,13
-basemap_list2,5.156759,-4.390411,14
-basemap_list3,0,0,15
+basemap_list1,5.356759,-6.890411,13
+basemap_list2,5.356759,-4.890411,14
+basemap_list3,-0.643241,-6.390411,15
+basemap_list4,-2.343241,-4.390411,16
+basemap_list5,-2.343241,-2.390411,17
+basemap_list6,0,0,18

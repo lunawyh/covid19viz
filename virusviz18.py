@@ -311,6 +311,7 @@ class runVirusViz(object):
 
                 total_death += int( a_item[6] )            
 
+        l_daily = sorted(l_daily, key=lambda k: k[0], reverse=False)
         l_daily.append(['Total', total_daily, total_death])
         # save to file
         dt_obj = datetime.datetime.strptime(a_date, '%m/%d/%Y')
