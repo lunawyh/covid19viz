@@ -422,16 +422,6 @@ class runVirusViz(object):
             lst_data = data_grab.parseDataCa(self.name_file)		
             f_name = self.state_dir + 'data/'+self.state_name.lower()+'_covid19_'+self.name_file+'.csv'
             self.save2File( lst_data, f_name )
-        elif( type_download == 25 ):   # download counties in the list
-            data_grab = dataGrab(self.l_state_config, self.state_name)	 
-
-            import shutil
-
-            shutil.copyfile('CaseCountData.xlsx', 'file2.txt')
-            self.name_file= file2.txt
-            lst_data = data_grab.parseDataCa(self.name_file)
-            f_name = self.state_dir + 'data/'+self.state_name.lower()+'_covid19_'+self.name_file+'.csv'
-            self.save2File( lst_data, f_name )
         else:
             f_name = self.state_dir + 'data_html/'+self.state_name.lower()+'_covid19_'+self.name_file+'.html'
             if(not os.path.isdir(self.state_dir + 'data_html/') ): os.mkdir(self.state_dir + 'data_html/')
