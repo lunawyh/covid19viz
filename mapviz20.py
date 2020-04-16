@@ -17,7 +17,8 @@ import numpy as np
 import csv
 from os.path import isfile, join
 import pandas as pd
-# sudo pip install https://github.com/matplotlib/basemap/archive/master.zip
+# sudo pip install --user git+https://github.com/matplotlib/basemap.git
+# In Windows: pip install --user git+https://github.com/matplotlib/basemap.git
 from mpl_toolkits.basemap import Basemap
 from matplotlib.patches import Wedge
 import matplotlib.pyplot as plt
