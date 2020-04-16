@@ -343,6 +343,18 @@ class runVirusViz(object):
         self.save2File(l_overall, self.state_dir + 'data/'+self.state_name.lower()+'_covid19_'+self.name_file+'.csv')
         return l_overall
 
+    ## save downloaded data to daily or overal data 
+    def saveLatestDateMi(self, l_raw_data):
+        l_overall = []
+        
+        l_overall.append(['County', 'Cases', 'Deaths'])
+        for a_item in l_raw_data:
+            
+            l_overall.append(a_item[:3])
+        #for a_item in l_overall:
+        #    print (a_item)
+        self.save2File(l_overall, self.state_dir + 'data/'+self.state_name.lower()+'_covid19_'+self.name_file+'.csv')
+        return l_overall
 
     ## save to csv 
     def save2File(self, l_data, csv_name):
@@ -449,8 +461,8 @@ class runVirusViz(object):
             if(not os.path.isdir(self.state_dir + 'data_html/') ): os.mkdir(self.state_dir + 'data_html/')
             df_a = self.open4Website(f_name)
             f_name = self.state_dir + 'data/'+self.state_name.lower()+'_covid19_'+self.name_file+'.csv'
-            lst_data = self.parseDfData(df_a, fName=f_name)
-
+            lst_raw_data = self.parseDfData(df_a)
+            lst_data = self.saveLatestDateMi(lst_raw_data)
         #read data on yesterday 
         name_last = self.getOverallYesterday(self.name_file)
         if(name_last is not None):
@@ -533,7 +545,7 @@ class runVirusViz(object):
         return (True, lst_data)
     ## look up table to get pre-set information
     def lookupMapData(self, c_name, lst_data):
-        c_name_clean = c_name.replace('*', '').replace('.', '')
+        c_name_clean = str(c_name).replace('*', '').replace('.', '')
         for cov in lst_data:
             if c_name_clean in cov[0]:
                 return True, cov
@@ -562,9 +574,9 @@ class runVirusViz(object):
         line_h=13	
         offset_h = int( self.l_state_config[1][1] ) - line_h * len(l_cases)/2-25
         for a_case in l_cases:
-            if('County' in a_case[0]):
+            if('County' in str(a_case[0])):
                 continue
-            elif('Total' in a_case[0]):
+            elif('Total' in str(a_case[0])):
                 wish_total = int(a_case[1])
                 continue
             else:
@@ -578,7 +590,7 @@ class runVirusViz(object):
                 if( self.getColorByCompare(a_case) ): nColor = (0,255,0)
                 else: nColor = (0,0,255)
                 # draw the list on the left
-                cv2.putText(img, a_case[0], 
+                cv2.putText(img, str(a_case[0]), 
 		        (posx, posy), 
 		        cv2.FONT_HERSHEY_SIMPLEX, 
 		        0.53,

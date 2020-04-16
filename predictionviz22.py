@@ -98,7 +98,7 @@ class predictionViz(object):
         for ff in csv_data_files:             
             l_data_day = self.open4File(join(self.state_dir + 'data', ff))
             for a_day in l_data_day:
-                if 'Total' in a_day[0]:
+                if 'Total' in str(a_day[0]):
                     lst_data_overall.append(a_day[1])
                     dt_s = datetime.datetime.strptime(ff[offset:offset+8], '%Y%m%d')
                     day_mmdd.append( dt_s.strftime('%m/%d') )
