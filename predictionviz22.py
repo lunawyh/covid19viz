@@ -63,9 +63,9 @@ class predictionViz(object):
 	#   https://zhuanlan.zhihu.com/p/104645873
     def SIR(self, t, beta, gamma):
         # Total population, N.
-        N = 1000000
+        N = 1000000.0
         # Initial number of infected and recovered individuals, I0 and R0.
-        I0, R0 = 65, 65.0/239.0*25.0
+        I0, R0 = 65.0, 65.0/239.0*25.0
         # Everyone else, S0, is susceptible to infection initially.
         S0 = N - I0 - R0
 
@@ -75,7 +75,7 @@ class predictionViz(object):
             S, I, R = y
             dSdt = -beta * S * I / N
             dIdt = beta * S * I / N - gamma * I
-            dRdt = gamma * I
+            dRdt = gamma * I / N
             return dSdt, dIdt, dRdt
 
         # Initial conditions vector
@@ -109,7 +109,7 @@ class predictionViz(object):
         #lst_data_daily.append(0)
         for ii in range(len(lst_data_overall)):
             if ii < 1: continue  # lst_data_daily.append(lst_data_overall[ii])     
-            else: lst_data_daily.append(lst_data_overall[ii] - lst_data_overall[ii-1])  
+            else: lst_data_daily.append( float(lst_data_overall[ii] - lst_data_overall[ii-1]) )
         day_mmdd = day_mmdd[1:]  # the 1st day is removed
 
         # predict the future
@@ -121,7 +121,7 @@ class predictionViz(object):
         day_mmdd = day_mmdd[preDay:]    # postDay   
         #if(self.state_name in 'MI'): data[-2] = data[-1] * 1.15 # updated on 4/12/2020
         #data.append( int(data[-1] * 0.9) )
-        days = np.arange(0, len(data), 1)
+        days = np.arange(0.0, len(data), 1.0)
         popt, pcov = curve_fit(self.SIR, days, data)
         print(' contact parameter, recovery rate:', popt)
         print(" R0:", 1/popt[0], "Recovery days:", 1/popt[1])
