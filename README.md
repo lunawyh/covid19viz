@@ -32,26 +32,24 @@ New visualization and prediction of COVID-19 in USA, such as Michigan, CA.
 
 7. Run python virusviz18.py
 8. Optionally install base map
-
- In Windows
  
-   download http://download.osgeo.org/osgeo4w/osgeo4w-setup-x86_64.exe and install
-   
-     https://download.microsoft.com/download/7/9/6/796EF2E4-801B-4FC4-AB28-B59FBF6D907B/VCForPython27.msi
+     download and install
      
-   pip install pyproj==1.9.6
+          http://download.osgeo.org/osgeo4w/osgeo4w-setup-x86_64.exe
    
-   set the system environment variable: GEOS_DIR=C:\OSGeo4W64
+          https://download.microsoft.com/download/7/9/6/796EF2E4-801B-4FC4-AB28-B59FBF6D907B/VCForPython27.msi
+     
+     pip install pyproj==1.9.6
+   
+     set the system environment variable: 
+     
+                                        GEOS_DIR=C:\OSGeo4W64
    
                                         PROJ_DIR=C:\OSGeo4W64
                                                          
-   add    C:\OSGeo4W64\bin to PATH
+     add    C:\OSGeo4W64\bin to PATH
    
-   pip install --user git+https://github.com/matplotlib/basemap.git
-   
- In Linux
- 
-   sudo pip install https://github.com/matplotlib/basemap/archive/master.zip
+     pip install --user git+https://github.com/matplotlib/basemap.git
 
 # How to run in Ubuntu
 1. Run python virusviz18.py
