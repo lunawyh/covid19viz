@@ -445,8 +445,10 @@ class runVirusViz(object):
                 lst_data = self.saveLatestDateOh(lst_raw_data)
         elif( type_download == 25):   # download only
             f_name = self.state_dir + 'data_raw/'+self.state_name.lower()+'_covid19_'+self.name_file+'.xlsx'
+            f_n_total = self.state_dir + 'data_raw/'+self.state_name.lower()+'_covid19_'+self.name_file+'total.xlsx'
             if(not os.path.isdir(self.state_dir + 'data_raw/') ): os.mkdir(self.state_dir + 'data_raw/')
             gcontext = ssl._create_unverified_context()
+            urllib.urlretrieve(self.l_state_config[5][2], f_n_total, context=gcontext)
             urllib.urlretrieve(self.l_state_config[5][1], f_name, context=gcontext)
             lst_raw_data = self.open4Xlsx(f_name)
             #print(lst_raw_data[0])
