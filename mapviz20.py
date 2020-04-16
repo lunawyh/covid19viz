@@ -220,20 +220,22 @@ class mapViz(object):
             plt.text(x, y, a_county[3],fontsize=8, ha='center',va='center',color='k',rotation=a_county[10])
         # 55. draw list of counties
         ii = 0
+        n_in_group = 45
+        if(self.state_name in 'NY'): n_in_group = 15
         lat2, lon2 = lat_1+float(self.l_state_config[13][1]), lon_1+float(self.l_state_config[13][2])
         lat3, lon3 = lat_1+float(self.l_state_config[14][1]), lon_1+float(self.l_state_config[14][2])
-        if(len(l_cases_today) >= 90):
+        if(len(l_cases_today) >= n_in_group*2):
             lat4, lon4 = lat_1+float(self.l_state_config[15][1]), lon_1+float(self.l_state_config[15][2])
             lat5, lon5 = lat_1+float(self.l_state_config[16][1]), lon_1+float(self.l_state_config[16][2])
             lat6, lon6 = lat_1+float(self.l_state_config[17][1]), lon_1+float(self.l_state_config[17][2])
         for a_case in l_cases_today:	
             if('Total' in a_case[0]): continue
             if('County' in a_case[0]): continue
-            if(ii == 45):
+            if(ii == n_in_group*1):
                 lat2, lon2 = lat3, lon3
-            elif(ii == 90):
+            elif(ii == n_in_group*2):
                 lat2, lon2 = lat4, lon4
-            elif(ii == 135):
+            elif(ii == n_in_group*3):
                 lat2, lon2 = lat5, lon5
             elif(ii == 163):
                 lat2, lon2 = lat6, lon6
