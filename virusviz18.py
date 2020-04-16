@@ -105,7 +105,7 @@ class runVirusViz(object):
         elif(key == 65471 or key == 1114047 or key == 7405568):   # F2 key refresh newest from website
             self.data_daily, self.l_mi_cases = self.readDataDaily(True)
             pass
-        elif(key == 65472 or key == 1114048 or key == 7405569):   # F3 key gmaps
+        elif(key == 65472 or key == 1114048 or key == 7405569 or key == 7471104):   # F3 key gmaps
             from mapviz20 import *
             map_viz = mapViz(self.l_state_config, self.state_name)	
             save_file = None
