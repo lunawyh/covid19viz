@@ -75,7 +75,7 @@ class predictionViz(object):
             S, I, R = y
             dSdt = -beta * S * I / N
             dIdt = beta * S * I / N - gamma * I
-            dRdt = gamma * I / N
+            dRdt = gamma * I / N    # add dividing by N
             return dSdt, dIdt, dRdt
 
         # Initial conditions vector
