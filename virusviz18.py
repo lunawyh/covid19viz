@@ -214,34 +214,6 @@ class runVirusViz(object):
         else:
             lst_data_last = []
         return (pos, lst_data, lst_data_last)
-    ## save to csv 
-    def saveLatestDateNoUse(self, l_data):
-        a_test_date = None
-        l_daily = []
-        l_overral = []
-        total_daily = 0
-        total_overral = 0
-        for a_item in l_data:
-            if(a_test_date is None):
-                a_test_date =  a_item[0]
-                dt_obj = datetime.datetime.strptime(a_item[0], '%m/%d/%Y')
-                self.name_file = dt_obj.strftime('%Y%m%d')
-                self.now_date = dt_obj.strftime('%m/%d/%Y')
-            elif(a_test_date in a_item[0]):
-                pass
-            else:
-                continue
-            total_daily += int( a_item[2] )
-            total_overral += int( a_item[3] )
-            l_daily.append([a_item[1], a_item[2], 0])
-            l_overral.append([a_item[1], a_item[3], 0])
-        l_daily.append(['Total', total_daily, 0])
-        l_overral.append(['Total', total_overral, 0])
-        if(not os.path.isdir(self.state_dir + 'daily/') ): os.mkdir(self.state_dir + 'daily/')
-        if(not os.path.isdir(self.state_dir + 'data/') ): os.mkdir(self.state_dir + 'data/')
-        self.save2File(l_daily, self.state_dir + 'daily/'+self.state_name.lower()+'_covid19_'+self.name_file+'.csv')
-        self.save2File(l_overral, self.state_dir + 'data/'+self.state_name.lower()+'_covid19_'+self.name_file+'.csv')
-        return l_overral
     ## save to csv
 
     def saveLatestDateNy(self, l_data):
@@ -293,19 +265,6 @@ class runVirusViz(object):
         self.save2File(l_overral,
                        self.state_dir + 'data/' + self.state_name.lower() + '_covid19_' + self.name_file + '.csv')
         return l_overral
-    ## is validated or not
-    def isValidDate(self, src, dst, bDaily=True):
-        if(bDaily):
-            if( src in dst): return True
-            else: return False
-        else:
-            dt_obj = datetime.datetime.strptime(src, '%m/%d/%Y')
-            dt_src = int( dt_obj.strftime('%Y%m%d') )
-
-            dt_obj = datetime.datetime.strptime(dst, '%m/%d/%Y')
-            dt_dst = int( dt_obj.strftime('%Y%m%d') )
-            if( dt_src >= dt_dst): return True
-            else: return False
 
     def saveLatestDateOh(self, l_data):
         l_d_sort = sorted(l_data, key=lambda k: k[3], reverse=False)
