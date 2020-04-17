@@ -43,12 +43,22 @@ class runVirusViz(object):
 
         # create a node
         print("welcome to node virusviz")
-        #choose one state in US
-        self.state_name = 'MI'
+        self.states_valid = []
+        self.states_pos = 0
         if( isfile('../state.txt')):
             with open('../state.txt', 'r') as f:
-                self.state_name = f.readlines()[0][0:2]
-                print('  state', self.state_name)
+                self.states_valid = f.readlines()
+        a_state = 'MI'
+        if( len(self.states_valid) > 0):
+                a_state = self.states_valid[0][0:2]
+        print('  state', a_state)
+        self.stateMachine = 0 
+        self.init(a_state) 
+        self.run() 
+    ## init
+    def init(self, a_state):
+        #choose one state in US
+        self.state_name = a_state
         self.state_dir = './'+self.state_name.lower()+'/'
         if(not os.path.isdir(self.state_dir) ): os.mkdir(self.state_dir)
 
@@ -80,8 +90,9 @@ class runVirusViz(object):
         self.name_file = ''
         self.now_date = ''
         self.csv_pos_now, self.l_mi_cases, self.l_cases_yest = self.readDataByDay(999999)
-        self.stateMachine = 0 
 
+    ## run
+    def run(self):
         # main loop for processing
         while (not self.now_exit):
             self.cmdProcess( cv2.waitKeyEx(300), 19082601 )
@@ -214,7 +225,13 @@ class runVirusViz(object):
         elif(self.stateMachine == 700):
                 self.stateMachine += 50
                 self.cmdProcess(65479, 0)  # press F10 show overall
-                self.stateMachine = 0
+                if( self.states_pos < len(self.states_valid)-1 ):
+                    cv2.destroyAllWindows()
+                    self.states_pos += 1
+                    self.init( self.states_valid[self.states_pos][0:2] ) 
+                    self.stateMachine = 100
+                else:
+                    self.stateMachine = 0
     ## step 2
     ## read data file given day offset
     def readDataByDay(self, pos):
