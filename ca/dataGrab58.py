@@ -10,7 +10,8 @@ from __future__ import print_function
 import os
 from lxml import html
 import requests
-
+import urllib
+import re
 # ==============================================================================
 # -- imports -------------------------------------------------------------------
 # ==============================================================================
@@ -65,12 +66,12 @@ class dataGrab(object):
         if(not os.path.isdir(self.state_dir + 'data_html/') ): os.mkdir(self.state_dir + 'data_html/')
         link_dir =  self.state_dir + 'data_html/' + name_file + '/'
         if(not os.path.isdir(link_dir) ): os.mkdir(link_dir)
-        '''
+        
         for a_link in l_links:
                 f_name = link_dir+a_link[0]+'.html'
                 print(a_link[1], f_name)
                 urllib.urlretrieve(a_link[1], f_name)
-        '''
+        
         l_data_daily = []
         l_data_daily.append(['County', 'Cases', 'Deaths', 'Date'])
         for a_link in l_links:
@@ -86,10 +87,10 @@ class dataGrab(object):
                 for a_case in l_cases:
                     if('Positive Alameda County Cases:' in a_case): 
                         a_case_l = a_case.split(':') 
-                        c_pos = int(a_case_l[1])
+                        c_pos = int( re.sub("[^0-9]", "", a_case_l[1]) )
                     if('Deaths:' in a_case):
                         a_case_l = a_case.split(':') 
-                        c_death = int(a_case_l[1])
+                        c_death = int( re.sub("[^0-9]", "", a_case_l[1]) )
                 l_data_daily.append([a_link[0], c_pos, c_death, c_date])
                 break
         return(l_data_daily)  

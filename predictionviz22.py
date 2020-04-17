@@ -39,7 +39,7 @@ class predictionViz(object):
     def parseDfData(self, df, fName=None):
         (n_rows, n_columns) = df.shape 
         # check shape
-        #print('parseDfData', df.title)
+        #print('parseDfData', df.shape)
         lst_data = []
         for ii in range(n_rows):
             a_case = []
@@ -85,25 +85,52 @@ class predictionViz(object):
         S, I, R = ret.T
         return I
 
-    #
+    #    ## open a xlsx 
+    def open4Xlsx(self, xlsx_name):
+        if(isfile(xlsx_name) ):
+            xl_file = pd.ExcelFile(xlsx_name)
+            df = xl_file.parse('COVID-19 Cases')
+            l_data = self.parseDfData(df)
+        else: return []
+        return l_data
     def predictByModelSir(self, save_file=None):
         print('predictByModelSir...')
-        # read all data file
-        csv_data_files = sorted( [f for f in listdir(self.state_dir + 'data') if isfile(join(self.state_dir + 'data', f))] )
-        if( len(csv_data_files) < 1): return False
-        offset = 11	
         day_mmdd = []
         lst_data_overall = []
-        # read total number from data file	
-        for ff in csv_data_files:             
-            l_data_day = self.open4File(join(self.state_dir + 'data', ff))
+        if (self.state_name in 'TX'):
+            # read all data_raw file
+            csv_data_files = sorted( [f for f in listdir(self.state_dir + 'data_raw') if isfile(join(self.state_dir + 'data_raw', f))] )
+            if( len(csv_data_files) < 1): return False
+            if( 'total' in csv_data_files[-1]): 
+                l_data_day = self.open4Xlsx("./tx/data_raw/"+csv_data_files[-1])
+            else: return False
             for a_day in l_data_day:
-                if 'Total' in str(a_day[0]):
-                    lst_data_overall.append(a_day[1])
-                    dt_s = datetime.datetime.strptime(ff[offset:offset+8], '%Y%m%d')
-                    day_mmdd.append( dt_s.strftime('%m/%d') )
-                    break
+                #print(a_day)
+                if '56' in str(a_day[0]) and '63' in str(a_day[1]):
+                    lst_data_overall = a_day
+                    #for a_number in a_day[0:]:
+                    #    lst_data_overall.append(int(a_number))
+                if 'Cases' in str(a_day[0]):
+                    for a_date in a_day[0:]:
+                        day_mmdd.append(a_date.replace('Cases \n', ''))
+                    #day_mmdd = a_day[0:]
+            dt_s = datetime.datetime.strptime('2020-'+day_mmdd[-1], '%Y-%m-%d')         
+        else:
+            # read all data file
+            csv_data_files = sorted( [f for f in listdir(self.state_dir + 'data') if isfile(join(self.state_dir + 'data', f))] )
+            if( len(csv_data_files) < 1): return False
 
+            offset = 11	
+            # read total number from data file
+            for ff in csv_data_files:             
+                l_data_day = self.open4File(join(self.state_dir + 'data', ff))
+                for a_day in l_data_day:
+                    if 'Total' in str(a_day[0]):
+                        lst_data_overall.append(a_day[1])
+                        dt_s = datetime.datetime.strptime(ff[offset:offset+8], '%Y%m%d')
+                        day_mmdd.append( dt_s.strftime('%m/%d') )
+                        break
+        #print(lst_data_overall)
         # get daily new cases
         lst_data_daily = []
         #lst_data_daily.append(0)
