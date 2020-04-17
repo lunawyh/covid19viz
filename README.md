@@ -1,5 +1,5 @@
 # covid19viz
-New visualization and prediction of COVID-19 in USA, such as Michigan, CA.
+New visualization and prediction of COVID-19 in USA, such as Michigan, CA, OH, NY, TX, showing here at www.appstorego.com.
 
     I. Visualize the data of COVID-19 today
 
