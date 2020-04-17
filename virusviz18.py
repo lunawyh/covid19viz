@@ -260,35 +260,58 @@ class runVirusViz(object):
         else:
             lst_data_last = []
         return (pos, lst_data, lst_data_last)
-    ## save to csv 
-    def saveLatestDate(self, l_data):
-        a_test_date = None
+    ## save to csv
+
+    def saveLatestDateNy(self, l_data):
+        l_d_sort = sorted(l_data, key=lambda k: k[0], reverse=False)
+        # find different date time
+        l_date = []
+        for a_item in l_d_sort:
+            #
+            bFound = False
+            for a_date in l_date:
+                if(a_date in a_item[0]):
+                    bFound = True
+                    break
+            if(not bFound):
+                l_date.append(a_item[0])
+        # generate all daily data
+        l_daily = []
+        for a_date in l_date:
+            l_daily = self.saveDataFromDlNy(l_d_sort, a_date, bDaily=False)
+        return l_daily
+
+    def saveDataFromDlNy(self, l_data, a_test_date, bDaily=True):
+        initial_test_date = None
         l_daily = []
         l_overral = []
         total_daily = 0
         total_overral = 0
         for a_item in l_data:
-            if(a_test_date is None):
-                a_test_date =  a_item[0]
-                dt_obj = datetime.datetime.strptime(a_item[0], '%m/%d/%Y')
+            #if (a_test_date is None):
+            if (a_test_date is not initial_test_date):
+                initial_test_date = a_test_date
+                dt_obj = datetime.datetime.strptime(a_test_date, '%m/%d/%Y')
                 self.name_file = dt_obj.strftime('%Y%m%d')
                 self.now_date = dt_obj.strftime('%m/%d/%Y')
-            elif(a_test_date in a_item[0]):
+            elif (a_test_date in a_item[0]):
                 pass
             else:
                 continue
-            total_daily += int( a_item[2] )
-            total_overral += int( a_item[3] )
+            total_daily += int(a_item[2])
+            total_overral += int(a_item[3])
             l_daily.append([a_item[1], a_item[2], 0])
             l_overral.append([a_item[1], a_item[3], 0])
         l_daily.append(['Total', total_daily, 0])
         l_overral.append(['Total', total_overral, 0])
-        if(not os.path.isdir(self.state_dir + 'daily/') ): os.mkdir(self.state_dir + 'daily/')
-        if(not os.path.isdir(self.state_dir + 'data/') ): os.mkdir(self.state_dir + 'data/')
-        self.save2File(l_daily, self.state_dir + 'daily/'+self.state_name.lower()+'_covid19_'+self.name_file+'.csv')
-        self.save2File(l_overral, self.state_dir + 'data/'+self.state_name.lower()+'_covid19_'+self.name_file+'.csv')
+        if (not os.path.isdir(self.state_dir + 'daily/')): os.mkdir(self.state_dir + 'daily/')
+        if (not os.path.isdir(self.state_dir + 'data/')): os.mkdir(self.state_dir + 'data/')
+        self.save2File(l_daily,
+                       self.state_dir + 'daily/' + self.state_name.lower() + '_covid19_' + self.name_file + '.csv')
+        self.save2File(l_overral,
+                       self.state_dir + 'data/' + self.state_name.lower() + '_covid19_' + self.name_file + '.csv')
         return l_overral
-    ## save to csv 
+
     def saveLatestDateOh(self, l_data):
         l_d_sort = sorted(l_data, key=lambda k: k[3], reverse=False)
         # find different date time
@@ -464,6 +487,7 @@ class runVirusViz(object):
         if(fName is not None): self.save2File( lst_data, fName )
         return lst_data
     def isNameOnToday(self, f_name):
+        if(self.state_name in 'NY'): return True
         dt_now = datetime.datetime.now()
         dt_name_file = dt_now.strftime('%Y%m%d') 
         if f_name == dt_name_file:
@@ -490,7 +514,7 @@ class runVirusViz(object):
             lst_raw_data = self.open4File(f_name)
             # step C: convert to standard file and save
             if( type_download == 5):
-                lst_data = self.saveLatestDate(lst_raw_data)
+                lst_data = self.saveLatestDateNy(lst_raw_data)
             if( type_download == 15):
                 lst_data = self.saveLatestDateOh(lst_raw_data)
         elif( type_download == 25):   # download only
