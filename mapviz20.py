@@ -17,7 +17,17 @@ import numpy as np
 import csv
 from os.path import isfile, join
 import pandas as pd
-# sudo pip install https://github.com/matplotlib/basemap/archive/master.zip
+#
+# In Windows
+#   download http://download.osgeo.org/osgeo4w/osgeo4w-setup-x86_64.exe and install
+#     https://download.microsoft.com/download/7/9/6/796EF2E4-801B-4FC4-AB28-B59FBF6D907B/VCForPython27.msi
+#   pip install pyproj==1.9.6
+#   set the system environment variable: GEOS_DIR=C:\OSGeo4W64
+#                                                         PROJ_DIR=C:\OSGeo4W64
+#   add    C:\OSGeo4W64\bin to PATH
+#   pip install --user git+https://github.com/matplotlib/basemap.git
+# In Linux
+#   sudo pip install https://github.com/matplotlib/basemap/archive/master.zip
 from mpl_toolkits.basemap import Basemap
 from matplotlib.patches import Wedge
 import matplotlib.pyplot as plt

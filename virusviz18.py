@@ -105,7 +105,7 @@ class runVirusViz(object):
         elif(key == 65471 or key == 1114047 or key == 7405568):   # F2 key refresh newest from website
             self.data_daily, self.l_mi_cases = self.readDataDaily(True)
             pass
-        elif(key == 65472 or key == 1114048 or key == 7405569):   # F3 key gmaps
+        elif(key == 65472 or key == 1114048 or key == 7405569 or key == 7471104):   # F3 key gmaps
             from mapviz20 import *
             map_viz = mapViz(self.l_state_config, self.state_name)	
             save_file = None
@@ -343,6 +343,18 @@ class runVirusViz(object):
         self.save2File(l_overall, self.state_dir + 'data/'+self.state_name.lower()+'_covid19_'+self.name_file+'.csv')
         return l_overall
 
+    ## save downloaded data to daily or overal data 
+    def saveLatestDateMi(self, l_raw_data):
+        l_overall = []
+        
+        l_overall.append(['County', 'Cases', 'Deaths'])
+        for a_item in l_raw_data:
+            
+            l_overall.append(a_item[:3])
+        #for a_item in l_overall:
+        #    print (a_item)
+        self.save2File(l_overall, self.state_dir + 'data/'+self.state_name.lower()+'_covid19_'+self.name_file+'.csv')
+        return l_overall
 
     ## save to csv 
     def save2File(self, l_data, csv_name):
@@ -426,32 +438,45 @@ class runVirusViz(object):
         if( type_download == 5 or type_download == 15):   # download only
             f_name = self.state_dir + 'data_raw/'+self.state_name.lower()+'_covid19_'+self.name_file+'.csv'
             if(not os.path.isdir(self.state_dir + 'data_raw/') ): os.mkdir(self.state_dir + 'data_raw/')
+            # step A: downlowd and save
             result = self.download4Website(f_name)
+            # step B: parse and open
             lst_raw_data = self.open4File(f_name)
+            # step C: convert to standard file and save
             if( type_download == 5):
                 lst_data = self.saveLatestDate(lst_raw_data)
             if( type_download == 15):
                 lst_data = self.saveLatestDateOh(lst_raw_data)
         elif( type_download == 25):   # download only
             f_name = self.state_dir + 'data_raw/'+self.state_name.lower()+'_covid19_'+self.name_file+'.xlsx'
+            f_n_total = self.state_dir + 'data_raw/'+self.state_name.lower()+'_covid19_'+self.name_file+'total.xlsx'
             if(not os.path.isdir(self.state_dir + 'data_raw/') ): os.mkdir(self.state_dir + 'data_raw/')
+            # step A: downlowd and save
             gcontext = ssl._create_unverified_context()
+            urllib.urlretrieve(self.l_state_config[5][2], f_n_total, context=gcontext)
             urllib.urlretrieve(self.l_state_config[5][1], f_name, context=gcontext)
+            # step B: parse and open
             lst_raw_data = self.open4Xlsx(f_name)
-            #print(lst_raw_data[0])
+            # step C: convert to standard file and save
             lst_data = self.saveLatestDateTx(lst_raw_data)
         elif( type_download == 101 ):   # download counties in the list
+            # step A: downlowd and save
             data_grab = dataGrab(self.l_state_config, self.state_name)	
+            # step B: parse to standard file
             lst_data = data_grab.parseDataCa(self.name_file)		
             f_name = self.state_dir + 'data/'+self.state_name.lower()+'_covid19_'+self.name_file+'.csv'
+            # step C: save
             self.save2File( lst_data, f_name )
         else:
             f_name = self.state_dir + 'data_html/'+self.state_name.lower()+'_covid19_'+self.name_file+'.html'
             if(not os.path.isdir(self.state_dir + 'data_html/') ): os.mkdir(self.state_dir + 'data_html/')
+            # step A: downlowd and save
             df_a = self.open4Website(f_name)
             f_name = self.state_dir + 'data/'+self.state_name.lower()+'_covid19_'+self.name_file+'.csv'
-            lst_data = self.parseDfData(df_a, fName=f_name)
-
+            # step B: parse and open
+            lst_raw_data = self.parseDfData(df_a)
+            # step C: convert to standard file and save
+            lst_data = self.saveLatestDateMi(lst_raw_data)
         #read data on yesterday 
         name_last = self.getOverallYesterday(self.name_file)
         if(name_last is not None):
@@ -563,9 +588,9 @@ class runVirusViz(object):
         line_h=13	
         offset_h = int( self.l_state_config[1][1] ) - line_h * len(l_cases)/2-25
         for a_case in l_cases:
-            if('County' in a_case[0]):
+            if('County' in str(a_case[0])):
                 continue
-            elif('Total' in a_case[0]):
+            elif('Total' in str(a_case[0])):
                 wish_total = int(a_case[1])
                 continue
             else:
@@ -579,7 +604,7 @@ class runVirusViz(object):
                 if( self.getColorByCompare(a_case) ): nColor = (0,255,0)
                 else: nColor = (0,0,255)
                 # draw the list on the left
-                cv2.putText(img, a_case[0], 
+                cv2.putText(img, str(a_case[0]), 
 		        (posx, posy), 
 		        cv2.FONT_HERSHEY_SIMPLEX, 
 		        0.53,
