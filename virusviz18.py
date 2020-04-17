@@ -80,6 +80,7 @@ class runVirusViz(object):
         self.name_file = ''
         self.now_date = ''
         self.csv_pos_now, self.l_mi_cases, self.l_cases_yest = self.readDataByDay(999999)
+        self.stateMachine = 0 
 
         # main loop for processing
         while (not self.now_exit):
@@ -90,6 +91,7 @@ class runVirusViz(object):
                     self.infoShowCases(self.img_overlay, self.l_mi_cases)
                 cv2.imshow("COVID-19 %.0f in "%2020+self.state_name, self.img_overlay)
                 self.map_data_updated = 0
+            self.stateManage(0)
         self.exit_hook()
     ## key process
     def cmdProcess(self, key, t0):
@@ -129,18 +131,14 @@ class runVirusViz(object):
                 #if(self.isNameOnToday(self.name_file)):
                 #    cv2.imwrite(self.state_dir + 'results/mi_county20200000.png', self.img_overlay)
             pass  
-        elif(key == 65477 or key == 1114053 or key == 7798784):   # F8 key next day
-            self.data_daily = False
-            self.csv_pos_now, self.l_mi_cases, self.l_cases_yest = self.readDataByDay(0) 
+        elif(key == 65476 or key == 1114052 or key == 7798783):   # F7 key run all commands
+            self.stateMachine = 100 
         elif(key == 65478 or key == 1114054 or key == 7864320):   # F9 key previous day
             self.data_daily = False
             self.csv_pos_now, self.l_mi_cases, self.l_cases_yest = self.readDataByDay(self.csv_pos_now-1)   
         elif(key == 65479 or key == 1114055 or key == 7929856):   # F10 key next day
             self.data_daily = False
             self.csv_pos_now, self.l_mi_cases, self.l_cases_yest = self.readDataByDay(self.csv_pos_now+1) 
-        elif(key == 65480 or key == 1114056 or key == 7995392):   # F11 key next day
-            self.data_daily = False
-            self.csv_pos_now, self.l_mi_cases, self.l_cases_yest = self.readDataByDay(9999999999) 
         elif(key == 65481 or key == 1114057 or key == 7995393 or key == 8060928):   # F12 key next day
             save_file = None
             if(self.isNameOnToday(self.name_file)):
@@ -181,10 +179,42 @@ class runVirusViz(object):
             #self.parseDfData(cov_tables[2], './ne_maps/us_states_land.csv')  
             pass
         elif(key == 27 or key == 1048603):  # esc
+            self.stateMachine = 0 
             self.now_exit = True
             pass  
         else:   
             print (key)
+    ## manage state machine
+    def stateManage(self, state):
+        #print('stateManage...', state)
+        if(self.stateMachine == 100):
+                self.stateMachine += 50
+                self.cmdProcess(65474, 0)  # press F5 grab data
+                self.stateMachine += 50
+        elif(self.stateMachine == 200):
+                self.stateMachine += 50
+                self.cmdProcess(100, 0)  # press d show rainbow of death
+                self.stateMachine += 50
+        elif(self.stateMachine == 300):
+                self.stateMachine += 50
+                self.cmdProcess(65472, 0)  # press F3 show base map
+                self.stateMachine += 50
+        elif(self.stateMachine == 400):
+                self.stateMachine += 50
+                self.cmdProcess(65481, 0)  # press F12 show prediction
+                self.stateMachine += 50
+        elif(self.stateMachine == 500):
+                self.stateMachine += 50
+                self.cmdProcess(65471, 0)  # press F2 daily data
+                self.stateMachine += 50
+        elif(self.stateMachine == 600):
+                self.stateMachine += 50
+                self.cmdProcess(114, 0)  # press r show rainbow of daily
+                self.stateMachine += 50
+        elif(self.stateMachine == 700):
+                self.stateMachine += 50
+                self.cmdProcess(65479, 0)  # press F10 show overall
+                self.stateMachine = 0
     ## step 2
     ## read data file given day offset
     def readDataByDay(self, pos):
