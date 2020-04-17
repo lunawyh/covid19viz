@@ -55,6 +55,6 @@ New visualization and prediction of COVID-19 in USA, such as Michigan, CA, OH, N
 1. Run python virusviz18.py
 
 # SIR model
-1. Predict with SIR model, referring to Wuhan data
+1. Predict with SIR model / SIRmodel, referring to Wuhan data
 
 
