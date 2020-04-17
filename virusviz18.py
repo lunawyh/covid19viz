@@ -43,12 +43,22 @@ class runVirusViz(object):
 
         # create a node
         print("welcome to node virusviz")
-        #choose one state in US
-        self.state_name = 'MI'
+        self.states_valid = []
+        self.states_pos = 0
         if( isfile('../state.txt')):
             with open('../state.txt', 'r') as f:
-                self.state_name = f.readlines()[0][0:2]
-                print('  state', self.state_name)
+                self.states_valid = f.readlines()
+        a_state = 'MI'
+        if( len(self.states_valid) > 0):
+                a_state = self.states_valid[0][0:2]
+        print('  state', a_state)
+        self.stateMachine = 0 
+        self.init(a_state) 
+        self.run() 
+    ## init
+    def init(self, a_state):
+        #choose one state in US
+        self.state_name = a_state
         self.state_dir = './'+self.state_name.lower()+'/'
         if(not os.path.isdir(self.state_dir) ): os.mkdir(self.state_dir)
 
@@ -81,6 +91,8 @@ class runVirusViz(object):
         self.now_date = ''
         self.csv_pos_now, self.l_mi_cases, self.l_cases_yest = self.readDataByDay(999999)
 
+    ## run
+    def run(self):
         # main loop for processing
         while (not self.now_exit):
             self.cmdProcess( cv2.waitKeyEx(300), 19082601 )
@@ -90,6 +102,7 @@ class runVirusViz(object):
                     self.infoShowCases(self.img_overlay, self.l_mi_cases)
                 cv2.imshow("COVID-19 %.0f in "%2020+self.state_name, self.img_overlay)
                 self.map_data_updated = 0
+            self.stateManage(0)
         self.exit_hook()
     ## key process
     def cmdProcess(self, key, t0):
@@ -105,43 +118,38 @@ class runVirusViz(object):
         elif(key == 65471 or key == 1114047 or key == 7405568):   # F2 key refresh newest from website
             self.data_daily, self.l_mi_cases = self.readDataDaily(True)
             pass
-        elif(key == 65472 or key == 1114048 or key == 7405569):   # F3 key gmaps
+        elif(key == 65472 or key == 1114048 or key == 7405569 or key == 7471104):   # F3 key gmaps
             from mapviz20 import *
-            map_viz = mapViz(self.l_state_config, self.state_name)
+            map_viz = mapViz(self.l_state_config, self.state_name)	
             save_file = None
             if self.data_daily == True: type_data=1
-            else:
-                type_data = 2
-                if(self.isNameOnToday(self.name_file)):
+            else: 
+                type_data =2
+                if(self.isNameOnToday(self.name_file)): 
                     save_file = self.state_dir + 'results/mi_county20200000.png'
-            map_viz.showCountyInMap(self.l_mi_cases,
-                l_type=type_data, l_last = self.l_cases_yest,
+            map_viz.showCountyInMap(self.l_mi_cases, 
+                l_type=type_data, l_last = self.l_cases_yest, 
                 save_file=save_file, date=self.now_date)
-            pass
+            pass  
         elif(key == 65474 or key == 1114050 or key == 7602176):   # F5 key refresh newest from website
             self.data_daily = False
-            pos, self.l_ny_cases, self.l_cases_yest = self.cmdGrabDataFromWebsite()
-            if(len(self.l_ny_cases) > 0):
+
+            pos, self.l_mi_cases, self.l_cases_yest = self.cmdGrabDataFromWebsite()
+            if(len(self.l_mi_cases) > 0):
                 self.img_overlay = self.img_map.copy()
-                self.infoShowCases(self.img_overlay, self.l_ny_cases)
-                cv2.imshow("COVID-19 %.0f in " % 2020 + self.state_name, self.img_overlay)
-                self.map_data_updated = 0
-                # cv2.imwrite(self.state_dir + 'results/mi_county'+self.name_file+'.png', self.img_overlay)
-                # if(self.isNameOnToday(self.name_file)):
+                self.infoShowCases(self.img_overlay, self.l_mi_cases)
+                #cv2.imwrite(self.state_dir + 'results/mi_county'+self.name_file+'.png', self.img_overlay)
+                #if(self.isNameOnToday(self.name_file)):
                 #    cv2.imwrite(self.state_dir + 'results/mi_county20200000.png', self.img_overlay)
-            pass
-        elif(key == 65477 or key == 1114053 or key == 7798784):   # F8 key next day
-            self.data_daily = False
-            self.csv_pos_now, self.l_mi_cases, self.l_cases_yest = self.readDataByDay(0)
+            pass  
+        elif(key == 65476 or key == 1114052 or key == 7798783):   # F7 key run all commands
+            self.stateMachine = 100 
         elif(key == 65478 or key == 1114054 or key == 7864320):   # F9 key previous day
             self.data_daily = False
             self.csv_pos_now, self.l_mi_cases, self.l_cases_yest = self.readDataByDay(self.csv_pos_now-1)   
         elif(key == 65479 or key == 1114055 or key == 7929856):   # F10 key next day
             self.data_daily = False
             self.csv_pos_now, self.l_mi_cases, self.l_cases_yest = self.readDataByDay(self.csv_pos_now+1) 
-        elif(key == 65480 or key == 1114056 or key == 7995392):   # F11 key next day
-            self.data_daily = False
-            self.csv_pos_now, self.l_mi_cases, self.l_cases_yest = self.readDataByDay(9999999999) 
         elif(key == 65481 or key == 1114057 or key == 7995393 or key == 8060928):   # F12 key next day
             save_file = None
             if(self.isNameOnToday(self.name_file)):
@@ -182,10 +190,48 @@ class runVirusViz(object):
             #self.parseDfData(cov_tables[2], './ne_maps/us_states_land.csv')  
             pass
         elif(key == 27 or key == 1048603):  # esc
+            self.stateMachine = 0 
             self.now_exit = True
             pass  
         else:   
             print (key)
+    ## manage state machine
+    def stateManage(self, state):
+        #print('stateManage...', state)
+        if(self.stateMachine == 100):
+                self.stateMachine += 50
+                self.cmdProcess(65474, 0)  # press F5 grab data
+                self.stateMachine += 50
+        elif(self.stateMachine == 200):
+                self.stateMachine += 50
+                self.cmdProcess(100, 0)  # press d show rainbow of death
+                self.stateMachine += 50
+        elif(self.stateMachine == 300):
+                self.stateMachine += 50
+                self.cmdProcess(65472, 0)  # press F3 show base map
+                self.stateMachine += 50
+        elif(self.stateMachine == 400):
+                self.stateMachine += 50
+                self.cmdProcess(65481, 0)  # press F12 show prediction
+                self.stateMachine += 50
+        elif(self.stateMachine == 500):
+                self.stateMachine += 50
+                self.cmdProcess(65471, 0)  # press F2 daily data
+                self.stateMachine += 50
+        elif(self.stateMachine == 600):
+                self.stateMachine += 50
+                self.cmdProcess(114, 0)  # press r show rainbow of daily
+                self.stateMachine += 50
+        elif(self.stateMachine == 700):
+                self.stateMachine += 50
+                self.cmdProcess(65479, 0)  # press F10 show overall
+                if( self.states_pos < len(self.states_valid)-1 ):
+                    cv2.destroyAllWindows()
+                    self.states_pos += 1
+                    self.init( self.states_valid[self.states_pos][0:2] ) 
+                    self.stateMachine = 100
+                else:
+                    self.stateMachine = 0
     ## step 2
     ## read data file given day offset
     def readDataByDay(self, pos):

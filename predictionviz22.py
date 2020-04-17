@@ -102,18 +102,20 @@ class predictionViz(object):
             csv_data_files = sorted( [f for f in listdir(self.state_dir + 'data_raw') if isfile(join(self.state_dir + 'data_raw', f))] )
             if( len(csv_data_files) < 1): return False
             if( 'total' in csv_data_files[-1]): 
+                print("  ./tx/data_raw/"+csv_data_files[-1])
                 l_data_day = self.open4Xlsx("./tx/data_raw/"+csv_data_files[-1])
             else: return False
             for a_day in l_data_day:
                 #print(a_day)
-                if '56' in str(a_day[0]) and '63' in str(a_day[1]):
-                    lst_data_overall = a_day
+                if 'Total' in str(a_day[0]):
+                    lst_data_overall = a_day[11:]
                     #for a_number in a_day[0:]:
                     #    lst_data_overall.append(int(a_number))
-                if 'Cases' in str(a_day[0]):
-                    for a_date in a_day[0:]:
+                if 'County Name' in str(a_day[0]):
+                    for a_date in a_day[11:]:
                         day_mmdd.append(a_date.replace('Cases \n', ''))
                     #day_mmdd = a_day[0:]
+            if( len(day_mmdd) < 1): return False
             dt_s = datetime.datetime.strptime('2020-'+day_mmdd[-1], '%Y-%m-%d')         
         else:
             # read all data file
