@@ -437,8 +437,11 @@ class runVirusViz(object):
         if( type_download == 5 or type_download == 15):   # download only
             f_name = self.state_dir + 'data_raw/'+self.state_name.lower()+'_covid19_'+self.name_file+'.csv'
             if(not os.path.isdir(self.state_dir + 'data_raw/') ): os.mkdir(self.state_dir + 'data_raw/')
+            # step A: downlowd and save
             result = self.download4Website(f_name)
+            # step B: parse and open
             lst_raw_data = self.open4File(f_name)
+            # step C: convert to standard file and save
             if( type_download == 5):
                 lst_data = self.saveLatestDate(lst_raw_data)
             if( type_download == 15):
@@ -447,23 +450,31 @@ class runVirusViz(object):
             f_name = self.state_dir + 'data_raw/'+self.state_name.lower()+'_covid19_'+self.name_file+'.xlsx'
             f_n_total = self.state_dir + 'data_raw/'+self.state_name.lower()+'_covid19_'+self.name_file+'total.xlsx'
             if(not os.path.isdir(self.state_dir + 'data_raw/') ): os.mkdir(self.state_dir + 'data_raw/')
+            # step A: downlowd and save
             gcontext = ssl._create_unverified_context()
             urllib.urlretrieve(self.l_state_config[5][2], f_n_total, context=gcontext)
             urllib.urlretrieve(self.l_state_config[5][1], f_name, context=gcontext)
+            # step B: parse and open
             lst_raw_data = self.open4Xlsx(f_name)
-            #print(lst_raw_data[0])
+            # step C: convert to standard file and save
             lst_data = self.saveLatestDateTx(lst_raw_data)
         elif( type_download == 101 ):   # download counties in the list
+            # step A: downlowd and save
             data_grab = dataGrab(self.l_state_config, self.state_name)	
+            # step B: parse to standard file
             lst_data = data_grab.parseDataCa(self.name_file)		
             f_name = self.state_dir + 'data/'+self.state_name.lower()+'_covid19_'+self.name_file+'.csv'
+            # step C: save
             self.save2File( lst_data, f_name )
         else:
             f_name = self.state_dir + 'data_html/'+self.state_name.lower()+'_covid19_'+self.name_file+'.html'
             if(not os.path.isdir(self.state_dir + 'data_html/') ): os.mkdir(self.state_dir + 'data_html/')
+            # step A: downlowd and save
             df_a = self.open4Website(f_name)
             f_name = self.state_dir + 'data/'+self.state_name.lower()+'_covid19_'+self.name_file+'.csv'
+            # step B: parse and open
             lst_raw_data = self.parseDfData(df_a)
+            # step C: convert to standard file and save
             lst_data = self.saveLatestDateMi(lst_raw_data)
         #read data on yesterday 
         name_last = self.getOverallYesterday(self.name_file)
@@ -547,7 +558,7 @@ class runVirusViz(object):
         return (True, lst_data)
     ## look up table to get pre-set information
     def lookupMapData(self, c_name, lst_data):
-        c_name_clean = str(c_name).replace('*', '').replace('.', '')
+        c_name_clean = c_name.replace('*', '').replace('.', '')
         for cov in lst_data:
             if c_name_clean in cov[0]:
                 return True, cov
