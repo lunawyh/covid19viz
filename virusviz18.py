@@ -41,14 +41,29 @@ class runVirusViz(object):
     ## the start entry of this class
     def __init__(self):
 
-        # create a node
-        print("welcome to node virusviz")
+        # create an application
+        print("welcome to virusviz")
+        a_state = self.selectState() 
+        self.initState(a_state) 
+        self.run() 
+    ## select
+    def selectState(self):
         #choose one state in US
-        self.state_name = 'MI'
+        self.states_valid = []
+        self.states_pos = 0
         if( isfile('../state.txt')):
             with open('../state.txt', 'r') as f:
-                self.state_name = f.readlines()[0][0:2]
-                print('  state', self.state_name)
+                self.states_valid = f.readlines()
+        a_state = 'MI'
+        if( len(self.states_valid) > 0):
+                a_state = self.states_valid[0][0:2]
+        print('  state', a_state)
+        self.stateMachine = 0 
+        return a_state
+    ## set variables
+    def initState(self, a_state):
+        #initialize with one state in US
+        self.state_name = a_state
         self.state_dir = './'+self.state_name.lower()+'/'
         if(not os.path.isdir(self.state_dir) ): os.mkdir(self.state_dir)
 
@@ -81,15 +96,19 @@ class runVirusViz(object):
         self.now_date = ''
         self.csv_pos_now, self.l_mi_cases, self.l_cases_yest = self.readDataByDay(999999)
 
+    ## run
+    def run(self):
         # main loop for processing
+        t_wait = 1000
         while (not self.now_exit):
-            self.cmdProcess( cv2.waitKeyEx(300), 19082601 )
+            self.cmdProcess( cv2.waitKeyEx(t_wait), 0 )
             if(self.map_data_updated > 0):
                 if(len(self.l_mi_cases) > 0):
                     self.img_overlay = self.img_map.copy()
                     self.infoShowCases(self.img_overlay, self.l_mi_cases)
                 cv2.imshow("COVID-19 %.0f in "%2020+self.state_name, self.img_overlay)
                 self.map_data_updated = 0
+            t_wait = self.stateManage(0)
         self.exit_hook()
     ## key process
     def cmdProcess(self, key, t0):
@@ -105,7 +124,7 @@ class runVirusViz(object):
         elif(key == 65471 or key == 1114047 or key == 7405568):   # F2 key refresh newest from website
             self.data_daily, self.l_mi_cases = self.readDataDaily(True)
             pass
-        elif(key == 65472 or key == 1114048 or key == 7405569):   # F3 key gmaps
+        elif(key == 65472 or key == 1114048 or key == 7405569 or key == 7471104):   # F3 key gmaps
             from mapviz20 import *
             map_viz = mapViz(self.l_state_config, self.state_name)	
             save_file = None
@@ -118,7 +137,7 @@ class runVirusViz(object):
                 l_type=type_data, l_last = self.l_cases_yest, 
                 save_file=save_file, date=self.now_date)
             pass  
-        elif(key == 65474 or key == 1114050):   # F5 key refresh newest from website
+        elif(key == 65474 or key == 1114050 or key == 7602176):   # F5 key refresh newest from website
             self.data_daily = False
 
             pos, self.l_mi_cases, self.l_cases_yest = self.cmdGrabDataFromWebsite()
@@ -129,19 +148,15 @@ class runVirusViz(object):
                 #if(self.isNameOnToday(self.name_file)):
                 #    cv2.imwrite(self.state_dir + 'results/mi_county20200000.png', self.img_overlay)
             pass  
-        elif(key == 65477 or key == 1114053 or key == 7798784):   # F8 key next day
-            self.data_daily = False
-            self.csv_pos_now, self.l_mi_cases, self.l_cases_yest = self.readDataByDay(0) 
+        elif(key == 65476 or key == 1114052 or key == 7798783):   # F7 key run all commands
+            self.stateMachine = 100 
         elif(key == 65478 or key == 1114054 or key == 7864320):   # F9 key previous day
             self.data_daily = False
             self.csv_pos_now, self.l_mi_cases, self.l_cases_yest = self.readDataByDay(self.csv_pos_now-1)   
         elif(key == 65479 or key == 1114055 or key == 7929856):   # F10 key next day
             self.data_daily = False
             self.csv_pos_now, self.l_mi_cases, self.l_cases_yest = self.readDataByDay(self.csv_pos_now+1) 
-        elif(key == 65480 or key == 1114056 or key == 7995392):   # F11 key next day
-            self.data_daily = False
-            self.csv_pos_now, self.l_mi_cases, self.l_cases_yest = self.readDataByDay(9999999999) 
-        elif(key == 65481 or key == 1114057 or key == 7995393):   # F12 key next day
+        elif(key == 65481 or key == 1114057 or key == 7995393 or key == 8060928):   # F12 key next day
             save_file = None
             if(self.isNameOnToday(self.name_file)):
                 save_file = self.state_dir + 'results/mi_county20200000_predict.png'
@@ -181,10 +196,55 @@ class runVirusViz(object):
             #self.parseDfData(cov_tables[2], './ne_maps/us_states_land.csv')  
             pass
         elif(key == 27 or key == 1048603):  # esc
+            self.stateMachine = 0 
             self.now_exit = True
             pass  
         else:   
             print (key)
+    ## manage state machine
+    def stateManage(self, state):
+        #print('stateManage...', state)
+        if(self.stateMachine == 100):
+                self.stateMachine += 50
+                self.cmdProcess(65474, 0)  # press F5 grab data
+                self.stateMachine += 50
+        elif(self.stateMachine == 200):
+                self.stateMachine += 50
+                self.cmdProcess(100, 0)  # press d show rainbow of death
+                self.stateMachine += 50
+        elif(self.stateMachine == 300):
+                self.stateMachine += 50
+                self.cmdProcess(65472, 0)  # press F3 show base map
+                self.stateMachine += 50
+        elif(self.stateMachine == 400):
+                self.stateMachine += 50
+                self.cmdProcess(65481, 0)  # press F12 show prediction
+                self.stateMachine += 50
+        elif(self.stateMachine == 500):
+                self.stateMachine += 50
+                self.cmdProcess(65471, 0)  # press F2 daily data
+                self.stateMachine += 50
+        elif(self.stateMachine == 600):
+                self.stateMachine += 50
+                self.cmdProcess(114, 0)  # press r show rainbow of daily
+                self.stateMachine += 50
+        elif(self.stateMachine == 700):
+                self.stateMachine += 50
+                self.cmdProcess(65479, 0)  # press F10 show overall
+                self.stateMachine += 50
+        elif(self.stateMachine == 800):
+                self.stateMachine += 50
+                if( self.states_pos < len(self.states_valid)-1 ):
+                    cv2.destroyAllWindows()
+                    self.states_pos += 1
+                    self.initState( self.states_valid[self.states_pos][0:2] ) 
+                    self.stateMachine += 50
+                    return 10
+                else:
+                    self.stateMachine = 0
+        elif(self.stateMachine == 900):
+                self.stateMachine = 100
+        return 1000
     ## step 2
     ## read data file given day offset
     def readDataByDay(self, pos):
@@ -200,7 +260,8 @@ class runVirusViz(object):
         #if( len(csv_data_files[pos]) != 23): return (pos, [])
         offset = 11	
         dt_obj = datetime.datetime.strptime(csv_data_files[pos][offset:offset+8], '%Y%m%d')
-        self.name_file = dt_obj.strftime('%Y%02m%02d')
+        self.name_file = dt_obj.strftime('%Y%m%d')
+        #print('  ', self.name_file)
         self.now_date = dt_obj.strftime('%m/%d/%Y')
         #read data to list
         lst_data = self.open4File(self.state_dir + 'data/'+self.state_name.lower()+'_covid19_'+self.name_file+'.csv')
@@ -212,35 +273,58 @@ class runVirusViz(object):
         else:
             lst_data_last = []
         return (pos, lst_data, lst_data_last)
-    ## save to csv 
-    def saveLatestDate(self, l_data):
-        a_test_date = None
+    ## save to csv
+
+    def saveLatestDateNy(self, l_data):
+        l_d_sort = sorted(l_data, key=lambda k: k[0], reverse=False)
+        # find different date time
+        l_date = []
+        for a_item in l_d_sort:
+            #
+            bFound = False
+            for a_date in l_date:
+                if(a_date in a_item[0]):
+                    bFound = True
+                    break
+            if(not bFound):
+                l_date.append(a_item[0])
+        # generate all daily data
+        l_daily = []
+        for a_date in l_date:
+            l_daily = self.saveDataFromDlNy(l_d_sort, a_date, bDaily=False)
+        return l_daily
+
+    def saveDataFromDlNy(self, l_data, a_test_date, bDaily=True):
+        initial_test_date = None
         l_daily = []
         l_overral = []
         total_daily = 0
         total_overral = 0
         for a_item in l_data:
-            if(a_test_date is None):
-                a_test_date =  a_item[0]
-                dt_obj = datetime.datetime.strptime(a_item[0], '%m/%d/%Y')
-                self.name_file = dt_obj.strftime('%Y%02m%02d')
+            #if (a_test_date is None):
+            if (a_test_date is not initial_test_date):
+                initial_test_date = a_test_date
+                dt_obj = datetime.datetime.strptime(a_test_date, '%m/%d/%Y')
+                self.name_file = dt_obj.strftime('%Y%m%d')
                 self.now_date = dt_obj.strftime('%m/%d/%Y')
-            elif(a_test_date in a_item[0]):
+            elif (a_test_date in a_item[0]):
                 pass
             else:
                 continue
-            total_daily += int( a_item[2] )
-            total_overral += int( a_item[3] )
+            total_daily += int(a_item[2])
+            total_overral += int(a_item[3])
             l_daily.append([a_item[1], a_item[2], 0])
             l_overral.append([a_item[1], a_item[3], 0])
         l_daily.append(['Total', total_daily, 0])
         l_overral.append(['Total', total_overral, 0])
-        if(not os.path.isdir(self.state_dir + 'daily/') ): os.mkdir(self.state_dir + 'daily/')
-        if(not os.path.isdir(self.state_dir + 'data/') ): os.mkdir(self.state_dir + 'data/')
-        self.save2File(l_daily, self.state_dir + 'daily/'+self.state_name.lower()+'_covid19_'+self.name_file+'.csv')
-        self.save2File(l_overral, self.state_dir + 'data/'+self.state_name.lower()+'_covid19_'+self.name_file+'.csv')
+        #if (not os.path.isdir(self.state_dir + 'daily/')): os.mkdir(self.state_dir + 'daily/')
+        if (not os.path.isdir(self.state_dir + 'data/')): os.mkdir(self.state_dir + 'data/')
+        #self.save2File(l_daily,
+        #               self.state_dir + 'daily/' + self.state_name.lower() + '_covid19_' + self.name_file + '.csv')
+        self.save2File(l_overral,
+                       self.state_dir + 'data/' + self.state_name.lower() + '_covid19_' + self.name_file + '.csv')
         return l_overral
-    ## save to csv 
+
     def saveLatestDateOh(self, l_data):
         l_d_sort = sorted(l_data, key=lambda k: k[3], reverse=False)
         # find different date time
@@ -268,9 +352,9 @@ class runVirusViz(object):
             else: return False
         else:
             dt_obj = datetime.datetime.strptime(src, '%m/%d/%Y')
-            dt_src = int( dt_obj.strftime('%Y%02m%02d') )
+            dt_src = int( dt_obj.strftime('%Y%m%d') )
             dt_obj = datetime.datetime.strptime(dst, '%m/%d/%Y')
-            dt_dst = int( dt_obj.strftime('%Y%02m%02d') )
+            dt_dst = int( dt_obj.strftime('%Y%m%d') )
             if( dt_src >= dt_dst): return True
             else: return False
     ## save downloaded data to daily or overal data 
@@ -315,14 +399,14 @@ class runVirusViz(object):
         l_daily.append(['Total', total_daily, total_death])
         # save to file
         dt_obj = datetime.datetime.strptime(a_date, '%m/%d/%Y')
-        self.name_file = dt_obj.strftime('%Y%02m%02d')
+        self.name_file = dt_obj.strftime('%Y%m%d')
         self.now_date = dt_obj.strftime('%m/%d/%Y')
-        if(bDaily): type_dir = 'daily/'
+        if(bDaily): return l_daily
         else: type_dir = 'data/'
         if(not os.path.isdir(self.state_dir + type_dir) ): os.mkdir(self.state_dir + type_dir)
         self.save2File(l_daily, self.state_dir + type_dir+self.state_name.lower()+'_covid19_'+self.name_file+'.csv')
-        print(' Total', total_daily, total_death, a_date)
-        print('   saved to', self.state_dir + type_dir+self.state_name.lower()+'_covid19_'+self.name_file+'.csv')
+        #print(' Total', total_daily, total_death, a_date)
+        #print('   saved to', self.state_dir + type_dir+self.state_name.lower()+'_covid19_'+self.name_file+'.csv')
         return l_daily
 
 
@@ -342,6 +426,18 @@ class runVirusViz(object):
         self.save2File(l_overall, self.state_dir + 'data/'+self.state_name.lower()+'_covid19_'+self.name_file+'.csv')
         return l_overall
 
+    ## save downloaded data to daily or overal data 
+    def saveLatestDateMi(self, l_raw_data):
+        l_overall = []
+        
+        l_overall.append(['County', 'Cases', 'Deaths'])
+        for a_item in l_raw_data:
+            
+            l_overall.append(a_item[:3])
+        #for a_item in l_overall:
+        #    print (a_item)
+        self.save2File(l_overall, self.state_dir + 'data/'+self.state_name.lower()+'_covid19_'+self.name_file+'.csv')
+        return l_overall
 
     ## save to csv 
     def save2File(self, l_data, csv_name):
@@ -404,8 +500,9 @@ class runVirusViz(object):
         if(fName is not None): self.save2File( lst_data, fName )
         return lst_data
     def isNameOnToday(self, f_name):
+        if(self.state_name in 'NY'): return True
         dt_now = datetime.datetime.now()
-        dt_name_file = dt_now.strftime('%Y%02m%02d') 
+        dt_name_file = dt_now.strftime('%Y%m%d') 
         if f_name == dt_name_file:
             return True
         else:
@@ -417,38 +514,52 @@ class runVirusViz(object):
         lst_data = []
         # update date time
         dt_now = datetime.datetime.now()
-        self.name_file = dt_now.strftime('%Y%02m%02d') 
+        self.name_file = dt_now.strftime('%Y%m%d') 
+        #print(' grab today', self.name_file)
         self.now_date  = dt_now.strftime('%m/%d/%Y')   
         type_download = int(self.l_state_config[4][1])
         if( type_download == 5 or type_download == 15):   # download only
             f_name = self.state_dir + 'data_raw/'+self.state_name.lower()+'_covid19_'+self.name_file+'.csv'
             if(not os.path.isdir(self.state_dir + 'data_raw/') ): os.mkdir(self.state_dir + 'data_raw/')
+            # step A: downlowd and save
             result = self.download4Website(f_name)
+            # step B: parse and open
             lst_raw_data = self.open4File(f_name)
+            # step C: convert to standard file and save
             if( type_download == 5):
-                lst_data = self.saveLatestDate(lst_raw_data)
+                lst_data = self.saveLatestDateNy(lst_raw_data)
             if( type_download == 15):
                 lst_data = self.saveLatestDateOh(lst_raw_data)
         elif( type_download == 25):   # download only
             f_name = self.state_dir + 'data_raw/'+self.state_name.lower()+'_covid19_'+self.name_file+'.xlsx'
+            f_n_total = self.state_dir + 'data_raw/'+self.state_name.lower()+'_covid19_'+self.name_file+'total.xlsx'
             if(not os.path.isdir(self.state_dir + 'data_raw/') ): os.mkdir(self.state_dir + 'data_raw/')
+            # step A: downlowd and save
             gcontext = ssl._create_unverified_context()
+            urllib.urlretrieve(self.l_state_config[5][2], f_n_total, context=gcontext)
             urllib.urlretrieve(self.l_state_config[5][1], f_name, context=gcontext)
+            # step B: parse and open
             lst_raw_data = self.open4Xlsx(f_name)
-            #print(lst_raw_data[0])
+            # step C: convert to standard file and save
             lst_data = self.saveLatestDateTx(lst_raw_data)
         elif( type_download == 101 ):   # download counties in the list
+            # step A: downlowd and save
             data_grab = dataGrab(self.l_state_config, self.state_name)	
+            # step B: parse to standard file
             lst_data = data_grab.parseDataCa(self.name_file)		
             f_name = self.state_dir + 'data/'+self.state_name.lower()+'_covid19_'+self.name_file+'.csv'
+            # step C: save
             self.save2File( lst_data, f_name )
         else:
             f_name = self.state_dir + 'data_html/'+self.state_name.lower()+'_covid19_'+self.name_file+'.html'
             if(not os.path.isdir(self.state_dir + 'data_html/') ): os.mkdir(self.state_dir + 'data_html/')
+            # step A: downlowd and save
             df_a = self.open4Website(f_name)
             f_name = self.state_dir + 'data/'+self.state_name.lower()+'_covid19_'+self.name_file+'.csv'
-            lst_data = self.parseDfData(df_a, fName=f_name)
-
+            # step B: parse and open
+            lst_raw_data = self.parseDfData(df_a)
+            # step C: convert to standard file and save
+            lst_data = self.saveLatestDateMi(lst_raw_data)
         #read data on yesterday 
         name_last = self.getOverallYesterday(self.name_file)
         if(name_last is not None):
@@ -471,11 +582,11 @@ class runVirusViz(object):
     def generateDataDaily(self, bDaily):
         print(' generateDataDaily...')
         # files name
-        csv_daily = self.state_dir + 'daily/'+self.state_name.lower()+'_covid19_'+self.name_file+'.csv'
+        #csv_daily = self.state_dir + 'daily/'+self.state_name.lower()+'_covid19_'+self.name_file+'.csv'
         csv_all_today = self.state_dir + 'data/'+self.state_name.lower()+'_covid19_'+self.name_file+'.csv'
         csv_all_last = self.getOverallYesterday(self.name_file)
-        if(csv_all_last is None): return False
-        else: print('  ', csv_daily, csv_all_today, csv_all_last)
+        if(csv_all_last is None): return False, []
+        else: print('  compare', csv_all_today, csv_all_last)
         csv_all_last = self.state_dir + 'data/' + csv_all_last
         # read data
         l_all_today = self.open4File(csv_all_today)
@@ -515,17 +626,18 @@ class runVirusViz(object):
             #return False
         l_daily.append(["Total", Total_plus[0], Total_plus[1]])
         # save data
-        if(not os.path.isdir(self.state_dir + 'daily/') ): os.mkdir(self.state_dir + 'daily/')
-        self.save2File(l_daily, csv_daily)
-        return True
+        #if(not os.path.isdir(self.state_dir + 'daily/') ): os.mkdir(self.state_dir + 'daily/')
+        #self.save2File(l_daily, csv_daily)
+        return True, l_daily
     def readDataDaily(self, bDaily):
         csv_name = self.state_dir + 'daily/'+self.state_name.lower()+'_covid19_'+self.name_file+'.csv'
         print('readDataDaily', csv_name)
         if(isfile(csv_name) ):
             lst_data = self.open4File(csv_name)
         else:
-            if( self.generateDataDaily(True)): 
-                lst_data = self.open4File(csv_name)
+            bFound, l_data = self.generateDataDaily(True)
+            if( bFound ): 
+                lst_data = l_data
             else: return (False, [])
         
         return (True, lst_data)
@@ -560,9 +672,9 @@ class runVirusViz(object):
         line_h=13	
         offset_h = int( self.l_state_config[1][1] ) - line_h * len(l_cases)/2-25
         for a_case in l_cases:
-            if('County' in a_case[0]):
+            if('County' in str(a_case[0])):
                 continue
-            elif('Total' in a_case[0]):
+            elif('Total' in str(a_case[0])):
                 wish_total = int(a_case[1])
                 continue
             else:
@@ -576,7 +688,7 @@ class runVirusViz(object):
                 if( self.getColorByCompare(a_case) ): nColor = (0,255,0)
                 else: nColor = (0,0,255)
                 # draw the list on the left
-                cv2.putText(img, a_case[0], 
+                cv2.putText(img, str(a_case[0]), 
 		        (posx, posy), 
 		        cv2.FONT_HERSHEY_SIMPLEX, 
 		        0.53,
