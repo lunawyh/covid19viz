@@ -326,24 +326,26 @@ class runVirusViz(object):
         return l_overral
 
     def saveLatestDateOh(self, l_data):
-        l_d_sort = sorted(l_data, key=lambda k: k[3], reverse=False)
         # find different date time
-        l_date = []
-        for a_item in l_d_sort:
+        l_dates = []
+        for a_item in l_data:
             if(a_item[3] in 'Total'): continue
+            dt_obj = datetime.datetime.strptime(a_item[3], '%m/%d/%Y')
+            dt_src = dt_obj.strftime('%m/%d/%Y')
             #
             bFound = False
-            for a_date in l_date:
-                if(a_date in a_item[3]): 
+            for a_date in l_dates:
+                if(a_date in dt_src): 
                     bFound = True
                     break
             if(not bFound):
-                l_date.append(a_item[3])
+                l_dates.append(dt_src)
         # generate all daily data
-        #print(l_date)
+        l_date_sort = sorted(l_dates, reverse=False)
+        print('  saveLatestDateOh', len(l_date_sort))
         l_daily = []
-        for a_date in l_date:
-            l_daily = self.saveDataFromDlOh(l_d_sort, a_date, bDaily=False)
+        for a_date in l_date_sort:
+            l_daily = self.saveDataFromDlOh(l_data, a_date, bDaily=False)
         return l_daily
     ## is validated or not 
     def isValidDate(self, src, dst, bDaily=True):
@@ -566,6 +568,7 @@ class runVirusViz(object):
             lst_data_last = self.open4File(self.state_dir + 'data/' + name_last)
         else:
             lst_data_last = []
+        print('  done')
         return (0, lst_data, lst_data_last)
     def getOverallYesterday(self, today):
         data_dir = self.state_dir + 'data'
