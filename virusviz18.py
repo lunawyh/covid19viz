@@ -478,6 +478,17 @@ class runVirusViz(object):
         csv_url = self.l_state_config[5][1]
         # save html file
         urllib.urlretrieve(csv_url, fRaw)
+        # save html file
+        c_page = requests.get(csv_url)
+        c_tree = html.fromstring(c_page.content)
+        l_dates = c_tree.xpath('//strong/text()')
+        for l_date in l_dates:
+            if('Confirmed COVID-19 Cases by Jurisdiction updated' in l_date):
+                a_date = l_date.replace('Confirmed COVID-19 Cases by Jurisdiction updated', '')
+                dt_obj = datetime.datetime.strptime(a_date, '%m/%d/%Y')
+                self.name_file = dt_obj.strftime('%Y%m%d')
+                self.now_date = dt_obj.strftime('%m/%d/%Y')
+                break
         # read tables
         cov_tables = pd.read_html(csv_url)
         # read 1st table: Overall Confirmed COVID-19 Cases by County
