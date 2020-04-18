@@ -1,7 +1,7 @@
 County,Cases,Deaths
 Allen,1,0
 Belmont,2,0
-Butler,12,0
+Butler,13,0
 Carroll,1,0
 Coshocton,1,0
 Crawford,2,0
@@ -9,10 +9,10 @@ Cuyahoga,45,0
 Delaware,5,0
 Fairfield,1,0
 Fayette,1,0
-Franklin,39,0
+Franklin,40,0
 Geauga,1,0
 Greene,2,0
-Hamilton,14,0
+Hamilton,15,0
 Highland,1,0
 Huron,2,0
 Knox,2,0
@@ -42,4 +42,4 @@ Union,2,0
 Warren,4,0
 Wayne,1,0
 Wood,1,0
-Total,225,0
+Total,228,0

@@ -1,2 +1,7 @@
 *.pyc
 .*
+./mi/daily/
+./oh/daily/
+./tx/daily/
+./ca/daily/
+./ny/daily/
