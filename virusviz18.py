@@ -105,33 +105,34 @@ class runVirusViz(object):
         elif(key == 65471 or key == 1114047 or key == 7405568):   # F2 key refresh newest from website
             self.data_daily, self.l_mi_cases = self.readDataDaily(True)
             pass
-        elif(key == 65472 or key == 1114048 or key == 7405569 or key == 7471104):   # F3 key gmaps
+        elif(key == 65472 or key == 1114048 or key == 7405569):   # F3 key gmaps
             from mapviz20 import *
-            map_viz = mapViz(self.l_state_config, self.state_name)	
+            map_viz = mapViz(self.l_state_config, self.state_name)
             save_file = None
             if self.data_daily == True: type_data=1
-            else: 
-                type_data =2
-                if(self.isNameOnToday(self.name_file)): 
+            else:
+                type_data = 2
+                if(self.isNameOnToday(self.name_file)):
                     save_file = self.state_dir + 'results/mi_county20200000.png'
-            map_viz.showCountyInMap(self.l_mi_cases, 
-                l_type=type_data, l_last = self.l_cases_yest, 
+            map_viz.showCountyInMap(self.l_mi_cases,
+                l_type=type_data, l_last = self.l_cases_yest,
                 save_file=save_file, date=self.now_date)
-            pass  
+            pass
         elif(key == 65474 or key == 1114050 or key == 7602176):   # F5 key refresh newest from website
             self.data_daily = False
-
-            pos, self.l_mi_cases, self.l_cases_yest = self.cmdGrabDataFromWebsite()
-            if(len(self.l_mi_cases) > 0):
+            pos, self.l_ny_cases, self.l_cases_yest = self.cmdGrabDataFromWebsite()
+            if(len(self.l_ny_cases) > 0):
                 self.img_overlay = self.img_map.copy()
-                self.infoShowCases(self.img_overlay, self.l_mi_cases)
-                #cv2.imwrite(self.state_dir + 'results/mi_county'+self.name_file+'.png', self.img_overlay)
-                #if(self.isNameOnToday(self.name_file)):
+                self.infoShowCases(self.img_overlay, self.l_ny_cases)
+                cv2.imshow("COVID-19 %.0f in " % 2020 + self.state_name, self.img_overlay)
+                self.map_data_updated = 0
+                # cv2.imwrite(self.state_dir + 'results/mi_county'+self.name_file+'.png', self.img_overlay)
+                # if(self.isNameOnToday(self.name_file)):
                 #    cv2.imwrite(self.state_dir + 'results/mi_county20200000.png', self.img_overlay)
-            pass  
+            pass
         elif(key == 65477 or key == 1114053 or key == 7798784):   # F8 key next day
             self.data_daily = False
-            self.csv_pos_now, self.l_mi_cases, self.l_cases_yest = self.readDataByDay(0) 
+            self.csv_pos_now, self.l_mi_cases, self.l_cases_yest = self.readDataByDay(0)
         elif(key == 65478 or key == 1114054 or key == 7864320):   # F9 key previous day
             self.data_daily = False
             self.csv_pos_now, self.l_mi_cases, self.l_cases_yest = self.readDataByDay(self.csv_pos_now-1)   
@@ -214,7 +215,7 @@ class runVirusViz(object):
             lst_data_last = []
         return (pos, lst_data, lst_data_last)
     ## save to csv 
-    def saveLatestDate(self, l_data):
+    def saveLatestDateNoUse(self, l_data):
         a_test_date = None
         l_daily = []
         l_overral = []
@@ -241,7 +242,71 @@ class runVirusViz(object):
         self.save2File(l_daily, self.state_dir + 'daily/'+self.state_name.lower()+'_covid19_'+self.name_file+'.csv')
         self.save2File(l_overral, self.state_dir + 'data/'+self.state_name.lower()+'_covid19_'+self.name_file+'.csv')
         return l_overral
-    ## save to csv 
+    ## save to csv
+
+    def saveLatestDateNy(self, l_data):
+        l_d_sort = sorted(l_data, key=lambda k: k[0], reverse=False)
+        # find different date time
+        l_date = []
+        for a_item in l_d_sort:
+            #
+            bFound = False
+            for a_date in l_date:
+                if(a_date in a_item[0]):
+                    bFound = True
+                    break
+            if(not bFound):
+                l_date.append(a_item[0])
+        # generate all daily data
+        l_daily = []
+        for a_date in l_date:
+            l_daily = self.saveDataFromDlNy(l_d_sort, a_date, bDaily=False)
+        return l_daily
+
+    def saveDataFromDlNy(self, l_data, a_test_date, bDaily=True):
+        initial_test_date = None
+        l_daily = []
+        l_overral = []
+        total_daily = 0
+        total_overral = 0
+        for a_item in l_data:
+            #if (a_test_date is None):
+            if (a_test_date is not initial_test_date):
+                initial_test_date = a_test_date
+                dt_obj = datetime.datetime.strptime(a_test_date, '%m/%d/%Y')
+                self.name_file = dt_obj.strftime('%Y%m%d')
+                self.now_date = dt_obj.strftime('%m/%d/%Y')
+            elif (a_test_date in a_item[0]):
+                pass
+            else:
+                continue
+            total_daily += int(a_item[2])
+            total_overral += int(a_item[3])
+            l_daily.append([a_item[1], a_item[2], 0])
+            l_overral.append([a_item[1], a_item[3], 0])
+        l_daily.append(['Total', total_daily, 0])
+        l_overral.append(['Total', total_overral, 0])
+        if (not os.path.isdir(self.state_dir + 'daily/')): os.mkdir(self.state_dir + 'daily/')
+        if (not os.path.isdir(self.state_dir + 'data/')): os.mkdir(self.state_dir + 'data/')
+        self.save2File(l_daily,
+                       self.state_dir + 'daily/' + self.state_name.lower() + '_covid19_' + self.name_file + '.csv')
+        self.save2File(l_overral,
+                       self.state_dir + 'data/' + self.state_name.lower() + '_covid19_' + self.name_file + '.csv')
+        return l_overral
+    ## is validated or not
+    def isValidDate(self, src, dst, bDaily=True):
+        if(bDaily):
+            if( src in dst): return True
+            else: return False
+        else:
+            dt_obj = datetime.datetime.strptime(src, '%m/%d/%Y')
+            dt_src = int( dt_obj.strftime('%Y%m%d') )
+
+            dt_obj = datetime.datetime.strptime(dst, '%m/%d/%Y')
+            dt_dst = int( dt_obj.strftime('%Y%m%d') )
+            if( dt_src >= dt_dst): return True
+            else: return False
+
     def saveLatestDateOh(self, l_data):
         l_d_sort = sorted(l_data, key=lambda k: k[3], reverse=False)
         # find different date time
@@ -444,7 +509,7 @@ class runVirusViz(object):
             lst_raw_data = self.open4File(f_name)
             # step C: convert to standard file and save
             if( type_download == 5):
-                lst_data = self.saveLatestDate(lst_raw_data)
+                lst_data = self.saveLatestDateNy(lst_raw_data)
             if( type_download == 15):
                 lst_data = self.saveLatestDateOh(lst_raw_data)
         elif( type_download == 25):   # download only
