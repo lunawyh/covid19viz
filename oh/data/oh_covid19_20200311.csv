@@ -2,7 +2,7 @@ County,Cases,Deaths
 Allen,1,0
 Auglaize,1,0
 Belmont,2,0
-Butler,16,0
+Butler,17,0
 Carroll,1,0
 Champaign,1,0
 Clark,1,0
@@ -10,15 +10,15 @@ Clermont,1,0
 Columbiana,2,0
 Coshocton,2,0
 Crawford,2,0
-Cuyahoga,71,0
+Cuyahoga,72,0
 Defiance,2,0
 Delaware,7,0
 Fairfield,1,0
 Fayette,1,0
-Franklin,55,0
+Franklin,56,0
 Geauga,2,0
 Greene,2,0
-Hamilton,24,0
+Hamilton,25,0
 Highland,1,0
 Huron,2,0
 Knox,2,0
@@ -51,4 +51,4 @@ Warren,8,0
 Washington,1,0
 Wayne,1,0
 Wood,2,0
-Total,348,0
+Total,352,0

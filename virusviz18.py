@@ -317,10 +317,10 @@ class runVirusViz(object):
             l_overral.append([a_item[1], a_item[3], 0])
         l_daily.append(['Total', total_daily, 0])
         l_overral.append(['Total', total_overral, 0])
-        if (not os.path.isdir(self.state_dir + 'daily/')): os.mkdir(self.state_dir + 'daily/')
+        #if (not os.path.isdir(self.state_dir + 'daily/')): os.mkdir(self.state_dir + 'daily/')
         if (not os.path.isdir(self.state_dir + 'data/')): os.mkdir(self.state_dir + 'data/')
-        self.save2File(l_daily,
-                       self.state_dir + 'daily/' + self.state_name.lower() + '_covid19_' + self.name_file + '.csv')
+        #self.save2File(l_daily,
+        #               self.state_dir + 'daily/' + self.state_name.lower() + '_covid19_' + self.name_file + '.csv')
         self.save2File(l_overral,
                        self.state_dir + 'data/' + self.state_name.lower() + '_covid19_' + self.name_file + '.csv')
         return l_overral
@@ -401,7 +401,7 @@ class runVirusViz(object):
         dt_obj = datetime.datetime.strptime(a_date, '%m/%d/%Y')
         self.name_file = dt_obj.strftime('%Y%m%d')
         self.now_date = dt_obj.strftime('%m/%d/%Y')
-        if(bDaily): type_dir = 'daily/'
+        if(bDaily): return l_daily
         else: type_dir = 'data/'
         if(not os.path.isdir(self.state_dir + type_dir) ): os.mkdir(self.state_dir + type_dir)
         self.save2File(l_daily, self.state_dir + type_dir+self.state_name.lower()+'_covid19_'+self.name_file+'.csv')
@@ -582,11 +582,11 @@ class runVirusViz(object):
     def generateDataDaily(self, bDaily):
         print(' generateDataDaily...')
         # files name
-        csv_daily = self.state_dir + 'daily/'+self.state_name.lower()+'_covid19_'+self.name_file+'.csv'
+        #csv_daily = self.state_dir + 'daily/'+self.state_name.lower()+'_covid19_'+self.name_file+'.csv'
         csv_all_today = self.state_dir + 'data/'+self.state_name.lower()+'_covid19_'+self.name_file+'.csv'
         csv_all_last = self.getOverallYesterday(self.name_file)
-        if(csv_all_last is None): return False
-        else: print('  ', csv_daily, csv_all_today, csv_all_last)
+        if(csv_all_last is None): return False, []
+        else: print('  compare', csv_all_today, csv_all_last)
         csv_all_last = self.state_dir + 'data/' + csv_all_last
         # read data
         l_all_today = self.open4File(csv_all_today)
@@ -626,17 +626,18 @@ class runVirusViz(object):
             #return False
         l_daily.append(["Total", Total_plus[0], Total_plus[1]])
         # save data
-        if(not os.path.isdir(self.state_dir + 'daily/') ): os.mkdir(self.state_dir + 'daily/')
-        self.save2File(l_daily, csv_daily)
-        return True
+        #if(not os.path.isdir(self.state_dir + 'daily/') ): os.mkdir(self.state_dir + 'daily/')
+        #self.save2File(l_daily, csv_daily)
+        return True, l_daily
     def readDataDaily(self, bDaily):
         csv_name = self.state_dir + 'daily/'+self.state_name.lower()+'_covid19_'+self.name_file+'.csv'
         print('readDataDaily', csv_name)
         if(isfile(csv_name) ):
             lst_data = self.open4File(csv_name)
         else:
-            if( self.generateDataDaily(True)): 
-                lst_data = self.open4File(csv_name)
+            bFound, l_data = self.generateDataDaily(True)
+            if( bFound ): 
+                lst_data = l_data
             else: return (False, [])
         
         return (True, lst_data)
