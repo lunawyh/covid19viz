@@ -12,7 +12,7 @@ from lxml import html
 import requests
 import urllib
 import re
-
+import ssl
 # ==============================================================================
 # -- imports -------------------------------------------------------------------
 # ==============================================================================
@@ -71,7 +71,8 @@ class dataGrab(object):
         for a_link in l_links:
                 f_name = link_dir+a_link[0]+'.html'
                 #print(a_link[1], f_name)
-                urllib.urlretrieve(a_link[1], f_name)
+                gcontext = ssl._create_unverified_context()
+                urllib.urlretrieve(a_link[1], f_name, context=gcontext)
 
         l_data_daily = []
         total_daily = 0
