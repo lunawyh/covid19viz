@@ -1,0 +1,1942 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+	<meta http-equiv="Content-type" content="text/html; charset=UTF-8" />
+
+					<script type='text/javascript'>
+						var enableTelemetry = 'false'
+						var aiConfig = {
+						instrumentationKey: '1cde048e-3185-4906-aa46-c92a7312b60f'						
+						}
+						var appInsights = window.appInsights || function (a) { function b(a) { c[a] = function () { var b = arguments; c.queue.push(function () { c[a].apply(c, b) }) } } var c = { config: a }, d = document, e = window; setTimeout(function () { var b = d.createElement('script'); b.src = a.url || 'https://az416426.vo.msecnd.net/scripts/a/ai.0.js', d.getElementsByTagName('script')[0].parentNode.appendChild(b) }); try { c.cookie = d.cookie } catch (a) { } c.queue = []; for (var f = ['Event', 'Exception', 'Metric', 'PageView', 'Trace', 'Dependency']; f.length;)b('track' + f.pop()); if (b('setAuthenticatedUserContext'), b('clearAuthenticatedUserContext'), b('startTrackEvent'), b('stopTrackEvent'), b('startTrackPage'), b('stopTrackPage'), b('flush'), !a.disableExceptionTracking) { f = 'onerror', b('_' + f); var g = e[f]; e[f] = function (a, b, d, e, h) { var i = g && g(a, b, d, e, h); return !0 !== i && c['_' + f](a, b, d, e, h), i } } return c }(aiConfig);
+						window.appInsights = appInsights, appInsights.queue && 0 === appInsights.queue.length;
+						// Add telemetry initializer
+						appInsights.queue.push(function() {
+							appInsights.context.addTelemetryInitializer(function(envelope) {
+								var telemetryItem = envelope.data.baseData;
+								// To check the telemetry item’s type:
+								if (!false)
+								{
+									//If the telemetry is not enabled, we still want to capture Google map custom event, so only allow that
+									if (envelope.name.indexOf('.Event') == -1)
+										return false;
+								}
+							});
+						});						
+						appInsights.trackPageView();
+					</script>
+			<script>
+				document.addEventListener("DOMContentLoaded", function () {
+					var forms = document.getElementsByTagName("form");
+					var absPat = /^https?:\/\/|^\/\//i;
+					for (var i = 0; i < forms.length; i++)
+					{
+						if (forms[i].method == "post" && !forms[i].querySelector('[name="__RequestVerificationToken"]') && !absPat.test(forms[i].getAttribute("action"))) {
+							forms[i].insertAdjacentHTML("beforeend", "<input name=\"__RequestVerificationToken\" type=\"hidden\" value=\"ItaVRlN-3eWtdQNCd9KTTDblTEI0tNNOnq9LpbnBolr69TJUo4xpGp00yQJW0NOezbK_EJdGdOfrupf0YokqX9a9FI01\" />");
+						}
+					}
+				}, false);
+			</script>
+			
+	<script type="text/javascript">
+		window.isResponsiveEnabled = true;
+		window.isRemoveSetHeights= false;
+		if (window.isRemoveSetHeights) {
+			document.documentElement.className += ' removeSetHeights';
+		}
+		window.mainMenuMediaQuery = 'screen and (max-width: 40em)';
+		window.isMobileBrowserIncludingTablets = false;
+		window.fixedResponsiveMenu = false;
+		window.fullWidthResponsiveMenu = false;
+		window.responsiveMenuHeight = '';
+		window.responsiveMenuFontSize = '';
+		(function () {
+			window.devicePixelRatio = window.devicePixelRatio || Math.round(window.screen.availWidth / document.documentElement.clientWidth);
+			window.innerWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+			window.innerHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+
+			window.setSizeCookie = function () {
+				document.cookie = "dpi=" + window.devicePixelRatio + "; path=/";
+				document.cookie = "viewportWidth=" + window.innerWidth + "; path=/";
+				document.cookie = "viewportHeight=" + window.innerHeight + "; path=/";
+				if (screen && screen.width && screen.height) {
+					document.cookie = "screenWidth=" + screen.width + "; path=/";
+					document.cookie = "screenHeight=" + screen.height + "; path=/";
+				}
+				document.cookie = "responsiveGhost=1; path=/";
+			};
+
+			setSizeCookie();
+		}());
+	</script>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+	
+	
+	<meta name="theme-color" content="#575655">
+	<link rel="icon" href="/images/favicon.ico" type="image/x-icon" />
+	<link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon" />
+	<title>Public Health | Tuolumne County, CA - Official Website</title>
+		<meta name="description" content="Find out more about the Public Health Department.">
+		<meta name="keywords" content="Public Health">
+							<link rel="stylesheet" type="text/css" href="/Assets/Mystique/Shared/Scripts/froala_editor_2.8.4/css/froala_editor_2.8.4.min.css" />
+
+	<!--[if IE 6]><script language="JavaScript" type="text/javascript"> var isie6 = true; </script><![endif]-->
+	<!--[if IE 7]><script language="JavaScript" type="text/javascript"> var isie7 = true; </script><![endif]-->
+	<!--[if IE 8]><script language="JavaScript" type="text/javascript"> var isie8 = true; </script><![endif]-->
+	<!--[if IE 9]><script language="JavaScript" type="text/javascript"> var isie8 = true; </script><![endif]-->
+	<script type="text/javascript"><!--
+	var intCountryCode = 840;
+	var externalSiteDialogHeight = '390px';
+	var order = '';
+//--></script>
+	
+	<link href="/27375364.css" rel="stylesheet" type="text/css" />	<link href="/624288355.css" rel="stylesheet" type="text/css" />
+
+	<link rel="stylesheet" type="text/css" href="/Assets/Styles/Print.css" media="print">
+<script type="text/javascript" src="/Scripts/2011.3.1115/jquery-1.6.4.min.js"></script>
+	<script type="text/javascript">
+		window.Pages = window.Pages || {};
+		// FrontEnd RWD initialization
+		window.Pages.rwdReady = $.Deferred();
+		window.Pages.toolBarDeferred = $.Deferred();
+		window.Pages.rwdSetupComplete = $.Deferred();
+		window.Pages.megaMenuLoaded = $.Deferred();
+		window.Pages.angularToolbarComplete = $.Deferred();
+		window.Pages.frontEndToolbarComplete = $.Deferred();
+	</script>
+	<!--CPHeadContent-->
+	<script src="/1013992384.js" type="text/javascript"></script>
+	
+	
+	
+	
+
+
+
+
+	<!--[if lte IE 8]><link rel="stylesheet" type="text/css" href="/App_Themes/ie8.css"><![endif]-->
+	<!--[if lte IE 7]><link rel="stylesheet" type="text/css" href="/App_Themes/ie7.css"><![endif]-->
+	<!--[if lte IE 6]><link rel="stylesheet" type="text/css" href="/App_Themes/ie6.css"><![endif]-->
+	<!--[if lt IE 9]><script type="text/javascript" src="/Scripts/html5.js"></script><![endif]-->
+
+	<script type="text/javascript">
+		setEditorVariables(false, 840);
+		function getPrintPreviewType() { return 0; } function printPreview() {pPreview(getPrintPreviewType()); }
+	</script>
+	
+</head>
+<body class="wide " >
+
+	
+
+	<div id="fb-root"></div>
+<div id=skipToContentLinks>
+<a href="#cc0d577bfb-cbc3-4e97-ad36-083443fe9555" target="_self" class="skipToContentLink">Skip to Main Content</a>
+</div>
+	<form id="frmReferenceFormForTelerikEditorDialogs"></form>
+
+		<input type="hidden" id="GoogleMapsKey" value="AIzaSyDWUuE-ifkbhxblF920N8MjpBdTg1Wt784" />
+	<input type="hidden" id="cpcDomain" value="https://cp-civicplusuniversity2.civicplus.com">
+	<input type="hidden" id="hdnStructureID" value="1" />
+	<input type="hidden" id="hdnContentCollectionID" value="41c4a0be-3068-4e2b-b734-105c44fbcd06" />
+	<input type="hidden" id="hdnWorkingCopyID" value="00000000-0000-0000-0000-000000000000" />
+	<input type="hidden" id="hdnThemeID" value="1" />
+	<input type="hidden" id="pageIsFrontEnd" value="true" />
+	<input type="hidden" id="pageModuleID" />
+	<input type="hidden" id="pagePageID" value="250" />
+	<input type="hidden" id="hdnModuleEligibleForJquery224Upgrade" value="false" />
+
+		<div id="stickyPlaceholder"></div>
+	<div id="outer-wrap" class="outer-wrap">
+		<div id="inner-wrap" class="inner-wrap">
+				<div id="divToolbars" class="cpToolbars newCP" style="">
+					
+<style>
+    @import url(https://fonts.googleapis.com/css?family=Open+Sans+Condensed:700); 
+
+
+
+.alertText .customAlert {
+    color: #EAEAEA;
+    display: inline-block;
+    font-family: 'Open Sans Condensed', sans-serif; 
+    text-transform: uppercase; 
+    font-size: 27px;
+    font-weight: bold;
+    height: 27px;
+    left: 57px;
+    line-height: 27px;
+    overflow: hidden;
+    position: absolute;
+    top: 15px;
+    white-space: nowrap;
+    width: 268px;
+}
+
+</style>
+  <div id="1_divAlertBar" class="alertToolbar cpToolbar" style="background: #030303 url(/Common/images/AlertCenter/alertBarBlackBckg.png) repeat-x;">
+    <div class="alertToolbarInner">
+        <a href="/AlertCenter.aspx" id="1_lnkAlertText" class="alertText" style="border-right: 1px solid #000000;">
+            <img src="/DocumentCenter/View/9946" id="1_imgDot" alt="Emergency Alert" class="redDot" />
+            <span id="1_customAlert" class="customAlert">Emergency Alerts</span>
+        </a>
+        <span id="1_spnAlertContainer" class="alertContainer"><a href="/AlertCenter.aspx?AID=Everbridge-Emergency-Notification-Regist-30" class="alert" style="border-left: 1px solid #000000; border-right: 1px solid #000000;background: #030303 url(/Common/images/AlertCenter/alertBarBlackTextBckg.png) repeat-x; color: #FFFFFF;">
+	Everbridge Emergency Notification Registration
+	<span style="color: #85be9f;">Read On...</span>
+</a>
+</span>
+    </div>
+  </div>
+  <div id="1_divAlertBarEmpty" class="alertBarEmpty"></div>
+  
+<!--[if lte IE 7]><link rel="stylesheet" type="text/css" href="/App_Themes/CP/ie7.css"><![endif]-->
+<!-- Allow Dashboard, Favorites Enabled -->
+
+<!-- Begin Signed Out Bar -->
+<div class="cpToolbar user public">
+    <div class="inner selfClear">
+        <p class="dropdown"><a href="/MyAccount/ProfileCreate" role="button" class="myConnections" id="signedOutToolbarCreateProfileButton">Create an Account</a> <span class="welcomeMessage">- Increase your productivity, customize your experience, and engage in information you care about. &nbsp;&nbsp;</span></p>
+        <ul class="nav secondary">
+			<li><a href="/MyAccount" onkeypress="if (event.which == 13) this.onclick();" onclick="popupSignIn(); return false;" role="button" class="button" id="loggedOutToolbarSignInButton"><span>Sign In</span></a></li>
+        </ul>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        $('#signedOutToolbarCreateProfileButton').keypress(function (e) { if (e.which === 0) return; $(this).click(); });
+        $('#signedOutToolbarCreateProfileButton').click(function (event) {
+        	event.preventDefault();
+        	window.location.href = '/MyAccount/ProfileCreate?from=url&url=/&dn=' + window.location.origin;
+        });
+
+
+		if ('False' == 'True') {
+            $('#loggedOutToolbarSignInButton').hide();
+		}
+    })
+</script>
+<!-- End Signed Out Bar -->
+
+				</div>
+			<div id="bodyWrapper">
+				<div id="mainNavHolderMobile" class="mainNavHolderMobile"></div>
+				
+<div data-cpRole="structuralContainer" id="structuralContainer1">
+<div data-cpRole="banner" id="banner1"><div data-cpRole="structuralContainer" id="structuralContainer2">
+<header class="siteHeader"><div class="siteWrap"><aside data-cpRole="contentContainer" id="contentContainer2a">	<div id="cc79af7a28-1327-478a-aec8-c1014a40e704" data-containerid="79af7a28-1327-478a-aec8-c1014a40e704" class="pageContent cpGrid cpGrid24 isLockedContainer showInMobile" data-contentcontainerbreakpoint="1">
+				                
+
+		<div class="row outer autoWidths center wide"><!--
+--><div class="outer col col24 first last" style="" data-widgetcontainerid="de7fd0c9-2661-49e4-9bb5-8869604de355">				
+	<div class="row nest first last wide">
+	
+	<div class="inner col col24 first last id8aaf5bf7-dc05-49c7-b8bb-87b6977682e9" style="" data-widgetcontainerid="8aaf5bf7-dc05-49c7-b8bb-87b6977682e9">	
+<div data-widget-id="29ab57ab-0e25-4a39-b46e-a76e64a6b172" data-widget-controller-path="/GraphicLinks/Widget">
+
+
+
+	<style type="text/css">.widgetOptionSet15 .widgetItem {padding: 0 1em;}</style>
+
+<div id="graphicLinkWidget29ab57ab-0e25-4a39-b46e-a76e64a6b172" class="widget widgetGraphicLinks skin8 widgetOptionSet15 wide" data-elementqueryclasses='{"wide-narrow":"min-width:1em"}' data-elementquerymatch='matchMultiColumn' data-elementqueryunmatch='unmatchMultiColumn' data-modulewidgettype="graphicLinks">
+	<div class="widgetHeader">
+		<div class="">
+				</div>
+	</div>
+	<div class="widgetBody cpGrid cpGrid4 ">	
+			<div class="row autoWidths center wide"><!--
+--><div class="col col1 first "><div class="semanticList"><!--
+	    --><div class="widgetItem GraphicLinks"><a class="widgetDesc widgetGraphicLinksLink" href="/Facebook" target="_self"  aria-label="Social - Facebook1 graphic"><img src="/ImageRepository/Document?documentID=9114" 
+     class="graphicButtonLink" alt="Social - Facebook1" 
+     onmouseover="this.src='/ImageRepository/Document?documentID=9115'" 
+	onmouseout="this.src='/ImageRepository/Document?documentID=9114'"
+     onfocus="this.src='/ImageRepository/Document?documentID=9115'" 
+	onblur="this.src='/ImageRepository/Document?documentID=9114'"> </a></div><!--
+--></div></div><!----><div class="col col1  "><div class="semanticList"><!--
+	    --><div class="widgetItem GraphicLinks"><a class="widgetDesc widgetGraphicLinksLink" href="https://www.instagram.com/tuolumnecountygovernment/" target="_self"  aria-label="Social - Instagram2 graphic"><img src="/ImageRepository/Document?documentID=13676" 
+     class="graphicButtonLink" alt="Social - Instagram2" 
+     onmouseover="this.src='/ImageRepository/Document?documentID=13675'" 
+	onmouseout="this.src='/ImageRepository/Document?documentID=13676'"
+     onfocus="this.src='/ImageRepository/Document?documentID=13675'" 
+	onblur="this.src='/ImageRepository/Document?documentID=13676'"> </a></div><!--
+--></div></div><!----><div class="col col1  "><div class="semanticList"><!--
+	    --><div class="widgetItem GraphicLinks"><a class="widgetDesc widgetGraphicLinksLink" href="http://www.elocallink.tv/m/v/player.php?pid=Q4xx3ww12&amp;fp=catuoco15_wel_rev1_iwd#" target="_self"  aria-label="Videos graphic"><img src="/ImageRepository/Document?documentID=9152" 
+     class="graphicButtonLink" alt="Videos" 
+     onmouseover="this.src='/ImageRepository/Document?documentID=9153'" 
+	onmouseout="this.src='/ImageRepository/Document?documentID=9152'"
+     onfocus="this.src='/ImageRepository/Document?documentID=9153'" 
+	onblur="this.src='/ImageRepository/Document?documentID=9152'"> </a></div><!--
+--></div></div><!----><div class="col col1  last"><div class="semanticList"><!--
+	    --><div class="widgetItem GraphicLinks"><a class="widgetDesc widgetGraphicLinksLink" href="/987/TC-Connect---Mobile-App" target="_self"  aria-label="Home graphic"><img src="/ImageRepository/Document?documentID=9150" 
+     class="graphicButtonLink" alt="Home" 
+     onmouseover="this.src='/ImageRepository/Document?documentID=9151'" 
+	onmouseout="this.src='/ImageRepository/Document?documentID=9150'"
+     onfocus="this.src='/ImageRepository/Document?documentID=9151'" 
+	onblur="this.src='/ImageRepository/Document?documentID=9150'"> </a></div><!--
+--></div></div><!--			--></div>
+	</div>
+	<div class="widgetFooter">
+			</div>
+</div>
+
+</div>
+	</div> <!-- inner column -->
+
+	</div> <!-- inner row -->
+
+			</div><!-- outer column --><!--		--></div> <!-- outer row -->
+
+
+	</div>
+</aside><h1 data-cpRole="banner" id="banner2" class="logo empty">
+
+
+
+
+				<a style="			display: block; text-align: center;
+" class="bannerObject" href="/" target="_self"><img alt="Site ID" class="bannerObject" height="119" src="/ImageRepository/Document?documentID=9106" width="369" /></a>
+
+</h1><aside data-cpRole="contentContainer" id="contentContainer2b" class="search_ts">	<div id="ccb37facd4-541f-4747-afce-2f5d76751795" data-containerid="b37facd4-541f-4747-afce-2f5d76751795" class="pageContent cpGrid cpGrid24 isLockedContainer showInMobile" data-contentcontainerbreakpoint="1">
+				                
+
+		<div class="row outer autoWidths center wide"><!--
+--><div class="outer col col24 first last" style="" data-widgetcontainerid="0108e213-d9ec-44d4-a115-2cf127f124fe">				
+	<div class="row nest first last wide">
+	
+	<div class="inner col col24 first last id103b7c29-95d2-429c-807b-50c2ed5865f2" style="" data-widgetcontainerid="103b7c29-95d2-429c-807b-50c2ed5865f2">	
+<div data-widget-id="63c2c7d2-e392-41d4-aa15-ec6e31011c38" data-widget-controller-path="/Layout/WidgetSearch">
+	
+		<script defer type="text/javascript" src="/Common/Controls/jquery-ui/js/jquery.ui.autocomplete.min.js"></script>
+	<script defer src="/Areas/Layout/Assets/Scripts/Search.js" type="text/javascript"></script>
+	<script defer type="text/javascript">
+
+		$(document).ready(function () {
+			try {
+				$(".widgetSearchButton.widgetSearchButton63c2c7d2-e392-41d4-aa15-ec6e31011c38").click(function (e) {
+				e.preventDefault();
+					if ($("#ysnSearchOnlyDept63c2c7d2-e392-41d4-aa15-ec6e31011c38").is(':checked')) {
+						doWidgetSearch($(this).siblings(".widgetSearchBox").val(), Number(0));
+					} else {
+						doWidgetSearch($(this).siblings(".widgetSearchBox").val(), 0);
+					}
+			});
+			$("#searchField63c2c7d2-e392-41d4-aa15-ec6e31011c38").keypress(function (e) {
+				if (window.clipboardData) {
+					if (e.keyCode == 13) {
+							if ($("#ysnSearchOnlyDept63c2c7d2-e392-41d4-aa15-ec6e31011c38").is(':checked')) {
+								doWidgetSearch($(this).val(), Number(0));
+							} else {
+								doWidgetSearch($(this).val(), 0);
+							}
+						return false;
+					}
+				} else {
+					if (e.which == 13) {
+							if ($("#ysnSearchOnlyDept63c2c7d2-e392-41d4-aa15-ec6e31011c38").is(':checked')) {
+								doWidgetSearch($(this).val(), Number(0));
+							} else {
+								doWidgetSearch($(this).val(), 0);
+							}
+						return false;
+					}
+				}
+				return true;
+			});
+
+				if (true) {
+                    var currentRequest = null;
+			$("#searchField63c2c7d2-e392-41d4-aa15-ec6e31011c38").autocomplete({
+				    source: function (request, response){
+                                currentRequest = $.ajax({
+				                    url: '/Search/AutoComplete',
+				                    dataType: "json",
+				                    timeout: 10000,
+				                    beforeSend : function()    {
+				                        if(currentRequest != null) {
+				                            currentRequest.abort();
+				                        }
+				                    },
+				                    data:
+                                    {
+				                        term: request.term,
+				                    },
+				                    success: function (data)
+				                    {
+                                        response(data);
+                                        $('.autoCompleteError').remove();
+				                    },
+				                    error: function(xmlhttprequest, textstatus, message){
+                                     if(textstatus==="timeout")
+				                     {
+                                        if($("#searchField63c2c7d2-e392-41d4-aa15-ec6e31011c38").siblings('.autoCompleteError').length == 0)
+                                            $('<span class="autoCompleteError"><p class="alert error">Search autocomplete is currently not responding. Please try again later.</p></span>').insertAfter($("#searchField63c2c7d2-e392-41d4-aa15-ec6e31011c38"));
+				                     }
+				                    }
+				                });
+				            },
+				html: true,
+							delay: 500,
+				select: function (event, ui) {
+					$(this).val(ui.item.value);
+					$(this).next().click();
+				}
+			}).data("autocomplete")._renderItem = function (ul, item) {
+				return $("<li></li>")
+					.data("item.autocomplete", item)
+					.append("<a>" + item.label + "</a>")
+					.appendTo(ul);
+			};
+}
+}
+			catch(e) {} //we're going to eat this error. Autocomplete won't work but we dont wan't to break anything else on the page.
+		});
+	</script>
+
+	<section id="widgetPreviewSearch" class="widget widgetSearch skin8 widgetOptionSet12" style="display: block;" aria-label="Search">
+				<!-- For the button right and inside -->
+		<div class="widgetBody buttonRightInside">
+			<input class="widgetSearchBox widgetSearchBox63c2c7d2-e392-41d4-aa15-ec6e31011c38" cp5ph="true" id="searchField63c2c7d2-e392-41d4-aa15-ec6e31011c38" name="searchField" onchange="searchBtnApplyQuery();" placeholder="Search this site..." title="Search this site..." type="text" value="" />
+						<a href="/Search/Results" id="btnSearchIcon" class="widgetSearchButton widgetSearchButton63c2c7d2-e392-41d4-aa15-ec6e31011c38" role="button"><img alt="Search - Mag1" class="imageHover" data-hover="/ImageRepository/Document?documentID=9123" data-image="/ImageRepository/Document?documentID=9122" src="/ImageRepository/Document?documentID=9122" /></a>
+
+			<label class="searchLabel" for="searchField63c2c7d2-e392-41d4-aa15-ec6e31011c38">Search</label>
+		</div>
+
+	</section>
+
+
+<style scoped>
+    
+        .widgetSearch ::-webkit-input-placeholder {
+        color: #6f7070;
+      }
+        .widgetSearch :-moz-placeholder { /* Firefox 18- */
+       color: #6f7070;
+    }
+        .widgetSearch ::-moz-placeholder {  /* Firefox 19+ */
+       color: #6f7070;
+    }
+    .widgetSearch :-ms-input-placeholder {
+       color: #6f7070;
+    }
+    
+
+	.widgetSearch .widgetBody .widgetSearchBox63c2c7d2-e392-41d4-aa15-ec6e31011c38
+	{
+        color: #6f7070;
+		background-color: #e8e7e6; height: 35px; border-radius: 18px; padding-left: 20px;
+	}
+	.widgetSearch .widgetBody .widgetSearchButton63c2c7d2-e392-41d4-aa15-ec6e31011c38
+	{
+		margin: 7px 20px 0 0;
+	}
+	.widgetSearch .widgetSearch-onlyDept63c2c7d2-e392-41d4-aa15-ec6e31011c38
+	{
+		display: inline-block;
+		color: #333;
+		
+		
+		 padding-top: 10px;
+	}
+	#ysnSearchOnlyDept63c2c7d2-e392-41d4-aa15-ec6e31011c38
+	{
+		position: relative;
+		top: .125em;
+	}
+
+</style>
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css">
+
+
+
+<script type="text/javascript">
+	//Updates search icons href to have the correct queryString
+	function searchBtnApplyQuery() {
+		document.getElementById("btnSearchIcon").href = "/Search?searchPhrase=" + document.getElementById("searchField63c2c7d2-e392-41d4-aa15-ec6e31011c38").value;
+    }
+</script>
+</div>
+	</div> <!-- inner column -->
+
+	</div> <!-- inner row -->
+
+			</div><!-- outer column --><!--		--></div> <!-- outer row -->
+
+
+	</div>
+</aside></div></header>
+</div><div data-cpRole="structuralContainer" id="structuralContainer3">
+<div class="siteWrap"><nav data-cpRole="nav" id="mainNav" class="siteNav mainNav" role="navigation">
+<ol id="mainNavMenu" data-parent="1" class="rootNavMenu" role="menu"><!--
+--><li id="MainItem27" class="topMenuItem" aria-haspopup="true" role="menuitem" data-pageid="27" data-displaymegamenu="True"><!--
+			--><!--
+			--><a id="mainNavGovernment" class="navMainItem mainNavItem mainNavItem1" href="/27/Government" target="_self">Government</a><!--
+			--><!--
+			--></li><!----><li id="MainItem31" class="topMenuItem" aria-haspopup="true" role="menuitem" data-pageid="31" data-displaymegamenu="True"><!--
+			--><!--
+			--><a id="mainNavCommunity" class="navMainItem mainNavItem mainNavItem2" href="/31/Community" target="_self">Community</a><!--
+			--><!--
+			--></li><!----><li id="MainItem35" class="topMenuItem" aria-haspopup="true" role="menuitem" data-pageid="35" data-displaymegamenu="True"><!--
+			--><!--
+			--><a id="mainNavBusiness" class="navMainItem mainNavItem mainNavItem3" href="/35/Business" target="_self">Business</a><!--
+			--><!--
+			--></li><!----><li id="MainItem9" class="topMenuItem" aria-haspopup="true" role="menuitem" data-pageid="9" data-displaymegamenu="True"><!--
+			--><!--
+			--><a id="mainNavVisitors" class="navMainItem mainNavItem mainNavItem4" href="/9/Visitors" target="_self">Visitors</a><!--
+			--><!--
+			--></li><!----><li id="MainItem8" class="topMenuItem" aria-haspopup="true" role="menuitem" data-pageid="8" data-displaymegamenu="True"><!--
+			--><!--
+			--><a id="mainNavHowDoI" class="navMainItem mainNavItem mainNavItem5" href="/8/How-Do-I" target="_self">How Do I?</a><!--
+			--><!--
+			--></li><!---->
+</ol>
+
+
+	<script type="text/javascript">
+		$(document).ready(function () {
+			var menuID = 'mainNavMenu';
+			var menuType = MAIN_MENU;
+
+			//setup menu manager properties for main menu
+			if (!menuManager.mobileMainNav && true)
+				menuManager.adjustMainItemsWidth('#' + menuID);
+			menuManager.isMainMenuEditable = false;
+			menuManager.mainMenuMaxSubMenuLevels = 4;
+			menuManager.setMOMMode(2, menuType);
+
+			//Init main menu
+			var setupDraggable = menuManager.isMainMenuEditable;
+			var urlToGetHiddenMenus = '/Pages/MenuMain/HiddenMainSubMenus?pageID=1&moduleID=&themeID=1&menuContainerID=mainNav';
+
+			menuManager.setupMenu(menuID, 'mainNav', menuType, setupDraggable, urlToGetHiddenMenus);
+			menuManager.mainMenuInit = true;
+			menuManager.mainMenuTextResizer = true;
+			if (0.99 > 0)
+				menuManager.mainMenuTextResizerRatio = 0.99;
+			if (window.isResponsiveEnabled)
+				menuManager.mainMenuReady.resolve();
+
+		});
+	</script>
+
+
+<aside data-cpRole="megaMenu" id="megaMenu" class="megaMenu" style="display: none;"><input type="hidden" id="megaMenuPopupDirection" value="0"><input type="hidden" id="megaMenuWidthReference" value="1"><aside data-cpRole="contentContainer" id="mainNavMegaMenu27" class="contentTop mainNavMegaMenu megaMenuContainer pageID_27 hidden" data-orientation="horizontal">	<div id="cc9e5a7127-613d-4e32-8b91-62e2f1a389c6" data-containerid="9e5a7127-613d-4e32-8b91-62e2f1a389c6" class="pageContent cpGrid cpGrid24">
+				                
+
+
+
+	</div>
+</aside><aside data-cpRole="contentContainer" id="mainNavMegaMenu31" class="contentTop mainNavMegaMenu megaMenuContainer pageID_31 hidden" data-orientation="horizontal">	<div id="ccbb669c71-fcc3-4a1e-ad20-49def697aea9" data-containerid="bb669c71-fcc3-4a1e-ad20-49def697aea9" class="pageContent cpGrid cpGrid24">
+				                
+
+
+
+	</div>
+</aside><aside data-cpRole="contentContainer" id="mainNavMegaMenu35" class="contentTop mainNavMegaMenu megaMenuContainer pageID_35 hidden" data-orientation="horizontal">	<div id="ccd6b7639c-dab4-43c6-a084-1dc614c57105" data-containerid="d6b7639c-dab4-43c6-a084-1dc614c57105" class="pageContent cpGrid cpGrid24">
+				                
+
+
+
+	</div>
+</aside><aside data-cpRole="contentContainer" id="mainNavMegaMenu9" class="contentTop mainNavMegaMenu megaMenuContainer pageID_9 hidden" data-orientation="horizontal">	<div id="ccdceb86ba-c408-4a26-9bfa-d94981e3e155" data-containerid="dceb86ba-c408-4a26-9bfa-d94981e3e155" class="pageContent cpGrid cpGrid24">
+				                
+
+
+
+	</div>
+</aside><aside data-cpRole="contentContainer" id="mainNavMegaMenu8" class="contentTop mainNavMegaMenu megaMenuContainer pageID_8 hidden" data-orientation="horizontal">	<div id="ccd939bc83-bed9-400a-8d18-0430ff62dd20" data-containerid="d939bc83-bed9-400a-8d18-0430ff62dd20" class="pageContent cpGrid cpGrid24">
+				                
+
+
+
+	</div>
+</aside></aside></nav></div>
+</div><div data-cpRole="structuralContainer" id="structuralContainer4">
+<div class="siteWrap"><div data-cpRole="structuralContainer" id="structuralContainer5" class="mainWrap" role="main">
+<div data-cpRole="structuralContainer" id="structuralContainer6" class="outerContentWrap">
+<div data-cpRole="structuralContainer" id="structuralContainer7" class="contentWrap">
+<div data-cpRole="breadCrumbs" class="breadCrumbContainer" id="breadCrumbs">		<ol class="semanticList breadCrumbs">
+			<li><a class="breadCrumb" href="/">Home</a></li><li><a class="breadCrumb" href="/27/Government">Government</a></li><li><a class="breadCrumb" href="/219/Health-Human-Services">Health & Human Services</a></li><li id="currentBCPage" data-pageid="250">Public Health</li>
+		</ol>
+
+	   
+    
+</div><div data-cpRole="mainContentContainer" id="moduleContent">
+	
+	<div id="page" class="moduleContentNew">
+		
+
+	<input id="hdnPageID" name="hdnPageID" type="hidden" value="250" />
+	<input id="hdnParentID" name="hdnParentID" type="hidden" value="219" />
+	<input id="hdnVersionID" name="hdnVersionID" type="hidden" value="13099" />
+	<input id="pageMenuTitle" name="pageMenuTitle" type="hidden" value="Public Health" />
+	<input id="pageShowFeatureColumn" name="pageShowFeatureColumn" type="hidden" value="True" />
+	<input id="hdnIsLayoutPage" name="hdnIsLayoutPage" type="hidden" value="False" />
+	<input id="hdnPageStatus" name="hdnPageStatus" type="hidden" value="Active" />
+
+				<h1 id="versionHeadLine" class="headline">
+Public Health		</h1>
+			<div id="cc0d577bfb-cbc3-4e97-ad36-083443fe9555" data-containerid="0d577bfb-cbc3-4e97-ad36-083443fe9555" class="pageContent cpGrid cpGrid24"  data-contentcontainerbreakpoint="100" >
+			
+
+		<div class="row outer wide"><!--
+--><div class="outer col col24 first last" style="" data-widgetcontainerid="2af98bfa-03ee-45a9-9cd4-640e5716b1bf">				
+	<div class="row nest first wide">
+	
+	<div class="inner col col24 first last id3e42c834-a5e7-4edf-a258-72e420c968e8" style="" data-widgetcontainerid="3e42c834-a5e7-4edf-a258-72e420c968e8">	
+<div class="widget editor pageStyles narrow" id="divEditor5e730450-6e81-487a-88a3-3ba291c5c688" data-elementqueryclasses='{"wide-narrow":"min-width:25em"}'>
+<div style=""><span style="font-size: 14pt;"><strong><span style="text-decoration: underline;">CONTACT INFORMATION</span></strong><br>
+<strong>Phone</strong>: 209-533-7401<br>
+<strong>Email</strong>: health@tuolumnecounty.ca.gov<br>
+<strong>Address</strong>: 20111 Cedar Rd. N Sonora, CA 95370<br>
+<br>
+</span></div>
+<img src="/ImageRepository/Document?documentID=14175" alt="PH Website MissionVisionValues" title="PH Website MissionVisionValues">
+<div style="text-align: center;"><span>____________________________________________________________________<h1 class="headline"><br>
+</h1></span></div>
+<h1 class="headline"><span style="color: rgb(29, 14, 56);"> </span>
+<div style="text-align: left;"><br>
+<img src="/ImageRepository/Document?documentID=14156" alt="PH-COVID-19-WebHeaderMain" title="PH-COVID-19-WebHeaderMain"><br>
+<span style="font-size: 12pt; color: rgb(0, 0, 0);"><span style="font-size: 10pt;">​</span><em>información en español <a href="https://covid19.ca.gov/quedese-en-casa-excepto-por-necesidades-esenciales/" target="_blank" class="Hyperlink">aquí</a><br>
+<br>
+</em></span></div>
+</h1>
+<div style="" class="alignWrapper">
+<div style="text-align: center;" class="alignWrapper"><span style="font-size: 24pt;"><span style="text-align: center; color: rgb(29, 14, 56);"><strong>Public Health Information Line</strong></span><br>
+</span><span style="text-align: center;"><strong><span style="font-size: 18pt; color: rgb(29, 14, 56);">☎️209-533-7440</span></strong></span><span style="font-weight: bold; font-size: 18pt;"><br>
+</span><strong>Hours of Operation: Monday-Friday, 9 a.m. - 5 p.m.</strong><br>
+<div style="text-align: left;" class="alignWrapper"><span><br>
+<span style="font-weight: bold; font-size: 14pt; color: rgb(29, 14, 56);">▪️Adventist Health Sonora COVID-19 Triage Line</span><br>
+<strong style="color: rgb(29, 14, 56); font-size: 14pt;">☎️209-536-5166<br>
+</strong><strong>Or visit:</strong>&nbsp;&nbsp;<a href="https://www.adventisthealth.org/coronavirus-preparedness/">https://www.adventisthealth.org/coronavirus-preparedness/</a><br>
+<br>
+<span style="color: rgb(29, 14, 56);"> ▪️</span><strong style="color: rgb(29, 14, 56); font-size: 14pt;">Public Health Facebook Page Updates<br>
+</strong><span style="font-size: 10pt; color: rgb(29, 14, 56);"><a href="https://www.facebook.com/tuolumnecountypublichealth" target="_blank" class="Hyperlink">https://www.facebook.com/tuolumnecountypublichealth</a><br>
+</span><span style="color: rgb(29, 14, 56);">▪️ </span><strong style="color: rgb(29, 14, 56); font-size: 14pt;">Statewide Shelter-in-Place Order<br>
+</strong><a href="https://covid19.ca.gov/" target="_self" class="Hyperlink" style="color: rgb(29, 14, 56); font-size: 10pt;">https://covid19.ca.gov/</a><span style="color: rgb(29, 14, 56);">&nbsp;</span><br>
+<span style="font-size: 12pt; color: rgb(29, 14, 56);">Copy of the Order </span><a href="https://covid19.ca.gov/img/Executive-Order-N-33-20.pdf" target="_blank" class="Hyperlink" style="color: rgb(29, 14, 56); font-size: 10pt;">HERE</a><br>
+<span style="font-size: 14pt; font-family: Montserrat; color: rgb(29, 14, 56);"><strong>▪️ California Department of Public Health COVID-19 Page<br>
+</strong></span><a href="https://www.cdph.ca.gov/programs/cid/dcdc/pages/immunization/ncov2019.aspx" target="_blank" class="Hyperlink" style="font-size: 10pt; color: rgb(29, 14, 56);">https://www.cdph.ca.gov/programs/cid/dcdc/pages/immunization/ncov2019.aspx</a><span style="font-size: 14pt; color: rgb(29, 14, 56);"><br>
+<strong><span style="font-weight: 700; font-family: Montserrat; color: rgb(29, 14, 56);">▪️</span>Frequently Asked Questions About the Statewide Shelter-in-Place <a href="https://covid19.ca.gov/stay-home-except-for-essential-needs/?fbclid=IwAR1VOU2JpzLNRWqBQ-VJTYThsgTn9SDXU1SxUavQRZ2sEke9ySNpJMuensc" target="_blank" class="Hyperlink">HERE</a><br>
+</strong></span><br>
+<span style="font-size: 14pt; color: rgb(29, 14, 56);"><span style="font-size: 14pt;">​<span style="font-weight: 700; color: rgb(29, 14, 56);">▪️</span></span><span style="font-weight: bold;">Printed Resources can be </span><span style="font-weight: 700;">downloaded</span><span style="font-weight: bold;">&nbsp;at the links below:<br>
+</span></span><strong style=""><span style="font-size: 12pt; color: rgb(175, 82, 49);">General Public Health COVID-19 Safety Flyer/Poster&nbsp;</span></strong><br>
+<span style="color: rgb(29, 14, 56);">Download: <a href="/DocumentCenter/View/14213/General-PH-COVID-19-Flyer-Poster" target="_blank" class="Hyperlink" style="color: rgb(29, 14, 56);">English</a>&nbsp; &nbsp; &nbsp;<a href="/DocumentCenter/View/14215/Genral-PH-COVID-19-Poster-Flyer-Spanish" target="_blank" class="Hyperlink">Spanish</a></span><br>
+<strong style=""><span style="font-size: 12pt; color: rgb(175, 82, 49);">Steps to Help Prevent COVID-19 if You Are Sick Flyer</span></strong><br>
+<span style="color: rgb(29, 14, 56);">Download <a href="https://www.cdc.gov/coronavirus/2019-ncov/downloads/sick-with-2019-nCoV-fact-sheet.pdf" target="_blank" class="Hyperlink">English</a>&nbsp; &nbsp; &nbsp; <a href="https://www.cdc.gov/coronavirus/2019-ncov/downloads/sick-with-2019-nCoV-fact-sheet-sp.pdf" target="_blank" class="Hyperlink">Spanish</a></span><br>
+<strong style=""><span style="font-size: 12pt; color: rgb(175, 82, 49);">What You Need to Know About Coronavirus Disease Flyer</span></strong><br>
+<span style="color: rgb(29, 14, 56);">Download <a href="https://www.cdc.gov/coronavirus/2019-ncov/downloads/2019-ncov-factsheet.pdf" target="_blank" class="Hyperlink">English</a>&nbsp; &nbsp; &nbsp; <a href="https://www.cdc.gov/coronavirus/2019-ncov/downloads/2019-ncov-factsheet-sp.pdf" target="_blank" class="Hyperlink">Spanish</a></span><br>
+<strong><span style="font-size: 12pt; color: rgb(175, 82, 49);"> Wash Your Hands Poster</span></strong><br>
+Download <a href="https://www.cdc.gov/handwashing/pdf/wash-your-hands-poster-english-508.pdf" target="_blank" class="Hyperlink">English</a>&nbsp; &nbsp; &nbsp; <a href="https://www.cdc.gov/handwashing/pdf/wash-your-hands-poster-spanish-508.pdf" target="_blank" class="Hyperlink">Spanish</a><br>
+<br>
+<span style="font-size: 10pt; color: rgb(29, 14, 56);"><img src="/ImageRepository/Document?documentID=14157" alt="DailyStatusWebHeader" title="DailyStatusWebHeader"></span><br>
+<br>
+<div style="font-size: 10pt; color: rgb(29, 14, 56); text-align: center;" class="alignWrapper"> <span style="font-size: 24pt;">
+<h1 style="" class="headline"></h1>
+<h1 style="font-size: 18pt;" class="headline">​</h1>
+<strong>DATE: 4-17-2020</strong> </span></div>
+<br>
+<div style="font-size: 10pt; color: rgb(29, 14, 56); text-align: center;" class="alignWrapper"><span style="font-size: 24pt;"></span></div>
+</span></div>
+<span style="font-size: 18pt; font-family: Verdana;"><strong>TUOLUMNE ​CASE COUNT/TESTING* </strong></span>
+<div style="text-align: center;" class="alignWrapper">
+<div style="text-align: left;" class="alignWrapper">
+<table cellpadding="2" cellspacing="1" class="telerik-reTable-2" style="width: 100%;">
+    <tbody>
+        <tr class="telerik-reTableHeaderRow-2">
+            <th class="telerik-reTableHeaderEvenCol-2" style="text-align: center; background-color: rgb(29, 14, 56);"><span style="font-size: 12pt; font-family: Verdana;"><strong style=""><span style="font-family: Verdana;">&nbsp;</span><span style="font-size: 10pt;">TOTAL TESTED</span></strong></span></th>
+            <th class="telerik-reTableHeaderOddCol-2" style="text-align: center; background-color: rgb(29, 14, 56);"><span style="font-size: 12pt; font-family: Verdana;"><strong style=""><span style="font-family: Verdana;">&nbsp;</span><span style="font-size: 10pt;">TOTAL PENDING</span></strong></span></th>
+            <th class="telerik-reTableHeaderEvenCol-2" style="text-align: center; background-color: rgb(29, 14, 56);"><span style="font-size: 12pt; font-family: Verdana;"><strong style=""><span style="font-family: Verdana;">&nbsp;</span><span style="font-size: 10pt;">TOTAL NEGATIVE</span></strong></span></th>
+            <th class="telerik-reTableHeaderOddCol-2" style="text-align: center; background-color: rgb(29, 14, 56);"><span style="font-size: 10pt; font-family: Verdana;"><strong style="">TOTAL POSITIVE&nbsp;</strong></span></th>
+            <th class="telerik-reTableHeaderEvenCol-2" style="text-align: center; background-color: rgb(29, 14, 56);"><span style="font-size: 10pt; font-family: Verdana;"><strong style="">TOTAL DEATHS&nbsp;</strong></span></th>
+            <th class="telerik-reTableHeaderOddCol-2" style="text-align: center; background-color: rgb(29, 14, 56);"><strong><span style="font-size: 10pt;">TOTAL KNOWN NON-RESIDENT CASES **</span></strong></th>
+        </tr>
+        <tr class="telerik-reTableOddRow-2">
+            <td style="text-align: center;" class="telerik-reTableEvenCol-2"><span style="font-family: Verdana;"><strong style=""><span style="font-size: 18pt; font-family: Verdana;">&nbsp;425</span></strong></span></td>
+            <td style="text-align: center;" class="telerik-reTableOddCol-2"><span style="font-size: 18pt; font-family: Verdana;"><strong>17</strong></span></td>
+            <td style="text-align: center;" class="telerik-reTableEvenCol-2"><span style="font-weight: 700; font-family: Verdana; text-align: center; background-color: rgb(237, 236, 235);;font-size: 18pt; font-family: Verdana;">406<br>
+            </span><br>
+            </td>
+            <td style="text-align: center;" class="telerik-reTableOddCol-2"><span style="font-size: 18pt; font-family: Verdana;"><strong>&nbsp;2</strong></span></td>
+            <td style="text-align: center;" class="telerik-reTableEvenCol-2"><span style="font-size: 18pt; font-family: Verdana;"><strong>0</strong></span></td>
+            <td style="text-align: center;"><span style="font-size: 18pt; color: rgb(87, 86, 85);"><strong style=""><span style="font-weight: 700; text-align: center; background-color: rgb(237, 236, 235); font-family: Verdana;">1</span><br>
+            </strong></span></td>
+        </tr>
+    </tbody>
+</table>
+<br>
+<span style="font-size: 14pt; background-color: rgb(250, 249, 249); color: rgb(29, 14, 56);"><strong><span style="text-decoration: underline;">California</span> case numbers can be found</strong> <a href="https://www.cdph.ca.gov/Programs/CID/DCDC/Pages/Immunization/ncov2019.aspx?fbclid=IwAR3QbmIAGU2xfCPGQ5PCzBJ9Qcv7QM5mqNfe7YgWyJOMfNNDbCfvI5UXBrI" target="_blank" class="Hyperlink" style="">HERE</a><br>
+<strong><span style="text-decoration: underline;">National</span> case numbers can be found</strong> <a href="https://www.cdc.gov/coronavirus/2019-ncov/cases-updates/cases-in-us.html?CDC_AA_refVal=https://www.cdc.gov/coronavirus/2019-ncov/cases-in-us.html&amp;fbclid=IwAR33eIFCpc25wHcuZ9PlF7tAfFA1hhMwYcBJ4HxmV-HmsjCcFVsM7jr248E" target="_blank" class="Hyperlink">HERE</a><br>
+<span style="font-family: Verdana;"><em style=""><br>
+<span style="font-size: 10pt;"><strong>*</strong>Tuolumne County testing numbers include those routed through Public Health to a Public Health Laboratory and those reported through the State infectious disease reporting system. The numbers do not necessarily include those routed through a commercial laboratory. All positive cases of Tuolumne County residents must be reported to Public Health.&nbsp;<br>
+<strong>** </strong>Non-County resident positive COVID-19 cases for which Tuolumne County Public Health has been notified. These cases will be investigated by a Contact Investigation Team. As these cases get assigned to the individual's county of residence, they will no longer be reported here.&nbsp;</span></em></span></span></div>
+</div>
+</div>
+<h2 class="subhead1"><br>
+<strong style="color: rgb(29, 14, 56); text-align: center;">NEWEST UPDATES:</strong><br>
+<span style="color: rgb(0, 0, 0);;font-family: Montserrat; color: rgb(0, 0, 0);"><strong>4-17-20</strong><br>
+</span></h2><span style="font-size: 14pt;">* In response to the COVID-19 pandemic, Governor Newsom signed an executive order that allows enrolment waivers for child care subsidies to certain populations. These waivers and child care subsidies are valid through June 30, 2020. The order prioritizes eligibility in certain categories including essential workers. Please view the Infant Child Enrichment Services website for more info:&nbsp;<span style="font-family: &quot;Franklin Gothic Book&quot;, sans-serif;"><a href="https://gcc02.safelinks.protection.outlook.com/?url=https%3A%2F%2Fwww.icesagency.org%2Fnews_events%2Fheadlines.html%2Farticle%2F2020%2F04%2F14%2Fgovernor-newsom-s-executive-order-for-child-care-subsidy&amp;data=01%7C01%7CMJachetta%40co.tuolumne.ca.us%7Cd41ce243480f4861b3e908d7e321e5e1%7C37e2bf7f4bc440859e0aaeab83f13a1e%7C0&amp;sdata=NebV41V2ZYcn7K1LDGQbFoIaKcyXHeXEu7f5DO1CrOc%3D&amp;reserved=0">https://www.icesagency.org/news_events/headlines.html/article/2020/04/14/governor-newsom-s-executive-order-for-child-care-subsidy</a></span></span><h2 class="subhead1" style="color: rgb(0, 0, 0);"><span style="font-family: Montserrat; color: rgb(0, 0, 0);"><br>
+<br>
+<strong>4-16-2020</strong></span><br>
+</h2><span style="font-size: 14pt;">* Tuolumne County Public Health is continuing its ongoing coordination with our local, regional, and state partners for the COVID-19 response. This includes planning for coordinated efforts related to the 6 indicators in <a href="https://www.gov.ca.gov/wp-content/uploads/2020/04/California-Roadmap-to-Modify-the-Stay-at-Home-Order.pdf" target="_blank" title="California's Roadmap to Modifying the Stay-at-Home Order" class="Hyperlink">Governor Newsom's roadmap</a> to modifying the stay-at-home order. The stay-at-home order is working, and it is saving lives. We understand the sacrifice that everyone is making during this pandemic and the public's cooperation is greatly appreciated as we strive to remain in containment and keep our community healthy.&nbsp;</span><h2 class="subhead1"><span style="color: rgb(0, 0, 0);"><br>
+<br>
+4-15-2020<br>
+<span style="font-family: &quot;Franklin Gothic Book&quot;, sans-serif;"></span>* The Febrile Respiratory Illness (FRI) Employee Screening form has been updated and can be found <a href="/DocumentCenter/View/14359/COVID-19-Employee-Screening-Form-Update-41420" target="_blank" class="Hyperlink">HERE</a>. This update incorporates the latest CDC guidance on allowing critical employees to continue working if they have been exposed to a COVID-19 positive patient, if specific precautions are taken. All essential businesses in Tuolumne County have been directed to screen their employees before they begin their shift according the local Health Officer’s Order on 3/26 and retain that documentation for at least 14 days. That order can be viewed <a href="https://www.tuolumnecounty.ca.gov/DocumentCenter/View/14185/Health-Officer-Order-FRI-32620?bidId=" target="_blank" class="Hyperlink">HERE</a></span><span style="color: red;"><a href="https://gcc02.safelinks.protection.outlook.com/?url=https%3A%2F%2Fwww.tuolumnecounty.ca.gov%2FDocumentCenter%2FView%2F14185%2FHealth-Officer-Order-FRI-32620%3FbidId%3D&amp;data=01%7C01%7CKHerrera%40co.tuolumne.ca.us%7C0e3968fa5fb9423b6e7008d7e183a3fa%7C37e2bf7f4bc440859e0aaeab83f13a1e%7C0&amp;sdata=xdvaDCZOAlroX3jHcJPV5yP1WQMkKhWkHZu37M8o2KY%3D&amp;reserved=0" originalsrc="https://www.tuolumnecounty.ca.gov/DocumentCenter/View/14185/Health-Officer-Order-FRI-32620?bidId=" shash="utCu9aq98t3GSTuC+whOkrxcwEyJN4xdtvIZ5ssQlFQGo51ItWmD8vYr7S5PKMlarglqkPDX7q6oLfDxVExY840TcFpAuySSEU9FCnC6ObUhghK3ZBXU4PpG7G8s8pV/l2vyhp9EoUdU6s120ubgLv7AoMSFFCa3nZPoLS26whk="><span style="font-family: &quot;Franklin Gothic Book&quot;, sans-serif;"></span></a></span><br>
+<span style="font-size: 14pt; color: rgb(0, 0, 0);"><br>
+<span style="font-size: 14pt; font-family: Verdana;"> *</span></span></h2><span style="font-size: 12pt; font-family: Verdana; color: rgb(0, 0, 0);">Demographics information on the two latest identified cases has been provided in the 4-14 and 4-13 sections below</span><h2 class="subhead1"><br>
+<span style="text-align: center; color: rgb(0, 0, 0);"><br>
+<span style="font-size: 24pt;"><span style="font-size: 24pt;">​</span>4-14-2020</span></span><br>
+</h2><span style="font-size: 14pt;">​The California Department of Public Health has now assigned cruise ship passengers who had tested positive for COVID-19 to their counties of residence. These cases were previously assigned by the State separately to the cruise lines. We have received one such case, of a 72-year old male who completed their isolation on the cruise ship in March. Therefore, our data now indicates 2 total positive cases in Tuolumne County. residents. There is no risk to the public from this latest assigned case.</span><h1 class="headline"><span style="color: rgb(29, 14, 56);"><br>
+<br>
+</span><span style="text-align: center; font-size: 24pt; font-weight: normal; color: rgb(0, 0, 0);">4-13-2020</span><br>
+<br>
+</h1><span style="font-size: 14pt; text-align: center; font-family: Verdana;">Follow-Up on the Positive Case in a 34-year old male Non-Resident Shared on 3/10: The individual was in the area performing essential work in accordance with the Governor's order. The individual sought medical care in Tuolumne County and has been in isolation outside of Tuolumne County since that time. Contact tracing was conducted and it is evident that transmission occurred outside of our county, and no close contacts were identified in Tuolumne County. At this time, there is no known additional risk to Tuolumne County residents. This case will be assigned to the individual's county of residence.&nbsp;</span><span style="text-align: center; font-size: 14pt; font-family: Verdana; color: rgb(0, 0, 0);"><br>
+</span><h2 class="subhead1" style="color: rgb(29, 14, 56);"><strong> <br>
+</strong></h2><span style="font-size: 24pt;"><strong style=""><span style="color: rgb(0, 0, 0);">4-10-2020</span><br>
+<h3 style="font-size: 12pt; font-family: Verdana; color: rgb(87, 86, 85);" class="subhead2">the previously identified positive case in a non-county resident who has recovered, has been officially assigned to Mono County. Therefore, that number will no longer be reported in our data.</h3>
+<span style="color: rgb(0, 0, 0);">&nbsp;</span><br>
+<span style="color: rgb(0, 0, 0);">4-9-2020</span></strong></span><h2 class="subhead1"><span style="color: rgb(29, 14, 56);"><br>
+<p style="text-align: center;"><span style="text-align: left; font-family: &quot;Franklin Gothic Book&quot;, sans-serif;"></span></p>
+<span style="text-align: center;"> Information on a new Hopeline call center was released today and that information. </span><span style="text-align: center;">&nbsp;The infographic information can be viewed </span><a href="/DocumentCenter/View/14337/Hopeline-Covid-19" target="_blank" class="Hyperlink" style="text-align: center;">here</a><span style="text-align: center;">.&nbsp;</span><br>
+<br>
+<span style="text-align: center; font-weight: 700; font-size: 24pt; font-family: Montserrat; color: rgb(0, 0, 0);">4-7-2020</span><br>
+<span style="text-align: center;"> *The positive COVID-19 case in a non-Tuolumne County resident that was announced on 3/26 has recovered and their travel companion has cleared the quarantine period and did not develop symptoms during the quarantine. Public Health maintained daily contact with them during the isolation &amp; quarantine periods to ensure they had supplies that allowed them to remain in their home and out of contact with people during that time period.&nbsp;</span><br>
+<br>
+<span style="text-align: center;"> *Tuolumne County Public Health has provided an update and clarification in regard to testing for COVID-19. Please see document </span><a href="/DocumentCenter/View/14328/COVID-19-Testing-Update-FINAL" target="_blank" class="Hyperlink" style="text-align: center;">here</a><span style="text-align: center;">.</span><br>
+<br>
+<span style="text-align: center;"> *The Tuolumne County Sheriff’s Department has issued a press release regarding education and enforcement of Health Officer Orders. Please see release </span><a href="/DocumentCenter/View/14329/Covid-19-Education-and-Enforcement" target="_blank" class="Hyperlink" style="text-align: center;">here</a><span style="text-align: center;">.</span><br>
+<br>
+<span style="text-align: center;"> *The ICES (Infant Child Enrichment Services) office is closed to the public until further notice, although most services are still being provided. This includes provider payments, child care referrals, and resources to providers and families. Call the main phone line at 533-0377, and messages will be returned if requested. Or write to info@icesagency.org&nbsp; and a response will be given shortly.</span><br>
+<div style="text-align: center; font-weight: bold;"><br>
+</div>
+<br>
+</span><span style="font-size: 18pt; color: rgb(0, 0, 0);"><strong>4-6-2020</strong></span><br>
+<span style="color: rgb(0, 0, 0);">Today, 4/6/20, Tuolumne County Interim Health Officer, Dr. Eric Sergienko issued a Health Officer Order clarifying essential vs. non-essential activities. See attached Order <a href="/DocumentCenter/View/14286/Health-Officer-Order-Essential-vs-Non-Essential-040620" target="_blank" class="Hyperlink">HERE</a>.</span><span style="text-align: center; color: rgb(0, 0, 0);"></span><span style="text-align: center; font-weight: bold; font-size: 24pt; color: rgb(29, 14, 56);"><br>
+<br>
+</span><span style="font-size: 14pt; color: rgb(0, 0, 0);"><span style="font-size: 24pt;"><span style="font-size: 24pt;">​</span><strong>4-30-20</strong><br>
+</span>Today, 4/3/20, Interim County Health Officer Dr. Eric Sergienko issued a Health Officer’s Order clarifying the Statewide ‘Stay-at-Home’ order as related to short term lodging facilities. See attached HO Order.</span><br>
+View the HO Order <a href="/DocumentCenter/View/14219/Short-Term-Lodging-HO-Order-040320" target="_blank" class="Hyperlink">HERE</a><br>
+</h2><br>
+<h2 class="subhead1"><span style="color: rgb(0, 0, 0);"><br>
+On 4/3/20, Tuolumne County Superintendent of Schools issued an updated press release on the closure of school facilities through the remainder of the school year. See&nbsp; TCSOS press release <a href="https://www.tcsos.us/wp-content/uploads/Final-Closure-of-School-04_03.pdf" target="_blank" class="Hyperlink">HERE</a>.</span><br>
+<br>
+<span style="font-size: 24pt;"><strong><span style="color: rgb(0, 0, 0);">4-2-2020:</span><br>
+</strong></span></h2><span style="font-size: 14pt;">* New guidance on community masking was issued by the California Department of Public Health (CDPH). It is important for everyone to understand that this is not an ‘order’ to wear a mask and it DOES NOT replace the importance of staying home, social distancing, and hand washing as the most effective means of protection against COVID-19. View the guidance <a href="/DocumentCenter/View/14210/Mask-Guidance-for-Residents-4220" target="_blank" class="Hyperlink">HERE</a><br>
+</span><h2 class="subhead1"><span style="font-size: 14pt;"><br>
+<span style="color: rgb(0, 0, 0);">* Behavioral Health updates as follows: Enrichment Center calendar can be viewed <a href="/DocumentCenter/View/14211/APRIL-2020-EC" target="_blank" class="Hyperlink">HERE</a>&nbsp;and EC Notice <a href="/DocumentCenter/View/14212/Enrichment-Center-Notice-3-26-2020" target="_blank" class="Hyperlink">HERE</a></span><br>
+</span><br>
+<br>
+<span style="color: rgb(0, 0, 0);"><strong><span style="font-size: 24pt;">4-1-2020:</span></strong><br>
+<br>
+<span style="text-decoration: underline;">Twain Harte Area CERT (Community Emergency Response Team)</span> has established a call service to provide daily phone calls with folks who would like a check-in each day. See graphic <a href="/DocumentCenter/View/14205/TH-CERT-Call-Service" target="_blank" class="Hyperlink">HERE</a><br>
+<br>
+<span style="text-decoration: underline;">The Tuolumne Band of Me-Wuk Indians Social Services Department</span> has provided information on resources available to their tribal community. See flier <a href="/DocumentCenter/View/14206/we-are-here_" target="_blank" class="Hyperlink">HERE</a><br>
+</span><span style="text-align: center; font-weight: bold; font-size: 24pt; color: rgb(29, 14, 56);"><br>
+3-30-2020&nbsp;</span><br>
+</h2><span style="font-size: 18pt; color: rgb(0, 0, 0);"><span style="text-align: center; font-size: 14pt;">Press release on positive COVID-19 case identified in Tuolumne County </span><a href="/DocumentCenter/View/14201/Second-Case-Identified-Tuol-Co-COVID-19-press-release" target="_blank" class="Hyperlink" style="text-align: center;"><span style="font-size: 14pt;">HERE</span></a></span><h2 class="subhead1"><br>
+<br>
+<span style="text-align: center; white-space: pre-wrap; background-color: rgb(255, 255, 255); font-size: 18pt; color: rgb(5, 5, 5);" _face="&quot;Segoe UI Historic&quot;, &quot;Segoe UI&quot;, Helvetica, Arial, sans-serif"><span style="font-weight: 700; text-align: center; white-space: pre-wrap; background-color: rgb(255, 255, 255); font-size: 24pt; font-family: Montserrat; color: rgb(5, 5, 5);">3-27-2020: Joint Advisory on Travel</span><strong><br>
+</strong><span style="text-align: center; white-space: pre-wrap; font-size: 14pt; font-family: &quot;Segoe UI Historic&quot;, &quot;Segoe UI&quot;, Helvetica, Arial, sans-serif; color: rgb(5, 5, 5);">A joint press release by Tuolumne County Office of Emergency Services and the City of Sonora was issued today regarding essential travel in Tuolumne County. View the release<strong> </strong><a href="/DocumentCenter/View/14194/Joint-Release--Visiting-Tuolumne-County" target="_blank" class="Hyperlink" style="font-weight: bold;">HERE</a><strong> </strong></span><strong><br>
+3-26-2020: Confirmed Case of COVID-19 Treated in Tuolumne County </strong></span><span style="text-align: center; white-space: pre-wrap; background-color: rgb(255, 255, 255); font-family: &quot;Segoe UI Historic&quot;, &quot;Segoe UI&quot;, Helvetica, Arial, sans-serif; color: rgb(5, 5, 5);"><span style="font-size: 14pt; font-weight: bold; font-family: &quot;Segoe UI Historic&quot;, &quot;Segoe UI&quot;, Helvetica, Arial, sans-serif; color: rgb(29, 14, 56);">▪️</span><span style="font-size: 14pt; font-family: &quot;Segoe UI Historic&quot;, &quot;Segoe UI&quot;, Helvetica, Arial, sans-serif;">Press release can be viewed </span><a href="/DocumentCenter/View/14184/First-Case-Tuol-Co-COVID-19-press-release-32620" target="_blank" class="Hyperlink" style="font-family: &quot;Segoe UI Historic&quot;, &quot;Segoe UI&quot;, Helvetica, Arial, sans-serif; font-size: 14pt; font-weight: bold;">HERE</a><strong style="font-family: &quot;Segoe UI Historic&quot;, &quot;Segoe UI&quot;, Helvetica, Arial, sans-serif; font-size: 14pt;"> </strong><strong style="font-family: &quot;Segoe UI Historic&quot;, &quot;Segoe UI&quot;, Helvetica, Arial, sans-serif; font-size: 14pt;"> </strong><span style="font-size: 14pt; font-family: &quot;Segoe UI Historic&quot;, &quot;Segoe UI&quot;, Helvetica, Arial, sans-serif;"><span style="font-family: &quot;Segoe UI Historic&quot;, &quot;Segoe UI&quot;, Helvetica, Arial, sans-serif;"> </span><span style="font-size: 12pt;"><span style="font-size: 14pt;">A press release was issued on 3/26 regarding the notification of a positive case of COVID-19 in a non-Tuolumne County resident who is being treated at Adventist Health Sonora. See attached Press Release. Please note as indicated in our data table above, that in California, positive tests are attributed to the individual’s county of residence, not where they were tested or may have sought treatment.&nbsp; </span><span style="font-family: &quot;Segoe UI Historic&quot;, &quot;Segoe UI&quot;, Helvetica, Arial, sans-serif;"><br>
+</span></span></span><span style="font-family: &quot;Segoe UI Historic&quot;, &quot;Segoe UI&quot;, Helvetica, Arial, sans-serif;"><span style="font-size: 14pt;">More Details Available:<br>
+-The identified positive case contracted the virus while in Mono County.<br>
+-She traveled to Tuolumne County last week with a 29 year-old male companion, who is not symptomatic and is self-quarantined at a home in Tuolumne County. Public Health is in regular contact with the travel companion to ensure that services and needs are provided that will allow them to remain in their home and out of contact with people.<br>
+-Based on the investigation, the current risk to the community from these individuals is low.<br>
+-It is important for everyone to adhere to the current statewide stay-at-home order and other preventive guidance and only venture out for essential functions. </span><span style="font-family: &quot;Segoe UI Historic&quot;, &quot;Segoe UI&quot;, Helvetica, Arial, sans-serif;"> <br>
+</span></span><span style="font-size: 14pt; font-family: &quot;Segoe UI Historic&quot;, &quot;Segoe UI&quot;, Helvetica, Arial, sans-serif; color: rgb(29, 14, 56);"><span style="text-align: center; white-space: pre-wrap; background-color: rgb(255, 255, 255); font-family: &quot;Segoe UI Historic&quot;, &quot;Segoe UI&quot;, Helvetica, Arial, sans-serif; color: rgb(5, 5, 5);">Acting Tuolumne County Health Officer Dr. Eric Sergienko issued a Health Officer order effective 3/26/20 to screen for febrile (related to fever) respiratory illness and for ill residents to isolate. The order includes direction for healthcare provider reporting of febrile respiratory illness (FRI), monitoring and isolation instructions, and for all employers to screen employees at the start of work. Please see the attached Health Officer Order and associated employee screening form. Healthcare providers are being sent the FRI reporting tool separately. </span><strong style="font-family: &quot;Segoe UI Historic&quot;, &quot;Segoe UI&quot;, Helvetica, Arial, sans-serif;"> </strong><strong style="font-family: &quot;Segoe UI Historic&quot;, &quot;Segoe UI&quot;, Helvetica, Arial, sans-serif;">▪️</strong></span><span style="font-size: 14pt; font-family: &quot;Segoe UI Historic&quot;, &quot;Segoe UI&quot;, Helvetica, Arial, sans-serif;">Health Officer Order to Screen for Febrile Respiratory Illness &amp; Ill Residents to Isolate can be found</span><strong style="font-family: &quot;Segoe UI Historic&quot;, &quot;Segoe UI&quot;, Helvetica, Arial, sans-serif; font-size: 14pt;"> </strong><a href="/DocumentCenter/View/14185/Health-Officer-Order-FRI-32620" target="_blank" class="Hyperlink" style="font-family: &quot;Segoe UI Historic&quot;, &quot;Segoe UI&quot;, Helvetica, Arial, sans-serif; font-size: 14pt; font-weight: bold;">HERE</a><strong style="font-family: &quot;Segoe UI Historic&quot;, &quot;Segoe UI&quot;, Helvetica, Arial, sans-serif; font-size: 14pt;"> </strong><span style="font-size: 14pt; font-weight: bold; font-family: &quot;Segoe UI Historic&quot;, &quot;Segoe UI&quot;, Helvetica, Arial, sans-serif; color: rgb(29, 14, 56);">▪️</span><span style="font-size: 14pt; font-family: &quot;Segoe UI Historic&quot;, &quot;Segoe UI&quot;, Helvetica, Arial, sans-serif;">COVID-19 Screening Checklist for Employees</span><strong style="font-family: &quot;Segoe UI Historic&quot;, &quot;Segoe UI&quot;, Helvetica, Arial, sans-serif; font-size: 14pt;"> </strong><a href="/DocumentCenter/View/14186/COVID-19-Employee-Screening-Form" target="_blank" class="Hyperlink" style="font-family: &quot;Segoe UI Historic&quot;, &quot;Segoe UI&quot;, Helvetica, Arial, sans-serif; font-size: 14pt; font-weight: bold;">HERE </a></span><br>
+<span style="text-align: center; color: rgb(29, 14, 56);"><br>
+</span><br>
+<span style="text-align: center; color: rgb(0, 0, 0);"><img src="/ImageRepository/Document?documentID=14158" alt="GenInfoWebHeader" title="GenInfoWebHeader"></span><br>
+<br>
+<span style="text-align: center; font-family: Montserrat;"><strong style="font-family: Montserrat; color: rgb(0, 0, 0);"><br>
+</strong><strong style="font-family: Montserrat; color: rgb(0, 0, 0);">SHELTER-IN-PLACE / STATE ORDERS</strong><br>
+<span style="font-family: Montserrat; color: rgb(0, 0, 0);"> Governor Newsom has put in place a statewide shelter-in-place order. Those visiting Tuolumne County from areas should adhere to the order and refer to their local orders, which may be stricter than the statewide order. We are unaware of any strict travel restrictions outside of the state order, which are in effect in Tuolumne County.</span><br>
+<br>
+<span style="font-family: Montserrat; color: rgb(0, 0, 0);">On March 19, 2020, the State Public Health Officer Dr. Angel issued the following, </span><strong style="font-family: Montserrat;"><span style="color: rgb(29, 14, 56);">“To protect public health, I as State Public Health Officer and Director of the California Department of Public Health order all individuals living in the State of California to stay home&nbsp; or at their place of residence except as needed to maintain continuity of operations of the federal critical infrastructure sectors"&nbsp;</span></strong><span style="color: rgb(0, 0, 0);">outlined at:&nbsp; <span style="font-size: 10pt;"><a href="https://covid19.ca.gov/img/EssentialCriticalInfrastructureWorkers.pdf" target="_blank" class="Hyperlink">https://covid19.ca.gov/img/EssentialCriticalInfrastructureWorkers.pdf</a></span></span><br>
+<span style="font-family: Montserrat; color: rgb(0, 0, 0);"><br>
+&nbsp;View the full Executive Order <a href="https://covid19.ca.gov/img/Executive-Order-N-33-20.pdf" target="_blank" class="Hyperlink">HERE</a>:&nbsp;<br>
+</span><br>
+<span style="font-family: Montserrat; color: rgb(0, 0, 0);">For more information about the Executive Order, click <a href="https://covid19.ca.gov/stay-home-except-for-essential-needs/?fbclid=IwAR16K1XfBpq_kuRtMJLNVZjP9VeIsoTvH5EkdOUFxLrMiIaUS7Bs54jJ4Z8" target="_blank" class="Hyperlink">HERE</a>:&nbsp;<br>
+</span></span><span style="text-align: center;"><br>
+<span style="color: rgb(0, 0, 0);">All California State Parks have been closed to vehicle traffic. View their information release <a href="http://www.oesnews.com/california-state-parks-closes-vehicular-access-at-all-state-parks/" target="_blank" class="Hyperlink" style="">HERE</a>: </span></span><span style="text-align: center; font-family: Montserrat;"><span style="font-family: Montserrat; color: rgb(0, 0, 0);"><br>
+</span><br>
+<div style="font-family: Montserrat; color: rgb(0, 0, 0);"><br>
+</div>
+<strong style="font-family: Montserrat; color: rgb(0, 0, 0);"> SCHOOL INFORMATION<br>
+</strong><br>
+<span style="color: rgb(0, 0, 0);"><span style="font-family: Montserrat;">The Tuolumne County Superintendent of Schools announced on 3/31/20 that County schools will extend their closure through May 1, 2020. See press release&nbsp;</span><a href="https://www.tuolumnecounty.ca.gov/DocumentCenter/View/14203/Tuolumne-County-School-Closures-to-Be-Extended-Through-May-1-2020" target="_blank" class="Hyperlink" style="margin-top: 0.167em; border: 0px none; font-family: Montserrat; display: inline-block; font-size: 17.28px;">HERE</a></span></span><span style="text-align: center; color: rgb(0, 0, 0);">&nbsp;</span><br>
+<br>
+<span style="text-align: center; color: rgb(0, 0, 0);">School meal distribution information can be found <a href="https://l.facebook.com/l.php?u=https%3A%2F%2Fwww.tcsos.us%2Fnewsroom%2F2019-novel-coronavirus%2Fcovid-19-meal-distribution%2F%3Ffbclid%3DIwAR3C3XmM7F8AOANpLXOkQLqMsdkfqjv7EA9fpANdm2ViqQghCfy7CYsX4YQ&amp;h=AT1niT1yIJznlzKHude0dvNpb_4uhVqL3cqIY0H1bfw1qBwyARnc6PGdDoTuHpMgSBhN5QJmB99d62DKQrXSB5KXte2qEbh1bbn0KZw1MzsL_IIL5vcfxi6YRHQnwbbKeQ&amp;__tn__=-UK-R&amp;c[0]=AT2HIQGgMwNeqBiNs017q5VODz991H7hNcNEUf7rCwwTeQNO1ko8x_GZqkwZtWUb90gNBUQ0nzcCzmZD396km0ZddhWN08H73tu9zk7AWDkgJRyx2C5ObE2pzPy6aCg7Pa-eXC3Wje-7W2svcqQRqFp5jxngZmc47QgZD-eKkenKDgIoZ8aYs-p1InY9qMM" target="_blank" class="Hyperlink">HERE</a><br>
+<br>
+<span style="text-align: center; font-family: Montserrat; color: rgb(0, 0, 0);">Columbia College campus is closed. All instruction and student support services continue and have been moved to online format. Check their website for more information&nbsp;</span><a href="https://www.gocolumbia.edu/about/goals.php" target="_blank" class="Hyperlink" style="color: rgb(175, 82, 49); margin-top: 0.167em; border: 0px none; font-family: Montserrat; display: inline-block; font-size: 17.28px; text-align: center;">HERE</a><br>
+<br>
+<span style="text-align: center; font-family: Montserrat;"><strong>EMERGENCY DECLARATIONS &amp;&nbsp;</strong><strong>ACTIVATION</strong><br>
+Dr. Eric Sergienko, acting Tuolumne County Health Officer has declared a local health emergency in order to enhance the effectiveness of the response to COVID-19, to seek and utilize mutual aid, potentially obtain reimbursement, and ensure that the County’s public health professionals and providers have all necessary resources to provide quality care and keep our community safe.</span><br>
+<br>
+▪️The Tuolumne County Office of Emergency Services, with the approval of the Board of Supervisors, declared a local state of emergency on 3/17/20.<br>
+<br>
+<span style="text-align: center; font-family: Montserrat;"><strong>▪️</strong>The Public Health Department has activated its Department Operations Center (DOC) to effectively respond to the COVID-19 incident, including communication and coordination with our federal, state, and local partners.&nbsp;This includes ongoing receipt and processing of resource requests from our partners through the Medical Health Operational Area Coordinator (MHOAC) program.&nbsp;&nbsp;<br>
+<br>
+</span><span style="font-size: 17.28px; text-align: center; font-weight: 700; font-family: Montserrat; color: rgb(0, 0, 0);">▪️</span><span style="text-align: center; font-family: Montserrat; color: rgb(5, 5, 5);">The Tuolumne Band of Me Wuk Indians declared a local emergency on March 16th, 2020 due to COVID-19.</span><br>
+<br>
+<span style="color: rgb(5, 5, 5);"><span style="font-weight: 700; text-align: center; font-family: Montserrat; color: rgb(0, 0, 0);">▪️</span>The City of Sonora declared a local emergency on March 16th, 2020 due to COVID-19.<br>
+</span><br>
+<span style="font-weight: 700; text-align: center; white-space: pre-wrap; font-family: &quot;Segoe UI Historic&quot;, &quot;Segoe UI&quot;, Helvetica, Arial, sans-serif; color: rgb(5, 5, 5);">PUBLIC HEALTH COVID-19 CALL CENTER:</span><span style="text-align: center; white-space: pre-wrap; background-color: rgb(255, 255, 255); font-family: &quot;Segoe UI Historic&quot;, &quot;Segoe UI&quot;, Helvetica, Arial, sans-serif; color: rgb(5, 5, 5);"> Public Health has activated a call center that is open Monday-Friday from 9 a.m. to 5 p.m. The call center phone number is 209-533-7440. We still encourage community members to call the Adventist Health COVID-19 website at: <a href="https://www.adventisthealth.org/coronavirus-preparedness/">https://www.adventisthealth.org/coronavirus-preparedness/</a> or their COVID-19 Triage Line at: 209-536-5166<br>
+with questions or concerns about visiting an Adventist Health clinic or hospital, but phone calls with other questions or concerns may be made to the Public Health COVID-19 Call Center.</span><br>
+<br>
+<span style="font-weight: 700;"> GUIDANCE</span><br>
+<span style="text-align: center; font-family: Montserrat;">California's COVID-19 website can be viewed<strong> <a href="www.covid19.ca.gov" target="_blank" class="Hyperlink" style="">HERE</a></strong><br>
+California guidance materials are also available<strong>&nbsp;<a href="https://www.cdph.ca.gov/Programs/CID/DCDC/Pages/Guidance.aspx" target="_blank" class="Hyperlink">HERE</a><br>
+</strong>CDC guidance can be viewed<strong> <a href="https://www.cdc.gov/coronavirus/2019-ncov/index.html" target="_blank" class="Hyperlink">HERE</a></strong><br>
+<span style="text-align: center; font-family: Montserrat; color: rgb(29, 14, 56);"><br>
+<strong>FOOD HANDLING GUIDANCE</strong><br>
+The Tuolumne County Environmental Health Division has developed important materials related to food safety, handling, and delivery for the food service industry, and those who are assisting with food distribution during this emergency. Currently, under the State Health Officer order, restaurants are only to provide to-go, drive-through, or delivery options.&nbsp; Find documents here:&nbsp;</span><a href="https://www.tuolumnecounty.ca.gov/DocumentCenter/View/14180/EH-Food-Delivery" target="_blank" class="Hyperlink" style="color: rgb(175, 82, 49); margin-top: 0.167em; border: 0px none; font-family: Montserrat; display: inline-block; font-size: 17.28px; text-align: center;">Delivery</a><span style="text-align: center; font-family: Montserrat; color: rgb(29, 14, 56);">,&nbsp;</span><a href="https://www.tuolumnecounty.ca.gov/DocumentCenter/View/14181/COVID--19-Food-Dist" target="_blank" class="Hyperlink" style="color: rgb(175, 82, 49); margin-top: 0.167em; border: 0px none; font-family: Montserrat; display: inline-block; font-size: 17.28px; text-align: center;">Food Distribution</a><span style="text-align: center; font-family: Montserrat; color: rgb(29, 14, 56);">,&nbsp;</span><a href="https://www.tuolumnecounty.ca.gov/DocumentCenter/View/14182/COVD19-Restaurant" target="_blank" class="Hyperlink" style="color: rgb(175, 82, 49); margin-top: 0.167em; border: 0px none; font-family: Montserrat; display: inline-block; font-size: 17.28px; text-align: center;">Restaurant Guidance</a><br>
+</span><br>
+</span><span style="color: rgb(0, 0, 0);"><span style="text-align: center;"><span style="font-weight: 700; text-align: center; font-family: Montserrat;">RETURNING TRAVELER MONITORING</span><br style="font-family: Montserrat; font-size: 17.28px; text-align: center;">
+<span style="text-align: center; font-family: Montserrat;">As of March 18<sup>th</sup>, the state is no longer collecting information about California travelers from countries that have confirmed outbreaks, in order to better focus public health resources on the changing needs of California communities. Since early March, most of the confirmed cases in the state were not related to travel outside of the U.S.</span><br>
+<br>
+<strong>COMMUNITY PARTNER UPDATES:</strong><br>
+<br>
+<span style="text-align: center; font-family: Montserrat; color: rgb(29, 14, 56);"><span style="text-align: center; font-family: Montserrat; color: rgb(29, 14, 56);">▪️</span><span style="text-decoration: underline;">Jamestown Family Resource Center, Tuolumne County Superintendent of Schools, and Resiliency Village</span> are partnering to help with food distribution for those in need during this emergency. Applications can be submitted&nbsp;</span><a href="https://gcc02.safelinks.protection.outlook.com/?url=https%3A%2F%2Fforms.gle%2FZPcYJbbcHRVgWn2e6&amp;data=01%7C01%7CMJachetta%40co.tuolumne.ca.us%7Cbf6a4bc2ae3341ca7bf108d7d0e81a1a%7C37e2bf7f4bc440859e0aaeab83f13a1e%7C0&amp;sdata=CWmAIEnynnPXVrdopwn8bbsBd3Vcm%2ByqVFV4fuzpMaE%3D&amp;reserved=0" target="_blank" class="Hyperlink" style="color: rgb(175, 82, 49); margin-top: 0.167em; border: 0px none; font-family: Montserrat; display: inline-block; font-size: 17.28px; text-align: center;">HERE</a><br>
+<br>
+<span style="font-family: Montserrat;"><span style="text-align: center; font-family: Montserrat; color: rgb(29, 14, 56);">▪️</span><span style="text-decoration: underline;">The Sonora Area Foundation</span> has established a Community Recovery Fund and will match donations dollar-for-dollar up to $300 to benefit local non-profit organizations, government agencies, and those doing charitable work during the COVID-19 response.&nbsp;</span><br style="font-family: Montserrat; font-size: 17.28px;">
+<span style="font-family: Montserrat;">For more details visit <a href="https://sonora-area.org/sonora-area-foundation-news/saf-establishes-community-recovery-fund/" target="_blank" class="Hyperlink">HERE</a></span><br>
+<br>
+<br style="color: rgb(29, 14, 56); font-family: Montserrat; font-size: 17.28px; text-align: center;">
+<span style="text-align: center; font-family: Montserrat; color: rgb(29, 14, 56);"><span style="text-align: center; font-family: Montserrat; color: rgb(29, 14, 56);">▪️</span><span style="text-decoration: underline;">Amador Tuolumne Community Action Agency (ATCAA)</span></span><br style="color: rgb(29, 14, 56); font-family: Montserrat; font-size: 17.28px; text-align: center;">
+<span style="text-align: center; font-family: Montserrat; color: rgb(29, 14, 56);">ATCAA offices are closed to the public until further notice, though most services are still being provided. Please call 533-1397 for general information and leave a message if you would like a call back, or visit atcca.org<br>
+<br>
+-Head Start has been closed until further notice, but are still working with families remotely<br>
+-Food Bank: Food is being distributed using social distancing methods on usual schedule and is available for pickups with our partner food pantries. Please call 984-3901 x101 for information on signing up<br>
+-PG&amp;E and Propane assistance is fully operational with mail in, drop off and email applications being accepted<br>
+-Housing assistance is being provided by scheduled appointment<br>
+-Emergency Shelter is operating with strict social distancing, hand washing and sterilization schedules<br>
+-Weatherization and Water Conservation Services have been temporarily halted<br>
+-Yes Partnership meetings are being scheduled virtually<br>
+-Prevention classes are being developed to work via teleconferencing<br>
+</span><br style="color: rgb(29, 14, 56); font-family: Montserrat; font-size: 17.28px; text-align: center;">
+<span style="font-size: 17.28px; text-align: center; font-family: Montserrat; color: rgb(0, 0, 0);"><span style="text-align: center; font-family: Montserrat; color: rgb(29, 14, 56);">▪️</span><span style="text-decoration: underline;">Catholic Charities<br>
+</span>has updated some of their service changes. Please see the attached update&nbsp;<a href="https://www.tuolumnecounty.ca.gov/DocumentCenter/View/14188/Enrichment-Center-Notice-3-26-2020" target="_blank" class="Hyperlink" style="color: rgb(175, 82, 49); margin-top: 0.167em; border: 0px none; display: inline-block;">HERE</a><br>
+</span><br style="color: rgb(175, 82, 49); font-family: Montserrat; font-size: 17.28px; text-align: center;">
+<span style="font-size: 17.28px; text-align: center; font-family: Montserrat; color: rgb(0, 0, 0);"><span style="text-align: center; font-family: Montserrat; color: rgb(29, 14, 56);">▪️</span><span style="text-decoration: underline;">Enrichment Center<strong><br>
+</strong></span>&nbsp;Beginning 3/27 the Enrichment Center will be open for showers and laundry only for those not housed or those with no access to a shower or laundry facility. Please see the attached flier for more information&nbsp;<a href="https://www.tuolumnecounty.ca.gov/DocumentCenter/View/14188/Enrichment-Center-Notice-3-26-2020" target="_blank" class="Hyperlink" style="color: rgb(175, 82, 49); margin-top: 0.167em; border: 0px none; display: inline-block;">HERE</a>.<br>
+</span><span style="text-decoration: underline;"><strong><br style="color: rgb(29, 14, 56); font-family: Montserrat; font-size: 17.28px; text-align: center;">
+</strong> </span><span style="text-align: center; font-family: Montserrat; color: rgb(29, 14, 56);"><span style="text-align: center; font-family: Montserrat; color: rgb(29, 14, 56);">▪️</span><strong>Foothill Pregnancy Center<span style="text-decoration: underline;"><br>
+</span></strong>Some programs and services have changed. Please call 536-9262 for information</span><br>
+<br>
+</span><span style="text-align: center;"><strong>TESTING<br>
+</strong>Since the beginning of March, any health care provider (MD/DP, NP, PA) can order a test for COVID-19. Testing remains at the healthcare provider's discretion based on their clinical assessment.&nbsp;<br>
+<br>
+Although providers can order the test without restriction, this could potentially create a backlog at commercial and public health labs which may delay results. Limited testing supplies are impacting healthcare providers' ability to conduct widespread testing at this time.&nbsp;<br>
+<br>
+A request to the State has been made to secure more testing supplies for our County.<br>
+<br>
+For more information on testing please refer to the state guideline <a href="https://covid19.ca.gov/what-you-can-do/#testing" target="_blank" class="Hyperlink">HERE&nbsp;</a></span><span style="text-align: center;"><br>
+<br>
+</span><span style="text-align: center;">Tests that will be conducted through the Public Health laboratory system are coordinated with our Public Health Department.<br>
+</span><span style="text-align: center;"><br>
+Testing is also available through private laboratories with a health care provider’s order.&nbsp;</span><span style="text-align: center;">&nbsp;</span><span style="text-align: center;"><br>
+</span><span style="font-weight: 700; text-align: center;"><br>
+WHAT CAN YOU DO<br>
+</span><span style="text-align: center;">The CDC and CDPH have updated information and guidance for specific audiences such as businesses, healthcare professionals, schools, community- and faith-based organizations, vulnerable populations, and more. Those sites can be found at:<strong>&nbsp;</strong><a href="https://www.cdph.ca.gov/Programs/CID/DCDC/Pages/Guidance.aspx" target="_blank" class="Hyperlink" style="font-weight: bold;">CDPH</a> and <a href="https://www.cdc.gov/coronavirus/2019-ncov/community/index.html" target="_blank" class="Hyperlink" style="font-weight: bold;">CDC</a><br>
+</span><span style="font-weight: 700; text-align: center;"><br>
+</span><span style="font-weight: 700; text-align: center;">Practice everyday prevention actions to stay healthy<br>
+</span><span style="text-align: center;">*Wash your hands thoroughly and frequently with soap and water for 20 seconds, or with hand sanitizer of soap is not available<br>
+</span><span style="text-align: center;">*Avoid touching your eyes, nose, and mouth<br>
+</span><span style="text-align: center;">*If you are ill, stay home. If other family members are ill, including children, keep them home.<br>
+</span><span style="text-align: center;">*Practice social distancing: put more space between yourself and others. About 6 feet is good, if you can<br>
+</span><span style="text-align: center;">*Avoid contact with people who are sick<br>
+</span><span style="text-align: center;">*Clean frequently touched surfaces and objects often with soap and water or household cleaners. Don’t forget your cell phone<br>
+*Eat nutritious foods, try to get good sleep and physical activity each day<br>
+<span style="font-weight: 700; text-decoration: underline;"><br>
+</span></span><span style="font-weight: 700; text-align: center; text-decoration: underline;">If you have symptoms or get sick<br>
+</span><span style="font-size: 12pt;"><span style="text-align: center; font-size: 12pt;">✔️Stay home, unless you need to seek medical care<br>
+</span><span style="text-align: center; font-size: 12pt;">✔️Call ahead before visiting your doctor, clinic, or hospital<br>
+</span><span style="text-align: center; font-size: 12pt;">✔️Wear a face mask to avoid spreading germs<br>
+</span><span style="text-align: center; font-size: 12pt;">✔️Cover your cough with a tissue and immediately throw it in the trash, or cough into your bent elbow. Wash your hands after using a tissue.<br>
+</span></span><span style="text-align: center; font-size: 12pt;">✔️Wash your hands often and avoid sharing personal items</span></span></h2></div>
+<div style="text-align: center;" class="alignWrapper"><span><br>
+<img src="/ImageRepository/Document?documentID=14068" alt="COVID-19 PH NeedToKnow_2020.03.06 TuolCo.2" title="COVID-19 PH NeedToKnow_2020.03.06 TuolCo.2">&nbsp;<br>
+<h1 class="headline">
+<div style="text-align: center;"><span style="text-transform: none; text-decoration-line: underline; color: rgb(175, 82, 49);"><a class="Hyperlink" href="https://www.tuolumnecounty.ca.gov/DocumentCenter/View/14066/COVID-19-PH-NeedToKnow_20200306-TuolCo2pdf" target="_blank">CLICK HERE FOR LARGER VERSION</a></span></div>
+<div><span style="font-size: 24pt;"><br>
+</span></div>
+</h1><span style="font-size: 18pt; color: rgb(29, 14, 56);"><em><strong><h2 class="subhead1" style="font-size: 18pt;"></h2>Thank you for your support, patience, and efforts to protect the safety and health of our community.</strong></em></span><br>
+<br>
+</span></div>
+&nbsp;<br>
+Follow Tuolumne County Public Health on <a class="Hyperlink" href="http://www.facebook.com/tuolumnecountypublichealth" target="_blank">Facebook</a>!&nbsp;<br>
+<br>
+<iframe src="//www.facebook.com/plugins/likebox.php?href=https%3A%2F%2Fwww.facebook.com%2Ftuolumnecountypublichealth&amp;width&amp;height=62&amp;colorscheme=light&amp;show_faces=false&amp;header=true&amp;stream=false&amp;show_border=true" frameborder="0" scrolling="no" allowtransparency="true"></iframe><br>
+<div style="text-align: left;">
+<p align="center" style="text-align: center;">&nbsp;</p>
+<p>&nbsp;</p>
+</div></div>
+
+
+
+<script type="text/javascript">
+	$(document).ready(function (e) { 
+	    renderSlideshowIfApplicable($('#divEditor' + '5e730450-6e81-487a-88a3-3ba291c5c688'));
+	    $('#divEditor' + '5e730450-6e81-487a-88a3-3ba291c5c688').css('height', 'inherit');
+	});
+</script>	</div> <!-- inner column -->
+
+	</div> <!-- inner row -->
+	<div class="row nest last wide">
+	
+	<div class="inner col col24 first last ided5b078e-e1ac-4c28-990e-39cdbf052a5c" style="" data-widgetcontainerid="ed5b078e-e1ac-4c28-990e-39cdbf052a5c">	
+<div data-widget-id="ddad7a2b-45d1-45de-b677-433d268f55b9" data-widget-controller-path="/Calendar/Widget">
+</div>
+	</div> <!-- inner column -->
+
+	</div> <!-- inner row -->
+
+			</div><!-- outer column --><!--		--></div> <!-- outer row -->
+
+
+		</div>
+
+	</div>
+
+	
+	<div class="newCP">
+
+	</div>
+</div>
+</div><aside data-cpRole="contentContainer" id="featureColumn" class="secondaryContent">	<div id="ccb0fa0bec-8bc6-4b2f-bbdc-34defb7ca78e" data-containerid="b0fa0bec-8bc6-4b2f-bbdc-34defb7ca78e" class="pageContent cpGrid cpGrid24 isLockedContainer showInMobile">
+				                
+
+		<div class="row outer wide"><!--
+--><div class="outer col col24 first last" style="" data-widgetcontainerid="4bad85f4-eac4-4d7c-97b4-3b723f000978">				
+	<div class="row nest first last wide">
+	
+	<div class="inner col col24 first last id310df452-4e00-4ea0-a887-9821eeba4e7d" style="" data-widgetcontainerid="310df452-4e00-4ea0-a887-9821eeba4e7d">	
+    <div data-widget-id="339d12d9-8141-469f-9e98-68b7012db17b" data-widget-controller-path="/InfoAdvanced/Widget">
+
+
+
+
+
+	<section id="divInfoAdv339d12d9-8141-469f-9e98-68b7012db17b" class="widget widgetInfoAdvanced skin3 widgetOptionSet5 wide" data-modulewidgettype="infoAdv" data-elementqueryclasses='{"wide-narrow":"min-width:25em"}' data-elementquerymatch='matchMultiColumn' data-elementqueryunmatch='unmatchMultiColumn' aria-labelledby="header339d12d9-8141-469f-9e98-68b7012db17b">
+			<header class="widgetHeader" id="header339d12d9-8141-469f-9e98-68b7012db17b">
+		<div class="">
+					<h3 >Contact Us</h3>
+								</div>
+	</header>
+	<div class="widgetBody  cpGrid cpGrid1 ">
+		<div class="row  wide">
+					<div class="col col1 first last">
+						<ol class="pageStyles semanticList">
+
+<li class="InfoAdvanced widgetItem ">
+	<span style="font-family: Montserrat; color: rgb(56, 55, 55);">Rebecca Espino</span><br>
+Director Health and Human Services Agency<br>
+<br>
+20075 Cedar Road N.<br>
+Sonora, CA 95370<br>
+<br>
+Ph: 209-533-5711<br>
+Fx: 209-533-5714<br>
+<br>
+Email<br>
+<span style="font-size: 11pt; font-family: Calibri, sans-serif;"><a href="mailto:socialservices@tuolumnecounty.ca.gov">socialservices@tuolumnecounty.ca.gov</a></span><br>
+<br>
+<h3 class="subhead2">Office Hours</h3><br>
+Monday - Friday <br>
+8:00 AM - 4:00 PM<br>
+<br>
+<br>
+</li>						</ol>
+					</div>
+		</div>
+	</div>
+	<div class="widgetFooter">
+
+	</div>
+
+	</section>
+
+
+
+<script type="text/javascript">
+	//Render slideshow if info advacned items contain one.
+	$(document).ready(function (e) {
+		$('#divInfoAdv339d12d9-8141-469f-9e98-68b7012db17b .InfoAdvanced.widgetItem').each(function () {
+			renderSlideshowIfApplicable($(this));		
+		});
+	});
+</script></div>	</div> <!-- inner column -->
+
+	</div> <!-- inner row -->
+
+			</div><!-- outer column --><!--		--></div> <!-- outer row -->
+
+
+	</div>
+</aside>
+</div><div data-cpRole="structuralContainer" id="structuralContainer8" class="siteSidebar">
+<aside data-cpRole="contentContainer" id="contentContainer8a">	<div id="cc1422422c-e8d9-4031-8949-0c90757aeb9e" data-containerid="1422422c-e8d9-4031-8949-0c90757aeb9e" class="pageContent cpGrid cpGrid24 showInMobile">
+				                
+
+
+
+	</div>
+</aside><nav data-cpRole="nav" id="secondaryNav" class="siteNav secondaryNav">
+
+
+
+
+    <ol role="menu" id="secondaryMenusecondaryNav" data-parent="250" class="rootNavMenu flyoutNav">
+    <li role="menuitem" aria-haspopup="true" id="SideItem251" class="topMenuItem" data-display-main-item-sub-menu-indicators="False" data-pageid="251" data-displaymegamenu="False">
+                    <a class="navMainItem secondaryNavItem" href="/251/Adult-Family-Health" target="_self">Adult &amp; Family Health</a>
+            </li>
+    <li role="menuitem" aria-haspopup="true" id="SideItem267" class="topMenuItem" data-display-main-item-sub-menu-indicators="False" data-pageid="267" data-displaymegamenu="False">
+                    <a class="navMainItem secondaryNavItem" href="/267/Education-Prevention-Programs" target="_self">Education &amp; Prevention Programs</a>
+            </li>
+    <li role="menuitem" aria-haspopup="true" id="SideItem980" class="topMenuItem" data-display-main-item-sub-menu-indicators="False" data-pageid="980" data-displaymegamenu="False">
+                    <a class="navMainItem secondaryNavItem" href="/302/Emergency-Medical-Services" target="_self">Emergency Medical Services</a>
+            </li>
+    <li role="menuitem" aria-haspopup="true" id="SideItem272" class="topMenuItem" data-display-main-item-sub-menu-indicators="False" data-pageid="272" data-displaymegamenu="False">
+                    <a class="navMainItem secondaryNavItem" href="/272/Emergency-Preparedness" target="_self">Emergency Preparedness</a>
+            </li>
+    <li role="menuitem" aria-haspopup="true" id="SideItem273" class="topMenuItem" data-display-main-item-sub-menu-indicators="False" data-pageid="273" data-displaymegamenu="False">
+                    <a class="navMainItem secondaryNavItem" href="/273/Health-News" target="_self">Health News</a>
+            </li>
+    <li role="menuitem" aria-haspopup="true" id="SideItem275" class="topMenuItem" data-display-main-item-sub-menu-indicators="False" data-pageid="275" data-displaymegamenu="False">
+                    <a class="navMainItem secondaryNavItem" href="/275/Public-Health-Clinic-Services" target="_self">Public Health Clinic Services</a>
+            </li>
+    <li role="menuitem" aria-haspopup="true" id="SideItem259" class="topMenuItem" data-display-main-item-sub-menu-indicators="False" data-pageid="259" data-displaymegamenu="False">
+                    <a class="navMainItem secondaryNavItem" href="/259/Women-Infants-Children" target="_self">Women, Infants &amp; Children</a>
+            </li>
+    <li role="menuitem" aria-haspopup="true" id="SideItem1153" class="topMenuItem" data-display-main-item-sub-menu-indicators="False" data-pageid="1153" data-displaymegamenu="False">
+                    <a class="navMainItem secondaryNavItem" href="/1153/Opioid-Safety-Conference" target="_self">Opioid Safety Conference</a>
+            </li>
+
+    </ol>
+
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            //setup menu manager properties for secondary menu
+            menuManager.isSideMenuEditable = false;
+		    menuManager.sideMenuMaxSubMenuLevels = 4;
+            menuManager.sideMenuHasCustomLinks = false;
+        });
+    </script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            //Init secondary menu
+            var setupDraggable = menuManager.isSideMenuEditable;
+			var urlToGetHiddenMenus = '/Pages/MenuSecondary/HiddenSecondarySubMenus?pageID=250&moduleID=&themeID=1&menuContainerID=secondaryNav';
+            var menuID = 'secondaryMenusecondaryNav';
+            menuManager.setMOMMode(2, SIDE_MENU);
+            menuManager.setupMenu(menuID, 'secondaryNav', SIDE_MENU, setupDraggable, urlToGetHiddenMenus);
+        });
+    </script>
+
+
+
+
+</nav><aside data-cpRole="contentContainer" id="contentContainer8b">	<div id="cc49386e47-68c7-4b13-aa8f-3e01c47061fe" data-containerid="49386e47-68c7-4b13-aa8f-3e01c47061fe" class="pageContent cpGrid cpGrid24 showInMobile">
+				                
+
+
+
+	</div>
+</aside>
+</div>
+</div></div>
+</div>
+
+
+
+
+			<div id="bannerImagesJSON1" class="hidden"></div>
+				<div id="bannerSlideshowControls_banner1" class="bannerSlideshowControlsNew none " style="display:none">
+					<button id="arrowPrev_banner1" class="arrowNew prev cp-Btn--nonStyled" aria-label="Banner Arrow Previous"><svg class=""><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#iconSlideshowArrowLeft"></use></svg></button>
+					<button id="arrowNext_banner1" class="arrowNew next cp-Btn--nonStyled" aria-label="Banner Arrow Next"><svg class=""><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#iconSlideshowArrowRight"></use></svg></button>
+				</div>
+			<script type="text/javascript">
+				onOrLive($(window), function () {
+					$.when(window.Pages.rwdSetupComplete)
+						.done(function () {
+							renderExternalBannerSlideshow('banner1',
+									{"BannerOptionID":1,"ThemeID":1,"SlotName":"banner1","Name":"Default","IsDefault":true,"BannerMode":2,"SlideShowSlideTiming":"5","SlideshowTransition":0,"SlideShowTransitionTiming":"1","ImageScale":true,"ImageAlignment":1,"ImageScroll":true,"MuteSound":true,"VideoType":0,"Status":40,"SlideshowControlsPosition":0,"SlideshowControlsAlignment":0,"SlideshowBannerControlsColorScheme":0,"BannerImages":[{"BannerImageID":9,"BannerOptionID":1,"FileName":"/ImageRepository/Document?documentID=9111","Height":749,"Width":1600,"StartingOn":null,"StoppingOn":null,"IsLink":false,"LinkAddress":null,"Sequence":0,"RecordStatus":0,"ModifiedBy":0,"ModifiedOn":"\/Date(-62135575200000)\/","AltText":""},{"BannerImageID":10,"BannerOptionID":1,"FileName":"/ImageRepository/Document?documentID=9110","Height":749,"Width":1600,"StartingOn":null,"StoppingOn":null,"IsLink":false,"LinkAddress":null,"Sequence":1,"RecordStatus":0,"ModifiedBy":0,"ModifiedOn":"\/Date(-62135575200000)\/","AltText":""},{"BannerImageID":11,"BannerOptionID":1,"FileName":"/ImageRepository/Document?documentID=9109","Height":749,"Width":1600,"StartingOn":null,"StoppingOn":null,"IsLink":false,"LinkAddress":null,"Sequence":2,"RecordStatus":0,"ModifiedBy":0,"ModifiedOn":"\/Date(-62135575200000)\/","AltText":""},{"BannerImageID":12,"BannerOptionID":1,"FileName":"/ImageRepository/Document?documentID=9108","Height":749,"Width":1600,"StartingOn":null,"StoppingOn":null,"IsLink":false,"LinkAddress":null,"Sequence":3,"RecordStatus":0,"ModifiedBy":0,"ModifiedOn":"\/Date(-62135575200000)\/","AltText":""},{"BannerImageID":13,"BannerOptionID":1,"FileName":"/ImageRepository/Document?documentID=9107","Height":749,"Width":1600,"StartingOn":null,"StoppingOn":null,"IsLink":false,"LinkAddress":null,"Sequence":4,"RecordStatus":0,"ModifiedBy":0,"ModifiedOn":"\/Date(-62135575200000)\/","AltText":""}],"BannerVideos":[{"BannerVideoID":1,"BannerOptionID":1,"VideoFileName":"","ImageFileName":"EmptyBannerBkg201707110918524663.png","IsLink":false,"LinkAddress":null,"ModifiedBy":0,"ModifiedOn":"\/Date(-62135575200000)\/","VideoFileID":"00000000-0000-0000-0000-000000000000","ImageFileID":"00000000-0000-0000-0000-000000000000","VideoWidth":0,"VideoHeight":0,"ImageWidth":0,"ImageHeight":0,"LinkedVideoUrl":"","RecordStatus":0,"AltText":null}],"RecordStatus":0,"ModifiedBy":0,"ModifiedOn":"\/Date(-62135575200000)\/"},
+								'/App_Themes/Interior/Images/',
+								'Rotating',
+								'0');
+						});
+				}, "load");				
+			</script>
+
+
+</div><!-- /banner --><div data-cpRole="structuralContainer" id="structuralContainer9">
+<div class="siteWrap"><aside data-cpRole="contentContainer" id="contentContainer9">	<div id="cc92f110d8-97bb-420d-af52-4801e2a13689" data-containerid="92f110d8-97bb-420d-af52-4801e2a13689" class="pageContent cpGrid cpGrid24 isLockedContainer showInMobile" data-contentcontainerbreakpoint="60">
+				                
+
+		<div class="row outer wide"><!--
+--><div class="outer col col12 first" style="" data-widgetcontainerid="521f108e-1d95-429e-8912-03555f15bdfb">				
+	<div class="row nest first last wide">
+	
+	<div class="inner col col12 first last idb986a06e-3dd2-4e13-a9a6-c4e629386d6a" style="" data-widgetcontainerid="b986a06e-3dd2-4e13-a9a6-c4e629386d6a">	
+<div data-widget-id="baaf3103-4d8c-4927-acb1-1fdd6df30695" data-widget-controller-path="/GraphicLinks/Widget">
+
+
+
+	<style type="text/css">.widgetOptionSet16 .widgetItem {padding-top: 24px;}</style>
+
+<div id="graphicLinkWidgetbaaf3103-4d8c-4927-acb1-1fdd6df30695" class="widget widgetGraphicLinks skin8 widgetOptionSet16 wide" data-elementqueryclasses='{"wide-narrow":"min-width:30em"}' data-elementquerymatch='matchMultiColumn' data-elementqueryunmatch='unmatchMultiColumn' data-modulewidgettype="graphicLinks">
+	<div class="widgetHeader">
+		<div class="">
+				</div>
+	</div>
+	<div class="widgetBody cpGrid cpGrid3 ">	
+			<div class="row   wide"><!--
+--><div class="col col1 first "><div class="semanticList"><!--
+	    --><div class="widgetItem GraphicLinks">
+
+<div>
+	<a href="/list.aspx" target="_self" class="fancyButton fancyButton871 " >
+		<span>
+			<span><span class="text">Notify Me</span></span>
+		</span>
+	</a>
+</div>
+		<style scoped="scoped">.fancyButton871.fancyButton:link,.fancyButton871.fancyButton:visited, .fancyButton871div.fancyButton{
+	padding-top: 100px;
+	background-image: url(/ImageRepository/Document?documentID=9127);
+	background-repeat: no-repeat;
+	background-position: center top;
+}
+.fancyButton871.fancyButton:hover,.fancyButton871.fancyButton:focus,.fancyButton871.fancyButton:active,.fancyButton871.fancyButton.hover{
+	background-image: url(/ImageRepository/Document?documentID=9128);
+	background-repeat: no-repeat;
+	background-position: center top;
+}
+.fancyButton871.fancyButton:link > span,.fancyButton871.fancyButton:visited > span, .fancyButton871div.fancyButton > span{
+}
+.fancyButton871.fancyButton:hover > span,.fancyButton871.fancyButton:focus > span,.fancyButton871.fancyButton:active > span,.fancyButton871.fancyButton.hover > span{
+}
+.fancyButton871.fancyButton .text{
+	color: #fff;
+	font-size: 1em;
+	font-family: "Montserrat";
+	text-shadow: 1px 2px 1px #000;
+	text-align: center;
+	font-weight: 500;
+	text-decoration: none;
+	background-repeat: no-repeat;
+	background-position: left top;
+
+
+}
+.fancyButton871.fancyButton:hover .text,.fancyButton871.fancyButton:focus .text,.fancyButton871.fancyButton:active .text,.fancyButton871.fancyButton.hover .text{
+	text-decoration: none;
+	background-repeat: no-repeat;
+	background-position: left top;
+
+
+}
+</style>
+
+ </div><!--
+--></div></div><!----><div class="col col1  "><div class="semanticList"><!--
+	    --><div class="widgetItem GraphicLinks">
+
+<div>
+	<a href="/745/Board-Meetings" target="_self" class="fancyButton fancyButton872 " >
+		<span>
+			<span><span class="text">Board Meetings</span></span>
+		</span>
+	</a>
+</div>
+		<style scoped="scoped">.fancyButton872.fancyButton:link,.fancyButton872.fancyButton:visited, .fancyButton872div.fancyButton{
+	padding-top: 100px;
+	background-image: url(/ImageRepository/Document?documentID=9131);
+	background-repeat: no-repeat;
+	background-position: center top;
+}
+.fancyButton872.fancyButton:hover,.fancyButton872.fancyButton:focus,.fancyButton872.fancyButton:active,.fancyButton872.fancyButton.hover{
+	background-image: url(/ImageRepository/Document?documentID=9132);
+	background-repeat: no-repeat;
+	background-position: center top;
+}
+.fancyButton872.fancyButton:link > span,.fancyButton872.fancyButton:visited > span, .fancyButton872div.fancyButton > span{
+}
+.fancyButton872.fancyButton:hover > span,.fancyButton872.fancyButton:focus > span,.fancyButton872.fancyButton:active > span,.fancyButton872.fancyButton.hover > span{
+}
+.fancyButton872.fancyButton .text{
+	color: #fff;
+	font-size: 1em;
+	font-family: "Montserrat";
+	text-shadow: 1px 2px 1px #000;
+	text-align: center;
+	font-weight: 500;
+	text-decoration: none;
+	background-repeat: no-repeat;
+	background-position: left top;
+
+
+}
+.fancyButton872.fancyButton:hover .text,.fancyButton872.fancyButton:focus .text,.fancyButton872.fancyButton:active .text,.fancyButton872.fancyButton.hover .text{
+	text-decoration: none;
+	background-repeat: no-repeat;
+	background-position: left top;
+
+
+}
+</style>
+
+ </div><!--
+--></div></div><!----><div class="col col1  last"><div class="semanticList"><!--
+	    --><div class="widgetItem GraphicLinks">
+
+<div>
+	<a href="/jobs" target="_self" class="fancyButton fancyButton873 " >
+		<span>
+			<span><span class="text">Employment</span></span>
+		</span>
+	</a>
+</div>
+		<style scoped="scoped">.fancyButton873.fancyButton:link,.fancyButton873.fancyButton:visited, .fancyButton873div.fancyButton{
+	padding-top: 100px;
+	background-image: url(/ImageRepository/Document?documentID=9135);
+	background-repeat: no-repeat;
+	background-position: center top;
+}
+.fancyButton873.fancyButton:hover,.fancyButton873.fancyButton:focus,.fancyButton873.fancyButton:active,.fancyButton873.fancyButton.hover{
+	background-image: url(/ImageRepository/Document?documentID=9124);
+	background-repeat: no-repeat;
+	background-position: center top;
+}
+.fancyButton873.fancyButton:link > span,.fancyButton873.fancyButton:visited > span, .fancyButton873div.fancyButton > span{
+}
+.fancyButton873.fancyButton:hover > span,.fancyButton873.fancyButton:focus > span,.fancyButton873.fancyButton:active > span,.fancyButton873.fancyButton.hover > span{
+}
+.fancyButton873.fancyButton .text{
+	color: #fff;
+	font-size: 1em;
+	font-family: "Montserrat";
+	text-shadow: 1px 2px 1px #000;
+	text-align: center;
+	font-weight: 500;
+	text-decoration: none;
+	background-repeat: no-repeat;
+	background-position: left top;
+
+
+}
+.fancyButton873.fancyButton:hover .text,.fancyButton873.fancyButton:focus .text,.fancyButton873.fancyButton:active .text,.fancyButton873.fancyButton.hover .text{
+	text-decoration: none;
+	background-repeat: no-repeat;
+	background-position: left top;
+
+
+}
+</style>
+
+ </div><!--
+--></div></div><!--			--></div>
+	</div>
+	<div class="widgetFooter">
+			</div>
+</div>
+
+</div>
+	</div> <!-- inner column -->
+
+	</div> <!-- inner row -->
+
+			</div><!-- outer column --><!----><div class="outer col col12 last" style="" data-widgetcontainerid="3bb1f2c8-e151-45b4-bafa-b035060cb171">				
+	<div class="row nest first last wide">
+	
+	<div class="inner col col12 first last idff726ebe-f827-446f-b20c-285f222203e5" style="" data-widgetcontainerid="ff726ebe-f827-446f-b20c-285f222203e5">	
+<div data-widget-id="57f7e552-2f7a-4469-bcfa-ea3d57cb8978" data-widget-controller-path="/GraphicLinks/Widget">
+
+
+
+	<style type="text/css">.widgetOptionSet16 .widgetItem {padding-top: 24px;}</style>
+
+<div id="graphicLinkWidget57f7e552-2f7a-4469-bcfa-ea3d57cb8978" class="widget widgetGraphicLinks skin8 widgetOptionSet16 wide" data-elementqueryclasses='{"wide-narrow":"min-width:30em"}' data-elementquerymatch='matchMultiColumn' data-elementqueryunmatch='unmatchMultiColumn' data-modulewidgettype="graphicLinks">
+	<div class="widgetHeader">
+		<div class="">
+				</div>
+	</div>
+	<div class="widgetBody cpGrid cpGrid3 ">	
+			<div class="row   wide"><!--
+--><div class="col col1 first "><div class="semanticList"><!--
+	    --><div class="widgetItem GraphicLinks">
+
+<div>
+	<a href="https://www.tuolumnecounty.ca.gov/250/Public-Health" target="_blank" class="fancyButton fancyButton875 "  aria-label="COVID-19<br>Information opens in new window">
+		<span>
+			<span><span class="text">COVID-19<br>Information</span></span>
+		</span>
+	</a>
+</div>
+		<style scoped="scoped">.fancyButton875.fancyButton:link,.fancyButton875.fancyButton:visited, .fancyButton875div.fancyButton{
+	padding-top: 100px;
+	background-image: url('/ImageRepository/Document?documentID=9133');
+	background-repeat: no-repeat;
+	background-position: center top;
+}
+.fancyButton875.fancyButton:hover,.fancyButton875.fancyButton:focus,.fancyButton875.fancyButton:active,.fancyButton875.fancyButton.hover{
+	background-image: url('/ImageRepository/Document?documentID=9134');
+	background-repeat: no-repeat;
+	background-position: center top;
+}
+.fancyButton875.fancyButton:link > span,.fancyButton875.fancyButton:visited > span, .fancyButton875div.fancyButton > span{
+}
+.fancyButton875.fancyButton:hover > span,.fancyButton875.fancyButton:focus > span,.fancyButton875.fancyButton:active > span,.fancyButton875.fancyButton.hover > span{
+}
+.fancyButton875.fancyButton .text{
+	color: #fff;
+	font-size: 1em;
+	font-family: "Montserrat";
+	text-shadow: 1px 2px 1px #000;
+	text-align: center;
+	font-weight: 500;
+	text-decoration: none;
+	background-repeat: no-repeat;
+	background-position: left top;
+
+
+}
+.fancyButton875.fancyButton:hover .text,.fancyButton875.fancyButton:focus .text,.fancyButton875.fancyButton:active .text,.fancyButton875.fancyButton.hover .text{
+	text-decoration: none;
+	background-repeat: no-repeat;
+	background-position: left top;
+
+
+}
+.fancyButton875.fancyButton .textStyle1{
+	color: #fff;
+	font-size: 1em;
+	text-shadow: 1px 2px 1px #000;
+	font-weight: 200;
+	text-decoration: none;
+
+}
+.fancyButton875.fancyButton:hover .textStyle1, .fancyButton875.fancyButton.hover .textStyle1{
+	text-decoration: none;
+
+}
+.fancyButton875.fancyButton .textStyle2{
+	color: #fff;
+	font-size: 1em;
+	text-shadow: 1px 2px 1px #000;
+	font-weight: 200;
+	text-decoration: none;
+
+}
+.fancyButton875.fancyButton:hover .textStyle2, .fancyButton875.fancyButton.hover .textStyle2{
+	text-decoration: none;
+
+}
+.fancyButton875.fancyButton .textStyle3{
+	color: #fff;
+	font-size: 2em;
+	text-shadow: 1px 2px 1px #000;
+	font-weight: 200;
+	text-decoration: none;
+
+}
+.fancyButton875.fancyButton:hover .textStyle3, .fancyButton875.fancyButton.hover .textStyle3{
+	text-decoration: none;
+
+}
+</style>
+
+ </div><!--
+--></div></div><!----><div class="col col1  "><div class="semanticList"><!--
+	    --><div class="widgetItem GraphicLinks">
+
+<div>
+	<a href="/bids.aspx" target="_self" class="fancyButton fancyButton874 " >
+		<span>
+			<span><span class="text">Bids, RFP's &amp; RFQ's</span></span>
+		</span>
+	</a>
+</div>
+		<style scoped="scoped">.fancyButton874.fancyButton:link,.fancyButton874.fancyButton:visited, .fancyButton874div.fancyButton{
+	padding-top: 100px;
+	background-image: url(/ImageRepository/Document?documentID=9129);
+	background-repeat: no-repeat;
+	background-position: center top;
+}
+.fancyButton874.fancyButton:hover,.fancyButton874.fancyButton:focus,.fancyButton874.fancyButton:active,.fancyButton874.fancyButton.hover{
+	background-image: url(/ImageRepository/Document?documentID=9130);
+	background-repeat: no-repeat;
+	background-position: center top;
+}
+.fancyButton874.fancyButton:link > span,.fancyButton874.fancyButton:visited > span, .fancyButton874div.fancyButton > span{
+}
+.fancyButton874.fancyButton:hover > span,.fancyButton874.fancyButton:focus > span,.fancyButton874.fancyButton:active > span,.fancyButton874.fancyButton.hover > span{
+}
+.fancyButton874.fancyButton .text{
+	color: #fff;
+	font-size: 1em;
+	font-family: "Montserrat";
+	text-shadow: 1px 2px 1px #000;
+	text-align: center;
+	font-weight: 500;
+	text-decoration: none;
+	background-repeat: no-repeat;
+	background-position: left top;
+
+
+}
+.fancyButton874.fancyButton:hover .text,.fancyButton874.fancyButton:focus .text,.fancyButton874.fancyButton:active .text,.fancyButton874.fancyButton.hover .text{
+	text-decoration: none;
+	background-repeat: no-repeat;
+	background-position: left top;
+
+
+}
+</style>
+
+ </div><!--
+--></div></div><!----><div class="col col1  last"><div class="semanticList"><!--
+	    --><div class="widgetItem GraphicLinks">
+
+<div>
+	<a href="RequestTracker.aspx" target="_self" class="fancyButton fancyButton876 " >
+		<span>
+			<span><span class="text">Let Us Know</span></span>
+		</span>
+	</a>
+</div>
+		<style scoped="scoped">.fancyButton876.fancyButton:link,.fancyButton876.fancyButton:visited, .fancyButton876div.fancyButton{
+	padding-top: 100px;
+	background-image: url(/ImageRepository/Document?documentID=9125);
+	background-repeat: no-repeat;
+	background-position: center top;
+}
+.fancyButton876.fancyButton:hover,.fancyButton876.fancyButton:focus,.fancyButton876.fancyButton:active,.fancyButton876.fancyButton.hover{
+	background-image: url(/ImageRepository/Document?documentID=9126);
+	background-repeat: no-repeat;
+	background-position: center top;
+}
+.fancyButton876.fancyButton:link > span,.fancyButton876.fancyButton:visited > span, .fancyButton876div.fancyButton > span{
+}
+.fancyButton876.fancyButton:hover > span,.fancyButton876.fancyButton:focus > span,.fancyButton876.fancyButton:active > span,.fancyButton876.fancyButton.hover > span{
+}
+.fancyButton876.fancyButton .text{
+	color: #fff;
+	font-size: 1em;
+	font-family: "Montserrat";
+	text-shadow: 1px 2px 1px #000;
+	text-align: center;
+	font-weight: 500;
+	text-decoration: none;
+	background-repeat: no-repeat;
+	background-position: left top;
+
+
+}
+.fancyButton876.fancyButton:hover .text,.fancyButton876.fancyButton:focus .text,.fancyButton876.fancyButton:active .text,.fancyButton876.fancyButton.hover .text{
+	text-decoration: none;
+	background-repeat: no-repeat;
+	background-position: left top;
+
+
+}
+</style>
+
+ </div><!--
+--></div></div><!--			--></div>
+	</div>
+	<div class="widgetFooter">
+			</div>
+</div>
+
+</div>
+	</div> <!-- inner column -->
+
+	</div> <!-- inner row -->
+
+			</div><!-- outer column --><!--		--></div> <!-- outer row -->
+
+
+	</div>
+</aside></div>
+</div><div data-cpRole="structuralContainer" id="structuralContainer10">
+<div class="siteWrap"><aside data-cpRole="contentContainer" id="contentContainer10">	<div id="ccd1bcc63b-3844-4ebe-8bcd-c43eead5f751" data-containerid="d1bcc63b-3844-4ebe-8bcd-c43eead5f751" class="pageContent cpGrid cpGrid24 isLockedContainer showInMobile" data-contentcontainerbreakpoint="60">
+				                
+
+		<div class="row outer wide"><!--
+--><div class="outer col col7 first" style="" data-widgetcontainerid="bb11523c-a65c-4e00-93a3-6abacd77684f">				
+	<div class="row nest first last wide">
+	
+	<div class="inner col col7 first last id1eb93c36-81b2-4e79-979e-0e571dbb8829" style="" data-widgetcontainerid="1eb93c36-81b2-4e79-979e-0e571dbb8829">	
+    <div data-widget-id="29cfa02e-ecfb-44aa-afac-0deb6987f83b" data-widget-controller-path="/InfoAdvanced/Widget">
+
+
+
+
+
+	<section id="divInfoAdv29cfa02e-ecfb-44aa-afac-0deb6987f83b" class="widget widgetInfoAdvanced skin8 widgetOptionSet17 wide" data-modulewidgettype="infoAdv" data-elementqueryclasses='{"wide-narrow":"min-width:25em"}' data-elementquerymatch='matchMultiColumn' data-elementqueryunmatch='unmatchMultiColumn' aria-label="Info Advanced">
+			<header class="widgetHeader" id="header29cfa02e-ecfb-44aa-afac-0deb6987f83b">
+		<div class="">
+								</div>
+	</header>
+	<div class="widgetBody  cpGrid cpGrid1 ">
+		<div class="row autoWidths center wide">
+					<div class="col col1 first last">
+						<ol class="pageStyles semanticList">
+
+<li class="InfoAdvanced widgetItem ">
+	<img src="/ImageRepository/Document?documentID=9140" alt="Footer ID" title="Footer ID">
+</li>						</ol>
+					</div>
+		</div>
+	</div>
+	<div class="widgetFooter">
+
+	</div>
+
+	</section>
+
+
+
+<script type="text/javascript">
+	//Render slideshow if info advacned items contain one.
+	$(document).ready(function (e) {
+		$('#divInfoAdv29cfa02e-ecfb-44aa-afac-0deb6987f83b .InfoAdvanced.widgetItem').each(function () {
+			renderSlideshowIfApplicable($(this));		
+		});
+	});
+</script></div>	</div> <!-- inner column -->
+
+	</div> <!-- inner row -->
+
+			</div><!-- outer column --><!----><div class="outer col col2" style="" data-widgetcontainerid="bbe239eb-3b42-45b4-8ff6-76cb7e02511c">				
+	<div class="row nest first last wide">
+	
+	<div class="inner col col2 first last id5eb30ba8-7f25-4ede-95be-267d7e1d4a2b" style="" data-widgetcontainerid="5eb30ba8-7f25-4ede-95be-267d7e1d4a2b">	
+
+<div class="widget widgetSpacer" id="eb905f63-fe6e-4046-a539-b060ea3b85bf"></div>	</div> <!-- inner column -->
+
+	</div> <!-- inner row -->
+
+			</div><!-- outer column --><!----><div class="outer col col5" style="" data-widgetcontainerid="8016e5e7-4269-4410-833c-63361e67e435">				
+	<div class="row nest first last wide">
+	
+	<div class="inner col col5 first last id96cf3932-8713-495f-bf18-780fbaff0526" style="" data-widgetcontainerid="96cf3932-8713-495f-bf18-780fbaff0526">	
+    <div data-widget-id="98804a89-1a4f-45c0-98a1-68a2b0ee8151" data-widget-controller-path="/InfoAdvanced/Widget">
+
+
+
+
+
+	<section id="divInfoAdv98804a89-1a4f-45c0-98a1-68a2b0ee8151" class="widget widgetInfoAdvanced skin7 widgetOptionSet18 wide" data-modulewidgettype="infoAdv" data-elementqueryclasses='{"wide-narrow":"min-width:25em"}' data-elementquerymatch='matchMultiColumn' data-elementqueryunmatch='unmatchMultiColumn' aria-labelledby="header98804a89-1a4f-45c0-98a1-68a2b0ee8151">
+			<header class="widgetHeader" id="header98804a89-1a4f-45c0-98a1-68a2b0ee8151">
+		<div class="">
+					<h3 >Contact Us</h3>
+								</div>
+	</header>
+	<div class="widgetBody  cpGrid cpGrid1 ">
+		<div class="row  wide">
+					<div class="col col1 first last">
+						<ol class="pageStyles semanticList">
+
+<li class="InfoAdvanced widgetItem ">
+	Tuolumne County, CA<br>
+2 South Green St.<br>
+Sonora, CA 95370-4618<br>
+Phone: <a href="tel:209-533-6600" style="text-decoration: underline;">209-533-6600</a>
+<br>
+<br>
+<span style="text-decoration: underline"><a href="/directory.aspx" target="_self" class="Hyperlink">Staff Directory</a></span>
+</li>						</ol>
+					</div>
+		</div>
+	</div>
+	<div class="widgetFooter">
+
+	</div>
+
+	</section>
+
+
+
+<script type="text/javascript">
+	//Render slideshow if info advacned items contain one.
+	$(document).ready(function (e) {
+		$('#divInfoAdv98804a89-1a4f-45c0-98a1-68a2b0ee8151 .InfoAdvanced.widgetItem').each(function () {
+			renderSlideshowIfApplicable($(this));		
+		});
+	});
+</script></div>	</div> <!-- inner column -->
+
+	</div> <!-- inner row -->
+
+			</div><!-- outer column --><!----><div class="outer col col6" style="" data-widgetcontainerid="a6edf7d9-b1fb-4a25-a8ef-3f2d90c1d0dd">				
+	<div class="row nest first last wide">
+	
+	<div class="inner col col6 first last idceb76bef-d575-4400-b89d-788cd3fa6c7a" style="" data-widgetcontainerid="ceb76bef-d575-4400-b89d-788cd3fa6c7a">	
+	<div data-widget-id="ba5dfc94-c78c-4b54-9d76-d2bdac90d4ed" data-widget-controller-path="/QuickLinks/Widget">
+
+
+
+
+
+ 
+
+
+	<section id="widgetQuicklinkba5dfc94-c78c-4b54-9d76-d2bdac90d4ed" class="widget widgetQuickLinks skin7 widgetOptionSet19 narrow" data-modulewidgettype="quickLinks" data-elementqueryclasses='{"wide-narrow":"min-width:25em"}' data-elementquerymatch='matchMultiColumn' data-elementqueryunmatch='unmatchMultiColumn' aria-labelledby="quickLinksHeaderba5dfc94-c78c-4b54-9d76-d2bdac90d4ed">
+			<header class="widgetHeader" id="quickLinksHeaderba5dfc94-c78c-4b54-9d76-d2bdac90d4ed">
+		<div class="">
+					<h3><a  style="" href="/QuickLinks.aspx?CID=284," >Links of Interest</a></h3>
+						</div>
+	</header>
+	<div class="widgetBody cpGrid cpGrid1 ">
+        <div class="row  narrow">
+				<div class="col col1 first last">
+					<ol class="semanticList">
+
+    <li style="position:relative" class="widgetItem QuickLinks">
+        <a class="widgetDesc widgetQuickLinksLink" href="http://www.visittuolumne.com/" target="_self" >Tuolumne County Visitors Bureau</a>
+    </li>
+
+    <li style="position:relative" class="widgetItem QuickLinks">
+        <a class="widgetDesc widgetQuickLinksLink" href="https://www.nps.gov/yose/index.htm" target="_self" >Yosemite National Park</a>
+    </li>
+
+    <li style="position:relative" class="widgetItem QuickLinks">
+        <a class="widgetDesc widgetQuickLinksLink" href="http://www.mymotherlode.com/" target="_self" >MyMotherLode News</a>
+    </li>
+
+    <li style="position:relative" class="widgetItem QuickLinks">
+        <a class="widgetDesc widgetQuickLinksLink" href="http://www.uniondemocrat.com/" target="_self" >Union Democrat</a>
+    </li>
+
+    <li style="position:relative" class="widgetItem QuickLinks">
+        <a class="widgetDesc widgetQuickLinksLink" href="/directory" target="_self" >Staff Directory</a>
+    </li>
+					</ol>
+				</div>
+		</div>
+        
+	</div>
+	<div class="widgetFooter">
+	</div>
+	<div class="addItemModal hidden">
+		<div class="url hidden">/QuickLinks.aspx</div>
+	</div>
+
+	</section>
+</div>
+	</div> <!-- inner column -->
+
+	</div> <!-- inner row -->
+
+			</div><!-- outer column --><!----><div class="outer col col4 last" style="" data-widgetcontainerid="f239b436-35b8-4092-8267-28de2eeaf1ee">				
+	<div class="row nest first last wide">
+	
+	<div class="inner col col4 first last idae841113-f553-42d4-8fb6-ce81e0e1e7b0" style="" data-widgetcontainerid="ae841113-f553-42d4-8fb6-ce81e0e1e7b0">	
+	<div data-widget-id="0f1bec8d-366f-4d9d-ae21-1d9f30578909" data-widget-controller-path="/QuickLinks/Widget">
+
+
+
+
+
+ 
+
+
+	<section id="widgetQuicklink0f1bec8d-366f-4d9d-ae21-1d9f30578909" class="widget widgetQuickLinks skin7 widgetOptionSet20 narrow" data-modulewidgettype="quickLinks" data-elementqueryclasses='{"wide-narrow":"min-width:25em"}' data-elementquerymatch='matchMultiColumn' data-elementqueryunmatch='unmatchMultiColumn' aria-labelledby="quickLinksHeader0f1bec8d-366f-4d9d-ae21-1d9f30578909">
+			<header class="widgetHeader" id="quickLinksHeader0f1bec8d-366f-4d9d-ae21-1d9f30578909">
+		<div class="">
+					<h3><a  style="" href="/QuickLinks.aspx?CID=285," >Site Links</a></h3>
+						</div>
+	</header>
+	<div class="widgetBody cpGrid cpGrid1 ">
+        <div class="row  narrow">
+				<div class="col col1 first last">
+					<ol class="semanticList">
+
+    <li style="position:relative" class="widgetItem QuickLinks">
+        <a class="widgetDesc widgetQuickLinksLink" href="/" target="_self" >Home</a>
+    </li>
+
+    <li style="position:relative" class="widgetItem QuickLinks">
+        <a class="widgetDesc widgetQuickLinksLink" href="/sitemap" target="_self" >Site Map</a>
+    </li>
+
+    <li style="position:relative" class="widgetItem QuickLinks">
+        <a class="widgetDesc widgetQuickLinksLink" href="/directory" target="_self" >Contact Us</a>
+    </li>
+
+    <li style="position:relative" class="widgetItem QuickLinks">
+        <a class="widgetDesc widgetQuickLinksLink" href="/accessibility" target="_self" >Accessibility</a>
+    </li>
+
+    <li style="position:relative" class="widgetItem QuickLinks">
+        <a class="widgetDesc widgetQuickLinksLink" href="/site/copyright" target="_self" >Copyright Notices</a>
+    </li>
+					</ol>
+				</div>
+		</div>
+        
+	</div>
+	<div class="widgetFooter">
+	</div>
+	<div class="addItemModal hidden">
+		<div class="url hidden">/QuickLinks.aspx</div>
+	</div>
+
+	</section>
+</div>
+	</div> <!-- inner column -->
+
+	</div> <!-- inner row -->
+
+			</div><!-- outer column --><!--		--></div> <!-- outer row -->
+
+
+	</div>
+</aside></div>
+</div><div data-cpRole="structuralContainer" id="structuralContainer11">
+<div class="siteWrap"><aside data-cpRole="contentContainer" id="contentContainer11">	<div id="cc66e93e64-e6d5-4d86-9268-d33f654c54a9" data-containerid="66e93e64-e6d5-4d86-9268-d33f654c54a9" class="pageContent cpGrid cpGrid24 isLockedContainer showInMobile" data-contentcontainerbreakpoint="1">
+				                
+
+		<div class="row outer autoWidths left wide"><!--
+--><div class="outer col col12 first" style="" data-widgetcontainerid="d3dd6a02-97ee-4637-8d0f-a9609c53fd9b">				
+	<div class="row nest first last wide">
+	
+	<div class="inner col col12 first last id3845903d-2498-49f1-83c6-5528d11e85b3" style="" data-widgetcontainerid="3845903d-2498-49f1-83c6-5528d11e85b3">	
+<div data-widget-id="ae9159b2-5dab-467d-8209-e3490ecf950f" data-widget-controller-path="/Layout/WidgetSiteTools">
+
+		<script type="text/javascript">
+			$(document).ready(function () {
+				setWidgetServiceClicking($("#widgetSiteToolsHeaderae9159b2-5dab-467d-8209-e3490ecf950f"), true, function () {
+					var $widgetBody = $('#widgetSiteToolsBodyae9159b2-5dab-467d-8209-e3490ecf950f');
+
+					if ($widgetBody.is(':visible')) {
+						var menuItems = $('.widgetItem a', $widgetBody);
+
+						$(menuItems[0]).focus();
+
+						$('.widgetItem', $widgetBody).unbind("keydown").bind("keydown", function (e) {
+
+							if (e.which === 9) {
+								var index = menuItems.index(e.target);
+
+								if ((index === 0 && e.shiftKey) || (index === (menuItems.length - 1) && !e.shiftKey)) {
+									$("#widgetSiteToolsHeaderae9159b2-5dab-467d-8209-e3490ecf950f").trigger('click').focus();
+								}
+							}
+						});
+					} else {
+						$('.widgetItem', $widgetBody).unbind("keydown");
+					}
+				});
+			});
+		</script>
+
+	<section id="widgetSiteToolsae9159b2-5dab-467d-8209-e3490ecf950f" class="widget widgetSiteTools skin7 widgetOptionSet8 flyOutParent wide"  aria-label="Site Tools">
+				<header id="widgetSiteToolsHeaderae9159b2-5dab-467d-8209-e3490ecf950f" class="widgetHeader" tabindex="0" role="button" aria-haspopup="true">
+			<h3><img alt="Site Tools1" class="imageHover" data-hover="/ImageRepository/Document?documentID=9137" data-image="/ImageRepository/Document?documentID=9136" src="/ImageRepository/Document?documentID=9136" /></h3>
+		</header>
+	<div id="widgetSiteToolsBodyae9159b2-5dab-467d-8209-e3490ecf950f" class="widgetBody whiteIcons flyOut top leftEdge widget widgetSiteTools skin7 cpGrid cpGrid1" style="display:none;">
+         <div class="row                   
+ wide">
+	<div class="col col1 first last">
+		<ol class="semanticList">
+					<li class="widgetItem"><a tabindex="0" role="button" aria-label="Site Tools Home" class="widgetSiteToolsHome siteToolsService" href="/">Home</a></li>
+					<li class="widgetItem"><a tabindex="0" role="button" aria-label="Site Tools My Account" class="widgetSiteToolsMyAccount siteToolsService" href="/MyAccount">My Account</a></li>
+					<li id="PrinterFriendlyae9159b2-5dab-467d-8209-e3490ecf950f" class="widgetItem"><a tabindex="0" aria-label="Site Tools Printer Friendly opens in new window" role="button" class="widgetSiteToolsPrinterFriendly siteToolsService" onkeypress="if (event.which == 13) { this.onclick(); }" onclick="Core.Layout.dynamicJavascript('printPreview();'); return false;" href="#PrinterFriendlyae9159b2-5dab-467d-8209-e3490ecf950f">Printer Friendly</a></li>
+					<li class="widgetItem"><a tabindex="0" role="button" aria-label="Site Tools Email Page" class="widgetSiteToolsEmailPage siteToolsService" href="/EmailPage">Email Page</a></li>
+					<li class="widgetItem"><a tabindex="0" role="button" aria-label="Site Tools Contact Us" class="widgetSiteToolsContactUs siteToolsService" href="/directory.aspx">Contact Us</a></li>
+					<li class="widgetItem"><a tabindex="0" role="button" aria-label="Site Tools Hear This Page" class="widgetSiteToolsHearThisPage siteToolsService" href="/">Hear This Page</a></li>
+					<li class="widgetItem"><a tabindex="0" role="button" aria-label="Site Tools RSS" class="widgetSiteToolsRSS siteToolsService" href="/rss.aspx">RSS</a></li>
+					<li class="widgetItem"><a tabindex="0" role="button" aria-label="Site Tools Site Map" class="widgetSiteToolsSiteMap siteToolsService" href="/SiteMap">Site Map</a></li>
+					<li id="TranslatePageae9159b2-5dab-467d-8209-e3490ecf950f" class="widgetItem"><a tabindex="0" aria-label="Site Tools Translate Page opens in new window" role="button" class="widgetSiteToolsTranslatePage siteToolsService" onkeypress="if (event.which == 13) { this.onclick(); }" onclick="Core.Layout.dynamicJavascript('window.open(\&#39;http://translate.google.com/translate?js=n&amp;sl=auto&amp;tl=es&amp;u=\&#39; + document.location.href, \&quot;TranslateWindow\&quot;);'); return false;" href="#TranslatePageae9159b2-5dab-467d-8209-e3490ecf950f">Translate Page</a></li>
+					<li class="widgetItem"><a tabindex="0" role="button" aria-label="Site Tools Notifications" class="widgetSiteToolsNotifications siteToolsService" href="/list.aspx">Notifications</a></li>
+					<li class="widgetItem"><a tabindex="0" role="button" aria-label="Site Tools Documents" class="widgetSiteToolsDocuments siteToolsService" href="/DocumentCenter">Documents</a></li>
+					<li class="widgetItem"><a tabindex="0" role="button" aria-label="Site Tools Help" class="widgetSiteToolsHelp siteToolsService" href="/">Help</a></li>
+		</ol>
+	</div>
+
+		 </div>
+	</div>
+
+	</section>
+
+
+
+</div>
+	</div> <!-- inner column -->
+
+	</div> <!-- inner row -->
+
+			</div><!-- outer column --><!----><div class="outer col col12 last" style="" data-widgetcontainerid="a549a3ed-b3d2-4808-9e51-e884f5b54a3f">				
+	<div class="row nest first last wide">
+	
+	<div class="inner col col12 first last idba60a2f7-2659-427a-9a89-1d2c987d2bca" style="" data-widgetcontainerid="ba60a2f7-2659-427a-9a89-1d2c987d2bca">	
+<div data-widget-id="019870bf-11d6-4022-b2a3-27264a0ac715" data-widget-controller-path="/Layout/WidgetShare">
+
+		<script type="text/javascript">
+			$(document).ready(function () {
+				setWidgetServiceClicking($("#widgetShareHeader019870bf-11d6-4022-b2a3-27264a0ac715"), true, function () {
+					var $widgetBody = $('#widgetShareBody019870bf-11d6-4022-b2a3-27264a0ac715');
+
+					if ($widgetBody.is(':visible')) {
+						var menuItems = $('.widgetItem a', $widgetBody);
+
+						$(menuItems[0]).focus();
+
+						$('.widgetItem', $widgetBody).unbind("keydown").bind("keydown", function (e) {
+
+							if (e.which === 9) {
+								var index = menuItems.index(e.target);
+
+								if ((index === 0 && e.shiftKey) || (index === (menuItems.length - 1) && !e.shiftKey)) {
+									$("#widgetShareHeader019870bf-11d6-4022-b2a3-27264a0ac715").trigger('click').focus();
+								}
+							}
+			});
+					} else {
+						$('.widgetItem', $widgetBody).unbind("keydown");
+					}
+				});
+			});
+		</script>
+
+	<section id="widgetShare019870bf-11d6-4022-b2a3-27264a0ac715" class="widget widgetShare skin7 widgetOptionSet6 flyOutParent wide"  aria-label="Share">
+			<header id="widgetShareHeader019870bf-11d6-4022-b2a3-27264a0ac715" class="widgetHeader" tabindex="0" role="button" aria-haspopup="true">
+				<h3><img alt="Share1" class="imageHover" data-hover="/ImageRepository/Document?documentID=9139" data-image="/ImageRepository/Document?documentID=9138" src="/ImageRepository/Document?documentID=9138" /></h3>
+	</header>
+    <div id="widgetShareBody019870bf-11d6-4022-b2a3-27264a0ac715" class="widgetBody flyOut top leftEdge widget widgetShare skin7 cpGrid cpGrid1" style="display:none;">
+        <div class="row                   
+ wide">
+	<div class="col col1 first last">
+		<ol class="semanticList">
+                <li class="widgetItem" ><a tabindex="0" role="button" class="widgetShareFacebook shareService" onkeypress="if(event.which == 13) { this.onclick(); }" href="/Layout/WidgetShare/ShareLink/Facebook" target="_blank" aria-label="Share on Facebook opens in new window">Facebook</a></li>
+                <li class="widgetItem" ><a tabindex="0" role="button" class="widgetShareTwitter shareService" onkeypress="if(event.which == 13) { this.onclick(); }" href="/Layout/WidgetShare/ShareLink/Twitter" target="_blank" aria-label="Share on Twitter opens in new window">Twitter</a></li>
+                <li class="widgetItem" ><a tabindex="0" role="button" class="widgetSharePinterest shareService" onkeypress="if(event.which == 13) { this.onclick(); }" href="/Layout/WidgetShare/ShareLink/Pinterest" target="_blank" aria-label="Share on Pinterest opens in new window">Pinterest</a></li>
+                <li class="widgetItem" ><a tabindex="0" role="button" class="widgetShareDelicious shareService" onkeypress="if(event.which == 13) { this.onclick(); }" href="/Layout/WidgetShare/ShareLink/Delicious" target="_blank" aria-label="Share on Delicious opens in new window">Delicious</a></li>
+                <li class="widgetItem" ><a tabindex="0" role="button" class="widgetShareBlogger shareService" onkeypress="if(event.which == 13) { this.onclick(); }" href="/Layout/WidgetShare/ShareLink/Blogger" target="_blank" aria-label="Share on Blogger opens in new window">Blogger</a></li>
+                <li class="widgetItem" ><a tabindex="0" role="button" class="widgetShareLinkedIn shareService" onkeypress="if(event.which == 13) { this.onclick(); }" href="/Layout/WidgetShare/ShareLink/LinkedIn" target="_blank" aria-label="Share on LinkedIn opens in new window">LinkedIn</a></li>
+		</ol>
+	</div>
+
+        </div>
+    </div>
+
+	</section>
+
+</div>
+	</div> <!-- inner column -->
+
+	</div> <!-- inner row -->
+
+			</div><!-- outer column --><!--		--></div> <!-- outer row -->
+
+
+	</div>
+</aside></div>
+</div>
+</div>
+
+			</div>
+		</div>
+	</div>
+	
+	
+	
+	
+	
+
+
+
+	<script type="text/javascript">function dynamicStretchContainers () {Core.Layout.stretchContainers('#structuralContainer8');}</script>
+
+
+
+
+
+
+	<script src="/731439609.js" type="text/javascript"></script>
+	 <!-- Piwik -->
+<script type="text/javascript"> 
+  var _paq = _paq || [];
+  _paq.push(['setCustomUrl', location.href.toLowerCase()]);
+  _paq.push(['trackPageView']);
+  _paq.push(['enableLinkTracking']);
+  $(window).load(function(){
+    var u=(("https:" == document.location.protocol) ? "https" : "http") + "://analytics.civicplus.com//";
+    _paq.push(['setTrackerUrl', u+'piwik.php']);
+    _paq.push(['setSiteId', 1320]);
+    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0]; g.type='text/javascript';
+    g.defer=true; g.async=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+  });
+
+</script>
+<noscript><p><img src="http://analytics.civicplus.com/piwik.php?idsite=1320" style="border:0" alt="Piwik" /></p></noscript>
+<!-- End Piwik Code -->
+
+	
+
+
+
+	<script type="text/javascript">
+		$(function () {
+			document.cookie = "responsiveGhost=0; path=/";
+		});
+		onOrLive($(window), function () {
+			$('body').addClass('doneLoading').removeClass('hideContent');
+
+			if ($('#404Content').length > 0)
+				$('div#bodyWrapper').css('padding', '0px');
+		}, 'load');		
+	</script>
+
+	<noscript>
+		<style>
+			body.hideContent {
+				opacity: 1 !important;
+			}
+		</style>
+	</noscript>
+
+		
+<div style="display: none;">
+	<svg xmlns="http://www.w3.org/2000/svg" style="display:none;">
+
+		<symbol id="iconArrow--left" viewbox="0 0 25 25">
+			<title>Arrow Left</title>
+			<polygon style="fill:currentcolor" points="18.044,25 19.498,23.545 8.409,12.454 19.408,1.455 17.954,0 5.502,12.452"></polygon>
+		</symbol>
+
+		<symbol id="iconArrow--right" viewbox="0 0 25 25">
+			<title>Arrow Right</title>
+			<polygon style="fill:currentcolor" points="6.957,0 5.502,1.455 16.591,12.546 5.592,23.545 7.047,25 19.498,12.548"></polygon>
+		</symbol>
+
+	</svg>
+</div>
+	<script type="text/javascript">loadCSS('//fonts.googleapis.com/css?family=Montserrat:200,500,600,700,regular|');</script>
+	
+
+	<div class="hidden activeWidgetSkinComponentsOnPageJson">[]</div>
+		<div style="display: none;">
+			<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+				<symbol id="iconSlideshowArrowLeft" viewBox="0 0 22.68 40">
+					<title>Slideshow Left Arrow</title>
+					<g>
+						<path style="fill:currentcolor;" d="M20,40a2.67,2.67,0,0,1-1.9-.79L.79,21.9a2.68,2.68,0,0,1,0-3.79L18.1.79a2.68,2.68,0,1,1,3.79,3.79L6.47,20,21.89,35.42A2.68,2.68,0,0,1,20,40Z"></path>
+					</g>
+				</symbol>
+				<symbol id="iconSlideshowArrowRight" viewBox="0 0 22.68 40">
+					<title>Slideshow Right Arrow</title>
+					<g>
+						<path style="fill:currentcolor;" d="M2.68,0a2.67,2.67,0,0,1,1.9.79L21.89,18.1a2.68,2.68,0,0,1,0,3.79L4.58,39.21A2.68,2.68,0,0,1,.79,35.42L16.21,20,.79,4.58A2.68,2.68,0,0,1,2.68,0Z"></path>
+					</g>
+				</symbol>
+			</svg>
+		</div>
+	
+</body>
+</html>
