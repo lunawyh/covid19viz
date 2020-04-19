@@ -67,13 +67,13 @@ class dataGrab(object):
         if(not os.path.isdir(self.state_dir + 'data_html/') ): os.mkdir(self.state_dir + 'data_html/')
         link_dir =  self.state_dir + 'data_html/' + name_file + '/'
         if(not os.path.isdir(link_dir) ): os.mkdir(link_dir)
-
+        '''
         for a_link in l_links:
                 f_name = link_dir+a_link[0]+'.html'
                 #print(a_link[1], f_name)
                 #gcontext = ssl._create_unverified_context()
                 urllib.urlretrieve(a_link[1], f_name)  #, context=gcontext)
-
+        '''
         l_data_daily = []
         total_daily = 0
         total_death = 0
@@ -86,7 +86,7 @@ class dataGrab(object):
                 for a_case in l_cases:
                     if('Last updated by the City:' in a_case): 
                         a_case_l = a_case.split(':') 
-                        c_date = a_case_l[1]                    
+                        c_date = a_case_l[1].encode('ascii','ignore')
                 l_cases = tree.xpath('//p/text()')
                 for a_case in l_cases:
                     if('Positive Alameda County Cases:' in a_case): 
