@@ -28,7 +28,8 @@ import urllib
 from shutil import copyfile
 from rainbowviz21 import *
 from predictionviz22 import *
-
+from lxml import html
+import requests
 import sys
 # ==============================================================================
 # -- codes -------------------------------------------------------------------
@@ -315,7 +316,7 @@ class runVirusViz(object):
         l_dates = c_tree.xpath('//strong/text()')
         for l_date in l_dates:
             if('Confirmed COVID-19 Cases by Jurisdiction updated' in l_date):
-                a_date = l_date.replace('Confirmed COVID-19 Cases by Jurisdiction updated', '')
+                a_date = l_date.replace('Confirmed COVID-19 Cases by Jurisdiction updated ', '')
                 dt_obj = datetime.datetime.strptime(a_date, '%m/%d/%Y')
                 self.name_file = dt_obj.strftime('%Y%m%d')
                 self.now_date = dt_obj.strftime('%m/%d/%Y')
