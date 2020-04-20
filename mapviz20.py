@@ -17,8 +17,22 @@ import numpy as np
 import csv
 from os.path import isfile, join
 import pandas as pd
+<<<<<<< HEAD
 # sudo pip install --user git+https://github.com/matplotlib/basemap.git
 # In Windows: pip install --user git+https://github.com/matplotlib/basemap.git
+=======
+#
+# In Windows
+#   download http://download.osgeo.org/osgeo4w/osgeo4w-setup-x86_64.exe and install
+#     https://download.microsoft.com/download/7/9/6/796EF2E4-801B-4FC4-AB28-B59FBF6D907B/VCForPython27.msi
+#   pip install pyproj==1.9.6
+#   set the system environment variable: GEOS_DIR=C:\OSGeo4W64
+#                                                         PROJ_DIR=C:\OSGeo4W64
+#   add    C:\OSGeo4W64\bin to PATH
+#   pip install --user git+https://github.com/matplotlib/basemap.git
+# In Linux
+#   sudo pip install https://github.com/matplotlib/basemap/archive/master.zip
+>>>>>>> master
 from mpl_toolkits.basemap import Basemap
 from matplotlib.patches import Wedge
 import matplotlib.pyplot as plt
@@ -122,9 +136,9 @@ class mapViz(object):
         l_centers = self.open4File('./ne_maps/us_states_info.csv')
         for a_item in l_centers:
             if(a_state in a_item[0]):
-                if(float(self.l_state_config[7][1]) != 0): lat_2 = float(self.l_state_config[7][1])
+                if(float(self.l_state_config[8][1]) != 0): lat_2 = float(self.l_state_config[8][1])
                 else: lat_2 = float(a_item[1])
-                if(float(self.l_state_config[8][1]) != 0): lon_2 = float(self.l_state_config[8][1])
+                if(float(self.l_state_config[8][2]) != 0): lon_2 = float(self.l_state_config[8][2])
                 else: lon_2 = float(a_item[2])
                 if(float(self.l_state_config[9][1]) != 0): s_2 = float(self.l_state_config[9][1])
                 else: 
@@ -132,6 +146,16 @@ class mapViz(object):
                     s_2 = 370000.0*ratio
                 return (lat_2, lon_2, s_2)
         return (41.850033, -87.6500523, 370000.0)
+    ## get position Info in the list
+    def isNextList(self, index, lat_1, lon_1):
+        isNext = False
+        lat_2, lon_2 = 0, 0
+        for jj in range(int(self.l_state_config[10][1])):
+            if (index == int(self.l_state_config[13+jj][3]) ):
+                lat_2, lon_2 = lat_1+float(self.l_state_config[13+jj][1]), lon_1+float(self.l_state_config[13+jj][2])
+                isNext = True
+                break
+        return (isNext, lat_2, lon_2)
     ## set County Info
     def setCountyInfo(self, l_counties, l_cases):
         case_max, case_col, case_total = 0, 0.0, 0
@@ -221,13 +245,11 @@ class mapViz(object):
             plt.text(x, y, a_county[3],fontsize=8, ha='center',va='center',color='k',rotation=a_county[10])
         # 55. draw list of counties
         ii = 0
-        lat2, lon2 = lat_1+float(self.l_state_config[13][1]), lon_1+float(self.l_state_config[13][2])
-        lat3, lon3 = lat_1+float(self.l_state_config[14][1]), lon_1+float(self.l_state_config[14][2])
         for a_case in l_cases_today:	
             if('Total' in a_case[0]): continue
             if('County' in a_case[0]): continue
-            if(ii == len(l_cases_today)/2+5):
-                lat2, lon2 = lat3, lon3
+            isNext, lat_2, lon_2 = self.isNextList(ii, lat_1, lon_1)
+            if(isNext): lat2, lon2 = lat_2, lon_2
             if( self.getColorByCompare(a_case, l_last) ): nColor = 'g'
             else: nColor = 'y'
             # show name

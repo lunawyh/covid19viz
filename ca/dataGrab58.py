@@ -11,6 +11,10 @@ import os
 from lxml import html
 import requests
 import urllib
+<<<<<<< HEAD
+=======
+import re
+>>>>>>> master
 # ==============================================================================
 # -- imports -------------------------------------------------------------------
 # ==============================================================================
@@ -65,12 +69,20 @@ class dataGrab(object):
         if(not os.path.isdir(self.state_dir + 'data_html/') ): os.mkdir(self.state_dir + 'data_html/')
         link_dir =  self.state_dir + 'data_html/' + name_file + '/'
         if(not os.path.isdir(link_dir) ): os.mkdir(link_dir)
+<<<<<<< HEAD
         # save all web pages
+=======
+        
+>>>>>>> master
         for a_link in l_links:
                 f_name = link_dir+a_link[0]+'.html'
-                print(a_link[1], f_name)
+                #print(a_link[1], f_name)
                 urllib.urlretrieve(a_link[1], f_name)
+<<<<<<< HEAD
         # try to parse these pages
+=======
+        
+>>>>>>> master
         l_data_daily = []
         total_daily = 0
         total_death = 0
@@ -88,10 +100,10 @@ class dataGrab(object):
                 for a_case in l_cases:
                     if('Positive Alameda County Cases:' in a_case): 
                         a_case_l = a_case.split(':') 
-                        c_pos = int(a_case_l[1])
+                        c_pos = int( re.sub("[^0-9]", "", a_case_l[1]) )
                     if('Deaths:' in a_case):
                         a_case_l = a_case.split(':') 
-                        c_death = int(a_case_l[1])
+                        c_death = int( re.sub("[^0-9]", "", a_case_l[1]) )
                 l_data_daily.append([a_link[0], c_pos, c_death, c_date])
                 total_daily += c_pos
                 total_death += c_death
