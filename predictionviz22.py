@@ -107,13 +107,14 @@ class predictionViz(object):
             else: return False
             for a_day in l_data_day:
                 #print(a_day)
-                if 'Total' in str(a_day[0]):
+                if 'Total' in str(a_day[0]) or '56' in str(a_day[0]):
                     lst_data_overall = a_day[11:]
-                    #for a_number in a_day[0:]:
+                    print(' Total is read', a_day[0])
                     #    lst_data_overall.append(int(a_number))
-                if 'County Name' in str(a_day[0]):
+                if 'County Name' in str(a_day[0]) or 'Cases' in str(a_day[0]):
                     for a_date in a_day[11:]:
                         day_mmdd.append(a_date.replace('Cases \n', ''))
+                    print(' Date is read', a_day[0])
                     #day_mmdd = a_day[0:]
             if( len(day_mmdd) < 1): return False
             dt_s = datetime.datetime.strptime('2020-'+day_mmdd[-1], '%Y-%m-%d')         
