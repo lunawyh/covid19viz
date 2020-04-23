@@ -71,7 +71,6 @@ class dataGrabFl(object):
         else: return []
         return l_data
 
-
     ## download a website 
     def download4Website(self, fRaw):
         csv_url = self.l_state_config[5][1]
@@ -85,30 +84,60 @@ class dataGrabFl(object):
             if(not os.path.isdir(self.state_dir + 'data_raw/') ): os.mkdir(self.state_dir + 'data_raw/')
             # step A: downlowd and save
             if(not isfile(f_name) ): result = self.download4Website(f_name)
+
             # step B: parse and open
             pdfFileObj = open(f_name, 'rb')
             pdfReader = PyPDF2.PdfFileReader(pdfFileObj)
             case_total = 0
-            l_overall = []        
+            case_total_rd = 0
+            l_overall = [] 
             l_overall.append(['County', 'Cases', 'Deaths'])
 
             pageObj = pdfReader.getPage(4)
             pageTxt = pageObj.extractText()
             l_pageTxt = pageTxt.split('\n')
             state_machine = 1
+            a_name = ''
+            a_digital = 0
             for a_row in l_pageTxt:
-                print(a_row)
-                if (state_machine == 1):
-                    if('County' in a_row):
-                        state_machine = 2
-                        a_name = a_row
-                elif(state_machine == 2):
-                    if('Total' in a_row):
-                        a_number = a_row
-                        state_machine = 3
-                        #a_digital = int( re.sub("[^0-9]", "", a_number) )
-            #l_overall.append([a_name, a_digital, 0])
-            return(l_overall, self.name_file, self.now_date) 
+		        #print(a_row)
+		        if(state_machine == 1):
+		            if('County' in a_row):
+		                state_machine = 2
+		        elif(state_machine == 2):
+		            if('Total' in a_row):
+		                state_machine = 3
+		        elif(state_machine == 3):
+		            if('County' in a_row):
+		                state_machine = 4
+		        elif(state_machine == 4):
+		            if('Total' in a_row):
+		                state_machine = 5
+		        elif(state_machine == 5):
+		            if('Total' in a_row):
+		                state_machine = 16
+		            else:
+		                a_name = a_row
+		                state_machine = 6
+		        elif(state_machine == 6):
+		            if( a_row == '' ):
+		                pass
+		            elif( a_row.lower().islower() ):
+		                if('Total' in a_name): case_total_rd = a_digital
+		                else: 
+		                    case_total += a_digital
+		                    if(a_name in 'Dade'): a_name = 'Miami-Dade'
+		                    l_overall.append([a_name, a_digital, 0])
+		                a_name = a_row
+		            else:
+		                a_digital = int( re.sub("[^0-9]", "", a_row) )
+            l_overall.append([a_name, a_digital, 0])
+            case_total += a_digital
+            
+            l_d_sort = sorted(l_overall, key=lambda k: k[0])
+            if(case_total == case_total_rd): l_d_sort.append(['Total', case_total, 0])
+            else: print('  Total is mismatched', case_total, case_total_rd)
+            return(l_d_sort, self.name_file, self.now_date)  
 
 
     ## paser data CA

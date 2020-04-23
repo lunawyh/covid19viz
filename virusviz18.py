@@ -382,6 +382,9 @@ class runVirusViz(object):
             data_grab = dataGrabFl(self.l_state_config, self.state_name)	
             # step B: parse to standard file
             lst_data, name_file, now_date = data_grab.parseData(self.name_file, type_download)		
+            # step C: save
+            f_name = self.state_dir + 'data/'+self.state_name.lower()+'_covid19_'+self.name_file+'.csv'
+            self.save2File( lst_data, f_name )
         elif( type_download == 101 ):   # download counties in the list
             sys.path.insert(0, "./ca")
             from dataGrab58 import *
@@ -413,7 +416,7 @@ class runVirusViz(object):
     def getOverallYesterday(self, today):
         data_dir = self.state_dir + 'data'
         csv_data_files = sorted( [f for f in listdir(data_dir) if isfile(join(data_dir, f))] )
-        if( len(csv_data_files) < 1): return None
+        if( len(csv_data_files) < 2): return None
         f_last, bFound = csv_data_files[0], False
         for ff in csv_data_files:
             if(today in ff): 
