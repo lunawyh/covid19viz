@@ -17,6 +17,8 @@ import csv
 import datetime 
 import urllib
 import ssl
+import PyPDF2
+import re
 # ==============================================================================
 # -- codes -------------------------------------------------------------------
 # ==============================================================================
@@ -82,11 +84,66 @@ class dataGrabFl(object):
             f_name = self.state_dir + 'data_raw/'+self.state_name.lower()+'_covid19_'+self.name_file+'.pdf'
             if(not os.path.isdir(self.state_dir + 'data_raw/') ): os.mkdir(self.state_dir + 'data_raw/')
             # step A: downlowd and save
-            result = self.download4Website(f_name)
+            if(not isfile(f_name) ): result = self.download4Website(f_name)
             # step B: parse and open
-            #lst_raw_data = self.open4File(f_name)
-            # step C: convert to standard file and save
-            
-            return([], self.name_file, self.now_date)  
+            pdfFileObj = open(f_name, 'rb')
+            pdfReader = PyPDF2.PdfFileReader(pdfFileObj)
+            case_total = 0
+            l_overall = [] 
+            pageObj = pdfReader.getPage(5)
+            pageTxt = pageObj.extractText()
+            a_number = a_row
+            a_digital = int( re.sub("[^0-9]", "", a_number) )
+            l_overall.append([ a_digital, 0])
+            return(l_overall, self.name_file, self.now_date)  
+
+
+    ## paser data CA
+  #  def parseData(self, name_target, type_download):
+   #         self.name_file = name_target
+    #        f_name = self.state_dir + 'data_raw/'+self.state_name.lower()+'_covid19_'+self.name_file+'.pdf'
+     #       if(not os.path.isdir(self.state_dir + 'data_raw/') ): os.mkdir(self.state_dir + 'data_raw/')
+      #      # step A: downlowd and save
+       #     if(not isfile(f_name) ): result = self.download4Website(f_name)
+            # step B: parse and open
+        #    pdfFileObj = open(f_name, 'rb')
+         #   pdfReader = PyPDF2.PdfFileReader(pdfFileObj)
+          #  case_total = 0
+           # l_overall = []        
+            #l_overall.append(['County', 'Cases', 'Deaths'])
+            #for page in range(5,14):
+		#    pageObj = pdfReader.getPage(page)
+		 #   pageTxt = pageObj.extractText()
+		  #  l_pageTxt = pageTxt.split('\n')
+		   # state_machine = 1
+		    #for a_row in l_pageTxt:
+		     #   #print(a_row)    
+		      #  if(state_machine == 1):
+		       #     if('City and county' in a_row):
+		        #        state_machine = 2
+		        #elif(state_machine == 2):
+		         #   if('Cases' in a_row):
+		          #      state_machine = 3
+		        #elif(state_machine == 3):
+		         #   if('The' in a_row): break
+		          #  a_name = a_row.split(',')[1]
+		           # state_machine = 4
+		        #elif(state_machine == 4):
+		         #   a_number = a_row
+		          #  state_machine = 3
+		           # a_digital = int( re.sub("[^0-9]", "", a_number) )
+		            ## found or not
+		            #bFound = False
+		            #for a_row in l_overall:
+		             #   if (a_name in a_row[0]):
+		              #      bFound = True
+		               #     a_row[1] += a_digital
+		                #    break
+		            #if(bFound):
+		             #   pass
+		            #else: l_overall.append([a_name, a_digital, 0])
+
+           # return(l_overall, self.name_file, self.now_date)  
+
 
 ## end of file

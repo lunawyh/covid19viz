@@ -63,7 +63,18 @@ class dataGrabTx(object):
     def open4Xlsx(self, xlsx_name):
         if(isfile(xlsx_name) ):
             xl_file = pd.ExcelFile(xlsx_name)
-            df = xl_file.parse('Cases and Fatalities')
+            #print(xl_file.sheet_names)
+            nfx = ''
+            for sheet in xl_file.sheet_names:
+                if 'Cases and Fatalities' in (sheet):
+                    nfx = sheet
+                    break
+                if 'Case and Fatalities' in (sheet):  
+                    nfx = sheet 
+                    break
+            if nfx == '':return []
+            df = xl_file.parse( nfx )
+
             l_data = self.parseDfData(df)
         else: return []
         return l_data
