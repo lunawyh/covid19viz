@@ -141,6 +141,62 @@ class dataGrabFl(object):
 
 
     ## paser data CA
+    def parseDataDE(self, name_target, type_download):
+            self.name_file = name_target
+            f_name = self.state_dir + 'data_raw/'+self.state_name.lower()+'_covid19_'+self.name_file+'.pdf'
+            if(not os.path.isdir(self.state_dir + 'data_raw/') ): os.mkdir(self.state_dir + 'data_raw/')
+            # step A: downlowd and save
+            if(not isfile(f_name) ): result = self.download4Website(f_name)
+
+            # step B: parse and open
+            pdfFileObj = open(f_name, 'rb')
+            pdfReader = PyPDF2.PdfFileReader(pdfFileObj)
+            case_total = 0
+            case_total_rd = 0
+            l_overall = [] 
+            l_overall.append(['County', 'Cases', 'Deaths'])
+            page = range(30:43)
+            pageObj = pdfReader.getPage(page)
+            pageTxt = pageObj.extractText()
+            l_pageTxt = pageTxt.split('\n')
+            state_machine = 1
+            a_name = ''
+            a_digital = 0
+            for a_row in l_pageTxt:
+		        print(a_row)
+		        if(state_machine == 1):
+		            if('County' in a_row):
+		                state_machine = 2
+		        elif(state_machine == 2):
+		            if('Death' in a_row):
+		                state_machine = 3
+		        elif(state_machine == 3):
+		            if('County' in a_row):
+		                state_machine = 4
+		        elif(state_machine == 4):
+		            if('Death' in a_row):
+		                state_machine = 5
+		        elif(state_machine == 5):
+		            if('Death' in a_row):
+		                state_machine = 16
+		            else:
+		                a_name = a_row
+		                state_machine = 6
+		        elif(state_machine == 6):
+		            if( a_row == '' ):
+		                pass
+		            elif( a_row.lower().islower() ):
+		                if('Death' in a_name): case_total_rd = a_digital
+		                else: 
+		                    case_total += a_digital
+		                    if(a_name in 'Dade'): a_name = 'Miami-Dade'
+		                    l_overall.append([a_name, a_digital, 0])
+		                a_name = a_row
+		            else:
+		                a_digital = int( re.sub("[^0-9]", "", a_row) )
+            l_overall.append([a_name, a_digital, 0])
+            case_total += a_digital
+    ## paser data CA
     def parseData2(self, name_target, type_download):
             self.name_file = name_target
             f_name = self.state_dir + 'data_raw/'+self.state_name.lower()+'_covid19_'+self.name_file+'.pdf'
