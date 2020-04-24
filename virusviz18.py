@@ -263,12 +263,15 @@ class runVirusViz(object):
         #print('  ', self.name_file)
         self.now_date = dt_obj.strftime('%m/%d/%Y')
         #read data to list
-        lst_data = self.open4File(self.state_dir + 'data/'+self.state_name.lower()+'_covid19_'+self.name_file+'.csv')
+        name_today = self.state_dir + 'data/'+self.state_name.lower()+'_covid19_'+self.name_file+'.csv'
+        lst_data = self.open4File(name_today)
+        print('  today', name_today)
         
         #read data on yesterday 
         name_last = self.getOverallYesterday(self.name_file)
         if(name_last is not None):
             lst_data_last = self.open4File(self.state_dir + 'data/' + name_last)
+            print('  last ', self.state_dir + 'data/' + name_last)
         else:
             lst_data_last = []
         return (pos, lst_data, lst_data_last)
@@ -491,7 +494,7 @@ class runVirusViz(object):
     def lookupMapData(self, c_name, lst_data):
         c_name_clean = c_name.replace('*', '').replace('.', '')
         for cov in lst_data:
-            if c_name_clean in cov[0]:
+            if c_name_clean in cov[0].replace('*', '').replace('.', ''):
                 return True, cov
         #print ('Not found', c_name)
         return False, [' ', 0, 10, 30, (0,0,255)]
