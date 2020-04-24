@@ -144,7 +144,9 @@ class predictionViz(object):
 
         # predict the future
         if(self.state_name in 'OH'): preDay = 19
-        elif(self.state_name in 'MI'): preDay = 0
+        elif(self.state_name in 'MI'): 
+            preDay = 23  # len(lst_data_daily) - 15
+            print('  preDay %d length %d'%( preDay, len(lst_data_daily) - preDay) )
         else: preDay = 0
         postDay = 0
         data = lst_data_daily[preDay:]  #[0:-1] postDay
@@ -160,7 +162,7 @@ class predictionViz(object):
         fig = plt.figure(0)
         fig.set_figheight(10)
         fig.set_figwidth(20)
-        plt.scatter(days, data, label="Actual new cases per day", color='r')
+        plt.scatter(day_mmdd, data, label="Actual new cases per day", color='r')
 
         date_len = int(len(data)+30)
         day_future = np.arange(0, date_len, 1)
