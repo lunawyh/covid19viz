@@ -387,7 +387,7 @@ class runVirusViz(object):
             lst_data, name_file, now_date = data_grab.parseData(self.name_file, type_download)		
             # step C: save
             f_name = self.state_dir + 'data/'+self.state_name.lower()+'_covid19_'+self.name_file+'.csv'
-            self.save2File( lst_data, f_name )
+            if(len(lst_data) > 0): self.save2File( lst_data, f_name )
         elif( type_download == 101 ):   # download counties in the list
             sys.path.insert(0, "./ca")
             from dataGrab58 import *

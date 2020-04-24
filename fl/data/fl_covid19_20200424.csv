@@ -1,17 +1,16 @@
 County,Cases,Deaths
-Alachua,244,0
-Baker,20,0
-Bay,63,0
-Bradford,42,0
-Brevard,247,0
-Broward,4591,120
+Alachua,244,1
+Baker,20,3
+Bay,63,2
+Bradford,42,2
+Brevard,247,8
+Broward,4591,162
 Calhoun,6,0
 Charlotte,199,14
 Citrus,95,9
 Clay,266,14
 Collier,526,15
 Columbia,46,0
-County,Cases,Deaths
 Desoto,24,4
 Dixie,5,0
 Duval,955,18
@@ -49,22 +48,22 @@ Okaloosa,145,3
 Okeechobee,9,0
 Orange,1290,30
 Osceola,461,7
-Palm Beach,2600,129
-Pasco,230,0
-Pinellas,673,0
-Polk,393,0
-Putnam,81,0
-Santa Rosa,143,0
-Sarasota,314,0
-Seminole,348,0
-St. Johns,203,0
-St. Lucie,223,0
-Sumter,167,0
-Suwannee,107,0
+Palm Beach,2600,155
+Pasco,230,4
+Pinellas,673,24
+Polk,393,18
+Putnam,81,1
+Santa Rosa,143,6
+Sarasota,314,32
+Seminole,348,8
+St. Johns,203,4
+St. Lucie,223,19
+Sumter,167,12
+Suwannee,107,10
 Taylor,3,0
 Union,4,0
-Volusia,428,0
-Wakulla,20,0
+Volusia,428,15
+Wakulla,20,1
 Walton,35,0
 Washington,12,0
-Total,30533,808
+Total,30533,1046

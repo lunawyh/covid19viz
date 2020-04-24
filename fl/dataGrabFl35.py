@@ -19,6 +19,8 @@ import urllib
 import ssl
 import PyPDF2
 import re
+import requests
+from lxml import html
 # ==============================================================================
 # -- codes -------------------------------------------------------------------
 # ==============================================================================
@@ -72,18 +74,38 @@ class dataGrabFl(object):
         return l_data
 
     ## download a website 
-    def download4Website(self, fRaw):
-        csv_url = self.l_state_config[5][1]
+    def download4Website(self, csv_url, fRaw):
+        #csv_url = self.l_state_config[5][1]
         # save csv file
         urllib.urlretrieve(csv_url, fRaw)
         return True
+    ## open a website 
+    def open4Website(self, fRaw):
+        csv_url = self.l_state_config[5][1]
+        # save html file
+        #urllib.urlretrieve(csv_url, fRaw)
+        # save html file
+        c_page = requests.get(csv_url)
+        c_tree = html.fromstring(c_page.content)
+        l_dates = c_tree.xpath('//a')  # ('//div[@class="col-xs-12 button--wrap"]')
+        a_address = ''
+        for l_date in l_dates:
+            #print(l_date.text_content())
+            if('See the report' in l_date.text_content()):
+                a_address = l_date.get('href')
+                print('  download report at', l_date.get('href'))
+                break
+        return a_address
     ## paser data CA
     def parseData(self, name_target, type_download):
             self.name_file = name_target
             f_name = self.state_dir + 'data_raw/'+self.state_name.lower()+'_covid19_'+name_target+'.pdf'
             if(not os.path.isdir(self.state_dir + 'data_raw/') ): os.mkdir(self.state_dir + 'data_raw/')
             # step A: downlowd and save
-            if(not isfile(f_name) ): result = self.download4Website(f_name)
+            if(not isfile(f_name) ): 
+                a_address = self.open4Website(None)
+                if(a_address == ''): return ([], None, None)
+                result = self.download4Website(a_address, f_name)
 
             # step B: parse and open
             pdfFileObj = open(f_name, 'rb')
@@ -91,7 +113,7 @@ class dataGrabFl(object):
             case_total = 0
             case_total_rd = 0
             l_overall = [] 
-            l_overall.append(['County', 'Cases', 'Deaths'])
+            #l_overall.append(['County', 'Cases', 'Deaths'])
 
             pageObj = pdfReader.getPage(4)
             pageTxt = pageObj.extractText()
@@ -138,11 +160,16 @@ class dataGrabFl(object):
             if(case_total == case_total_rd): l_d_sort.append(['Total', case_total, 0])
             else: print('  Total is mismatched', case_total, case_total_rd)
             # read death in county
+            p_s, p_e = 20, 58
+            #p_s, p_e = 31, 43 # page number in PDF for 4/19/2020
+            #p_s, p_e = 30, 48 # page number in PDF for 4/24/2020
             case_total = 0
-            for page in range(30,44):
+            for page in range(p_s-1, p_e+1):
 		    pageObj = pdfReader.getPage(page)
 		    pageTxt = pageObj.extractText()
 		    l_pageTxt = pageTxt.split('\n')
+		    if('Coronavirus: line list of deaths in Florida residents' in l_pageTxt[0]): pass
+		    else: continue
 		    state_machine = 1
 		    for a_row in l_pageTxt:
 		        #print(a_row)    
@@ -159,7 +186,7 @@ class dataGrabFl(object):
 				    a_d_row[2] += 1
 				    case_total += 1
 				    break
-		    print(' page on', page, case_total)
+		    print(' PDF page on', page+1, case_total)
             l_d_sort[-1][2] = case_total
             return(l_d_sort, self.name_file, self.now_date)  
     ## paser data CA
