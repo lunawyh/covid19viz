@@ -175,7 +175,7 @@ class dataGrabFl(object):
     ## paser data FL
     def dataReadDeath(self, l_d_sort, pdfReader):
             # read death in county
-            p_s, p_e = 32, 50
+            p_s, p_e = 20, 58
             #p_s, p_e = 31, 43 # page number in PDF for 4/19/2020
             #p_s, p_e = 30, 48 # page number in PDF for 4/24/2020
             case_total = 0
@@ -205,8 +205,9 @@ class dataGrabFl(object):
             l_d_sort[-1][2] = case_total
             return l_d_sort 
     ## paser data FL
-    def parseData(self, name_target, type_download):
+    def parseData(self, name_target, date_target, type_download):
             f_target = self.dataDownload(name_target)
+            self.now_date = date_target
             if(f_target == ''): return ([], name_target, '')
             l_d_sort, pdfReader = self.dataReadConfirmed(f_target)
             l_d_all = self.dataReadDeath(l_d_sort, pdfReader)
