@@ -1,12 +1,12 @@
 County,Cases,Deaths
 Allen,1,0
-Butler,8,0
+Butler,7,0
 Carroll,1,0
 Coshocton,1,0
 Cuyahoga,18,0
 Franklin,13,0
 Greene,2,0
-Hamilton,6,0
+Hamilton,8,0
 Highland,1,0
 Huron,1,0
 Licking,1,0
@@ -15,7 +15,7 @@ Lucas,3,0
 Mahoning,7,0
 Medina,3,0
 Miami,1,0
-Montgomery,2,0
+Montgomery,3,0
 Muskingum,1,0
 Scioto,1,0
 Seneca,1,0
@@ -24,4 +24,4 @@ Summit,3,0
 Trumbull,1,0
 Tuscarawas,1,0
 Union,1,0
-Total,82,0
+Total,84,0

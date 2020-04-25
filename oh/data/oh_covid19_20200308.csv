@@ -1,7 +1,7 @@
 County,Cases,Deaths
 Allen,1,0
 Belmont,2,0
-Butler,12,0
+Butler,11,0
 Carroll,1,0
 Coshocton,1,0
 Crawford,1,0
@@ -11,7 +11,7 @@ Fairfield,1,0
 Fayette,1,0
 Franklin,29,0
 Greene,2,0
-Hamilton,14,0
+Hamilton,16,0
 Highland,1,0
 Huron,2,0
 Knox,1,0
@@ -19,12 +19,12 @@ Lake,1,0
 Lawrence,1,0
 Licking,2,0
 Lorain,2,0
-Lucas,7,0
-Mahoning,13,0
+Lucas,9,0
+Mahoning,14,0
 Marion,1,0
 Medina,3,0
 Miami,2,0
-Montgomery,7,0
+Montgomery,8,0
 Muskingum,1,0
 Pickaway,1,0
 Portage,2,0
@@ -38,4 +38,4 @@ Tuscarawas,2,0
 Union,2,0
 Warren,3,0
 Wood,1,0
-Total,179,0
+Total,184,0

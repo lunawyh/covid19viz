@@ -3,7 +3,7 @@ Allen,1,0
 Athens,2,0
 Auglaize,2,0
 Belmont,3,0
-Butler,24,0
+Butler,23,0
 Carroll,2,0
 Champaign,1,0
 Clark,1,0
@@ -11,7 +11,7 @@ Clermont,4,0
 Columbiana,5,0
 Coshocton,2,0
 Crawford,2,0
-Cuyahoga,113,0
+Cuyahoga,114,0
 Darke,1,0
 Defiance,4,0
 Delaware,13,0
@@ -21,7 +21,7 @@ Franklin,87,0
 Gallia,1,0
 Geauga,7,0
 Greene,3,0
-Hamilton,40,0
+Hamilton,44,0
 Highland,1,0
 Huron,3,0
 Knox,2,0
@@ -30,13 +30,13 @@ Lawrence,1,0
 Licking,7,0
 Logan,2,0
 Lorain,21,0
-Lucas,17,0
-Mahoning,39,0
+Lucas,19,0
+Mahoning,41,0
 Marion,2,0
 Medina,5,0
 Meigs,1,0
 Miami,11,0
-Montgomery,14,0
+Montgomery,16,0
 Muskingum,2,0
 Pickaway,1,0
 Pike,1,0
@@ -47,7 +47,7 @@ Sandusky,2,0
 Scioto,1,0
 Seneca,1,0
 Shelby,1,0
-Stark,14,0
+Stark,15,0
 Summit,33,0
 Trumbull,13,0
 Tuscarawas,3,0
@@ -57,4 +57,4 @@ Washington,1,0
 Wayne,3,0
 Wood,3,0
 Wyandot,1,0
-Total,558,0
+Total,569,0

@@ -1,14 +1,14 @@
 County,Cases,Deaths
 Allen,1,0
 Belmont,2,0
-Butler,16,0
+Butler,15,0
 Carroll,1,0
 Clark,1,0
 Clermont,1,0
 Columbiana,1,0
 Coshocton,1,0
 Crawford,2,0
-Cuyahoga,59,0
+Cuyahoga,60,0
 Defiance,1,0
 Delaware,6,0
 Fairfield,1,0
@@ -16,7 +16,7 @@ Fayette,1,0
 Franklin,47,0
 Geauga,1,0
 Greene,2,0
-Hamilton,19,0
+Hamilton,21,0
 Highland,1,0
 Huron,2,0
 Knox,2,0
@@ -25,12 +25,12 @@ Lawrence,1,0
 Licking,4,0
 Logan,1,0
 Lorain,5,0
-Lucas,9,0
-Mahoning,26,0
+Lucas,11,0
+Mahoning,27,0
 Marion,1,0
 Medina,5,0
 Miami,4,0
-Montgomery,9,0
+Montgomery,11,0
 Muskingum,2,0
 Pickaway,1,0
 Portage,4,0
@@ -47,4 +47,4 @@ Warren,7,0
 Washington,1,0
 Wayne,1,0
 Wood,1,0
-Total,293,0
+Total,300,0
