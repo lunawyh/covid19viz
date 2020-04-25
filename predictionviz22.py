@@ -34,7 +34,7 @@ class predictionViz(object):
         print("welcome to predictionViz")
         self.state_name = n_state
         self.state_dir = './'+n_state.lower()+'/'
-
+        self.pl_timer = None
     ## parse from exel format to list 
     def parseDfData(self, df, fName=None):
         (n_rows, n_columns) = df.shape 
@@ -93,7 +93,10 @@ class predictionViz(object):
             l_data = self.parseDfData(df)
         else: return []
         return l_data
-    def predictByModelSir(self, save_file=None):
+    def close_event(self):
+        self.pl_timer.stop()
+        plt.close() #timer calls this function after 3 seconds and closes the window 
+    def predictByModelSir(self, save_file=None, timeout=0):
         print('predictByModelSir...')
         day_mmdd = []
         lst_data_overall = []
@@ -107,13 +110,14 @@ class predictionViz(object):
             else: return False
             for a_day in l_data_day:
                 #print(a_day)
-                if 'Total' in str(a_day[0]):
+                if 'Total' in str(a_day[0]) or '56' in str(a_day[0]):
                     lst_data_overall = a_day[11:]
-                    #for a_number in a_day[0:]:
+                    print(' Total is read', a_day[0])
                     #    lst_data_overall.append(int(a_number))
-                if 'County Name' in str(a_day[0]):
+                if 'County Name' in str(a_day[0]) or 'Cases' in str(a_day[0]):
                     for a_date in a_day[11:]:
                         day_mmdd.append(a_date.replace('Cases \n', ''))
+                    print(' Date is read', a_day[0])
                     #day_mmdd = a_day[0:]
             if( len(day_mmdd) < 1): return False
             dt_s = datetime.datetime.strptime('2020-'+day_mmdd[-1], '%Y-%m-%d')         
@@ -143,13 +147,15 @@ class predictionViz(object):
 
         # predict the future
         if(self.state_name in 'OH'): preDay = 19
-        elif(self.state_name in 'MI'): preDay = 0
+        elif(self.state_name in 'MI'): 
+            preDay = 23  # len(lst_data_daily) - 15
+            print('  preDay %d length %d'%( preDay, len(lst_data_daily) - preDay) )
         else: preDay = 0
         postDay = 0
         data = lst_data_daily[preDay:]  #[0:-1] postDay
         day_mmdd = day_mmdd[preDay:]    # postDay   
         #if(self.state_name in 'MI'): data[-2] = data[-1] * 1.15 # updated on 4/12/2020
-        #data.append( int(data[-1] * 0.9) )
+        if(len(data) < 2): return False
         days = np.arange(0.0, len(data), 1.0)
         popt, pcov = curve_fit(self.SIR, days, data)
         print(' contact parameter, recovery rate:', popt)
@@ -159,7 +165,10 @@ class predictionViz(object):
         fig = plt.figure(0)
         fig.set_figheight(10)
         fig.set_figwidth(20)
-        plt.scatter(days, data, label="Actual new cases per day", color='r')
+        if(timeout > 10):
+            self.pl_timer = fig.canvas.new_timer(interval = timeout) #creating a timer object and setting an interval of xxx milliseconds
+            self.pl_timer.add_callback(self.close_event)
+        plt.scatter(day_mmdd, data, label="Actual new cases per day", color='r')
 
         date_len = int(len(data)+30)
         day_future = np.arange(0, date_len, 1)
@@ -174,6 +183,8 @@ class predictionViz(object):
         plt.title("COVID-19 Prediction of daily new cases in " + self.state_name)
         plt.xticks(rotation=45)
         fig.tight_layout()      
+        if(timeout > 10):
+            self.pl_timer.start()
         plt.show()
         if(save_file is not None):
             fig.savefig(save_file)

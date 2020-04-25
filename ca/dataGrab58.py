@@ -12,6 +12,7 @@ from lxml import html
 import requests
 import urllib
 import re
+import ssl
 # ==============================================================================
 # -- imports -------------------------------------------------------------------
 # ==============================================================================
@@ -70,9 +71,12 @@ class dataGrab(object):
         for a_link in l_links:
                 f_name = link_dir+a_link[0]+'.html'
                 #print(a_link[1], f_name)
-                urllib.urlretrieve(a_link[1], f_name)
+                #gcontext = ssl._create_unverified_context()
+                urllib.urlretrieve(a_link[1], f_name)  #, context=gcontext)
         
         l_data_daily = []
+        total_daily = 0
+        total_death = 0
         l_data_daily.append(['County', 'Cases', 'Deaths', 'Date'])
         for a_link in l_links:
             if(a_link[0] in 'Alameda'):	
@@ -82,7 +86,7 @@ class dataGrab(object):
                 for a_case in l_cases:
                     if('Last updated by the City:' in a_case): 
                         a_case_l = a_case.split(':') 
-                        c_date = a_case_l[1]                    
+                        c_date = a_case_l[1].encode('ascii','ignore')
                 l_cases = tree.xpath('//p/text()')
                 for a_case in l_cases:
                     if('Positive Alameda County Cases:' in a_case): 
@@ -92,7 +96,10 @@ class dataGrab(object):
                         a_case_l = a_case.split(':') 
                         c_death = int( re.sub("[^0-9]", "", a_case_l[1]) )
                 l_data_daily.append([a_link[0], c_pos, c_death, c_date])
+                total_daily += c_pos
+                total_death += c_death
                 break
+        l_data_daily.append(['Total', total_daily, total_death, 'Today'])
         return(l_data_daily)  
 
 ## end of file
