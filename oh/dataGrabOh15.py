@@ -148,6 +148,8 @@ class dataGrabOh(object):
             if( src in dst): return True
             else: return False
         else:
+            if( 'Unknown' in src): return False
+            if( 'Unknown' in dst): return False
             dt_obj = datetime.datetime.strptime(src, '%m/%d/%Y')
             dt_src = int( dt_obj.strftime('%Y%m%d') )
             dt_obj = datetime.datetime.strptime(dst, '%m/%d/%Y')
@@ -159,6 +161,7 @@ class dataGrabOh(object):
         l_daily = []
         total_daily = 0
         total_death = 0
+        item_count_base = 6
         for a_item in l_data:
             if(a_item[3] in 'Total'): continue
             #
@@ -166,15 +169,15 @@ class dataGrabOh(object):
                 pass
             else:
                 continue
-            total_daily += int( a_item[5] )            
+            total_daily += int( a_item[item_count_base] )            
             bFound = False
             for a_daily in l_daily:
                 if(a_daily[0] in a_item[0]): 
                     bFound = True
-                    a_daily[1] += int(a_item[5])
+                    a_daily[1] += int(a_item[item_count_base])
             if(not bFound):
-                l_daily.append([a_item[0], int(a_item[5]), 0])
-                #print([a_item[0], int(a_item[5]), 0])
+                l_daily.append([a_item[0], int(a_item[item_count_base]), 0])
+                #print([a_item[0], int(a_item[item_count_base]), 0])
         #print(' --------', self.now_date)
         for a_item in l_data:
             if(str(a_item[4]) in 'Total'): continue
@@ -185,12 +188,12 @@ class dataGrabOh(object):
                 for a_daily in l_daily:                    
                     if(a_daily[0] in a_item[0]): 
                         bFound = True
-                        a_daily[2] += int(a_item[6])
+                        a_daily[2] += int(a_item[item_count_base+1])
                 if(not bFound):
-                    l_daily.append([a_item[0], 0, int(a_item[6]) ])
-                    #print([a_item[0], 0, int(a_item[6]) ])
+                    l_daily.append([a_item[0], 0, int(a_item[item_count_base+1]) ])
+                    #print([a_item[0], 0, int(a_item[item_count_base+1]) ])
 
-                total_death += int( a_item[6] )            
+                total_death += int( a_item[item_count_base+1] )            
 
         l_daily = sorted(l_daily, key=lambda k: k[0], reverse=False)
         l_daily.append(['Total', total_daily, total_death])
