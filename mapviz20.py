@@ -50,6 +50,7 @@ class mapViz(object):
         self.state_name = n_state
         self.state_dir = './'+n_state.lower()+'/'
         self.l_state_config = l_config
+        self.pl_timer = None
     ## parse from exel format to list 
     def parseDfData(self, df, fName=None):
         (n_rows, n_columns) = df.shape 
@@ -198,8 +199,11 @@ class mapViz(object):
                     continue
                 patches.append( Polygon(np.array(shape), True) )
                 ax.add_collection(PatchCollection(patches, facecolor=facecolor2, edgecolor=edgecolor, linewidths=1))
+    def close_event(self):
+        self.pl_timer.stop()
+        plt.close() #timer calls this function after 3 seconds and closes the window 
     ## GMAPS
-    def showCountyInMap(self, l_cases_today, l_type=2, l_last=[], save_file=None, date=''):
+    def showCountyInMap(self, l_cases_today, l_type=2, l_last=[], save_file=None, date='', timeout=0):
         print('showCountyInMap...')
         # 10. read name of counties
         coord_f = self.state_dir + 'state_county_coord.csv'
@@ -217,6 +221,9 @@ class mapViz(object):
         fig.set_figheight(11)
         fig.set_figwidth(11)
         ax = fig.add_subplot(111)
+        if(timeout > 10):
+            self.pl_timer = fig.canvas.new_timer(interval = timeout) #creating a timer object and setting an interval of xxx milliseconds
+            self.pl_timer.add_callback(self.close_event)
         # 30. create base map
         landColor, coastColor, oceanColor, popColor, countyColor = '#eedd99','#93ccfa','w','#ffee99','#ff0000'
         lat_1, lon_1, s_1 = self.getCountyCenterSize(self.state_name)
@@ -281,6 +288,8 @@ class mapViz(object):
         ax.axis('off')  # get rid of the ticks and ticklabels
         # 60. show all
         fig.tight_layout()      
+        if(timeout > 10):
+            self.pl_timer.start()
         plt.show()
         if(save_file is not None):
             fig.savefig(save_file)
