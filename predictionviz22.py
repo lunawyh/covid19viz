@@ -34,7 +34,7 @@ class predictionViz(object):
         print("welcome to predictionViz")
         self.state_name = n_state
         self.state_dir = './'+n_state.lower()+'/'
-
+        self.pl_timer = None
     ## parse from exel format to list 
     def parseDfData(self, df, fName=None):
         (n_rows, n_columns) = df.shape 
@@ -93,7 +93,10 @@ class predictionViz(object):
             l_data = self.parseDfData(df)
         else: return []
         return l_data
-    def predictByModelSir(self, save_file=None):
+    def close_event(self):
+        self.pl_timer.stop()
+        plt.close() #timer calls this function after 3 seconds and closes the window 
+    def predictByModelSir(self, save_file=None, timeout=0):
         print('predictByModelSir...')
         day_mmdd = []
         lst_data_overall = []
@@ -162,6 +165,9 @@ class predictionViz(object):
         fig = plt.figure(0)
         fig.set_figheight(10)
         fig.set_figwidth(20)
+        if(timeout > 10):
+            self.pl_timer = fig.canvas.new_timer(interval = timeout) #creating a timer object and setting an interval of xxx milliseconds
+            self.pl_timer.add_callback(self.close_event)
         plt.scatter(day_mmdd, data, label="Actual new cases per day", color='r')
 
         date_len = int(len(data)+30)
@@ -177,6 +183,8 @@ class predictionViz(object):
         plt.title("COVID-19 Prediction of daily new cases in " + self.state_name)
         plt.xticks(rotation=45)
         fig.tight_layout()      
+        if(timeout > 10):
+            self.pl_timer.start()
         plt.show()
         if(save_file is not None):
             fig.savefig(save_file)

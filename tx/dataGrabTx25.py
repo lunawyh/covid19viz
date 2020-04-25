@@ -16,6 +16,7 @@ import pandas as pd
 import csv
 import urllib
 import ssl
+import datetime 
 # ==============================================================================
 # -- codes -------------------------------------------------------------------
 # ==============================================================================
@@ -46,7 +47,7 @@ class dataGrabTx(object):
     def parseDfData(self, df, fName=None):
         (n_rows, n_columns) = df.shape 
         # check shape
-        #print('parseDfData', df.title)
+        #print('  parseDfData', df.columns[0])
         lst_data = []
         for ii in range(n_rows):
             a_case = []
@@ -61,6 +62,7 @@ class dataGrabTx(object):
         return lst_data
     ## open a xlsx 
     def open4Xlsx(self, xlsx_name):
+        s_date = ''
         if(isfile(xlsx_name) ):
             xl_file = pd.ExcelFile(xlsx_name)
             #print(xl_file.sheet_names)
@@ -72,12 +74,15 @@ class dataGrabTx(object):
                 if 'Case and Fatalities' in (sheet):  
                     nfx = sheet 
                     break
-            if nfx == '':return []
+            if nfx == '':return [], s_date
             df = xl_file.parse( nfx )
-
+            n_date = df.columns[0].find('as of')
+            if(n_date >= 0):
+                s_date = df.columns[0][n_date+6 : n_date+6+5].replace(' ', '')
+                #print(' s_date', s_date)
             l_data = self.parseDfData(df)
-        else: return []
-        return l_data
+        else: return [], s_date
+        return l_data, s_date
     ## save downloaded data to daily or overal data 
     def saveLatestDateTx(self, l_raw_data, name_file):
         l_overall = []
@@ -103,9 +108,15 @@ class dataGrabTx(object):
             urllib.urlretrieve(self.l_state_config[5][2], f_n_total, context=gcontext)
             urllib.urlretrieve(self.l_state_config[5][1], f_name, context=gcontext)
             # step B: parse and open
-            lst_raw_data = self.open4Xlsx(f_name)
+            lst_raw_data, s_date = self.open4Xlsx(f_name)
+            if(s_date == ''): return []
+            else:
+                    dt_obj = datetime.datetime.strptime(s_date+'/2020', '%m/%d/%Y')
+                    name_file = dt_obj.strftime('%Y%m%d')
+                    now_date = dt_obj.strftime('%m/%d/%Y')
+
             # step C: convert to standard file and save
             lst_data = self.saveLatestDateTx(lst_raw_data, name_file)
-            return(lst_data)  
+            return(lst_data, name_file, now_date)  
 
 ## end of file

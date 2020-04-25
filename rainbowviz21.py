@@ -31,7 +31,7 @@ class rainbowViz(object):
         print("welcome to rainbowViz")
         self.state_name = n_state
         self.state_dir = './'+n_state.lower()+'/'
-
+        self.pl_timer = None
     ## parse from exel format to list 
     def parseDfData(self, df, fName=None):
         (n_rows, n_columns) = df.shape 
@@ -62,13 +62,19 @@ class rainbowViz(object):
         for a_county in lst_counties:
             if(c_name in a_county[3]): return True
         return False
+    def close_event(self):
+        self.pl_timer.stop()
+        plt.close() #timer calls this function after 3 seconds and closes the window 
     #
-    def infoShowRainbow(self, type_data, lst_data, save_file=None, date=''):
+    def infoShowRainbow(self, type_data, lst_data, save_file=None, date='', timeout=0):
         print('infoShowRainbow...', type_data)
         fig=plt.figure()
         ax=fig.add_subplot(111)
         fig.set_figheight(10)
         fig.set_figwidth(10)
+        if(timeout > 10):
+            self.pl_timer = fig.canvas.new_timer(interval = timeout) #creating a timer object and setting an interval of xxx milliseconds
+            self.pl_timer.add_callback(self.close_event)
 
         # select colum
         if (type_data==3):col=2
@@ -136,6 +142,8 @@ class rainbowViz(object):
         plt.axis([-l_max_v, l_max_v, -l_max_v, l_max_v])
         fig.tight_layout()      
         ax.axis('off')  # get rid of the ticks and ticklabels
+        if(timeout > 10):
+            self.pl_timer.start()
         plt.show()
         if(save_file is not None):
             fig.savefig(save_file)

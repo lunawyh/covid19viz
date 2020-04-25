@@ -134,7 +134,7 @@ class runVirusViz(object):
                     save_file = self.state_dir + 'results/mi_county20200000.png'
             map_viz.showCountyInMap(self.l_mi_cases, 
                 l_type=type_data, l_last = self.l_cases_yest, 
-                save_file=save_file, date=self.now_date)
+                save_file=save_file, date=self.now_date, timeout=t0)
             pass  
         elif(key == 65474 or key == 1114050 or key == 7602176):   # F5 key refresh newest from website
             self.data_daily = False
@@ -161,7 +161,7 @@ class runVirusViz(object):
                 save_file = self.state_dir + 'results/mi_county20200000_predict.png'
             prediction_viz = predictionViz(self.state_name)	
 
-            if( prediction_viz.predictByModelSir(save_file) ):
+            if( prediction_viz.predictByModelSir(save_file, timeout=t0) ):
                 l_img = cv2.imread(self.state_dir + 'results/mi_county20200000_predict.png')
                 s_img = cv2.imread('./doc/app_qrcode_logo.jpg')
                 x_offset, y_offset=80, 45
@@ -176,7 +176,7 @@ class runVirusViz(object):
                     save_file = self.state_dir + 'results/mi_county20200000_daily.png'
             rainbow_viz = rainbowViz(self.state_name)	
             rainbow_viz.infoShowRainbow(type_data, self.l_mi_cases,
-                save_file=save_file, date=self.now_date)
+                save_file=save_file, date=self.now_date, timeout=t0)
         elif(key == 100 or key == 1048676):  # d key
             if(self.data_daily): return
             list_death= self.getDataListDeath(self.l_mi_cases)
@@ -185,7 +185,7 @@ class runVirusViz(object):
                 save_file = self.state_dir + 'results/mi_county20200000_death.png'
             rainbow_viz = rainbowViz(self.state_name)	
             rainbow_viz.infoShowRainbow(3, list_death,
-                save_file=save_file, date=self.now_date)
+                save_file=save_file, date=self.now_date, timeout=t0)
         elif(key == 115 or key == 1048691):  # s key
             #cv2.imwrite(self.state_dir + 'results/mi_county'+self.name_file+'.png', self.img_overlay)
             pass
@@ -209,15 +209,15 @@ class runVirusViz(object):
                 self.stateMachine += 50
         elif(self.stateMachine == 200):
                 self.stateMachine += 50
-                self.cmdProcess(100, 0)  # press d show rainbow of death
+                self.cmdProcess(100, 5000)  # press d show rainbow of death
                 self.stateMachine += 50
         elif(self.stateMachine == 300):
                 self.stateMachine += 50
-                self.cmdProcess(65472, 0)  # press F3 show base map
+                self.cmdProcess(65472, 5000)  # press F3 show base map
                 self.stateMachine += 50
         elif(self.stateMachine == 400):
                 self.stateMachine += 50
-                self.cmdProcess(65481, 0)  # press F12 show prediction
+                self.cmdProcess(65481, 5000)  # press F12 show prediction
                 self.stateMachine += 50
         elif(self.stateMachine == 500):
                 self.stateMachine += 50
@@ -225,7 +225,7 @@ class runVirusViz(object):
                 self.stateMachine += 50
         elif(self.stateMachine == 600):
                 self.stateMachine += 50
-                self.cmdProcess(114, 0)  # press r show rainbow of daily
+                self.cmdProcess(114, 5000)  # press r show rainbow of daily
                 self.stateMachine += 50
         elif(self.stateMachine == 700):
                 self.stateMachine += 50
@@ -380,7 +380,9 @@ class runVirusViz(object):
             # step A: downlowd and save
             data_grab = dataGrabTx(self.l_state_config, self.state_name)	
             # step B: parse to standard file
-            lst_data = data_grab.parseData(self.name_file)		
+            lst_data, name_file, now_date = data_grab.parseData(self.name_file)		
+            if(len(lst_data) > 0): 
+                self.name_file, self.now_date = name_file, now_date
         elif( type_download == 35):   # download only
             sys.path.insert(0, "./fl")
             from dataGrabFl35 import *
