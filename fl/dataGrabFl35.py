@@ -80,7 +80,7 @@ class dataGrabFl(object):
     ## paser data CA
     def parseData(self, name_target, type_download):
             self.name_file = name_target
-            f_name = self.state_dir + 'data_raw/'+self.state_name.lower()+'_covid19_'+self.name_file+'.pdf'
+            f_name = self.state_dir + 'data_raw/'+self.state_name.lower()+'_covid19_'+name_target+'.pdf'
             if(not os.path.isdir(self.state_dir + 'data_raw/') ): os.mkdir(self.state_dir + 'data_raw/')
             # step A: downlowd and save
             if(not isfile(f_name) ): result = self.download4Website(f_name)
@@ -137,65 +137,31 @@ class dataGrabFl(object):
             l_d_sort = sorted(l_overall, key=lambda k: k[0])
             if(case_total == case_total_rd): l_d_sort.append(['Total', case_total, 0])
             else: print('  Total is mismatched', case_total, case_total_rd)
-            return(l_d_sort, self.name_file, self.now_date)  
-
-
-    ## paser data CA
-    def parseDataDE(self, name_target, type_download):
-            self.name_file = name_target
-            f_name = self.state_dir + 'data_raw/'+self.state_name.lower()+'_covid19_'+self.name_file+'.pdf'
-            if(not os.path.isdir(self.state_dir + 'data_raw/') ): os.mkdir(self.state_dir + 'data_raw/')
-            # step A: downlowd and save
-            if(not isfile(f_name) ): result = self.download4Website(f_name)
-
-            # step B: parse and open
-            pdfFileObj = open(f_name, 'rb')
-            pdfReader = PyPDF2.PdfFileReader(pdfFileObj)
+            # read death in county
             case_total = 0
-            case_total_rd = 0
-            l_overall = [] 
-            l_overall.append(['County', 'Cases', 'Deaths'])
-            page = range(30:43)
-            pageObj = pdfReader.getPage(page)
-            pageTxt = pageObj.extractText()
-            l_pageTxt = pageTxt.split('\n')
-            state_machine = 1
-            a_name = ''
-            a_digital = 0
-            for a_row in l_pageTxt:
-		        print(a_row)
+            for page in range(30,44):
+		    pageObj = pdfReader.getPage(page)
+		    pageTxt = pageObj.extractText()
+		    l_pageTxt = pageTxt.split('\n')
+		    state_machine = 1
+		    for a_row in l_pageTxt:
+		        #print(a_row)    
 		        if(state_machine == 1):
-		            if('County' in a_row):
+		            if('today' in a_row):
 		                state_machine = 2
-		        elif(state_machine == 2):
-		            if('Death' in a_row):
-		                state_machine = 3
-		        elif(state_machine == 3):
-		            if('County' in a_row):
-		                state_machine = 4
-		        elif(state_machine == 4):
-		            if('Death' in a_row):
-		                state_machine = 5
-		        elif(state_machine == 5):
-		            if('Death' in a_row):
-		                state_machine = 16
-		            else:
-		                a_name = a_row
-		                state_machine = 6
-		        elif(state_machine == 6):
-		            if( a_row == '' ):
-		                pass
-		            elif( a_row.lower().islower() ):
-		                if('Death' in a_name): case_total_rd = a_digital
-		                else: 
-		                    case_total += a_digital
-		                    if(a_name in 'Dade'): a_name = 'Miami-Dade'
-		                    l_overall.append([a_name, a_digital, 0])
-		                a_name = a_row
-		            else:
-		                a_digital = int( re.sub("[^0-9]", "", a_row) )
-            l_overall.append([a_name, a_digital, 0])
-            case_total += a_digital
+		        elif(state_machine == 2 ):
+		            if( a_row.lower().islower() ): pass
+ 		            else: continue
+		            if( 'Unknown' in a_row ): continue
+ 		            if(a_row in 'Dade'): a_row = 'Miami-Dade'
+		            for a_d_row in l_d_sort:
+				if a_d_row[0] in a_row:
+				    a_d_row[2] += 1
+				    case_total += 1
+				    break
+		    print(' page on', page, case_total)
+            l_d_sort[-1][2] = case_total
+            return(l_d_sort, self.name_file, self.now_date)  
     ## paser data CA
     def parseData2(self, name_target, type_download):
             self.name_file = name_target
