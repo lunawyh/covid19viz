@@ -234,8 +234,11 @@ class runVirusViz(object):
         elif(self.stateMachine == 800):
                 self.stateMachine += 50
                 if( self.states_pos < len(self.states_valid)-1 ):
-                    cv2.destroyAllWindows()
                     self.states_pos += 1
+                    if( self.states_valid[self.states_pos][0] == '#' ): 
+                        self.stateMachine = 0
+                        return 1000
+                    cv2.destroyAllWindows()
                     self.initState( self.states_valid[self.states_pos][0:2] ) 
                     self.stateMachine += 50
                     return 10
@@ -386,8 +389,10 @@ class runVirusViz(object):
             # step B: parse to standard file
             lst_data, name_file, now_date = data_grab.parseData(self.name_file, type_download)		
             # step C: save
-            f_name = self.state_dir + 'data/'+self.state_name.lower()+'_covid19_'+self.name_file+'.csv'
-            if(len(lst_data) > 0): self.save2File( lst_data, f_name )
+            if(len(lst_data) > 0): 
+                self.name_file, self.now_date = name_file, now_date
+                f_name = self.state_dir + 'data/'+self.state_name.lower()+'_covid19_'+self.name_file+'.csv'
+                self.save2File( lst_data, f_name )
         elif( type_download == 101 ):   # download counties in the list
             sys.path.insert(0, "./ca")
             from dataGrab58 import *

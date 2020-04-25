@@ -96,8 +96,8 @@ class dataGrabFl(object):
                 print('  download report at', l_date.get('href'))
                 break
         return a_address
-    ## paser data CA
-    def parseData(self, name_target, type_download):
+    ## paser data FL
+    def dataDownload(self, name_target):
             self.name_file = name_target
             f_name = self.state_dir + 'data_raw/'+self.state_name.lower()+'_covid19_'+name_target+'.pdf'
             if(not os.path.isdir(self.state_dir + 'data_raw/') ): os.mkdir(self.state_dir + 'data_raw/')
@@ -105,8 +105,20 @@ class dataGrabFl(object):
             if(not isfile(f_name) ): 
                 a_address = self.open4Website(None)
                 if(a_address == ''): return ([], None, None)
-                result = self.download4Website(a_address, f_name)
-
+                n_start = a_address.find('report')
+                if(n_start >= 0): 
+                    s_date = a_address[n_start + 7: n_start + 7 + 10]
+                    #print('  ', s_date)
+                    dt_obj = datetime.datetime.strptime(s_date, '%Y-%m-%d')
+                    self.name_file = dt_obj.strftime('%Y%m%d')
+                    self.now_date = dt_obj.strftime('%m/%d/%Y')
+                    f_name = self.state_dir + 'data_raw/'+self.state_name.lower()+'_covid19_'+self.name_file+'.pdf'
+                    if(not isfile(f_name) ):
+                        result = self.download4Website(a_address, f_name)
+                else: f_name = ''
+            return f_name
+    ## paser data FL
+    def dataReadConfirmed(self, f_name):
             # step B: parse and open
             pdfFileObj = open(f_name, 'rb')
             pdfReader = PyPDF2.PdfFileReader(pdfFileObj)
@@ -159,6 +171,9 @@ class dataGrabFl(object):
             l_d_sort = sorted(l_overall, key=lambda k: k[0])
             if(case_total == case_total_rd): l_d_sort.append(['Total', case_total, 0])
             else: print('  Total is mismatched', case_total, case_total_rd)
+            return (l_d_sort, pdfReader)
+    ## paser data FL
+    def dataReadDeath(self, l_d_sort, pdfReader):
             # read death in county
             p_s, p_e = 20, 58
             #p_s, p_e = 31, 43 # page number in PDF for 4/19/2020
@@ -188,8 +203,15 @@ class dataGrabFl(object):
 				    break
 		    print(' PDF page on', page+1, case_total)
             l_d_sort[-1][2] = case_total
-            return(l_d_sort, self.name_file, self.now_date)  
-    ## paser data CA
+            return l_d_sort 
+    ## paser data FL
+    def parseData(self, name_target, type_download):
+            f_target = self.dataDownload(name_target)
+            if(f_target == ''): return ([], name_target, '')
+            l_d_sort, pdfReader = self.dataReadConfirmed(f_target)
+            l_d_all = self.dataReadDeath(l_d_sort, pdfReader)
+            return(l_d_all, self.name_file, self.now_date)  
+    ## paser data FL
     def parseData2(self, name_target, type_download):
             self.name_file = name_target
             f_name = self.state_dir + 'data_raw/'+self.state_name.lower()+'_covid19_'+self.name_file+'.pdf'
