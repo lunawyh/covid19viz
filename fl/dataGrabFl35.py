@@ -91,7 +91,7 @@ class dataGrabFl(object):
         a_address = ''
         for l_date in l_dates:
             #print(l_date.text_content())
-            if('See the report' in l_date.text_content()):
+            if('See state report' in l_date.text_content()):
                 a_address = l_date.get('href')
                 print('  download report at', l_date.get('href'))
                 break
@@ -175,7 +175,7 @@ class dataGrabFl(object):
     ## paser data FL
     def dataReadDeath(self, l_d_sort, pdfReader):
             # read death in county
-            p_s, p_e = 20, 58
+            p_s, p_e = 32, 50
             #p_s, p_e = 31, 43 # page number in PDF for 4/19/2020
             #p_s, p_e = 30, 48 # page number in PDF for 4/24/2020
             case_total = 0
