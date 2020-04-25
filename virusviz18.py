@@ -229,6 +229,7 @@ class runVirusViz(object):
                 self.stateMachine += 50
         elif(self.stateMachine == 700):
                 self.stateMachine += 50
+                self.csv_pos_now = 999999
                 self.cmdProcess(65479, 0)  # press F10 show overall
                 self.stateMachine += 50
         elif(self.stateMachine == 800):
@@ -389,7 +390,7 @@ class runVirusViz(object):
             # step A: downlowd and save
             data_grab = dataGrabFl(self.l_state_config, self.state_name)	
             # step B: parse to standard file
-            lst_data, name_file, now_date = data_grab.parseData(self.name_file, type_download)		
+            lst_data, name_file, now_date = data_grab.parseData(self.name_file, self.now_date, type_download)		
             # step C: save
             if(len(lst_data) > 0): 
                 self.name_file, self.now_date = name_file, now_date
