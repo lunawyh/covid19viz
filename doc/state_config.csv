@@ -2,7 +2,7 @@ name,value,lon,quantity,offset
 VIZ_W,880,,,0
 VIZ_H,1000,,,1
 state_map,Must input,,,2
-cordinate,,,,3
+cordinate,None,,,3
 weblink_num,1,,,4
 weblink_state,Must input,,,5
 state_name,Must input,,,6

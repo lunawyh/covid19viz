@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 County,Cases,Deaths
 Butler,1,0
 Carroll,1,0
@@ -13,3 +14,19 @@ Stark,2,0
 Summit,1,0
 Tuscarawas,1,0
 Total,23,0
+=======
+County,Cases,Deaths
+Carroll,1,0
+Cuyahoga,7,0
+Franklin,2,0
+Hamilton,4,0
+Huron,1,0
+Lorain,1,0
+Medina,2,0
+Montgomery,2,0
+Scioto,1,0
+Stark,2,0
+Summit,1,0
+Tuscarawas,1,0
+Total,25,0
+>>>>>>> 88a4f84d4330b310c34d4d52f89159af74a2fe80

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 County,Cases,Deaths
 Allen,1,0
 Butler,5,0
@@ -21,3 +22,28 @@ Summit,2,0
 Tuscarawas,1,0
 Union,1,0
 Total,55,0
+=======
+County,Cases,Deaths
+Allen,1,0
+Butler,4,0
+Carroll,1,0
+Cuyahoga,14,0
+Franklin,7,0
+Greene,1,0
+Hamilton,6,0
+Highland,1,0
+Huron,1,0
+Licking,1,0
+Lorain,1,0
+Mahoning,5,0
+Medina,2,0
+Miami,1,0
+Montgomery,3,0
+Scioto,1,0
+Seneca,1,0
+Stark,2,0
+Summit,2,0
+Tuscarawas,1,0
+Union,1,0
+Total,57,0
+>>>>>>> 88a4f84d4330b310c34d4d52f89159af74a2fe80

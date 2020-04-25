@@ -2,6 +2,8 @@
 .*
 ./mi/daily/
 ./oh/daily/
+./oh/data/
 ./tx/daily/
-./ca/daily/
+./ca/
 ./ny/daily/
+./ny/data/
