@@ -229,6 +229,7 @@ class runVirusViz(object):
                 self.stateMachine += 50
         elif(self.stateMachine == 700):
                 self.stateMachine += 50
+                self.csv_pos_now = 999999
                 self.cmdProcess(65479, 0)  # press F10 show overall
                 self.stateMachine += 50
         elif(self.stateMachine == 800):
