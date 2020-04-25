@@ -2,7 +2,7 @@ County,Cases,Deaths
 Allen,1,0
 Auglaize,1,0
 Belmont,2,0
-Butler,17,0
+Butler,18,0
 Carroll,1,0
 Champaign,1,0
 Clark,1,0
@@ -10,7 +10,7 @@ Clermont,1,0
 Columbiana,2,0
 Coshocton,2,0
 Crawford,2,0
-Cuyahoga,72,0
+Cuyahoga,74,0
 Defiance,2,0
 Delaware,7,0
 Fairfield,1,0
@@ -27,10 +27,11 @@ Lawrence,1,0
 Licking,4,0
 Logan,1,0
 Lorain,11,0
-Lucas,9,0
+Lucas,10,0
 Mahoning,27,0
 Marion,1,0
 Medina,5,0
+Meigs,1,0
 Miami,5,0
 Montgomery,10,0
 Muskingum,2,0
@@ -43,7 +44,7 @@ Scioto,1,0
 Seneca,1,0
 Shelby,1,0
 Stark,11,0
-Summit,21,0
+Summit,22,0
 Trumbull,7,0
 Tuscarawas,3,0
 Union,3,0
@@ -51,4 +52,4 @@ Warren,8,0
 Washington,1,0
 Wayne,1,0
 Wood,2,0
-Total,352,0
+Total,358,0

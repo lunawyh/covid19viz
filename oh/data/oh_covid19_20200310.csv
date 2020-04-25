@@ -1,14 +1,14 @@
 County,Cases,Deaths
 Allen,1,0
 Belmont,2,0
-Butler,15,0
+Butler,16,0
 Carroll,1,0
 Clark,1,0
 Clermont,1,0
 Columbiana,1,0
 Coshocton,1,0
 Crawford,2,0
-Cuyahoga,58,0
+Cuyahoga,59,0
 Defiance,1,0
 Delaware,6,0
 Fairfield,1,0
@@ -39,7 +39,7 @@ Sandusky,2,0
 Scioto,1,0
 Seneca,1,0
 Stark,8,0
-Summit,17,0
+Summit,18,0
 Trumbull,5,0
 Tuscarawas,2,0
 Union,2,0
@@ -47,4 +47,4 @@ Warren,7,0
 Washington,1,0
 Wayne,1,0
 Wood,1,0
-Total,290,0
+Total,293,0
