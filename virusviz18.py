@@ -147,7 +147,7 @@ class runVirusViz(object):
                 #if(self.isNameOnToday(self.name_file)):
                 #    cv2.imwrite(self.state_dir + 'results/mi_county20200000.png', self.img_overlay)
             pass  
-        elif(key == 65476 or key == 1114052 or key == 7733248):   # F7 key run all commands
+        elif(key == 65476 or key == 1114052 or key == 7798783 or key == 7733248):   # F7 key run all commands
             self.stateMachine = 100 
         elif(key == 65478 or key == 1114054 or key == 7864320):   # F9 key previous day
             self.data_daily = False
