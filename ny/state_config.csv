@@ -1,6 +1,6 @@
 name,value,lon,quatity,offset
-VIZ_W,1280,,,0
-VIZ_H,960,,,1
+VIZ_W,880,,,0
+VIZ_H,660,,,1
 state_map,ny_county2020.png,,,2
 cordinate,None,,,3
 weblink_num,5,,,4
