@@ -91,7 +91,7 @@ class dataGrabFl(object):
         a_address = ''
         for l_date in l_dates:
             #print(l_date.text_content())
-            if('See the report' in l_date.text_content()):
+            if('See state report' in l_date.text_content()):
                 a_address = l_date.get('href')
                 print('  download report at', l_date.get('href'))
                 break
@@ -205,8 +205,9 @@ class dataGrabFl(object):
             l_d_sort[-1][2] = case_total
             return l_d_sort 
     ## paser data FL
-    def parseData(self, name_target, type_download):
+    def parseData(self, name_target, date_target, type_download):
             f_target = self.dataDownload(name_target)
+            self.now_date = date_target
             if(f_target == ''): return ([], name_target, '')
             l_d_sort, pdfReader = self.dataReadConfirmed(f_target)
             l_d_all = self.dataReadDeath(l_d_sort, pdfReader)
