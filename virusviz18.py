@@ -576,7 +576,7 @@ class runVirusViz(object):
                 info_cases = '%d Overall Confirmed'%(n_total)
                 info_date = 'COVID-19 until ' + self.now_date + ' in '+self.state_name
             cv2.putText(img,info_cases, 
-		    (300,30), 
+		    (300,30),
 		    cv2.FONT_HERSHEY_DUPLEX, 
 		    1,
 		    (255,64,0),

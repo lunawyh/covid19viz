@@ -280,7 +280,7 @@ class mapViz(object):
             plt.text(x, y, 'COVID-19 Until '+date + ' in '+self.state_name,fontsize=16, ha='left',va='center',color='g')
         # 59. draw logo 
         lat2, lon2 = lat_1+float(self.l_state_config[12][1]), lon_1+float(self.l_state_config[12][2])
-        x, y = m(lon2, lat2) 
+        x, y = m(lon2, lat2)
         arr_lena = mpimg.imread('./doc/app_qrcode_logo.png')
         imagebox = OffsetImage(arr_lena)  # , zoom=0.15)
         ab = AnnotationBbox(imagebox, (x, y))
