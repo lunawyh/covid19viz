@@ -350,6 +350,7 @@ class runVirusViz(object):
         return lst_data
     def isNameOnToday(self, f_name):
         if(self.state_name in 'NY'): return True
+        if(self.state_name in 'OH'): return True
         dt_now = datetime.datetime.now()
         dt_name_file = dt_now.strftime('%Y%m%d') 
         if f_name == dt_name_file:
