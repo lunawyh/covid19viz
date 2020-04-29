@@ -96,6 +96,18 @@ class predictionViz(object):
     def close_event(self):
         self.pl_timer.stop()
         plt.close() #timer calls this function after 3 seconds and closes the window 
+    def filterByDays(self, l_origin):
+        l_filter = []
+        f_days = 7
+        for ii in range(0, len(l_origin)):
+            if(ii < 7): 
+                l_filter.append(l_origin[ii])
+                continue
+            n_sum = 0
+            for jj in range(f_days):
+                n_sum += l_origin[ii - (f_days - 1) + jj]
+            l_filter.append(n_sum / f_days)
+        return l_filter
     def predictByModelSir(self, save_file=None, timeout=0):
         print('predictByModelSir...')
         day_mmdd = []
@@ -153,6 +165,8 @@ class predictionViz(object):
         else: preDay = 0
         postDay = 0
         data = lst_data_daily[preDay:]  #[0:-1] postDay
+        #if(self.state_name in 'MI'):
+        #    data = self.filterByDays(lst_data_daily[preDay:])
         day_mmdd = day_mmdd[preDay:]    # postDay   
         #if(self.state_name in 'MI'): data[-2] = data[-1] * 1.15 # updated on 4/12/2020
         if(len(data) < 2): return False
@@ -180,7 +194,7 @@ class predictionViz(object):
         plt.legend()
         plt.xlabel('Date in 2020')
         plt.ylabel('Confirmed Daily New Cases')
-        plt.title("COVID-19 Prediction of daily new cases in " + self.state_name)
+        plt.title("COVID-19 Prediction of daily new cases in " + self.state_name) # + ' filtered by 7 days')
         plt.xticks(rotation=45)
         fig.tight_layout()      
         if(timeout > 10):
