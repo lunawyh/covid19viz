@@ -38,7 +38,7 @@ class dataGrabLa(object):
         # create the csv writer 
         csvwriter = csv.writer(csv_data_f)
         # make sure the 1st row is colum names
-        if('County' in str(l_data[0][0])): pass
+        if('Parish' in str(l_data[0][0])): pass
         else: csvwriter.writerow(['County', 'Cases', 'Deaths'])
         for a_row in l_data:
             csvwriter.writerow(a_row)
@@ -86,7 +86,7 @@ class dataGrabLa(object):
         
         l_overall.append(['County', 'Cases', 'Deaths'])
         for a_item in l_raw_data:
-            if 'County' in str(a_item[1]):continue
+            if 'Parish' in str(a_item[1]):continue
             if str(a_item [1]) in '0':
                 a_item[1]='Total'
                 

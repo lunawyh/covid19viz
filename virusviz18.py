@@ -416,6 +416,15 @@ class runVirusViz(object):
             lst_raw_data = self.parseDfData(df_a)
             # step C: convert to standard file and save
             lst_data = self.saveLatestDateMi(lst_raw_data)
+        elif( type_download == 10):   # download only
+            sys.path.insert(0, "./la")
+            from dataGrabLA10 import *
+            # step A: downlowd and save
+            data_grab = dataGrabLa(self.l_state_config, self.state_name)	
+            # step B: parse to standard file
+            lst_data, name_file, now_date = data_grab.parseData(self.name_file)		
+            if(len(lst_data) > 0): 
+                self.name_file, self.now_date = name_file, now_date
         #read data on yesterday 
         name_last = self.getOverallYesterday(self.name_file)
         if(name_last is not None):
