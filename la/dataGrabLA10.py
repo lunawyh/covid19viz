@@ -11,12 +11,13 @@
 # ==============================================================================
 from __future__ import print_function
 import os
+import shutil
 from os.path import isfile, join
 import pandas as pd
 import csv
-import urllib
-import ssl
-import datetime 
+
+import webbrowser
+
 # ==============================================================================
 # -- codes -------------------------------------------------------------------
 # ==============================================================================
@@ -60,60 +61,54 @@ class dataGrabLa(object):
         # save to a database file
         if(fName is not None): self.save2File( lst_data, fName )
         return lst_data
-    ## open a xlsx 
-    def open4Xlsx(self, xlsx_name):
-        s_date = ''
-        if(isfile(xlsx_name) ):
-            xl_file = pd.ExcelFile(xlsx_name)
-            #print(xl_file.sheet_names)
-            nfx = ''
-            for sheet in xl_file.sheet_names:
-                if 'Cumulative Data by Parish' in (sheet):
-                    nfx = sheet
-                    break
-            if nfx == '':return [], s_date
-            df = xl_file.parse( nfx )
-            n_date = df.columns[1].find('as of')
-            if(n_date >= 0):
-                s_date = df.columns[1][n_date+6 : n_date+6+5].replace(' ', '')
-                #print(' s_date', s_date)
+    ## open a csv 
+    def open4File(self, csv_name):
+        if(isfile(csv_name) ):
+            df = pd.read_csv(csv_name)
             l_data = self.parseDfData(df)
-        else: return [], s_date
-        return l_data, s_date
+        else: return []
+        return l_data
     ## save downloaded data to daily or overal data 
-    def saveLatestDateTx(self, l_raw_data, name_file):
+    def saveLatestDateLa(self, l_raw_data, name_file):
         l_overall = []
-        
-        l_overall.append(['County', 'Cases', 'Deaths'])
+        n_total = [0, 0]
         for a_item in l_raw_data:
-            if 'Parish' in str(a_item[1]):continue
-            if str(a_item [1]) in '0':
-                a_item[1]='Total'
-                
-            l_overall.append(a_item[1:])
-        #for a_item in l_overall:
-        #    print (a_item)
+            n_total[0] += a_item[2]                
+            n_total[1] += a_item[3]                
+            l_overall.append(a_item[1:4])
+
+        l_overall.append(['Total', n_total[0], n_total[1]])
         self.save2File(l_overall, self.state_dir + 'data/'+self.state_name.lower()+'_covid19_'+name_file+'.csv')
         return l_overall
+    def get_download_path(self):
+	    """Returns the default downloads path for linux or windows"""
+	    if os.name == 'nt':
+		import winreg
+		sub_key = r'SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders'
+		downloads_guid = '{374DE290-123F-4565-9164-39C4925E467B}'
+		with winreg.OpenKey(winreg.HKEY_CURRENT_USER, sub_key) as key:
+		    location = winreg.QueryValueEx(key, downloads_guid)[0]
+		return location
+	    else:
+		return os.path.join(os.path.expanduser('~'), 'Downloads')
     ## paser data CA
-    def parseData(self, name_file):
-            f_name = self.state_dir + 'data_raw/'+'Cumulative Data by Parish.csv'
-            f_n_total = self.state_dir + 'data_raw/'+'Cumulative Data by Parish.csv'
-            if(not os.path.isdir(self.state_dir + 'data_raw/') ): os.mkdir(self.state_dir + 'data_raw/')
+    def browseData(self, name_file):
+            self.name_file = name_file
             # step A: downlowd and save
-            gcontext = ssl._create_unverified_context()
-            urllib.urlretrieve(self.l_state_config[5][2], f_n_total, context=gcontext)
-            urllib.urlretrieve(self.l_state_config[5][1], f_name, context=gcontext)
-            # step B: parse and open
-            lst_raw_data, s_date = self.open4Xlsx(f_name)
-            if(s_date == ''): return []
-            else:
-                    dt_obj = datetime.datetime.strptime(s_date+'/2020', '%m/%d/%Y')
-                    name_file = dt_obj.strftime('%Y%m%d')
-                    now_date = dt_obj.strftime('%m/%d/%Y')
+            webbrowser.open(self.l_state_config[5][1], new=2)
+            self.f_download = self.get_download_path() + "/Cumulative Data by Parish.csv"
+            
+            return ([], name_file, '')
 
-            # step C: convert to standard file and save
-            lst_data = self.saveLatestDateTx(lst_raw_data, name_file)
-            return(lst_data, name_file, now_date)  
+    ## paser data CA
+    def parseData(self):
+            if(isfile(self.f_download) ):
+                f_name = self.state_dir + 'data_raw/'+self.state_name.lower()+'_covid19_'+self.name_file+'.csv'
+                if(not os.path.isdir(self.state_dir + 'data_raw/') ): os.mkdir(self.state_dir + 'data_raw/')
+                shutil.move(self.f_download, f_name)
+                l_data_raw = self.open4File(f_name)
+                l_overall = self.saveLatestDateLa(l_data_raw, self.name_file)
+                return True, l_overall
+            return False, []
 
 ## end of file

@@ -94,7 +94,7 @@ class runVirusViz(object):
         self.name_file = ''
         self.now_date = ''
         self.csv_pos_now, self.l_mi_cases, self.l_cases_yest = self.readDataByDay(999999)
-
+        self.data_grab = None
     ## run
     def run(self):
         # main loop for processing
@@ -132,6 +132,7 @@ class runVirusViz(object):
                 type_data =2
                 if(self.isNameOnToday(self.name_file)): 
                     save_file = self.state_dir + 'results/mi_county20200000.png'
+                    if(not os.path.isdir(self.state_dir + 'results/') ): os.mkdir(self.state_dir + 'results/')
             map_viz.showCountyInMap(self.l_mi_cases, 
                 l_type=type_data, l_last = self.l_cases_yest, 
                 save_file=save_file, date=self.now_date, timeout=t0)
@@ -247,6 +248,14 @@ class runVirusViz(object):
                     self.stateMachine = 0
         elif(self.stateMachine == 900):
                 self.stateMachine = 100
+        elif(self.stateMachine == 100010):
+            if(self.data_grab is not None):
+                ret, f_data = self.data_grab.parseData()
+                if(ret): 
+                    print(' Get new data in LA')
+                    self.stateMachine = 0
+                    self.csv_pos_now, self.l_mi_cases, self.l_cases_yest = self.readDataByDay(999999) 
+                    self.stateMachine = 0
         return 1000
     ## step 2
     ## read data file given day offset
@@ -420,11 +429,10 @@ class runVirusViz(object):
             sys.path.insert(0, "./la")
             from dataGrabLA10 import *
             # step A: downlowd and save
-            data_grab = dataGrabLa(self.l_state_config, self.state_name)	
+            self.data_grab = dataGrabLa(self.l_state_config, self.state_name)	
+            self.data_grab.browseData(self.name_file)		
             # step B: parse to standard file
-            lst_data, name_file, now_date = data_grab.parseData(self.name_file)		
-            if(len(lst_data) > 0): 
-                self.name_file, self.now_date = name_file, now_date
+            self.stateMachine = 100010
         #read data on yesterday 
         name_last = self.getOverallYesterday(self.name_file)
         if(name_last is not None):
