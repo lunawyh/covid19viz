@@ -30,7 +30,7 @@ New visualization and prediction of COVID-19 in USA, such as Michigan, CA, OH, N
      
      pip install scipy
 
-7. Run python virusviz18.py
+7. Run python coviz.py
 8. Optionally install base map
  
      download and install
@@ -52,7 +52,7 @@ New visualization and prediction of COVID-19 in USA, such as Michigan, CA, OH, N
      pip install --user git+https://github.com/matplotlib/basemap.git
 
 # How to run in Ubuntu
-1. Run python virusviz18.py
+1. Run python coviz.py
 
 # SIR model
 1. Predict with SIR model / SIRmodel, referring to Wuhan data
