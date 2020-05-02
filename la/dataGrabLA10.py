@@ -33,25 +33,6 @@ class dataGrabLa(object):
         self.state_dir = './'+n_state.lower()+'/'
         self.l_state_config = l_config
 
-
-###
-    ## save downloaded data to daily or overal data 
-    def saveLatestDateLa(self, l_raw_data):
-        l_overall = []
-        
-        l_overall.append(['County', 'Cases', 'Deaths'])
-        for a_item in l_raw_data:
-            
-            l_overall.append(a_item[2:])
-        #for a_item in l_overall:
-        #    print (a_item)
-        self.save2File(l_overall, self.state_dir + 'data/'+self.state_name.lower()+'_covid19_'+self.name_file+'.csv')
-        return l_overall
-
-
-
-######
-
     ## save to csv 
     def save2File(self, l_data, csv_name):
         csv_data_f = open(csv_name, 'w')

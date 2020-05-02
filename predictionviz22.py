@@ -160,13 +160,13 @@ class predictionViz(object):
         # predict the future
         if(self.state_name in 'OH'): preDay = 19
         elif(self.state_name in 'MI'): 
-            preDay = 23  # len(lst_data_daily) - 15
+            preDay = 0  # len(lst_data_daily) - 15
             print('  preDay %d length %d'%( preDay, len(lst_data_daily) - preDay) )
         else: preDay = 0
         postDay = 0
         data = lst_data_daily[preDay:]  #[0:-1] postDay
-        #if(self.state_name in 'MI'):
-        #    data = self.filterByDays(lst_data_daily[preDay:])
+        if(self.state_name in 'MI'):
+            data = self.filterByDays(lst_data_daily[preDay:])
         day_mmdd = day_mmdd[preDay:]    # postDay   
         #if(self.state_name in 'MI'): data[-2] = data[-1] * 1.15 # updated on 4/12/2020
         if(len(data) < 2): return False
@@ -194,7 +194,7 @@ class predictionViz(object):
         plt.legend()
         plt.xlabel('Date in 2020')
         plt.ylabel('Confirmed Daily New Cases')
-        plt.title("COVID-19 Prediction of daily new cases in " + self.state_name) # + ' filtered by 7 days')
+        plt.title("COVID-19 Prediction of daily new cases in " + self.state_name + ' filtered by 7 days')
         plt.xticks(rotation=45)
         fig.tight_layout()      
         if(timeout > 10):
