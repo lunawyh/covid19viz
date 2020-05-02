@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf8 -*-
-# 			virusviz.py
+# 			coviz.py
 #
-#	show data of COVID-19 in Michigan
+#	show data of COVID-19 in USA
 #
 ######     in GUI
 #             press key s to save
@@ -36,7 +36,7 @@ import sys
 # ==============================================================================
 
 # class for mapping
-class runVirusViz(object):
+class runCoViz(object):
     ## the start entry of this class
     def __init__(self):
 
@@ -58,6 +58,7 @@ class runVirusViz(object):
                 a_state = self.states_valid[0][0:2]
         print('  state', a_state)
         self.stateMachine = 0 
+        self.stateMaSub = 0 
         return a_state
     ## set variables
     def initState(self, a_state):
@@ -105,7 +106,7 @@ class runVirusViz(object):
                 if(len(self.l_mi_cases) > 0):
                     self.img_overlay = self.img_map.copy()
                     self.infoShowCases(self.img_overlay, self.l_mi_cases)
-                cv2.imshow("COVID-19 %.0f in "%2020+self.state_name, self.img_overlay)
+                cv2.imshow("COVIZ of COVID-19 in "+self.state_name, self.img_overlay)
                 self.map_data_updated = 0
             t_wait = self.stateManage(0)
         self.exit_hook()
@@ -115,7 +116,7 @@ class runVirusViz(object):
         if(key == -1):  
             pass
         else:  
-            self.map_data_updated = self.map_data_updated + 1
+            self.map_data_updated += 1
             pass
 
         if(key == -1):  
@@ -203,12 +204,22 @@ class runVirusViz(object):
             print (key)
     ## manage state machine
     def stateManage(self, state):
+        #print('stateMaSub...', state)
+        if(self.stateMaSub == 100010):
+            if(self.data_grab is not None):
+                ret, f_data = self.data_grab.parseData()
+                if(ret): 
+                    print(' Get new data in LA')                    
+                    self.csv_pos_now, self.l_mi_cases, self.l_cases_yest = self.readDataByDay(999999) 
+                    self.stateMaSub = 0
+                    self.map_data_updated += 1
         #print('stateManage...', state)
         if(self.stateMachine == 100):
                 self.stateMachine += 50
                 self.cmdProcess(65474, 0)  # press F5 grab data
                 self.stateMachine += 50
         elif(self.stateMachine == 200):
+                if(self.stateMaSub > 0): return 1000
                 self.stateMachine += 50
                 self.cmdProcess(100, 5000)  # press d show rainbow of death
                 self.stateMachine += 50
@@ -248,14 +259,6 @@ class runVirusViz(object):
                     self.stateMachine = 0
         elif(self.stateMachine == 900):
                 self.stateMachine = 100
-        elif(self.stateMachine == 100010):
-            if(self.data_grab is not None):
-                ret, f_data = self.data_grab.parseData()
-                if(ret): 
-                    print(' Get new data in LA')
-                    self.stateMachine = 0
-                    self.csv_pos_now, self.l_mi_cases, self.l_cases_yest = self.readDataByDay(999999) 
-                    self.stateMachine = 0
         return 1000
     ## step 2
     ## read data file given day offset
@@ -432,7 +435,7 @@ class runVirusViz(object):
             self.data_grab = dataGrabLa(self.l_state_config, self.state_name)	
             self.data_grab.browseData(self.name_file)		
             # step B: parse to standard file
-            self.stateMachine = 100010
+            self.stateMaSub = 100010
         #read data on yesterday 
         name_last = self.getOverallYesterday(self.name_file)
         if(name_last is not None):
@@ -620,7 +623,7 @@ class runVirusViz(object):
 
 ## the entry of this application
 if __name__ == '__main__':
-        runVirusViz()
+        runCoViz()
         cv2.destroyAllWindows()
         pass
 
