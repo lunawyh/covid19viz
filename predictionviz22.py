@@ -154,7 +154,11 @@ class predictionViz(object):
         #lst_data_daily.append(0)
         for ii in range(len(lst_data_overall)):
             if ii < 1: continue  # lst_data_daily.append(lst_data_overall[ii])     
-            else: lst_data_daily.append( float(lst_data_overall[ii] - lst_data_overall[ii-1]) )
+            else: 
+                d_delta = (lst_data_overall[ii] - lst_data_overall[ii-1])
+                if(self.state_name in 'OH' and d_delta > 500):  # update maximum values as noise
+                     d_delta = 500
+                lst_data_daily.append( d_delta )
         day_mmdd = day_mmdd[1:]  # the 1st day is removed
 
         # predict the future
@@ -194,7 +198,9 @@ class predictionViz(object):
         plt.legend()
         plt.xlabel('Date in 2020')
         plt.ylabel('Confirmed Daily New Cases')
-        plt.title("COVID-19 Prediction of daily new cases in " + self.state_name + ' filtered by 7 days')
+        s_title = "COVID-19 Prediction of daily new cases in " + self.state_name
+        if(self.state_name in 'MI'): s_title += ' filtered by 7 days'
+        plt.title(s_title)
         plt.xticks(rotation=45)
         fig.tight_layout()      
         if(timeout > 10):
