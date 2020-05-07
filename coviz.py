@@ -409,6 +409,18 @@ class runCoViz(object):
                 self.name_file, self.now_date = name_file, now_date
                 f_name = self.state_dir + 'data/'+self.state_name.lower()+'_covid19_'+self.name_file+'.csv'
                 self.save2File( lst_data, f_name )
+        elif( type_download == 23):   # download only
+            sys.path.insert(0, "./ms")
+            from dataGrabMS23 import *
+            # step A: downlowd and save
+            data_grab = dataGrabMS(self.l_state_config, self.state_name)	
+            # step B: parse to standard file
+            lst_data, name_file, now_date = data_grab.parseData(self.name_file, self.now_date, type_download)		
+            # step C: save
+            if(len(lst_data) > 0): 
+                self.name_file, self.now_date = name_file, now_date
+                f_name = self.state_dir + 'data/'+self.state_name.lower()+'_covid19_'+self.name_file+'.csv'
+                self.save2File( lst_data, f_name )
         elif( type_download == 101 ):   # download counties in the list
             sys.path.insert(0, "./ca")
             from dataGrab58 import *
