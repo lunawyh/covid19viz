@@ -1,7 +1,7 @@
 name,value,lon,quantity,offset
-VIZ_W,1140,,,0
-VIZ_H,941,,,1
-state_map,mississippi-county-map.jpg,,,2
+VIZ_W,566,1140,,0
+VIZ_H,865,941,,1
+state_map,MS-USA-113405.webp,,,2
 cordinate,None,,,3
 weblink_num,23,,,4
 weblink_state,"https://msdh.ms.gov/msdhsite/_static/14,0,420.html#Mississippi",,,5
