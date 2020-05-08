@@ -166,6 +166,8 @@ class predictionViz(object):
         elif(self.state_name in 'MI'): 
             preDay = 0  # len(lst_data_daily) - 15
             print('  preDay %d length %d'%( preDay, len(lst_data_daily) - preDay) )
+        elif(self.state_name in 'LA'): 
+            preDay = 0
         else: preDay = 0
         postDay = 0
         data = lst_data_daily[preDay:]  #[0:-1] postDay
