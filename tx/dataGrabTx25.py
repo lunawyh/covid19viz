@@ -68,7 +68,7 @@ class dataGrabTx(object):
             #print(xl_file.sheet_names)
             nfx = ''
             for sheet in xl_file.sheet_names:
-                if 'Case and Fatalities' in (sheet):
+                if 'Cases and Fatalities' in (sheet):
                     nfx = sheet
                     break
                 if 'Case and Fatalities' in (sheet):  

@@ -303,6 +303,18 @@ class runCoViz(object):
         #    print (a_item)
         self.save2File(l_overall, self.state_dir + 'data/'+self.state_name.lower()+'_covid19_'+self.name_file+'.csv')
         return l_overall
+    ## save downloaded data to daily or overal data 
+    def saveLatestDateMs(self, l_raw_data):
+        l_overall = []
+        
+        l_overall.append(['County', 'Cases', 'Deaths'])
+        for a_item in l_raw_data:
+            
+            l_overall.append(a_item[:3])
+        #for a_item in l_overall:
+        #    print (a_item)
+        self.save2File(l_overall, self.state_dir + 'data/'+self.state_name.lower()+'_covid19_'+self.name_file+'.csv')
+        return l_overall
 
     ## save to csv 
     def save2File(self, l_data, csv_name):
@@ -409,18 +421,7 @@ class runCoViz(object):
                 self.name_file, self.now_date = name_file, now_date
                 f_name = self.state_dir + 'data/'+self.state_name.lower()+'_covid19_'+self.name_file+'.csv'
                 self.save2File( lst_data, f_name )
-        elif( type_download == 23):   # download only
-            sys.path.insert(0, "./ms")
-            from dataGrabMS23 import *
-            # step A: downlowd and save
-            data_grab = dataGrabMS(self.l_state_config, self.state_name)	
-            # step B: parse to standard file
-            lst_data, name_file, now_date = data_grab.parseData(self.name_file, self.now_date, type_download)		
-            # step C: save
-            if(len(lst_data) > 0): 
-                self.name_file, self.now_date = name_file, now_date
-                f_name = self.state_dir + 'data/'+self.state_name.lower()+'_covid19_'+self.name_file+'.csv'
-                self.save2File( lst_data, f_name )
+
         elif( type_download == 101 ):   # download counties in the list
             sys.path.insert(0, "./ca")
             from dataGrab58 import *
@@ -431,6 +432,18 @@ class runCoViz(object):
             f_name = self.state_dir + 'data/'+self.state_name.lower()+'_covid19_'+self.name_file+'.csv'
             # step C: save
             self.save2File( lst_data, f_name )
+        elif( type_download == 23):   # download only
+            sys.path.insert(0, "./ms")
+            from dataGrabMS23 import *
+            f_name = self.state_dir + 'data_html/'+self.state_name.lower()+'_covid19_'+self.name_file+'.html'
+            if(not os.path.isdir(self.state_dir + 'data_html/') ): os.mkdir(self.state_dir + 'data_html/')
+            # step A: downlowd and save
+            df_d = self.open4Website(f_name)
+            f_name = self.state_dir + 'data/'+self.state_name.lower()+'_covid19_'+self.name_file+'.csv'
+            # step B: parse and open
+            lst_raw_data = self.parseDfData(df_d)
+            # step C: convert to standard file and save
+            lst_data = self.saveLatestDateMs(lst_raw_data)
         elif( type_download == 1 ):
             f_name = self.state_dir + 'data_html/'+self.state_name.lower()+'_covid19_'+self.name_file+'.html'
             if(not os.path.isdir(self.state_dir + 'data_html/') ): os.mkdir(self.state_dir + 'data_html/')
