@@ -1,4 +1,5 @@
 Test Date,County,New Positives,Cumulative Number of Positives,Total Number of Tests Performed,Cumulative Number of Tests Performed
+<<<<<<< HEAD
 05/02/2020,Albany,20,1258,441,11563
 05/02/2020,Allegany,0,35,18,592
 05/02/2020,Bronx,466,38916,2857,99606
@@ -61,6 +62,8 @@ Test Date,County,New Positives,Cumulative Number of Positives,Total Number of Te
 05/02/2020,Westchester,258,29884,1809,98610
 05/02/2020,Wyoming,0,69,15,631
 05/02/2020,Yates,1,19,23,310
+=======
+>>>>>>> 17e5106c87dd4aeebf4db384cbed487ae4a8940d
 05/01/2020,Albany,34,1238,434,11122
 05/01/2020,Allegany,0,35,11,574
 05/01/2020,Bronx,665,38450,3694,96749

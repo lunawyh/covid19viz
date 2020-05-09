@@ -274,7 +274,7 @@ class mapViz(object):
         elif l_type ==2:
             lat2, lon2 = lat_1+float(self.l_state_config[11][1]), lon_1+float(self.l_state_config[11][2])
             x, y = m(lon2, lat2) 
-            plt.text(x, y, '%d Overall'%(n_total),fontsize=20, ha='left',va='center',color='g')
+            plt.text(x, y, '%d Overall COVID-19'%(n_total),fontsize=20, ha='left',va='center',color='g')
             lat2 -= 0.2
             x, y = m(lon2, lat2) 
             plt.text(x, y, 'confirmed '+date ,fontsize=16, ha='left',va='center',color='g')
