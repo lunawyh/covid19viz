@@ -45,7 +45,7 @@ class dataGrabMS(object):
         l_overall.append(['County', 'Cases', 'Deaths'])
         for a_item in l_raw_data:
             # remove ******************************************************
-            a_item[2] = join(a_item[2]).replace('*', '')
+            a_item[2] = str(a_item[2]).replace('*', '')
             #***************************************
             #print(a_item)
             l_overall.append(a_item[:3])

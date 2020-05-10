@@ -4,7 +4,12 @@
 #
 #Packet sniffer in python for Linux
 #Sniffs only incoming TCP packet
-
+#Also consider wireshark
+#	https://www.arcgis.com/apps/opsdashboard/index.html#/69b726e2b82e408f89c3a54f96e8f776
+#	ip.dst 	== 	52.85.79.81
+#	ip.dst 	== 	52.84.23.126
+#	protocol TLSv1.2
+#
 import socket, sys
 from struct import *
 
