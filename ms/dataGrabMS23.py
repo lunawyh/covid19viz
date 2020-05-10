@@ -45,9 +45,9 @@ class dataGrabMS(object):
         l_overall.append(['County', 'Cases', 'Deaths'])
         for a_item in l_raw_data:
             # remove ******************************************************
-            a_item[2] = a_item[2].replace('*', '')
+            a_item[2] = join(a_item[2]).replace('*', '')
             #***************************************
-            print(a_item)
+            #print(a_item)
             l_overall.append(a_item[:3])
         #for a_item in l_overall:
         #    print (a_item)
@@ -86,10 +86,10 @@ class dataGrabMS(object):
 
         for l_date in l_dates:
             if('Total Mississippi Cases and Deaths as of' in l_date):
-                print('  l_date', l_date)
+                #print('  l_date', l_date)
                 a_date = l_date.replace('Total Mississippi Cases and Deaths as of', '')
                 b_date = a_date.split(' ')
-                print (b_date)
+                #print (b_date)
                 datetime_object = datetime.datetime.strptime(b_date[1], "%B")
                 month_number = datetime_object.month
 
