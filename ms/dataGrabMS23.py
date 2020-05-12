@@ -45,9 +45,9 @@ class dataGrabMS(object):
         l_overall.append(['County', 'Cases', 'Deaths'])
         for a_item in l_raw_data:
             # remove ******************************************************
-            a_item[1] = (a_item[1]).replace('*', '')
+            #print('  save data', a_item)
+            a_item[2] = str(a_item[2]).replace('*', '')
             #***************************************
-            #print(a_item)
             l_overall.append(a_item[:3])
         #for a_item in l_overall:
         #    print (a_item)
@@ -76,7 +76,7 @@ class dataGrabMS(object):
     ## open a website 
     def open4Website(self, fRaw):
         csv_url = self.l_state_config[5][1]
-
+        print('  from', csv_url)
         # save html file
         urllib.urlretrieve(csv_url, fRaw)
         # save html file
@@ -86,7 +86,7 @@ class dataGrabMS(object):
 
         for l_date in l_dates:
             if('Total Mississippi Cases and Deaths as of' in l_date):
-                #print('  l_date', l_date)
+                print('  data is updated', l_date)
                 a_date = l_date.replace('Total Mississippi Cases and Deaths as of', '')
                 b_date = a_date.split(' ')
                 #print (b_date)
@@ -100,13 +100,14 @@ class dataGrabMS(object):
         # read tables
         cov_tables = pd.read_html(csv_url)
         # read 1st table: Overall Confirmed COVID-19 Cases by County
-        return cov_tables[0]
+        print('  read table 1')
+        return cov_tables[2]
 
     ## parse from exel format to list 
     def parseDfData(self, df, fName=None):
         (n_rows, n_columns) = df.shape 
         # check shape
-        #print('parseDfData', df.title)
+        print('  get data table', df.shape)
         lst_data = []
         for ii in range(n_rows):
             a_case = []

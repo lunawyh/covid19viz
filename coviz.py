@@ -449,6 +449,14 @@ class runCoViz(object):
             self.data_grab.browseData(self.name_file)		
             # step B: parse to standard file
             self.stateMaSub = 100010
+        elif( type_download == 33):   # download only
+            sys.path.insert(0, "./ga")
+            from dataGrabGA33 import *
+            # step A: downlowd and save
+            self.data_grab = dataGrabLa(self.l_state_config, self.state_name)	
+            self.data_grab.browseData(self.name_file)		
+            # step B: parse to standard file
+            self.stateMaSub = 100010
         #read data on yesterday 
         name_last = self.getOverallYesterday(self.name_file)
         if(name_last is not None):
