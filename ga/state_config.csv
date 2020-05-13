@@ -1,7 +1,7 @@
 name,value,lon,quatity,offset
-VIZ_W,800,,,0
-VIZ_H,800,,,1
-state_map,georgia-county-map.gif,,,2
+VIZ_W,800,800,,0
+VIZ_H,800,800,,1
+state_map,ga-multicolor.jpg,,,2
 cordinate,position file,,,3
 weblink_num,33,,,4
 weblink_state,https://dph.georgia.gov/covid-19-daily-status-report,,,5

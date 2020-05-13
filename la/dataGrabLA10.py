@@ -44,6 +44,7 @@ class dataGrabLa(object):
         for a_row in l_data:
             csvwriter.writerow(a_row)
         csv_data_f.close()
+    '''
     ## parse from exel format to list 
     def parseDfData(self, df, fName=None):
         (n_rows, n_columns) = df.shape 
@@ -61,11 +62,12 @@ class dataGrabLa(object):
         # save to a database file
         if(fName is not None): self.save2File( lst_data, fName )
         return lst_data
+    '''
     ## open a csv 
     def open4File(self, csv_name):
         if(isfile(csv_name) ):
             df = pd.read_csv(csv_name)
-            l_data = self.parseDfData(df)
+            l_data = (df)
         else: return []
         return l_data
     ## save downloaded data to daily or overal data 
@@ -96,7 +98,7 @@ class dataGrabLa(object):
             self.name_file = name_file
             # step A: downlowd and save
             webbrowser.open(self.l_state_config[5][1], new=2)
-            self.f_download = self.get_download_path() + "/Cumulative Data by Parish.csv"
+            self.f_download = self.get_download_path() + "/Download the data(CSV) " +"/countycases.csv"
             
             return ([], name_file, '')
 

@@ -453,7 +453,7 @@ class runCoViz(object):
             sys.path.insert(0, "./ga")
             from dataGrabGA33 import *
             # step A: downlowd and save
-            self.data_grab = dataGrabLa(self.l_state_config, self.state_name)	
+            self.data_grab = dataGrabGa(self.l_state_config, self.state_name)	
             self.data_grab.browseData(self.name_file)		
             # step B: parse to standard file
             self.stateMaSub = 100010
