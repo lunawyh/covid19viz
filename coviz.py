@@ -209,7 +209,7 @@ class runCoViz(object):
             if(self.data_grab is not None):
                 ret, f_data = self.data_grab.parseData()
                 if(ret): 
-                    print(' Get new data in LA')                    
+                    print('  new data in LA')                    
                     self.csv_pos_now, self.l_mi_cases, self.l_cases_yest = self.readDataByDay(999999) 
                     self.stateMaSub = 0
                     self.map_data_updated += 1
@@ -385,27 +385,27 @@ class runCoViz(object):
         if( type_download == 5 or type_download == 15):   # download only
             sys.path.insert(0, "./oh")
             from dataGrabOh15 import *
-            # step A: downlowd and save
+            # create new class
             data_grab = dataGrabOh(self.l_state_config, self.state_name)	
-            # step B: parse to standard file
+            # download as a raw file and save
             lst_data, self.name_file, self.now_date = data_grab.parseData(self.name_file, type_download)		
         elif( type_download == 25):   # download only
             sys.path.insert(0, "./tx")
             from dataGrabTx25 import *
-            # step A: downlowd and save
+            # create new class
             data_grab = dataGrabTx(self.l_state_config, self.state_name)	
-            # step B: parse to standard file
+            # download as a raw file and save
             lst_data, name_file, now_date = data_grab.parseData(self.name_file)		
             if(len(lst_data) > 0): 
                 self.name_file, self.now_date = name_file, now_date
         elif( type_download == 35):   # download only
             sys.path.insert(0, "./fl")
             from dataGrabFl35 import *
-            # step A: downlowd and save
+            # create new class
             data_grab = dataGrabFl(self.l_state_config, self.state_name)	
-            # step B: parse to standard file
+            # download as a raw file 
             lst_data, name_file, now_date = data_grab.parseData(self.name_file, self.now_date, type_download)		
-            # step C: save
+            # save
             if(len(lst_data) > 0): 
                 self.name_file, self.now_date = name_file, now_date
                 f_name = self.state_dir + 'data/'+self.state_name.lower()+'_covid19_'+self.name_file+'.csv'
@@ -414,19 +414,19 @@ class runCoViz(object):
         elif( type_download == 101 ):   # download counties in the list
             sys.path.insert(0, "./ca")
             from dataGrab58 import *
-            # step A: downlowd and save
+            # create new class
             data_grab = dataGrab(self.l_state_config, self.state_name)	
-            # step B: parse to standard file
+            # download as a raw file
             lst_data = data_grab.parseDataCa(self.name_file)		
             f_name = self.state_dir + 'data/'+self.state_name.lower()+'_covid19_'+self.name_file+'.csv'
-            # step C: save
+            # save
             self.save2File( lst_data, f_name )
         elif( type_download == 23):   # download only
             sys.path.insert(0, "./ms")
             from dataGrabMS23 import *
-            # step A: downlowd and save
+            # create new class
             data_grab = dataGrabMS(self.l_state_config, self.state_name)	
-            # step B: parse to standard file
+            # download as a raw file and save
             lst_data, name_file, now_date = data_grab.parseData(self.name_file)		
             if(len(lst_data) > 0): 
                 self.name_file, self.now_date = name_file, now_date
@@ -444,19 +444,20 @@ class runCoViz(object):
         elif( type_download == 10):   # download only
             sys.path.insert(0, "./la")
             from dataGrabLA10 import *
-            # step A: downlowd and save
+            # create new class
             self.data_grab = dataGrabLa(self.l_state_config, self.state_name)	
             self.data_grab.browseData(self.name_file)		
-            # step B: parse to standard file
+            # download as a raw file and save
             self.stateMaSub = 100010
         elif( type_download == 33):   # download only
             sys.path.insert(0, "./ga")
             from dataGrabGA33 import *
-            # step A: downlowd and save
+            # create new class
             self.data_grab = dataGrabGa(self.l_state_config, self.state_name)	
             self.data_grab.browseData(self.name_file)		
-            # step B: parse to standard file
+            # download as a raw file and save
             self.stateMaSub = 100010
+            return (0, [], [])
         #read data on yesterday 
         name_last = self.getOverallYesterday(self.name_file)
         if(name_last is not None):

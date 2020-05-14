@@ -67,7 +67,7 @@ class dataGrabLa(object):
     def open4File(self, csv_name):
         if(isfile(csv_name) ):
             df = pd.read_csv(csv_name)
-            l_data = (df)
+            l_data = self.parseDfData(df)
         else: return []
         return l_data
     ## save downloaded data to daily or overal data 
@@ -107,6 +107,7 @@ class dataGrabLa(object):
             if(isfile(self.f_download) ):
                 f_name = self.state_dir + 'data_raw/'+self.state_name.lower()+'_covid19_'+self.name_file+'.csv'
                 if(not os.path.isdir(self.state_dir + 'data_raw/') ): os.mkdir(self.state_dir + 'data_raw/')
+                print('  save to', f_name)
                 shutil.move(self.f_download, f_name)
                 l_data_raw = self.open4File(f_name)
                 l_overall = self.saveLatestDateLa(l_data_raw, self.name_file)
