@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf8 -*-
-# 			dataGrabLa.py
+# 			dataGrabGa.py
 #
-#	grab data from LA state websites
+#	grab data from GA state websites
 #
 #
 
@@ -18,6 +18,9 @@ import csv
 
 import webbrowser
 
+from StringIO import StringIO
+from zipfile import ZipFile
+from urllib import urlopen
 # ==============================================================================
 # -- codes -------------------------------------------------------------------
 # ==============================================================================
@@ -39,11 +42,12 @@ class dataGrabGa(object):
         # create the csv writer 
         csvwriter = csv.writer(csv_data_f)
         # make sure the 1st row is colum names
-        if('county_resident' in str(l_data[0][0])): pass
+        if('Parish' in str(l_data[0][0])): pass
         else: csvwriter.writerow(['County', 'Cases', 'Deaths'])
         for a_row in l_data:
             csvwriter.writerow(a_row)
         csv_data_f.close()
+    '''
     ## parse from exel format to list 
     def parseDfData(self, df, fName=None):
         (n_rows, n_columns) = df.shape 
@@ -61,25 +65,29 @@ class dataGrabGa(object):
         # save to a database file
         if(fName is not None): self.save2File( lst_data, fName )
         return lst_data
-    ## open a csv
+    '''
+
+
+    ## open a csv 
     def open4File(self, csv_name):
         if(isfile(csv_name) ):
             df = pd.read_csv(csv_name)
-            l_data = self.parseDfData(df)
+            l_data = (df)
         else: return []
         return l_data
     ## save downloaded data to daily or overal data 
-    def saveLatestDateLa(self, l_raw_data, name_file):
+    def saveLatestDateGa(self, l_raw_data, name_file):
         l_overall = []
         n_total = [0, 0]
         for a_item in l_raw_data:
             n_total[0] += a_item[2]                
             n_total[1] += a_item[3]                
-            l_overall.append(a_item[:3])
+            l_overall.append(a_item[1:4])
 
-        l_overall.append(['Total', n_total[2], n_total[1]])
+        l_overall.append(['Total', n_total[0], n_total[1]])
         self.save2File(l_overall, self.state_dir + 'data/'+self.state_name.lower()+'_covid19_'+name_file+'.csv')
         return l_overall
+    '''
     def get_download_path(self):
 	    """Returns the default downloads path for linux or windows"""
 	    if os.name == 'nt':
@@ -91,6 +99,7 @@ class dataGrabGa(object):
 		return location
 	    else:
 		return os.path.join(os.path.expanduser('~'), 'Downloads')
+
     ## paser data CA
     def browseData(self, name_file):
             self.name_file = name_file
@@ -99,16 +108,39 @@ class dataGrabGa(object):
             self.f_download = self.get_download_path() + "/countycases.csv"
             
             return ([], name_file, '')
+    '''
+    def unzipdta(self, data):
+        '''
+        resp = urlopen("https://dph.georgia.gov/covid-19-daily-status-report/ga_covid_data.zip")
+        zipfile = ZipFile(StringIO(resp.read()))
+        #read first countycases.csv from resp
+        '''
+
+        resp = urlopen("https://dph.georgia.gov/covid-19-daily-status-report/ga_covid_data.zip")
+        zipfile = ZipFile(BytesIO(resp.read()))
+        for line in zipfile.open(file).readlines():
+            print(line.decode('utf-8'))
+        print ('hi')
+            #print zipfile.namelist
+            #file_name = zipfile.namelist[0]
+        # opening the zip file in READ mode 
+        data = zip.read(countycases.csv)
+        return data
+        
 
     ## paser data CA
     def parseData(self):
+        self.unzipdta()
+        return
+        '''
             if(isfile(self.f_download) ):
                 f_name = self.state_dir + 'data_raw/'+self.state_name.lower()+'_covid19_'+self.name_file+'.csv'
                 if(not os.path.isdir(self.state_dir + 'data_raw/') ): os.mkdir(self.state_dir + 'data_raw/')
                 shutil.move(self.f_download, f_name)
                 l_data_raw = self.open4File(f_name)
-                l_overall = self.saveLatestDateLa(l_data_raw, self.name_file)
+                l_overall = self.saveLatestDateGa(l_data_raw, self.name_file)
                 return True, l_overall
             return False, []
+        '''
 
 ## end of file
