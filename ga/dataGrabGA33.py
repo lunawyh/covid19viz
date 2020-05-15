@@ -99,7 +99,7 @@ class dataGrabGa(object):
         # step 1, download zipped file
         content = self.unzipdta()
         # step 2, save as raw data file
-	self.name_file = name_file
+        self.name_file = name_file
         f_name = self.state_dir + 'data_raw/'+self.state_name.lower()+'_covid19_'+self.name_file+'.csv'
         if(not os.path.isdir(self.state_dir + 'data_raw/') ): os.mkdir(self.state_dir + 'data_raw/')
         with open(f_name, 'w') as a_file:
