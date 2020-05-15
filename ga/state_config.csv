@@ -4,7 +4,7 @@ VIZ_H,800,800,,1
 state_map,ga-multicolor.jpg,,,2
 cordinate,position file,,,3
 weblink_num,33,,,4
-weblink_state,https://dph.georgia.gov/covid-19-daily-status-report,,,5
+weblink_state,https://ga-covid19.ondemand.sas.com/docs/ga_covid_data.zip,,,5
 state_name,Georgia,,,6
 basemap_type,1,,,7
 basemap_center,32.472888,-83.411039,,8
