@@ -97,7 +97,7 @@ class dataGrabCt(object):
         total_overral = 0
         for a_item in l_data:
             #if (a_test_date is None):
-            if (a_test_date is not initial_test_date):
+            if (initial_test_date is None and a_test_date in a_item[2]):
                 initial_test_date = a_test_date
                 dt_obj = datetime.datetime.strptime(a_test_date, '%m/%d/%Y')
                 self.name_file = dt_obj.strftime('%Y%m%d')
