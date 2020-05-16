@@ -86,14 +86,14 @@ class dataGrabTx(object):
     ## save downloaded data to daily or overal data 
     def saveLatestDateTx(self, l_raw_data, name_file):
         l_overall = []
-        
+        offset = 0   # after 5/5 changed from 1 to 0
         l_overall.append(['County', 'Cases', 'Deaths'])
         for a_item in l_raw_data:
-            if 'County' in str(a_item[1]):continue
-            if str(a_item [1]) in '0':
-                a_item[1]='Total'
+            if 'County' in str(a_item[offset]):continue
+            #if str(a_item [1]) in '0':
+            #    a_item[1]='Total'
                 
-            l_overall.append(a_item[1:])
+            l_overall.append(a_item[offset:])  
         #for a_item in l_overall:
         #    print (a_item)
         self.save2File(l_overall, self.state_dir + 'data/'+self.state_name.lower()+'_covid19_'+name_file+'.csv')

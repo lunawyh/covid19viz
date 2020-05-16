@@ -102,7 +102,7 @@ class dataGrabFl(object):
             f_name = self.state_dir + 'data_raw/'+self.state_name.lower()+'_covid19_'+name_target+'.pdf'
             if(not os.path.isdir(self.state_dir + 'data_raw/') ): os.mkdir(self.state_dir + 'data_raw/')
             # step A: downlowd and save
-            if(not isfile(f_name) ): 
+            if(True): # not isfile(f_name) ): 
                 a_address = self.open4Website(None)
                 if(a_address == ''): return ([], None, None)
                 n_start = a_address.find('report')

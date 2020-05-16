@@ -1,0 +1,86 @@
+County,Cases,Deaths
+Alcona,4,1.0
+Allegan,116,2.0
+Alpena,83,7.0
+Antrim,10,0
+Arenac,28,1.0
+Baraga,1,0
+Barry,37,1.0
+Bay,161,8.0
+Benzie,4,0
+Berrien,304,20.0
+Branch,66,2.0
+Calhoun,244,16.0
+Cass,33,2.0
+Charlevoix,13,1.0
+Cheboygan,19,1.0
+Chippewa,2,0
+Clare,11,2.0
+Clinton,119,10.0
+Crawford,56,4.0
+Delta,13,2.0
+Detroit City,9394,1097.0
+Dickinson,3,2.0
+Eaton,137,6.0
+Emmet,21,2.0
+Genesee,1647,199.0
+Gladwin,14,1.0
+Gogebic,5,1.0
+Grand Traverse,20,5.0
+Gratiot,25,2.0
+Hillsdale,131,21.0
+Houghton,2,0
+Huron,24,1.0
+Ingham,506,13.0
+Ionia,90,2.0
+Iosco,52,7.0
+Isabella,61,7.0
+Jackson,363,26.0
+Kalamazoo,480,22.0
+Kalkaska,17,2.0
+Kent,1854,39.0
+Lake,2,0
+Lapeer,171,27.0
+Leelanau,9,0
+Lenawee,110,2.0
+Livingston,356,20.0
+Luce,1,0
+Mackinac,6,0
+Macomb,5736,643.0
+Manistee,11,0
+Marquette,50,8.0
+Mason,12,0
+Mecosta,14,2.0
+Menominee,6,0
+Midland,62,7.0
+Missaukee,16,1.0
+Monroe,320,13.0
+Montcalm,45,1.0
+Montmorency,5,0
+Muskegon,313,17.0
+Newaygo,28,0
+Oakland,7499,762.0
+Oceana,19,1.0
+Ogemaw,15,0
+Osceola,8,0
+Oscoda,5,0
+Otsego,93,8.0
+Ottawa,281,12.0
+Presque Isle,11,0
+Roscommon,18,0
+Saginaw,728,68.0
+Sanilac,36,5.0
+Schoolcraft,3,0
+Shiawassee,185,12.0
+St Clair,339,21.0
+St Joseph,42,1.0
+Tuscola,113,14.0
+Van Buren,67,2.0
+Washtenaw,1118,76.0
+Wayne,7920,827.0
+Wexford,9,2.0
+MDOC*,1870,45.0
+FCI**,95,2.0
+Unknown,11,1.0
+Out of State,22,0
+Totals,43950,4135.0

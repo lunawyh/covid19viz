@@ -9,7 +9,7 @@ state_name,Texas,,,6
 basemap_type,1,,,7
 basemap_center,31.268599,0,,8
 basemap_size,600000,600000,,9
-basemap_list_num,5,,,10
+basemap_list_num,6,,,10
 basemap_title,5.156759,0.101012,,11
 basemap_logo,4.276629,5.783506,,12
 basemap_list1,5.356759,-6.890411,0,13
@@ -17,4 +17,4 @@ basemap_list2,5.356759,-4.890411,45,14
 basemap_list3,-0.643241,-6.390411,90,15
 basemap_list4,-2.343241,-4.390411,138,16
 basemap_list5,-2.343241,-2.390411,169,17
-basemap_list6,0,0,0,18
+basemap_list6,-3.443241,3.783506,200,18

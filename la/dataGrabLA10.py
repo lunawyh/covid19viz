@@ -44,6 +44,8 @@ class dataGrabLa(object):
         for a_row in l_data:
             csvwriter.writerow(a_row)
         csv_data_f.close()
+        print('  save to', csv_name)
+    
     ## parse from exel format to list 
     def parseDfData(self, df, fName=None):
         (n_rows, n_columns) = df.shape 
@@ -61,6 +63,7 @@ class dataGrabLa(object):
         # save to a database file
         if(fName is not None): self.save2File( lst_data, fName )
         return lst_data
+    
     ## open a csv 
     def open4File(self, csv_name):
         if(isfile(csv_name) ):
@@ -105,6 +108,7 @@ class dataGrabLa(object):
             if(isfile(self.f_download) ):
                 f_name = self.state_dir + 'data_raw/'+self.state_name.lower()+'_covid19_'+self.name_file+'.csv'
                 if(not os.path.isdir(self.state_dir + 'data_raw/') ): os.mkdir(self.state_dir + 'data_raw/')
+                print('  save raw file to', f_name)
                 shutil.move(self.f_download, f_name)
                 l_data_raw = self.open4File(f_name)
                 l_overall = self.saveLatestDateLa(l_data_raw, self.name_file)
