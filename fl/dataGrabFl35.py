@@ -105,11 +105,14 @@ class dataGrabFl(object):
             if(True): # not isfile(f_name) ): 
                 a_address = self.open4Website(None)
                 if(a_address == ''): return ([], None, None)
+                print('  a_address', a_address)
                 n_start = a_address.find('report')
                 if(n_start >= 0): 
-                    s_date = a_address[n_start + 7: n_start + 7 + 10]
-                    #print('  ', s_date)
-                    dt_obj = datetime.datetime.strptime(s_date, '%Y-%m-%d')
+                    s_date = a_address[n_start + 7: n_start + 7 + 5] 
+                    print('  ', s_date)
+                    dt_obj = datetime.datetime.strptime(s_date, '%m%d%y')
+                    print('      ', dt_obj)
+                    #nums = int(n_start)
                     self.name_file = dt_obj.strftime('%Y%m%d')
                     self.now_date = dt_obj.strftime('%m/%d/%Y')
                     f_name = self.state_dir + 'data_raw/'+self.state_name.lower()+'_covid19_'+self.name_file+'.pdf'
