@@ -1,3 +1,7 @@
+<div align="center">
+  <img src="http://www.appstorego.com/img/icon_appstorego.png">
+</div>
+
 # covid19viz
 New visualization and prediction of COVID-19 in USA, such as Michigan, CA, OH, NY, TX, showing here at www.appstorego.com.
 
@@ -6,9 +10,8 @@ New visualization and prediction of COVID-19 in USA, such as Michigan, CA, OH, N
     II. View the history data of COVID-19
 
     III. Predict the future of COVID-19
-<div align="center">
-  <img src="https://www.appstorego.com/img/icon_appstorego.png">
-</div>
+    
+
 # Steps
 1. Grab data from goverment websites
 2. Save to excel file for store
