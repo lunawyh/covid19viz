@@ -3,7 +3,7 @@ VIZ_W,750,,,0
 VIZ_H,545,,,1
 state_map,printable-connecticut-county-map.png,,,2
 cordinate,None,,,3
-weblink_num,1,,,4
+weblink_num,50,,,4
 weblink_state,https://data.ct.gov/api/views/bfnu-rgqt/rows.csv?accessType=DOWNLOAD,,,5
 state_name,Connecticut,,,6
 basemap_type,1,,,7

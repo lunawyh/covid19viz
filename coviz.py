@@ -437,6 +437,13 @@ class runCoViz(object):
             self.data_grab.browseData(self.name_file)		
             # step B: parse to standard file
             self.stateMaSub = 100010
+        elif (type_download == 50):  # download only
+            sys.path.insert(0, "./ct")
+            from dataGrabCt15 import *
+            # step A: downlowd and save
+            data_grab = dataGrabCt(self.l_state_config, self.state_name)
+            # step B: parse to standard file
+            lst_data, self.name_file, self.now_date = data_grab.parseData(self.name_file, type_download)
         #read data on yesterday 
         name_last = self.getOverallYesterday(self.name_file)
         if(name_last is not None):
