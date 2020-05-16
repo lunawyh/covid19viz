@@ -15,7 +15,7 @@ import shutil
 from os.path import isfile, join
 import pandas as pd
 import csv
-
+import io
 import zipfile
 import urllib
 # ==============================================================================
@@ -66,9 +66,9 @@ class dataGrabGa(object):
 
 
     ## open a csv 
-    def open4File(self, csv_name):
-        if(isfile(csv_name) ):
-            df = pd.read_csv(csv_name)
+    def open4Buffer(self, csv_buffer):
+        if( True):
+            df = pd.read_csv(io.BytesIO(csv_buffer))
             l_data = self.parseDfData(df)
         else: return []
         return l_data
@@ -84,9 +84,12 @@ class dataGrabGa(object):
         l_overall.append(['Total', n_total[0], n_total[1]])
         self.save2File(l_overall, self.state_dir + 'data/'+self.state_name.lower()+'_covid19_'+name_file+'.csv')
         return l_overall
-    def unzipdta(self):
-        filehandle, _ = urllib.urlretrieve(self.l_state_config[5][1])
-        zip_file_object = zipfile.ZipFile(filehandle, 'r')
+    def unzipdta(self, f_name):
+        # save to raw file
+        urllib.urlretrieve(self.l_state_config[5][1], f_name)
+        # open and unzip
+        #filehandle, _ = urllib.urlretrieve(self.l_state_config[5][1])
+        zip_file_object = zipfile.ZipFile(f_name, 'r')
         first_file = zip_file_object.namelist()[0]
         print('  data file', first_file)
         csv_file = zip_file_object.open(first_file)
@@ -96,17 +99,17 @@ class dataGrabGa(object):
 
     ## paser data CA
     def parseData(self, name_file):
-        # step 1, download zipped file
-        content = self.unzipdta()
-        # step 2, save as raw data file
         self.name_file = name_file
-        f_name = self.state_dir + 'data_raw/'+self.state_name.lower()+'_covid19_'+self.name_file+'.csv'
+        f_name = self.state_dir + 'data_raw/'+self.state_name.lower()+'_covid19_'+self.name_file+'.zip'
         if(not os.path.isdir(self.state_dir + 'data_raw/') ): os.mkdir(self.state_dir + 'data_raw/')
-        with open(f_name, 'w') as a_file:
-            a_file.write(content)
+        # step 1, download zipped file
+        content = self.unzipdta(f_name)
+        # step 2, save as raw data file
+        #with open(f_name, 'w') as a_file:
+        #    a_file.write(content)
         print('  save raw to ', f_name)
         # step 3, save as stanard data file
-        l_data_raw = self.open4File(f_name)
+        l_data_raw = self.open4Buffer(content)
         l_overall = self.saveLatestDateGa(l_data_raw, self.name_file)
         return True, l_overall
 

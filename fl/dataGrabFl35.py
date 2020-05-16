@@ -98,6 +98,7 @@ class dataGrabFl(object):
         return a_address
     ## paser data FL
     def dataDownload(self, name_target):
+            print('  A.dataDownload', name_target)
             self.name_file = name_target
             f_name = self.state_dir + 'data_raw/'+self.state_name.lower()+'_covid19_'+name_target+'.pdf'
             if(not os.path.isdir(self.state_dir + 'data_raw/') ): os.mkdir(self.state_dir + 'data_raw/')
@@ -105,13 +106,15 @@ class dataGrabFl(object):
             if(True): # not isfile(f_name) ): 
                 a_address = self.open4Website(None)
                 if(a_address == ''): return ([], None, None)
-                print('  a_address', a_address)
+                #print('  a_address', a_address)
                 n_start = a_address.find('report')
                 if(n_start >= 0): 
-                    s_date = a_address[n_start + 7: n_start + 7 + 5] 
-                    print('  ', s_date)
+                    s_date = a_address[n_start + 7: ] 
+                    n_end = s_date.find('_')
+                    s_date = s_date[: n_end] 
+                    #print('  ', s_date)
                     dt_obj = datetime.datetime.strptime(s_date, '%m%d%y')
-                    print('      ', dt_obj)
+                    print('  ', dt_obj)
                     #nums = int(n_start)
                     self.name_file = dt_obj.strftime('%Y%m%d')
                     self.now_date = dt_obj.strftime('%m/%d/%Y')
@@ -122,6 +125,7 @@ class dataGrabFl(object):
             return f_name
     ## paser data FL
     def dataReadConfirmed(self, f_name):
+            print('  B.dataReadConfirmed on page 5', f_name)
             # step B: parse and open
             pdfFileObj = open(f_name, 'rb')
             pdfReader = PyPDF2.PdfFileReader(pdfFileObj)
@@ -132,6 +136,7 @@ class dataGrabFl(object):
 
             pageObj = pdfReader.getPage(4)
             pageTxt = pageObj.extractText()
+            #print('  pageTxt 5:', pageTxt)
             l_pageTxt = pageTxt.split('\n')
             state_machine = 1
             a_name = ''
@@ -177,6 +182,7 @@ class dataGrabFl(object):
             return (l_d_sort, pdfReader)
     ## paser data FL
     def dataReadDeath(self, l_d_sort, pdfReader):
+            print('  C.dataReadDeath')
             # read death in county
             p_s, p_e = 20, 58
             #p_s, p_e = 31, 43 # page number in PDF for 4/19/2020
@@ -215,52 +221,5 @@ class dataGrabFl(object):
             l_d_sort, pdfReader = self.dataReadConfirmed(f_target)
             l_d_all = self.dataReadDeath(l_d_sort, pdfReader)
             return(l_d_all, self.name_file, self.now_date)  
-    ## paser data FL
-    def parseData2(self, name_target, type_download):
-            self.name_file = name_target
-            f_name = self.state_dir + 'data_raw/'+self.state_name.lower()+'_covid19_'+self.name_file+'.pdf'
-            if(not os.path.isdir(self.state_dir + 'data_raw/') ): os.mkdir(self.state_dir + 'data_raw/')
-            # step A: downlowd and save
-            if(not isfile(f_name) ): result = self.download4Website(f_name)
-            # step B: parse and open
-            pdfFileObj = open(f_name, 'rb')
-            pdfReader = PyPDF2.PdfFileReader(pdfFileObj)
-            case_total = 0
-            l_overall = []        
-            l_overall.append(['County', 'Cases', 'Deaths'])
-            for page in range(5,14):
-		    pageObj = pdfReader.getPage(page)
-		    pageTxt = pageObj.extractText()
-		    l_pageTxt = pageTxt.split('\n')
-		    state_machine = 1
-		    for a_row in l_pageTxt:
-		        #print(a_row)    
-		        if(state_machine == 1):
-		            if('City and county' in a_row):
-		                state_machine = 2
-		        elif(state_machine == 2):
-		            if('Cases' in a_row):
-		                state_machine = 3
-		        elif(state_machine == 3):
-		            if('The' in a_row): break
-		            a_name = a_row.split(',')[1]
-		            state_machine = 4
-		        elif(state_machine == 4):
-		            a_number = a_row
-		            state_machine = 3
-		            a_digital = int( re.sub("[^0-9]", "", a_number) )
-		            ## found or not
-		            bFound = False
-		            for a_row in l_overall:
-		                if (a_name in a_row[0]):
-		                    bFound = True
-		                    a_row[1] += a_digital
-		                    break
-		            if(bFound):
-		                pass
-		            else: l_overall.append([a_name, a_digital, 0])
-
-            return(l_overall, self.name_file, self.now_date)  
-
 
 ## end of file

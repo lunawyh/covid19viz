@@ -455,7 +455,7 @@ class runCoViz(object):
             from dataGrabGA33 import *
             # create new class
             self.data_grab = dataGrabGa(self.l_state_config, self.state_name)	
-            self.data_grab.parseData(self.name_file)		
+            ret, lst_data = self.data_grab.parseData(self.name_file)		
             
         #read data on yesterday 
         name_last = self.getOverallYesterday(self.name_file)
