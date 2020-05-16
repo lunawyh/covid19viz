@@ -10,7 +10,10 @@ New visualization and prediction of COVID-19 in USA, such as Michigan, CA, OH, N
     II. View the history data of COVID-19
 
     III. Predict the future of COVID-19
-    
+
+<div align="center">
+  <img src="./doc/coviz_functions.png">
+</div>
 
 # Steps
 1. Grab data from goverment websites
