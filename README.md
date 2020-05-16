@@ -62,6 +62,11 @@ New visualization and prediction of COVID-19 in USA, such as Michigan, CA, OH, N
 # How to run in Ubuntu
 1. Run python coviz.py
 
+# Funcational keys in main window
+<div align="center">
+  <img src="./doc/coviz_function_keys.png">
+</div>
+
 # SIR model
 1. Predict with SIR model / SIRmodel, referring to Wuhan data
 
