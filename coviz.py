@@ -362,15 +362,24 @@ class runCoViz(object):
         if(fName is not None): self.save2File( lst_data, fName )
         return lst_data
     def isNameOnToday(self, f_name):
-        if(self.state_name in 'MI'): pass
-        else: return True
-        #if(self.state_name in 'OH'): return True
+        data_dir = self.state_dir + 'data'
+        csv_data_files = sorted( [f for f in listdir(data_dir) if isfile(join(data_dir, f))] )
+        if( len(csv_data_files) < 1): return False
+        if f_name in csv_data_files[-1]:
+            return True		# if is the latest data
+        else:
+            return False
+        '''
+        if(self.state_name in 'NY'): return True
+        if(self.state_name in 'OH'): return True
+        if(self.state_name in 'MS'): return True
         dt_now = datetime.datetime.now()
         dt_name_file = dt_now.strftime('%Y%m%d') 
         if f_name == dt_name_file:
             return True
         else:
             return False
+        '''
     ## step 1
     ## grab data from goverment website
     def cmdGrabDataFromWebsite(self):
