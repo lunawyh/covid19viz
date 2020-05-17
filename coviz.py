@@ -145,9 +145,6 @@ class runCoViz(object):
             if(len(self.l_mi_cases) > 0):
                 self.img_overlay = self.img_map.copy()
                 self.infoShowCases(self.img_overlay, self.l_mi_cases)
-                #cv2.imwrite(self.state_dir + 'results/mi_county'+self.name_file+'.png', self.img_overlay)
-                #if(self.isNameOnToday(self.name_file)):
-                #    cv2.imwrite(self.state_dir + 'results/mi_county20200000.png', self.img_overlay)
             pass  
         elif(key == 65476 or key == 1114052 or key == 7798783 or key == 7733248):   # F7 key run all commands
             self.stateMachine = 100 
@@ -362,6 +359,14 @@ class runCoViz(object):
         if(fName is not None): self.save2File( lst_data, fName )
         return lst_data
     def isNameOnToday(self, f_name):
+        data_dir = self.state_dir + 'data'
+        csv_data_files = sorted( [f for f in listdir(data_dir) if isfile(join(data_dir, f))] )
+        if( len(csv_data_files) < 1): return False
+        if f_name in csv_data_files[-1]:
+            return True		# if is the latest data
+        else:
+            return False
+        '''
         if(self.state_name in 'NY'): return True
         if(self.state_name in 'OH'): return True
         if(self.state_name in 'MS'): return True
@@ -371,6 +376,7 @@ class runCoViz(object):
             return True
         else:
             return False
+        '''
     ## step 1
     ## grab data from goverment website
     def cmdGrabDataFromWebsite(self):
@@ -455,7 +461,7 @@ class runCoViz(object):
             from dataGrabGA33 import *
             # create new class
             self.data_grab = dataGrabGa(self.l_state_config, self.state_name)	
-            self.data_grab.parseData(self.name_file)		
+            ret, lst_data = self.data_grab.parseData(self.name_file)		
             
         #read data on yesterday 
         name_last = self.getOverallYesterday(self.name_file)
