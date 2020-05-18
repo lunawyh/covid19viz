@@ -110,8 +110,10 @@ class dataGrabFl(object):
                 if(n_start >= 0): 
                     s_date = a_address[n_start + 7: ] 
                     n_end = s_date.find('_')
+                    if(n_end < 0): n_end = s_date.find('-')
                     s_date = s_date[: n_end] 
                     #print('  ', s_date)
+                    s_date = re.sub("[^0-9]", "", s_date)
                     dt_obj = datetime.datetime.strptime(s_date, '%m%d%y')
                     print('  updated on', dt_obj)
                     #nums = int(n_start)
