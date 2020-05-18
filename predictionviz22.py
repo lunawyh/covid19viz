@@ -156,7 +156,7 @@ class predictionViz(object):
             if ii < 1: continue  # lst_data_daily.append(lst_data_overall[ii])     
             else: 
                 d_delta = (lst_data_overall[ii] - lst_data_overall[ii-1])
-                if(self.state_name in 'OH' and d_delta > 500):  # update maximum values as noise
+                if(self.state_name in 'OH' and d_delta > 900):  # update maximum values as noise
                      d_delta = 500
                 lst_data_daily.append( d_delta )
         day_mmdd = day_mmdd[1:]  # the 1st day is removed
