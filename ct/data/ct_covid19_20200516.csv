@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 County,Cases,Deaths
 Fairfield,14248,0
 Hartford,8723,0
@@ -8,3 +9,15 @@ New London,873,0
 Tolland,715,0
 Windham,313,0
 Total,37209,0
+=======
+County,Cases,Deaths
+Fairfield,14248,0
+Hartford,8723,0
+Litchfield,1269,0
+Middlesex,909,0
+New Haven,10159,0
+New London,873,0
+Tolland,715,0
+Windham,313,0
+Total,37209,0
+>>>>>>> 7d1f1e83b94cdca5dfba117b5a7d6a802aa7c0c4
