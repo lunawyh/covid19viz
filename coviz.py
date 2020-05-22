@@ -452,7 +452,7 @@ class runCoViz(object):
             from dataGrabLA10 import *
             # create new class
             self.data_grab = dataGrabLa(self.l_state_config, self.state_name)	
-            self.data_grab.browseData(self.name_file)		
+            self.data_grab.browseData(self.name_file)	
             # download as a raw file and save
             self.stateMaSub = 100010
             return (0, [], [])

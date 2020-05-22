@@ -108,7 +108,7 @@ class dataGrabFl(object):
                 if(a_address == ''): return ([], None, None)
                 n_start = a_address.find('report')
                 if(n_start >= 0): 
-                    s_date = a_address[n_start + 18: ] 
+                    s_date = a_address[n_start + 20: ] 
                     n_end = s_date.find('.')
                     if(n_end < 0): n_end = s_date.find('-')
                     s_date = s_date[: n_end] 
