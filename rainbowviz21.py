@@ -98,7 +98,7 @@ class rainbowViz(object):
             if('County' in a_case[0]): continue
             n_total += int(a_case[col])
 
-        l_max_v += 100 + 50  # base 50*2 + name 25*2
+        l_max_v += 100  # base 50*2 + name 25*2
         center_y = -(l_max_v/2 - 75)
         l_max_v = (int(l_max_v / 50.0+1) * 50) / 2
         # sort list
