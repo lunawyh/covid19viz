@@ -471,3 +471,11 @@ Cnty_cod,County,DateUpdated,ConfirmedCases,CaseRates,HospitalizedCases,Deaths
 6,New London,05/21/2020,910,341,21,72
 7,Tolland,05/21/2020,796,527,0,55
 8,Windham,05/21/2020,348,297,3,14
+1,Fairfield,05/22/2020,14989,1588,227,1208
+2,Hartford,05/22/2020,9545,1069,179,1169
+3,Litchfield,05/22/2020,1304,720,5,122
+4,Middlesex,05/22/2020,999,614,25,136
+5,New Haven,05/22/2020,10847,1265,265,897
+6,New London,05/22/2020,970,364,20,72
+7,Tolland,05/22/2020,799,529,0,55
+8,Windham,05/22/2020,354,302,3,14
