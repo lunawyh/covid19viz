@@ -101,7 +101,7 @@ class dataGrabMS(object):
         cov_tables = pd.read_html(csv_url)
         # read 1st table: Overall Confirmed COVID-19 Cases by County
         print('  read table 1')
-        return cov_tables[1]
+        return cov_tables[2]
 
     ## parse from exel format to list 
     def parseDfData(self, df, fName=None):
@@ -119,6 +119,7 @@ class dataGrabMS(object):
             lst_data.append( a_case )
         # save to a database file
         if(fName is not None): self.save2File( lst_data, fName )
+        print('  **********************************', lst_data)
         return lst_data
 
 
