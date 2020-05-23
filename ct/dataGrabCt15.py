@@ -95,6 +95,7 @@ class dataGrabCt(object):
         l_overral = []
         #total_daily = 0
         total_overral = 0
+        total_overral_deaths = 0
         for a_item in l_data:
             #if (a_test_date is None):
             if (initial_test_date is None and a_test_date in a_item[2]):
@@ -108,10 +109,11 @@ class dataGrabCt(object):
                 continue
             #total_daily += int(a_item[2])
             total_overral += int(a_item[3])
+            total_overral_deaths += int(a_item[6])
             #l_daily.append([a_item[1], a_item[2], 0])
-            l_overral.append([a_item[1], a_item[3], 0])
+            l_overral.append([a_item[1], a_item[3], a_item[6]])
         #l_daily.append(['Total', total_daily, 0])
-        l_overral.append(['Total', total_overral, 0])
+        l_overral.append(['Total', total_overral, total_overral_deaths])
         #if (not os.path.isdir(self.state_dir + 'daily/')): os.mkdir(self.state_dir + 'daily/')
         if (not os.path.isdir(self.state_dir + 'data/')): os.mkdir(self.state_dir + 'data/')
         #self.save2File(l_daily,

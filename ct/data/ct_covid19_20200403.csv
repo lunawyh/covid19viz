@@ -1,10 +1,10 @@
 County,Cases,Deaths
-Fairfield,2716,0
-Hartford,679,0
-Litchfield,173,0
-Middlesex,91,0
-New Haven,891,0
-New London,40,0
-Tolland,79,0
+Fairfield,2716,75
+Hartford,679,18
+Litchfield,173,4
+Middlesex,91,2
+New Haven,891,18
+New London,40,3
+Tolland,79,10
 Windham,27,0
-Total,4696,0
+Total,4696,130
