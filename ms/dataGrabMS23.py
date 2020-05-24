@@ -119,7 +119,7 @@ class dataGrabMS(object):
             lst_data.append( a_case )
         # save to a database file
         if(fName is not None): self.save2File( lst_data, fName )
-        print('  **********************************', lst_data)
+        #print('  **********************************', lst_data)
         return lst_data
 
 

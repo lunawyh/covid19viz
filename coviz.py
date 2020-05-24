@@ -436,6 +436,15 @@ class runCoViz(object):
             lst_data, name_file, now_date = data_grab.parseData(self.name_file)		
             if(len(lst_data) > 0): 
                 self.name_file, self.now_date = name_file, now_date
+        elif( type_download == 44):   # download only
+            sys.path.insert(0, "./ut")
+            from dataGrabUt44 import *
+            # create new class
+            data_grab = dataGrabUT(self.l_state_config, self.state_name)	
+            # download as a raw file and save
+            lst_data, name_file, now_date = data_grab.parseData(self.name_file)		
+            if(len(lst_data) > 0): 
+                self.name_file, self.now_date = name_file, now_date
             ########
         elif( type_download == 1 ):
             f_name = self.state_dir + 'data_html/'+self.state_name.lower()+'_covid19_'+self.name_file+'.html'
