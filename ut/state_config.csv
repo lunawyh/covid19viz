@@ -18,3 +18,6 @@ basemap_list3,0,0,0,15
 basemap_list4,0,0,0,16
 basemap_list5,0,0,0,17
 basemap_list6,0,0,0,18
+web_backup,https://coronavirus.utah.gov/case-counts/,,,5
+webpage Southeast Utah,https://www.seuhealth.com/covid-19,,,
+webpage Southwest Utah,https://swuhealth.org/covid/,,,

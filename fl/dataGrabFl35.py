@@ -106,14 +106,17 @@ class dataGrabFl(object):
             if( True): # not isfile(f_name) ): 
                 a_address = self.open4Website(None)
                 if(a_address == ''): return ([], None, None)
-                n_start = a_address.find('report')
+                n_start = a_address.find('report-')
                 if(n_start >= 0): 
-                    s_date = a_address[n_start + 20: ] 
-                    n_end = s_date.find('.')
+                    s_date = a_address[n_start + 7: ] 
+                    n_end = s_date.find('09')
+                    print(' *********************** ', s_date)
                     if(n_end < 0): n_end = s_date.find('-')
                     s_date = s_date[: n_end] 
                     print(' ^^^^^^^^^^^^^^ ', s_date)
                     s_date = re.sub("[^0-9]", "", s_date)
+                    print(' &&&&&&&&&&&&&&&&&&&&&&&&& ', s_date)
+
                     dt_obj = datetime.datetime.strptime(s_date, '%Y%m%d')
                     print('  updated on', dt_obj)
                     #nums = int(n_start)

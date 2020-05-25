@@ -16,11 +16,10 @@ import pandas as pd
 import csv
 import datetime 
 import urllib
-import ssl
-import PyPDF2
-import re
+
 import requests
 from lxml import html
+import json
 # ==============================================================================
 # -- codes -------------------------------------------------------------------
 # ==============================================================================
@@ -44,13 +43,7 @@ class dataGrabUT(object):
         
         l_overall.append(['County', 'Cases', 'Deaths'])
         for a_item in l_raw_data:
-            # remove ******************************************************
-            #print('  save data', a_item)
-            a_item[2] = str(a_item[2]).replace('*', '')
-            #***************************************
-            l_overall.append(a_item[:3])
-        #for a_item in l_overall:
-        #    print (a_item)
+            l_overall.append(a_item)
         self.save2File(l_overall, self.state_dir + 'data/'+self.state_name.lower()+'_covid19_'+self.name_file+'.csv')
         return l_overall
     ## save to csv 
@@ -78,52 +71,68 @@ class dataGrabUT(object):
         csv_url = self.l_state_config[5][1]
         print('  from', csv_url)
         # save html file
+        #if(not isfile(fRaw) ): 
         urllib.urlretrieve(csv_url, fRaw)
-        # save html file
-        c_page = requests.get(csv_url)
-        c_tree = html.fromstring(c_page.content)
-        #print ('*', c_page.content)
-        #l_dates = c_tree.xpath('//h3/text()')
-        u_dates = c_tree.xpath('//div/text()')
-        print (' ',u_dates)
+
+        # read updated date
+        print('  read date')
+        if( isfile(fRaw) ): 
+            with open(fRaw, 'r') as file:
+                page_content = file.read()
+        else: return []
+        c_tree = html.fromstring(page_content)
+        u_dates = c_tree.xpath('//p/text()')
         for l_date in u_dates:
             if('Report Date: ' in l_date):
-                print('  data is updated', l_date)
+                print('    data is updated,', l_date)
                 n_start = l_date.find(l_date)
-                b_date = l_date[n_start:].split(':')
-                print (b_date)
-                dt_obj = datetime.datetime.strptime(b_date[1], "%M %d, %Y")
-                #month_number = datetime_object.month
-                #dt_obj = datetime.datetime.strptime('%d/%d/2020'%(month_number,int(b_date[2]) ), '%m/%d/%Y')
+                s_date = l_date[n_start:].split(':')
+                #print (s_date[1]) # an example,  May 24, 2020
+                dt_obj = datetime.datetime.strptime(s_date[1], " %b %d, %Y")
                 self.name_file = dt_obj.strftime('%Y%m%d')
                 self.now_date = dt_obj.strftime('%m/%d/%Y')
+                print('    name_file is updated:', self.name_file)
                 break
-        print ('%%%%%%%%%%%%%%%%%%', csv_url)
         # read tables
-        cov_tables = pd.read_html(csv_url)
+        print ('  read data table of counties')
         # read 1st table: Overall Confirmed COVID-19 Cases by County
-        print('  read table 1')
-        return cov_tables[0]
-
+        u_scripts = c_tree.xpath('//script/text()')
+        for l_script in u_scripts:
+            if('Jurisdiction' in l_script and 'Cases' in l_script and 'Deaths' in l_script):
+                print('  ###############################################  counties data:', l_script)
+                return self.parseJsonString(l_script)
+                
+        return []
     ## parse from exel format to list 
-    def parseDfData(self, df, fName=None):
-        (n_rows, n_columns) = df.shape 
-        # check shape
-        print('  get data table', df.shape)
+    def parseJsonString(self, j_str):
+        print('    parseJsonString')
         lst_data = []
-        for ii in range(n_rows):
-            a_case = []
-            for jj in range(n_columns):
-                if( str(df.iloc[ii, jj]) == 'nan'  ): 
-                    a_case.append( 0 )
-                    continue
-                a_case.append( df.iloc[ii, jj] )
-            lst_data.append( a_case )
-        # save to a database file
-        if(fName is not None): self.save2File( lst_data, fName )
-        #print('  **********************************', lst_data)
+        j_data = json.loads(j_str.replace(' County', ''))  # is a json string
+        l_raw_data = j_data['x']['data']		# fixed keys
+        print('  ############################################### ', l_raw_data)
+        l_raw_data = l_raw_data[:2] + l_raw_data[3:]  	# remove 3rd column of Hospitalizations
+        lst_data = zip(*l_raw_data)			# transpose the matrix
+        
+        print('    counties', len(lst_data))
         return lst_data
 
+    def data_in_eastwest(self, ew_data):
+        ew_webname = self.l_state_config[5][2]  #'https://swuhealth.org/covid/'
+        c_tree = html.fromstring(ew_webname)
+        ew_dates = c_tree.xpath('//ul/text()')
+        for ew_data in ew_dates:
+            if('Washington County' in ew_data):
+                n_start = ew_data.find(ew_data)
+                s_date = ew_data[n_start:].split(':')
+
+    def data_in_southeast(self, se_data):
+        se_webname = https://www.seuhealth.com/covid-19
+        c_tree = html.fromstring(se_webname)
+        se_dates = c_tree.xpath('//ul/text()')
+        for se_data in se_dates:
+            if('Washington County' in se_data):
+                n_start = se_data.find(se_data)
+                s_date = se_data[n_start:].split(':')
 
     
     ## paser data Ut
@@ -132,11 +141,8 @@ class dataGrabUT(object):
             f_name = self.state_dir + 'data_html/'+self.state_name.lower()+'_covid19_'+self.name_file+'.html'
             if(not os.path.isdir(self.state_dir + 'data_html/') ): os.mkdir(self.state_dir + 'data_html/')
             # step A: downlowd and save
-            df_a = self.open4Website(f_name)
-            f_name = self.state_dir + 'data/'+self.state_name.lower()+'_covid19_'+self.name_file+'.csv'
+            lst_raw_data = self.open4Website(f_name)
             # step B: parse and open
-            lst_raw_data = self.parseDfData(df_a)
-            # step C: convert to standard file and save
             lst_data = self.saveLatestDateUt(lst_raw_data)
             return(lst_data, self.name_file, self.now_date)  #add in l_d_all
 
