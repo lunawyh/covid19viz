@@ -67,12 +67,12 @@ class dataGrabUT(object):
         return l_data
 
     ## open a website 
-    def open4Website(self, fRaw):
+    def open4WebsiteMain(self, fRaw):
         csv_url = self.l_state_config[5][1]
-        print('  from', csv_url)
+        print('  open4WebsiteMain', csv_url)
         # save html file
-        #if(not isfile(fRaw) ): 
-        urllib.urlretrieve(csv_url, fRaw)
+        if(not isfile(fRaw) ): 
+            urllib.urlretrieve(csv_url, fRaw)
 
         # read updated date
         print('  read date')
@@ -80,6 +80,7 @@ class dataGrabUT(object):
             with open(fRaw, 'r') as file:
                 page_content = file.read()
         else: return []
+        lst_data = []
         c_tree = html.fromstring(page_content)
         u_dates = c_tree.xpath('//p/text()')
         for l_date in u_dates:
@@ -99,40 +100,78 @@ class dataGrabUT(object):
         u_scripts = c_tree.xpath('//script/text()')
         for l_script in u_scripts:
             if('Jurisdiction' in l_script and 'Cases' in l_script and 'Deaths' in l_script):
-                print('  ###############################################  counties data:', l_script)
-                return self.parseJsonString(l_script)
+                #print('  ###############################################  counties data:', l_script)
+                lst_data = self.parseJsonString(l_script)
                 
-        return []
+        return lst_data
     ## parse from exel format to list 
     def parseJsonString(self, j_str):
         print('    parseJsonString')
         lst_data = []
         j_data = json.loads(j_str.replace(' County', ''))  # is a json string
         l_raw_data = j_data['x']['data']		# fixed keys
-        print('  ############################################### ', l_raw_data)
+        #print('  ############################################### ', l_raw_data)
         l_raw_data = l_raw_data[:2] + l_raw_data[3:]  	# remove 3rd column of Hospitalizations
         lst_data = zip(*l_raw_data)			# transpose the matrix
         
         print('    counties', len(lst_data))
         return lst_data
 
-    def data_in_eastwest(self, ew_data):
-        ew_webname = self.l_state_config[5][2]  #'https://swuhealth.org/covid/'
-        c_tree = html.fromstring(ew_webname)
-        ew_dates = c_tree.xpath('//ul/text()')
-        for ew_data in ew_dates:
-            if('Washington County' in ew_data):
-                n_start = ew_data.find(ew_data)
-                s_date = ew_data[n_start:].split(':')
+    # southwest counties
+    def open4WebsiteSwu(self, fRaw, lst_data):  	# https://swuhealth.org/covid/
+        csv_url = self.l_state_config[5][3]
+        print('  open4WebsiteSwu', csv_url)
+        # save html file
+        fRaw = fRaw.replace('.html', 'swu.html')
+        if(not isfile(fRaw) ): 
+            urllib.urlretrieve(csv_url, fRaw)
 
-    def data_in_southeast(self, se_data):
-        se_webname = https://www.seuhealth.com/covid-19
-        c_tree = html.fromstring(se_webname)
-        se_dates = c_tree.xpath('//ul/text()')
+        # read updated date
+        print('  read date')
+        if( isfile(fRaw) ): 
+            with open(fRaw, 'r') as file:
+                page_content = file.read()
+        else: return []
+
+        c_tree = html.fromstring(page_content)
+        print('    look for updated date and county data')
+        sw_dates = c_tree.xpath('//img')   # ('//div[@class="col-xs-12 button--wrap"]')
+        for sw_data in sw_dates:
+            sw_detail = sw_data.get('alt')
+            print('    sw_detail', sw_detail)
+            if('COVID-19 Update' in sw_detail):
+                print('      updated date', sw_data)
+                break
+
+    # southeast counties
+    def open4WebsiteSeu(self, fRaw, lst_data):	# https://www.seuhealth.com/covid-19
+        csv_url = self.l_state_config[5][2]
+        print('  open4WebsiteSeu', csv_url)
+        # save html file
+        fRaw = fRaw.replace('.html', 'seu.html')
+        if(not isfile(fRaw) ): 
+            urllib.urlretrieve(csv_url, fRaw)
+
+        # read updated date
+        print('  read date')
+        if( isfile(fRaw) ): 
+            with open(fRaw, 'r') as file:
+                page_content = file.read()
+        else: return []
+
+        c_tree = html.fromstring(page_content)
+        print('    look for updated date')
+        se_dates = c_tree.xpath('//span/text()')
         for se_data in se_dates:
-            if('Washington County' in se_data):
-                n_start = se_data.find(se_data)
-                s_date = se_data[n_start:].split(':')
+            if('2020' in se_data):
+                print('      updated date', se_data)
+                break
+        print('    look for county data')
+        se_dates = c_tree.xpath('//span/text()')
+        for se_data in se_dates:
+            if('TOTAL case counts' in se_data):
+                print('    county case,', se_data)
+                break
 
     
     ## paser data Ut
@@ -140,8 +179,12 @@ class dataGrabUT(object):
             self.name_file = name_file
             f_name = self.state_dir + 'data_html/'+self.state_name.lower()+'_covid19_'+self.name_file+'.html'
             if(not os.path.isdir(self.state_dir + 'data_html/') ): os.mkdir(self.state_dir + 'data_html/')
+
             # step A: downlowd and save
-            lst_raw_data = self.open4Website(f_name)
+            lst_raw_data = self.open4WebsiteMain(f_name)
+            self.open4WebsiteSeu(f_name, lst_raw_data)
+            self.open4WebsiteSwu(f_name, lst_raw_data)
+
             # step B: parse and open
             lst_data = self.saveLatestDateUt(lst_raw_data)
             return(lst_data, self.name_file, self.now_date)  #add in l_d_all
