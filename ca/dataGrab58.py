@@ -22,6 +22,12 @@ from os.path import isfile, join
 from matplotlib.patches import Wedge
 import matplotlib.pyplot as plt
 import math
+
+####New imports
+import urllib2
+import numpy
+from numpy import savetxt
+import datetime
 # ==============================================================================
 # -- codes -------------------------------------------------------------------
 # ==============================================================================
@@ -63,6 +69,38 @@ class dataGrab(object):
         return l_data
     ## paser data CA
     def parseDataCa(self, name_file):
+        url = self.l_state_config[5][1]
+        print('  grab data from', url)
+        response = urllib2.urlopen(url)
+        cr = csv.reader(response)
+        
+        xx = list(cr)
+        result = numpy.array(xx)
+        date=result[-1,1]
+        dd=datetime.datetime.strptime(date, '%m/%d/%Y').strftime('%Y%m%d')
+        originalData = result[-59:-1].T
+
+        #Create the data
+        myData=[]
+        myData.append(['County', 'Cases', 'Deaths', 'Date'])
+        myData.extend(originalData[[0, 2, 3, 1]].T)
+        total_daily=(sum(map(int, originalData[2])))
+        total_death=(sum(map(int, originalData[3])))
+        myData.append(['Total', total_daily, total_death, 'Today'])
+
+        #Save the raw data
+        link_dir =  self.state_dir + 'data_raw/'
+        if(not os.path.isdir(link_dir) ): os.mkdir(link_dir)
+        fn_raw = self.state_name.lower()+'_covid19_'+dd+'.csv'
+        urllib.urlretrieve(self.l_state_config[5][1], link_dir+fn_raw)  #, context=gcontext)
+        print('  save raw data to', link_dir+fn_raw)
+        #filename="data/ca_covid19_"+dd+".csv"
+        #numpy.savetxt(link_dir+fn_raw, x, fmt='"%s"')
+        #print(filename)
+        return (myData, dd, date)
+
+    ## paser data of Counties
+    def parseDataCaCounties(self, name_file):
         l_links = self.open4File(self.state_dir + self.l_state_config[5][1])
         if(not os.path.isdir(self.state_dir + 'data_html/') ): os.mkdir(self.state_dir + 'data_html/')
         link_dir =  self.state_dir + 'data_html/' + name_file + '/'

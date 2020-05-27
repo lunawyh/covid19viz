@@ -423,10 +423,12 @@ class runCoViz(object):
             # create new class
             data_grab = dataGrab(self.l_state_config, self.state_name)	
             # download as a raw file
-            lst_data = data_grab.parseDataCa(self.name_file)		
-            f_name = self.state_dir + 'data/'+self.state_name.lower()+'_covid19_'+self.name_file+'.csv'
+            lst_data, name_file, now_date = data_grab.parseDataCa(self.name_file)		
             # save
-            self.save2File( lst_data, f_name )
+            if(len(lst_data) > 0):
+                self.name_file, self.now_date = name_file, now_date
+                f_name = self.state_dir + 'data/'+self.state_name.lower()+'_covid19_'+self.name_file+'.csv'
+                self.save2File( lst_data, f_name )
         elif( type_download == 23):   # download only
             sys.path.insert(0, "./ms")
             from dataGrabMS23 import *

@@ -4,7 +4,7 @@ VIZ_H,1000,,,1
 state_map,state_county_map.jpg,,,2
 cordinate,None,,,3
 weblink_num,101,,,4
-weblink_state,ca_county_website_Covid19.csv,,,5
+weblink_state,https://data.chhs.ca.gov/dataset/6882c390-b2d7-4b9a-aefa-2068cee63e47/resource/6cd8d424-dfaa-4bdd-9410-a3d656e1176e/download/covid19data.csv,,,5
 state_name,California,,,6
 basemap_type,1,,,7
 basemap_center,37.303872,-120.237455,,8
@@ -12,8 +12,8 @@ basemap_size,570000,570000,,9
 basemap_list_num,2,,,10
 basemap_title,5.056759,-0.898988,,11
 basemap_logo,4.076629,5.983506,,12
-basemap_list1,4.056759,-7.390411,0,13
-basemap_list2,4.056759,-5.390411,45,14
+basemap_list1,4.756759,-7.390411,0,13
+basemap_list2,1.556759,-5.390411,20,14
 basemap_list3,0,0,,15
 basemap_list4,,,,16
 basemap_list5,,,,17
