@@ -155,12 +155,12 @@ class mapViz(object):
     ## set County Info
     def setCountyInfo(self, l_counties, l_cases):
         case_max, case_col, case_total = 0, 0.0, 0
-
         for a_item in l_cases:
             if('Total' in a_item[0]): continue
             if('County' in a_item[0]): continue
-            if(a_item[1] > case_max): case_max = a_item[1] 
-            case_total += a_item[1]
+            n_case = int(a_item[1])
+            if(n_case > case_max): case_max = n_case
+            case_total += n_case
         c_color = 'w'
         cmap=plt.get_cmap("Blues")
         #l_info = []
