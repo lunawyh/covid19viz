@@ -17,6 +17,16 @@ import numpy as np
 import csv
 from os.path import isfile, join
 import pandas as pd
+import requests
+
+# In b.py:
+def cause_a_to_do_something():
+    import a
+    a.do_something()
+
+latitude = int(cause_a_to_do_something(requests.form['Latitude']))
+latitude = float(requests.form['Latitude'])
+
 #
 # In Windows
 #   download http://download.osgeo.org/osgeo4w/osgeo4w-setup-x86_64.exe and install
@@ -155,10 +165,11 @@ class mapViz(object):
     ## set County Info
     def setCountyInfo(self, l_counties, l_cases):
         case_max, case_col, case_total = 0, 0.0, 0
+
         for a_item in l_cases:
             if('Total' in a_item[0]): continue
             if('County' in a_item[0]): continue
-            if(a_item[1] > case_max): case_max = a_item[1]
+            if(a_item[1] > case_max): case_max = a_item[1] 
             case_total += a_item[1]
         c_color = 'w'
         cmap=plt.get_cmap("Blues")

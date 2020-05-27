@@ -117,7 +117,7 @@ class dataGrabFl(object):
                     s_date = re.sub("[^0-9]", "", s_date)
                     print(' &&&&&&&&&&&&&&&&&&&&&&&&& ', s_date)
 
-                    dt_obj = datetime.datetime.strptime(s_date, '%Y%m%d')
+                    dt_obj = datetime.datetime.strptime(s_date, '%m%d%y')
                     print('  updated on', dt_obj)
                     #nums = int(n_start)
                     self.name_file = dt_obj.strftime('%Y%m%d')
