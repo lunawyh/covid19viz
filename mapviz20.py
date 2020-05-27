@@ -17,16 +17,6 @@ import numpy as np
 import csv
 from os.path import isfile, join
 import pandas as pd
-import requests
-
-# In b.py:
-def cause_a_to_do_something():
-    import a
-    a.do_something()
-
-latitude = int(cause_a_to_do_something(requests.form['Latitude']))
-latitude = float(requests.form['Latitude'])
-
 #
 # In Windows
 #   download http://download.osgeo.org/osgeo4w/osgeo4w-setup-x86_64.exe and install
