@@ -16,7 +16,7 @@ import pandas as pd
 import csv
 import datetime 
 import urllib
-
+import re
 import requests
 from lxml import html
 import json
@@ -57,7 +57,7 @@ class dataGrabUT(object):
         for a_row in l_data:
             csvwriter.writerow(a_row)
         csv_data_f.close()
-
+        print('  save2File', csv_name)
     ## open a csv 
     def open4File(self, csv_name):
         if(isfile(csv_name) ):
@@ -121,10 +121,12 @@ class dataGrabUT(object):
     def open4WebsiteSwu(self, fRaw, lst_data):  	# https://swuhealth.org/covid/
         csv_url = self.l_state_config[5][3]
         print('  open4WebsiteSwu', csv_url)
-        # save html file
+        
+        # save html file, can not use urllib.urlretrieve
+        r = requests.get(csv_url)
         fRaw = fRaw.replace('.html', 'swu.html')
-        if(not isfile(fRaw) ): 
-            urllib.urlretrieve(csv_url, fRaw)
+        with open(fRaw, 'wb') as f:
+            f.write(r.content)
 
         # read updated date
         print('  read date')
@@ -138,9 +140,20 @@ class dataGrabUT(object):
         sw_dates = c_tree.xpath('//img')   # ('//div[@class="col-xs-12 button--wrap"]')
         for sw_data in sw_dates:
             sw_detail = sw_data.get('alt')
-            print('    sw_detail', sw_detail)
+            #print('    sw_detail', sw_detail)
             if('COVID-19 Update' in sw_detail):
-                print('      updated date', sw_data)
+                l_detail1 = sw_detail.split('.')
+                print('      updated date', l_detail1[0])
+                l_detail2 = l_detail1[2].split('\n')
+                for a_county in l_detail2:
+                    l_detail3 = a_county.split(':')
+                    if(len(l_detail3) > 1): 
+                        if(not 'County' in l_detail3[0]): continue
+                        county_name = l_detail3[0].replace(' County', '')
+                        county_num = (l_detail3[1].split(' ')[1])
+                        county_num = re.sub("[^0-9]", "", county_num)
+                        #print('      data:', county_name, int(county_num) )
+                        lst_data.append([county_name, county_num, 0])
                 break
 
     # southeast counties
