@@ -587,7 +587,7 @@ class runCoViz(object):
         line_h=13	
         offset_h = int( self.l_state_config[1][1] ) - line_h * len(l_cases)/2-25
         for a_case in l_cases:
-            if('County' in str(a_case[0])):
+            if(str(a_case[0]) in 'County'):
                 continue
             elif('Total' in str(a_case[0])):
                 wish_total = int(a_case[1])

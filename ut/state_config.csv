@@ -7,12 +7,12 @@ weblink_num,44,,,4
 weblink_state,https://coronavirus-dashboard.utah.gov/,https://www.seuhealth.com/covid-19,https://swuhealth.org/covid/,5
 state_name,Utah,,,6
 basemap_type,1,,,7
-basemap_center,38.954635,-111.751988,,8
-basemap_size,370000,370000,,9
+basemap_center,39.854635,-111.751988,,8
+basemap_size,300000,300000,,9
 basemap_list_num,2,,,10
-basemap_title,3.156759,-1.898988,1,11
-basemap_logo,2.476629,3.783506,1,12
-basemap_list1,1.139652,-4.390411,0,13
+basemap_title,2.656759,-1.898988,1,11
+basemap_logo,1.976629,3.283506,1,12
+basemap_list1,1.139652,-3.890411,0,13
 basemap_list2,0.339652,-2.390411,45,14
 basemap_list3,0,0,0,15
 basemap_list4,0,0,0,16

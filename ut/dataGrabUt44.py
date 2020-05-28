@@ -20,6 +20,7 @@ import re
 import requests
 from lxml import html
 import json
+import numpy as np
 # ==============================================================================
 # -- codes -------------------------------------------------------------------
 # ==============================================================================
@@ -134,6 +135,7 @@ class dataGrabUT(object):
             with open(fRaw, 'r') as file:
                 page_content = file.read()
         else: return []
+        lst_data = lst_data[0:-1]  # remove total row
 
         c_tree = html.fromstring(page_content)
         print('    look for updated date and county data')
@@ -143,7 +145,7 @@ class dataGrabUT(object):
             #print('    sw_detail', sw_detail)
             if('COVID-19 Update' in sw_detail):
                 l_detail1 = sw_detail.split('.')
-                print('   *******************************   updated date', l_detail1[0])
+                print('      updated date', l_detail1[0])
                 l_detail2 = l_detail1[2].split('\n')
                 for a_county in l_detail2:
                     l_detail3 = a_county.split(':')
@@ -152,10 +154,16 @@ class dataGrabUT(object):
                         county_name = l_detail3[0].replace(' County', '')
                         county_num = (l_detail3[1].split(' ')[1])
                         county_num = re.sub("[^0-9]", "", county_num)
-                        #print('      data:', county_name, int(county_num) )
+                        print('      data:', county_name, int(county_num) )
                         lst_data.append([county_name, county_num, 0])
                 break
-
+        # calculate total
+        xx = list(lst_data[:])
+        arr_data_all = np.array(xx).T        
+        total_confirmed=(sum(map(int, arr_data_all[1])))
+        total_death=(sum(map(int, arr_data_all[2])))
+        lst_data.append(['Total', total_confirmed, total_death])
+        return lst_data
     # southeast counties
     def open4WebsiteSeu(self, fRaw, lst_data):	# https://www.seuhealth.com/covid-19
         csv_url = self.l_state_config[5][2]
@@ -203,7 +211,7 @@ class dataGrabUT(object):
                         lst_data.append([county_name, county_num, 0])
                 print('    county case,', se_data)
                 break
-
+        return lst_data
     
     ## paser data Ut
     def parseData(self, name_file):
@@ -213,8 +221,8 @@ class dataGrabUT(object):
 
             # step A: downlowd and save
             lst_raw_data = self.open4WebsiteMain(f_name)
-            self.open4WebsiteSeu(f_name, lst_raw_data)
-            self.open4WebsiteSwu(f_name, lst_raw_data)
+            lst_raw_data = self.open4WebsiteSeu(f_name, lst_raw_data)
+            lst_raw_data = self.open4WebsiteSwu(f_name, lst_raw_data)
 
             # step B: parse and open
             lst_data = self.saveLatestDateUt(lst_raw_data)
