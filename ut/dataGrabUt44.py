@@ -143,7 +143,7 @@ class dataGrabUT(object):
             #print('    sw_detail', sw_detail)
             if('COVID-19 Update' in sw_detail):
                 l_detail1 = sw_detail.split('.')
-                print('      updated date', l_detail1[0])
+                print('   *******************************   updated date', l_detail1[0])
                 l_detail2 = l_detail1[2].split('\n')
                 for a_county in l_detail2:
                     l_detail3 = a_county.split(':')
@@ -181,8 +181,26 @@ class dataGrabUT(object):
                 break
         print('    look for county data')
         se_dates = c_tree.xpath('//span/text()')
+        print (')))))))))))))))))))))))))))',se_dates)
         for se_data in se_dates:
+            #se_detail = se_data.find('Washington County')
+            se_detail = se_dates[['Washingto County', 'Utah']]
+
+            #se_detail = sedetail.append['Washingto County': ]
+            print ('**********&{&&&&&&&&&&*((((((((((',se_detail)
             if('TOTAL case counts' in se_data):
+                l_detail1 = se_detail.split('.')
+                print('   *******************************   updated date', l_detail1[0])
+                l_detail2 = l_detail1[2].split('\n')
+                for a_county in l_detail2:
+                    l_detail3 = a_county.split(':')
+                    if(len(l_detail3) > 1): 
+                        if(not 'County' in l_detail3[0]): continue
+                        county_name = l_detail3[0].replace(' County', '')
+                        county_num = (l_detail3[1].split(' ')[1])
+                        county_num = re.sub("[^0-9]", "", county_num)
+                        #print('      data:', county_name, int(county_num) )
+                        lst_data.append([county_name, county_num, 0])
                 print('    county case,', se_data)
                 break
 
