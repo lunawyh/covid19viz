@@ -181,6 +181,7 @@ class predictionViz(object):
         day_mmdd = day_mmdd[preDay:]    # postDay   
         #if(self.state_name in 'MI'): data[-2] = data[-1] * 1.15 # updated on 4/12/2020
         if(len(data) < 2): return False
+        print(' lst_data_daily', data)
         days = np.arange(0.0, len(data), 1.0)
         popt, pcov = curve_fit(self.SIR, days, data)
         print(' contact parameter, recovery rate:', popt)

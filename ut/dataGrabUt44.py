@@ -136,6 +136,13 @@ class dataGrabUT(object):
                 page_content = file.read()
         else: return []
         lst_data = lst_data[0:-1]  # remove total row
+        lst_data_sw = []
+        # reset subtotal of SW
+        for a_item in lst_data:
+            if('Southwest Utah' in a_item[0]):
+                lst_data_sw.append(['Southwest Utah', 0, a_item[2]])
+            else:
+                lst_data_sw.append(a_item)
 
         c_tree = html.fromstring(page_content)
         print('    look for updated date and county data')
@@ -155,15 +162,15 @@ class dataGrabUT(object):
                         county_num = (l_detail3[1].split(' ')[1])
                         county_num = re.sub("[^0-9]", "", county_num)
                         print('      data:', county_name, int(county_num) )
-                        lst_data.append([county_name, county_num, 0])
+                        lst_data_sw.append([county_name, county_num, 0])
                 break
         # calculate total
-        xx = list(lst_data[:])
+        xx = list( sorted(lst_data_sw) )
         arr_data_all = np.array(xx).T        
         total_confirmed=(sum(map(int, arr_data_all[1])))
         total_death=(sum(map(int, arr_data_all[2])))
-        lst_data.append(['Total', total_confirmed, total_death])
-        return lst_data
+        lst_data_sw.append(['Total', total_confirmed, total_death])
+        return lst_data_sw
     # southeast counties
     def open4WebsiteSeu(self, fRaw, lst_data):	# https://www.seuhealth.com/covid-19
         csv_url = self.l_state_config[5][2]
@@ -179,6 +186,14 @@ class dataGrabUT(object):
             with open(fRaw, 'r') as file:
                 page_content = file.read()
         else: return []
+        lst_data = lst_data[0:-1]  # remove total row
+        lst_data_se = []
+        # reset subtotal of SE
+        for a_item in lst_data:
+            if('Southeast Utah' in a_item[0]):
+                lst_data_se.append(['Southeast Utah', 0, a_item[2]])
+            else:
+                lst_data_se.append(a_item)
 
         c_tree = html.fromstring(page_content)
         print('    look for updated date')
@@ -188,30 +203,29 @@ class dataGrabUT(object):
                 print('      updated date', se_data)
                 break
         print('    look for county data')
-        se_dates = c_tree.xpath('//span/text()')
-        print (')))))))))))))))))))))))))))',se_dates)
+        se_dates = c_tree.xpath('//h3[@style="font-size:28px; text-align:center;"]/text()')
+        l_county_cases = []
         for se_data in se_dates:
-            #se_detail = se_data.find('Washington County')
-            se_detail = se_dates[['Washingto County', 'Utah']]
-
-            #se_detail = sedetail.append['Washingto County': ]
-            print ('**********&{&&&&&&&&&&*((((((((((',se_detail)
-            if('TOTAL case counts' in se_data):
-                l_detail1 = se_detail.split('.')
-                print('   *******************************   updated date', l_detail1[0])
-                l_detail2 = l_detail1[2].split('\n')
-                for a_county in l_detail2:
-                    l_detail3 = a_county.split(':')
-                    if(len(l_detail3) > 1): 
-                        if(not 'County' in l_detail3[0]): continue
-                        county_name = l_detail3[0].replace(' County', '')
-                        county_num = (l_detail3[1].split(' ')[1])
-                        county_num = re.sub("[^0-9]", "", county_num)
-                        #print('      data:', county_name, int(county_num) )
-                        lst_data.append([county_name, county_num, 0])
-                print('    county case,', se_data)
-                break
-        return lst_data
+            if(se_data.isdigit()):
+                #print('      county number:', se_data)
+                l_county_cases.append(['', int(se_data), 0])
+        c_index = 0
+        se_dates = c_tree.xpath('//span[@style="text-decoration:underline;"]/text()')
+        for se_data in se_dates:
+            if(' County' in se_data):
+                #print('      county names:', se_data)
+                l_county_cases[c_index][0] = se_data.split(' ')[0]
+                print('      data:', l_county_cases[c_index])
+                lst_data_se.append(l_county_cases[c_index])
+                c_index += 1
+                if(c_index >= len(l_county_cases)): break
+        # calculate total
+        xx = list( sorted(lst_data_se) )
+        arr_data_all = np.array(xx).T        
+        total_confirmed=(sum(map(int, arr_data_all[1])))
+        total_death=(sum(map(int, arr_data_all[2])))
+        lst_data_se.append(['Total', total_confirmed, total_death])
+        return lst_data_se
     
     ## paser data Ut
     def parseData(self, name_file):
