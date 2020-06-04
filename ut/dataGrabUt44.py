@@ -89,8 +89,10 @@ class dataGrabUT(object):
                 print('    data is updated,', l_date)
                 n_start = l_date.find(l_date)
                 s_date = l_date[n_start:].split(':')
+                s_date = s_date[1]
+
                 #print (s_date[1]) # an example,  May 24, 2020
-                dt_obj = datetime.datetime.strptime(s_date[1], " %b %d, %Y")
+                dt_obj = datetime.datetime.strptime(s_date.replace(' 0', ' '), " %b %d, %Y")
                 self.name_file = dt_obj.strftime('%Y%m%d')
                 self.now_date = dt_obj.strftime('%m/%d/%Y')
                 print('    name_file is updated:', self.name_file)
