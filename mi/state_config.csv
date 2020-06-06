@@ -3,7 +3,7 @@ VIZ_W,880,,,0
 VIZ_H,1000,,,1
 state_map,mi_county2019.png,,,2
 cordinate,mi_county_cordination.csv,,,3
-weblink_num,1,,,4
+weblink_num,2,,,4
 weblink_state,"https://www.michigan.gov/coronavirus/0,9753,7-406-98163_98173---,00.html",,,5
 state_name,Michigan,,,6
 basemap_type,1,,,7

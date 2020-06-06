@@ -475,16 +475,17 @@ class runCoViz(object):
             if(len(lst_data) > 0): 
                 self.name_file, self.now_date = name_file, now_date
             ########
-        elif( type_download == 1 ):
-            f_name = self.state_dir + 'data_html/'+self.state_name.lower()+'_covid19_'+self.name_file+'.html'
-            if(not os.path.isdir(self.state_dir + 'data_html/') ): os.mkdir(self.state_dir + 'data_html/')
-            # step A: downlowd and save
-            df_a = self.open4Website(f_name)
-            f_name = self.state_dir + 'data/'+self.state_name.lower()+'_covid19_'+self.name_file+'.csv'
-            # step B: parse and open
-            lst_raw_data = self.parseDfData(df_a)
-            # step C: convert to standard file and save
-            lst_data = self.saveLatestDateMi(lst_raw_data)
+ 
+        elif( type_download == 2):   # download only
+            sys.path.insert(0, "./mi")
+            from dataGrabMI2 import *
+            # create new class
+            data_grab = dataGrabMI(self.l_state_config, self.state_name)	
+            # download as a raw file and save
+            lst_data, name_file, now_date = data_grab.parseDfData(self.name_file)		
+            if(len(lst_data) > 0): 
+                self.name_file, self.now_date = name_file, now_date
+
         elif( type_download == 10):   # download only
             sys.path.insert(0, "./la")
             from dataGrabLA10 import *
