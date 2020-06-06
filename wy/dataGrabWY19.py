@@ -73,15 +73,21 @@ class dataGrabUT(object):
         print('  open4WebsiteMain', csv_url)
         # save html file
         if(not isfile(fRaw) ): 
-            urllib.urlretrieve(csv_url, fRaw
+            #urllib.urlretrieve(csv_url, fRaw)
+            # save html file, can not use urllib.urlretrieve
+            r = requests.get(csv_url)
+            with open(fRaw, 'wb') as f:
+                f.write(r.content)
         # read updated date
-        print('  read date')
-        if( isfile(fRaw) ): 
-            with open(fRaw, 'r') as file:
-                page_content = file.read()
-        else: return []
-        lst_data = lst_data[0:-1]  # remove total row
-        lst_data_se = []
+        print( 'read date')
+        #if( isfile(fRaw)): 
+        #    with open(fRaw, 'r') as file:
+        #        page_content = file.read()
+        #else: return []
+        c_page = requests.get(csv_url)
+        page_content = c_page.content
+        print('  page_content', page_content)
+        #lst_data_se = []
         # reset subtotal of SE
         '''
         for a_item in lst_data:
@@ -93,13 +99,14 @@ class dataGrabUT(object):
 
         c_tree = html.fromstring(page_content)
         print('    look for updated date')
-        se_dates = c_tree.xpath('//span/text()')
+        se_dates = c_tree.xpath('//strong/text()')
         for se_data in se_dates:
-            #change the month every month
-            if('2020-06' in se_data):
+            print('  se_data', se_data)
+            if('/' in se_data):
                 print('      updated date', se_data)
-                break
+                #break
         print('    look for county data')
+        '''
         se_dates = c_tree.xpath('//h3[@class = "yoast-schema-graph yoast-schema-graph--main"]/text()')
         l_county_cases = []
         for se_data in se_dates:
@@ -122,7 +129,8 @@ class dataGrabUT(object):
         total_confirmed=(sum(map(int, arr_data_all[1])))
         total_death=(sum(map(int, arr_data_all[2])))
         lst_data_se.append(['Total', total_confirmed, total_death])
-        return lst_data_se
+        '''
+        return []
     
     ## paser data Ut
     def parseData(self, name_file):

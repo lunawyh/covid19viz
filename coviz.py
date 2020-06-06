@@ -28,6 +28,7 @@ import urllib
 from shutil import copyfile
 from rainbowviz21 import *
 from predictionviz22 import *
+
 from lxml import html
 import requests
 import sys
@@ -338,9 +339,25 @@ class runCoViz(object):
                 self.now_date = dt_obj.strftime('%m/%d/%Y')
                 break
         # read tables
-        cov_tables = pd.read_html(csv_url)
-        # read 1st table: Overall Confirmed COVID-19 Cases by County
-        return cov_tables[0]
+        s_date = ''
+        if(isfile(fRaw) ):
+            xl_file = pd.ExcelFile(fRaw)
+            #print(xl_file.sheet_names)
+            nfx = ''
+            for sheet in xl_file.sheet_names:
+                if 'Sheet 1' in (sheet):
+                    nfx = sheet
+                    break
+
+            if nfx == '':return [], s_date
+            df = xl_file.parse( nfx )
+            n_date = df.columns[0].find('COUNTY')
+            if(n_date >= 0):
+                s_date = df.columns[ :0] + columns[1: ]
+                print(' @@@@@@@@@@@@@@@@@@@2s_date', s_date)
+            l_data = self.parseDfData(df)
+        else: return [], s_date
+        return l_data, s_date
     ## parse from exel format to list 
     def parseDfData(self, df, fName=None):
         (n_rows, n_columns) = df.shape 
@@ -441,6 +458,16 @@ class runCoViz(object):
         elif( type_download == 44):   # download only
             sys.path.insert(0, "./ut")
             from dataGrabUt44 import *
+            # create new class
+            data_grab = dataGrabUT(self.l_state_config, self.state_name)	
+            # download as a raw file and save
+            lst_data, name_file, now_date = data_grab.parseData(self.name_file)		
+            if(len(lst_data) > 0): 
+                self.name_file, self.now_date = name_file, now_date
+            ########
+        elif( type_download == 19):   # download only
+            sys.path.insert(0, "./wy")
+            from dataGrabWY19 import *
             # create new class
             data_grab = dataGrabUT(self.l_state_config, self.state_name)	
             # download as a raw file and save
@@ -599,6 +626,7 @@ class runCoViz(object):
                 else: 
                     posx = 180+10
                     posy = int( (ii-len(l_cases)/2)*line_h+offset_h )
+                print('$$$$$$$$$$$$$$$$$', a_case[1] )
                 n_total += int( a_case[1] )
                 if( self.getColorByCompare(a_case) ): nColor = (0,255,0)
                 else: nColor = (0,0,255)
