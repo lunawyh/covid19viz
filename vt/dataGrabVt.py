@@ -35,7 +35,7 @@ class dataGrabVt(object):
         self.now_date = ''
     ## save to csv 
     def save2File(self, l_data, csv_name):
-        csv_data_f = open(csv_name, 'w')
+        csv_data_f = open(csv_name, 'wb')
         # create the csv writer 
         csvwriter = csv.writer(csv_data_f)
         # make sure the 1st row is colum names
@@ -111,7 +111,6 @@ class dataGrabVt(object):
             total_overral += int(a_item[4])
             total_overral_deaths += int(a_item[5])
             #l_daily.append([a_item[1], a_item[2], 0])
-            l_overral.append([a_item[1], a_item[4], a_item[5]])
             l_overral.sort(key=lambda county: county[0])
         #l_daily.append(['Total', total_daily, 0])
         l_overral.append(['Total', total_overral, total_overral_deaths])

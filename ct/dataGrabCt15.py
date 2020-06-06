@@ -35,7 +35,7 @@ class dataGrabCt(object):
         self.now_date = ''
     ## save to csv 
     def save2File(self, l_data, csv_name):
-        csv_data_f = open(csv_name, 'w')
+        csv_data_f = open(csv_name, 'wb')
         # create the csv writer 
         csvwriter = csv.writer(csv_data_f)
         # make sure the 1st row is colum names
@@ -78,11 +78,11 @@ class dataGrabCt(object):
             #
             bFound = False
             for a_date in l_date:
-                if(a_date in a_item[2]):
+                if(a_date in a_item[0]):
                     bFound = True
                     break
             if(not bFound):
-                l_date.append(a_item[2])
+                l_date.append(a_item[0])
         # generate all daily data
         l_daily = []
         for a_date in l_date:
@@ -98,20 +98,20 @@ class dataGrabCt(object):
         total_overral_deaths = 0
         for a_item in l_data:
             #if (a_test_date is None):
-            if (initial_test_date is None and a_test_date in a_item[2]):
+            if (initial_test_date is None and a_test_date in a_item[0]):
                 initial_test_date = a_test_date
                 dt_obj = datetime.datetime.strptime(a_test_date, '%m/%d/%Y')
                 self.name_file = dt_obj.strftime('%Y%m%d')
                 self.now_date = dt_obj.strftime('%m/%d/%Y')
-            elif (a_test_date in a_item[2]):
+            elif (a_test_date in a_item[0]):
                 pass
             else:
                 continue
             #total_daily += int(a_item[2])
             total_overral += int(a_item[3])
-            total_overral_deaths += int(a_item[6])
+            total_overral_deaths += int(a_item[8])
             #l_daily.append([a_item[1], a_item[2], 0])
-            l_overral.append([a_item[1], a_item[3], a_item[6]])
+            l_overral.append([a_item[2], a_item[3], a_item[8]])
         #l_daily.append(['Total', total_daily, 0])
         l_overral.append(['Total', total_overral, total_overral_deaths])
         #if (not os.path.isdir(self.state_dir + 'daily/')): os.mkdir(self.state_dir + 'daily/')
