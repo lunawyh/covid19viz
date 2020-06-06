@@ -339,25 +339,9 @@ class runCoViz(object):
                 self.now_date = dt_obj.strftime('%m/%d/%Y')
                 break
         # read tables
-        s_date = ''
-        if(isfile(fRaw) ):
-            xl_file = pd.ExcelFile(fRaw)
-            #print(xl_file.sheet_names)
-            nfx = ''
-            for sheet in xl_file.sheet_names:
-                if 'Sheet 1' in (sheet):
-                    nfx = sheet
-                    break
-
-            if nfx == '':return [], s_date
-            df = xl_file.parse( nfx )
-            n_date = df.columns[0].find('COUNTY')
-            if(n_date >= 0):
-                s_date = df.columns[ :0] + columns[1: ]
-                print(' @@@@@@@@@@@@@@@@@@@2s_date', s_date)
-            l_data = self.parseDfData(df)
-        else: return [], s_date
-        return l_data, s_date
+        cov_tables = pd.read_html(csv_url)
+        # read 1st table: Overall Confirmed COVID-19 Cases by County
+        return cov_tables[0]
     ## parse from exel format to list 
     def parseDfData(self, df, fName=None):
         (n_rows, n_columns) = df.shape 
@@ -627,7 +611,6 @@ class runCoViz(object):
                 else: 
                     posx = 180+10
                     posy = int( (ii-len(l_cases)/2)*line_h+offset_h )
-                print('$$$$$$$$$$$$$$$$$', a_case[1] )
                 n_total += int( a_case[1] )
                 if( self.getColorByCompare(a_case) ): nColor = (0,255,0)
                 else: nColor = (0,0,255)

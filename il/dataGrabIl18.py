@@ -18,6 +18,10 @@ import datetime
 import urllib
 import ssl
 from lxml import html
+from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.common.action_chains import ActionChains
+import time
 # ==============================================================================
 # -- codes -------------------------------------------------------------------
 # ==============================================================================
@@ -70,7 +74,7 @@ class dataGrabIl(object):
         else: return []
         return l_data
     ## save to csv
-    def saveLatestDateOh(self, l_data):
+    def saveLatestDateIl(self, l_data):
         # find different date time
         l_dates = []
         for a_item in l_data:
@@ -87,7 +91,7 @@ class dataGrabIl(object):
                 l_dates.append(dt_src)
         # generate all daily data
         l_date_sort = sorted(l_dates, reverse=False)
-        print('  saveLatestDateOh', len(l_date_sort))
+        print('  saveLatestDateIl', len(l_date_sort))
         l_daily = []
         for a_date in l_date_sort:
             l_daily = self.saveDataFromDlOh(l_data, a_date, bDaily=False)
@@ -177,20 +181,38 @@ class dataGrabIl(object):
         if(fName is not None): self.save2File( lst_data, fName )
         return lst_data
     ## download a website 
-    def download4Website(self, fRaw):
+    def saveWebsite(self, fRaw):
         csv_url = self.l_state_config[5][1]
         print('  download4Website', csv_url)
-        # save csv file
-        if(isfile(fRaw) ): pass
+        driver = webdriver.Chrome()
+        driver.get(csv_url)
+        time.sleep(2)
+        driver.find_elements_by_link_text('By County')[0].click()
+        #time.sleep(1)
+        #driver.find_element_by_id("input-filter").send_keys("Alexander")
+        time.sleep(1)
+        #driver.find_element_by_id("myDiv").click()
+        #ActionChains(driver).double_click(qqq).perform()
+        driver.execute_script('createTableRows(99);')
+        time.sleep(1)
+        page_text = driver.page_source
+        with open(fRaw, "w") as fp:
+            fp.write(page_text.encode('utf8'))
+        time.sleep(1)
+        driver.quit()  # close the window
+        #f = file('test', 'r')
+        #print f.read().decode('utf8')
+
+        return page_text
+    ## download a website 
+    def download4Website(self, fRaw):
+        # save raw html file
+        if(isfile(fRaw) ): 
+            f = file(fRaw, 'r')
+            page_content = f.read().decode('utf8')
         else:    
-            urllib.urlretrieve(csv_url, fRaw)
+            page_content = self.saveWebsite(fRaw)
             print('  saved to', fRaw)
-        # read html file
-        print('  read date')
-        if( isfile(fRaw) ): 
-            with open(fRaw, 'r') as file:
-                page_content = file.read()
-        else: return []
         # read updated data
         c_tree = html.fromstring(page_content)
         print('    look for updated date') 
@@ -206,9 +228,14 @@ class dataGrabIl(object):
             #print('  page_content:', page_content[n_start:n_end+8])
             c_tree = html.fromstring(page_content[n_start:n_end+8])
             se_dates = c_tree.xpath('//a/text()') 
+            print('      county', len(se_dates))
             for se_data in se_dates:
-                print('      cases', se_data)
+                print('      ', se_data)
                 #break
+            se_dates = c_tree.xpath('//td/text()') 
+            print('      cases', len(se_dates))
+            for se_data in se_dates:
+                print('      ', se_data)
 
         return []
     ## paser data CA
@@ -221,7 +248,7 @@ class dataGrabIl(object):
             # step B: parse and open
             lst_raw_data = [] # self.open4File(f_name)
             # step C: convert to standard file and save
-            lst_data = self.saveLatestDateOh(lst_raw_data)
+            lst_data = self.saveLatestDateIl(lst_raw_data)
             return(lst_data, self.name_file, self.now_date)  
 
 ## end of file
