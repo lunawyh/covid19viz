@@ -36,14 +36,6 @@ import sys
 # -- codes -------------------------------------------------------------------
 # ==============================================================================
 
-recursion_limit = sys.getrecursionlimit()
-
-print(recursion_limit)
-sys.setrecursionlimit(2000)
-new_recursion_limit = sys.getrecursionlimit()
-
-print(new_recursion_limit)
-
 # class for mapping
 class runCoViz(object):
     ## the start entry of this class
