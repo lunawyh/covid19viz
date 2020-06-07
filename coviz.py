@@ -36,6 +36,14 @@ import sys
 # -- codes -------------------------------------------------------------------
 # ==============================================================================
 
+recursion_limit = sys.getrecursionlimit()
+
+print(recursion_limit)
+sys.setrecursionlimit(2000)
+new_recursion_limit = sys.getrecursionlimit()
+
+print(new_recursion_limit)
+
 # class for mapping
 class runCoViz(object):
     ## the start entry of this class
@@ -466,7 +474,8 @@ class runCoViz(object):
             # create new class
             data_grab = dataGrabMI(self.l_state_config, self.state_name)	
             # download as a raw file and save
-            lst_data, name_file, now_date = data_grab.parseData(self.name_file)		
+            lst_data, name_file, now_date = data_grab.parseData(self.name_file)	
+            #len(the number of characters is a string/object)
             if(len(lst_data) > 0): 
                 self.name_file, self.now_date = name_file, now_date
 
