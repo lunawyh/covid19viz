@@ -48,16 +48,13 @@ class dataGrabMI(object):
 
     ## save to csv 
     def save2File(self, l_data, csv_name):
-        '''
         csv_data_f = open(csv_name, 'w')
         # create the csv writer 
         csvwriter = csv.writer(csv_data_f)
-        '''
-        l_overall = []
-        offset = 0   # after 5/5 changed from 1 to 0
         # make sure the 1st row is colum names
         if('County' in str(l_data[0][0])): pass
         else: csvwriter.writerow(['County', 'Cases', 'Deaths'])
+<<<<<<< HEAD
         for a_item in l_data:
             #if 'County' in str(a_item[offset]):continue
             #if str(a_item [1]) in '0':
@@ -69,6 +66,11 @@ class dataGrabMI(object):
         self.save2File(l_overall, self.state_dir + 'data/'+self.state_name.lower()+'_covid19_'+self.name_file+'.csv')
         return l_overall
       
+=======
+        for a_row in l_data:
+            csvwriter.writerow(a_row)
+        csv_data_f.close()
+>>>>>>> ba31c91a02e48830c870d0de9262e49802d1002a
     ## open a csv 
     def open4File(self, csv_name):
         if(isfile(csv_name) ):
@@ -95,7 +97,7 @@ class dataGrabMI(object):
                 self.name_file = dt_obj.strftime('%Y%m%d')
                 self.now_date = dt_obj.strftime('%m/%d/%Y')
                 break
-        return [], ''
+        return True
     ## parse from exel format to list 
     def parseDfData(self, df, fName=None):
         (n_rows, n_columns) = df.shape 
@@ -130,22 +132,28 @@ class dataGrabMI(object):
             #if str(a_item [1]) in '0':
             #    a_item[1]='Total'
                 
-            l_overall.append(a_item[offset:])  
+            l_overall.append([a_item[0], a_item[2], a_item[3]])  
         #for a_item in l_overall:
         #    print (a_item)
         self.save2File(l_overall, self.state_dir + 'data/'+self.state_name.lower()+'_covid19_'+name_file+'.csv')
         return l_overall
     ## open a xlsx 
     def open4Xlsx(self, xlsx_name):
+<<<<<<< HEAD
         s_date = ''
         #see if xlsx_name is a real path
         if(isfile(xlsx_name) ):  
             #to let the xlsx_name to have colums and rows
+=======
+        l_data = []
+        if(isfile(xlsx_name) ):
+>>>>>>> ba31c91a02e48830c870d0de9262e49802d1002a
             xl_file = pd.ExcelFile(xlsx_name)
-            #print(xl_file.sheet_names)
+            print('  sheet_names', xl_file.sheet_names)
             nfx = ''
             #the xl_file has small files in it, and we only take the sheet1
             for sheet in xl_file.sheet_names:
+<<<<<<< HEAD
                 if 'sheet1' in (sheet):
                     #append the data in sheet1 to nfx?
                     nfx = sheet
@@ -163,24 +171,33 @@ class dataGrabMI(object):
                 #print(' s_date', s_date)
             '''
             #parse the data df (nfx(sheet1 data))
+=======
+                if 'Sheet 1' in (sheet):
+                    nfx = sheet
+                    break
+            if nfx == '':return []
+            df = xl_file.parse( nfx )
+            
+>>>>>>> ba31c91a02e48830c870d0de9262e49802d1002a
             l_data = self.parseDfData(df)
-        else: return [], s_date
-        return l_data, s_date
+            #print('  l_data', l_data)
+        return l_data
     ## paser data CA
     def parseData(self, name_file):
-            f_name = self.state_dir + 'data_raw/'+self.state_name.lower()+'_covid19_'+name_file+'.html'
-            f_n_total = self.state_dir + 'data_raw/'+self.state_name.lower()+'_covid19_'+name_file+'.xlsx'
+            self.name_file = name_file
+            # step A: read date
+            self.open4Website(name_file)
+            # step B: save raw
+            f_name = self.state_dir + 'data_raw/'+self.state_name.lower()+'_covid19_'+self.name_file+'.html'
+            f_n_total = self.state_dir + 'data_raw/'+self.state_name.lower()+'_covid19_'+self.name_file+'.xlsx'
             if(not os.path.isdir(self.state_dir + 'data_raw/') ): os.mkdir(self.state_dir + 'data_raw/')
-            # step A: downlowd and save
-            #gcontext = ssl._create_unverified_context()
+            # 
             urllib.urlretrieve(self.l_state_config[5][2], f_n_total)
             urllib.urlretrieve(self.l_state_config[5][1], f_name)
-            # step B: parse and open
-            self.open4Website(f_name)
+            # step C: read data file and convert to standard file and save
             lst_raw_data = self.open4Xlsx(f_n_total)
 
-            # step C: convert to standard file and save
-            lst_data = self.saveLatestDateTx(lst_raw_data, name_file)
+            lst_data = self.saveLatestDateTx(lst_raw_data, self.name_file)
             return(lst_data, self.name_file, self.now_date)  
 
 
