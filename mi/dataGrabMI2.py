@@ -110,15 +110,17 @@ class dataGrabMI(object):
     def saveLatestDateTx(self, l_raw_data, name_file):
         l_overall = []
         offset = 0   # after 5/5 changed from 1 to 0
+        total_cases, total_death = 0, 0
         l_overall.append(['County', 'Cases', 'Deaths'])
         for a_item in l_raw_data:
-            #if 'County' in str(a_item[offset]):continue
-            #if str(a_item [1]) in '0':
-            #    a_item[1]='Total'
+            #if ('Confirmed' in a_item[1]): pass
+            #else: continue
+            #total_cases += a_item[2]
+            #total_death += a_item[3]
                 
             l_overall.append([a_item[0], a_item[2], a_item[3]])  
-        #for a_item in l_overall:
-        #    print (a_item)
+        l_overall.append(['Total', total_cases, total_death])  
+        print ('  Total', total_cases, total_death)
         self.save2File(l_overall, self.state_dir + 'data/'+self.state_name.lower()+'_covid19_'+name_file+'.csv')
         return l_overall
     ## open a xlsx 
