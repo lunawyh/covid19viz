@@ -17,6 +17,7 @@ import csv
 import datetime 
 import urllib
 import ssl
+import requests
 # ==============================================================================
 # -- codes -------------------------------------------------------------------
 # ==============================================================================
@@ -65,7 +66,11 @@ class dataGrabMa(object):
         if(fName is not None): self.save2File( lst_data, fName )
         return lst_data
     ## open a csv 
-    def open4File(self, csv_name):
+    def open4File(self, f_name):
+        # unzip downloaded file and get a csv file
+        print('  unzip ...')
+        # open a csv file
+        csv_name = 'County.csv'
         if(isfile(csv_name) ):
             df = pd.read_csv(csv_name)
             l_data = self.parseDfData(df)
@@ -115,9 +120,9 @@ class dataGrabMa(object):
             total_overral_deaths += int(a_item[5])
             #l_daily.append([a_item[1], a_item[2], 0])
             l_pending = []
-            if 'Pending Validation' in a_item
+            if 'Pending Validation' in a_item:
                 l_pending = a_item
-            else
+            else:
                 l_overral.append([a_item[1], a_item[4], a_item[5]])
             l_overral.sort(key=lambda county: county[0])
         #l_daily.append(['Total', total_daily, 0])
@@ -134,14 +139,34 @@ class dataGrabMa(object):
 
     ## download a website 
     def download4Website(self, fRaw):
-        csv_url = self.l_state_config[5][1]
+        zip_url = self.l_state_config[5][1]
+        print('  download4Website from', zip_url)
+        # get the updated date from the website
+        # update self.name_file and self.now_date
+        print('  get the updated date ...')
+        c_page = requests.get(self.l_state_config[5][2])
+        ''' this is an example ONLY
+        c_tree = html.fromstring(c_page.content)
+        l_dates = c_tree.xpath('//strong/text()')
+        for l_date in l_dates:
+            if('Confirmed COVID-19 Cases by Jurisdiction updated' in l_date):
+                a_date = l_date.replace('Confirmed COVID-19 Cases by Jurisdiction updated ', '')
+                dt_obj = datetime.datetime.strptime(a_date, '%m/%d/%Y')
+                self.name_file = dt_obj.strftime('%Y%m%d')
+                self.now_date = dt_obj.strftime('%m/%d/%Y')
+                break
+        '''
         # save csv file
-        urllib.urlretrieve(csv_url, fRaw)
+        #urllib.urlretrieve(csv_url, fRaw)  # does NOT work
+        r = requests.get(zip_url)        
+        with open(fRaw, 'wb') as f:
+            f.write(r.content)
+        print('  saved to', fRaw)
         return True
     ## paser data CA
     def parseData(self, name_target, type_download):
             self.name_file = name_target
-            f_name = self.state_dir + 'data_raw/'+self.state_name.lower()+'_covid19_'+self.name_file+'.csv'
+            f_name = self.state_dir + 'data_raw/'+self.state_name.lower()+'_covid19_'+self.name_file+'.zip'
             if(not os.path.isdir(self.state_dir + 'data_raw/') ): os.mkdir(self.state_dir + 'data_raw/')
             # step A: downlowd and save
             result = self.download4Website(f_name)
