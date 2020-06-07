@@ -54,23 +54,9 @@ class dataGrabMI(object):
         # make sure the 1st row is colum names
         if('County' in str(l_data[0][0])): pass
         else: csvwriter.writerow(['County', 'Cases', 'Deaths'])
-<<<<<<< HEAD
-        for a_item in l_data:
-            #if 'County' in str(a_item[offset]):continue
-            #if str(a_item [1]) in '0':
-            #    a_item[1]='Total'
-                
-            l_overall.append(a_item[offset:])  
-        #for a_item in l_overall:
-        #    print (a_item)
-        self.save2File(l_overall, self.state_dir + 'data/'+self.state_name.lower()+'_covid19_'+self.name_file+'.csv')
-        return l_overall
-      
-=======
         for a_row in l_data:
             csvwriter.writerow(a_row)
         csv_data_f.close()
->>>>>>> ba31c91a02e48830c870d0de9262e49802d1002a
     ## open a csv 
     def open4File(self, csv_name):
         if(isfile(csv_name) ):
@@ -92,7 +78,7 @@ class dataGrabMI(object):
         for l_date in l_dates:
             if('Updated ' in l_date):
                 a_date = l_date.replace('Updated ', '')
-                print('  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%a_date', a_date)
+                print('  a_date', a_date)
                 dt_obj = datetime.datetime.strptime(a_date, '%m/%d/%Y')
                 self.name_file = dt_obj.strftime('%Y%m%d')
                 self.now_date = dt_obj.strftime('%m/%d/%Y')
@@ -115,8 +101,6 @@ class dataGrabMI(object):
                 #a_case will have all the data from the 'data'
                 a_case.append( df.iloc[ii, jj] )
             lst_data.append( a_case )
-        # try to getrid of the 2nd row, it may not work?
-        lst_data = lst_data.drop(["CASE_STATUS"], axis=1)
         # save to a database file
         #if the file do not already exist
         if(fName is not None): self.save2File( lst_data, fName )
@@ -139,46 +123,18 @@ class dataGrabMI(object):
         return l_overall
     ## open a xlsx 
     def open4Xlsx(self, xlsx_name):
-<<<<<<< HEAD
-        s_date = ''
-        #see if xlsx_name is a real path
-        if(isfile(xlsx_name) ):  
-            #to let the xlsx_name to have colums and rows
-=======
         l_data = []
         if(isfile(xlsx_name) ):
->>>>>>> ba31c91a02e48830c870d0de9262e49802d1002a
             xl_file = pd.ExcelFile(xlsx_name)
             print('  sheet_names', xl_file.sheet_names)
             nfx = ''
-            #the xl_file has small files in it, and we only take the sheet1
             for sheet in xl_file.sheet_names:
-<<<<<<< HEAD
-                if 'sheet1' in (sheet):
-                    #append the data in sheet1 to nfx?
-                    nfx = sheet
-                    break
-                if 'Case and Fatalities' in (sheet):  
-                    nfx = sheet 
-                    break
-            if nfx == '':return [], s_date
-            #df will have the data in nfx(sheet1 data).what does parse mean?
-            df = xl_file.parse( nfx )
-            '''
-            n_date = df.columns[0].find('as of')
-            if(n_date >= 0):
-                s_date = df.columns[0][n_date+6 : n_date+6+5].replace(' ', '')
-                #print(' s_date', s_date)
-            '''
-            #parse the data df (nfx(sheet1 data))
-=======
                 if 'Sheet 1' in (sheet):
                     nfx = sheet
                     break
             if nfx == '':return []
             df = xl_file.parse( nfx )
             
->>>>>>> ba31c91a02e48830c870d0de9262e49802d1002a
             l_data = self.parseDfData(df)
             #print('  l_data', l_data)
         return l_data
