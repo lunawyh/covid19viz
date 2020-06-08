@@ -113,15 +113,12 @@ class dataGrabMI(object):
         total_cases, total_death = 0, 0
         l_overall.append(['County', 'Cases', 'Deaths'])
         for a_item in l_raw_data:
-            #if ('Confirmed' in a_item[1]): pass
-            #else: continue
+            if ('Confirmed' in a_item[1]): pass
+            else: continue
             total_cases += a_item[2]
             total_death += a_item[3]
-            if 'Confirmed' in a_item[1]:
-
-  
-                l_overall.append([a_item[0], a_item[2], a_item[3]])  
-
+                
+            l_overall.append([a_item[0], a_item[2], a_item[3]])  
         l_overall.append(['Total', total_cases, total_death])  
         print ('  Total', total_cases, total_death)
         self.save2File(l_overall, self.state_dir + 'data/'+self.state_name.lower()+'_covid19_'+name_file+'.csv')
