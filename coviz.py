@@ -633,7 +633,7 @@ class runCoViz(object):
                 else: 
                     posx = 180+10
                     posy = int( (ii-len(l_cases)/2)*line_h+offset_h )
-                n_total += int( a_case[1] )
+                #n_total += type(int( a_case[1] ))
                 if( self.getColorByCompare(a_case) ): nColor = (0,255,0)
                 else: nColor = (0,0,255)
                 # draw the list on the left

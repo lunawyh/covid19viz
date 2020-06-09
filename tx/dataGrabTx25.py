@@ -111,7 +111,7 @@ class dataGrabTx(object):
             lst_raw_data, s_date = self.open4Xlsx(f_name)
             if(s_date == ''): return []
             else:
-                    dt_obj = datetime.datetime.strptime(s_date+'/2020', '%m/%d/%Y')
+                    dt_obj = datetime.datetime.strptime(s_date.replace('a', '')+'/2020', '%m/%d/%Y')
                     name_file = dt_obj.strftime('%Y%m%d')
                     now_date = dt_obj.strftime('%m/%d/%Y')
 
