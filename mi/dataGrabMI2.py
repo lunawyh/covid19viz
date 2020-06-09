@@ -34,17 +34,6 @@ class dataGrabMI(object):
         self.state_dir = './'+n_state.lower()+'/'
         self.l_state_config = l_config
 
-    def saveLatestDateMi(self, l_raw_data):
-        l_overall = []
-        
-        l_overall.append(['County', 'Cases', 'Deaths'])
-        for a_item in l_raw_data:
-            
-            l_overall.append(a_item[:3])
-        #for a_item in l_overall:
-        #    print (a_item)
-        self.save2File(l_overall, self.state_dir + 'data/'+self.state_name.lower()+'_covid19_'+self.name_file+'.csv')
-        return l_overall
 
     ## save to csv 
     def save2File(self, l_data, csv_name):
@@ -57,13 +46,7 @@ class dataGrabMI(object):
         for a_row in l_data:
             csvwriter.writerow(a_row)
         csv_data_f.close()
-    ## open a csv 
-    def open4File(self, csv_name):
-        if(isfile(csv_name) ):
-            df = pd.read_csv(csv_name)
-            l_data = self.parseDfData(df)
-        else: return []
-        return l_data
+
     ## open a website 
     def open4Website(self, fRaw):
         #csv_url = "https://www.michigan.gov/coronavirus/0,9753,7-406-98163-520743--,00.html"
@@ -139,18 +122,41 @@ class dataGrabMI(object):
             
             l_data = self.parseDfData(df)
             #print('  l_data', l_data)
+
         return l_data
+
+    ## $^&&
+    def open4excel(self, name_file):
+        csv_url = self.l_state_config[5][2]
+        print('  #$$search website', csv_url)
+        # save html file
+        #urllib.urlretrieve(csv_url, fRaw)
+        # save html file
+        c_page = requests.get(csv_url)
+        c_tree = html.fromstring(c_page.content)
+        l_dates = c_tree.xpath('//a')  # ('//div[@class="col-xs-12 button--wrap"]')
+        a_address = ''
+        for l_date in l_dates:
+            #print(l_date.text_content())
+            if('Cases and Deaths by County' in l_date.text_content()):
+                a_address = 'https://www.michigan.gov' + l_date.get('href')
+                #https://www.michigan.gov/documents/coronavirus/Cases_and_Deaths_by_County_693160_7.xlsx
+                print(' $$$$$$$$$ find pdf at', a_address)
+                break
+        return a_address
     ## paser data CA
     def parseData(self, name_file):
             self.name_file = name_file
             # step A: read date
             self.open4Website(name_file)
+            urlData = self.open4excel(name_file)
+            #self.open4excel(name_file)
             # step B: save raw
             f_name = self.state_dir + 'data_raw/'+self.state_name.lower()+'_covid19_'+self.name_file+'.html'
             f_n_total = self.state_dir + 'data_raw/'+self.state_name.lower()+'_covid19_'+self.name_file+'.xlsx'
             if(not os.path.isdir(self.state_dir + 'data_raw/') ): os.mkdir(self.state_dir + 'data_raw/')
             # 
-            urllib.urlretrieve(self.l_state_config[5][2], f_n_total)
+            urllib.urlretrieve(urlData, f_n_total)
             urllib.urlretrieve(self.l_state_config[5][1], f_name)
             # step C: read data file and convert to standard file and save
             lst_raw_data = self.open4Xlsx(f_n_total)
