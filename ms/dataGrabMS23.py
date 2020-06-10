@@ -82,26 +82,32 @@ class dataGrabMS(object):
         # save html file
         c_page = requests.get(csv_url)
         c_tree = html.fromstring(c_page.content)
-        l_dates = c_tree.xpath('//h3/text()')
+        l_dates = c_tree.xpath('//div/text()')
 
         for l_date in l_dates:
-            if('Total Mississippi Cases and Deaths as of' in l_date):
-                print('  data is updated', l_date)
-                a_date = l_date.replace('Total Mississippi Cases and Deaths as of', '')
-                b_date = a_date.split(' ')
+            if('Updated' in l_date):
+                print('  data is ', l_date)  # Updated June 10, 2020.
+                a_date = l_date.replace('Updated', '')
+                #b_date = a_date.split(' ')
                 #print (b_date)
-                datetime_object = datetime.datetime.strptime(b_date[1], "%B")
-                month_number = datetime_object.month
-
-                dt_obj = datetime.datetime.strptime('%d/%d/2020'%(month_number,int(b_date[2]) ), '%m/%d/%Y')
+                #datetime_object = datetime.datetime.strptime(b_date[1], "%B")
+                #month_number = datetime_object.month
+                dt_obj = datetime.datetime.strptime(a_date, ' %B %d, %Y.')
                 self.name_file = dt_obj.strftime('%Y%m%d')
                 self.now_date = dt_obj.strftime('%m/%d/%Y')
                 break
         # read tables
         cov_tables = pd.read_html(csv_url)
-        # read 1st table: Overall Confirmed COVID-19 Cases by County
-        print('  read table 1')
-        return cov_tables[1]
+        row_max, n_table = 0, 0
+        for jj in range(len(cov_tables)):
+            (n_rows, n_columns) = cov_tables[jj].shape
+            print('  table ', jj, (n_rows, n_columns) )
+            if(n_rows > row_max): 
+                row_max = n_rows
+                n_table = jj
+        # read  table: Overall Confirmed COVID-19 Cases by County
+        print('  read table ', n_table)
+        return cov_tables[n_table]
 
     ## parse from exel format to list 
     def parseDfData(self, df, fName=None):
