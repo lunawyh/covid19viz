@@ -162,7 +162,7 @@ class dataGrabFl(object):
                     if( pre_char.isdigit() ): tableTxt += '\n'
                 pre_char = a_char
                 tableTxt += a_char
-            #print('  tableTxt on 5:', tableTxt)
+            print('  tableTxt on 5:', len(tableTxt))
             l_d_sort = self.parseTableConfirmed(tableTxt)
             return (l_d_sort, pdfReader)
     ## paser data FL
@@ -208,8 +208,17 @@ class dataGrabFl(object):
                         return n_total
         elif(len(l_numbers) == 3): 
             n_resident = int( re.sub("[^0-9]", "", l_numbers[0]) )
-            non_resident = int( re.sub("[^0-9]", "", l_numbers[1]) )
+            if('%' in l_numbers[1]): non_resident = 0
+            else: non_resident = int( re.sub("[^0-9]", "", l_numbers[1]) )
             n_total = int( re.sub("[^0-9]", "", l_numbers[2]) )
+            if(n_total == n_resident + non_resident): 
+                        bFound = True
+                        #print('    find', n_resident, non_resident, n_total)
+                        return n_total
+        elif(len(l_numbers) == 4): 
+            n_resident = int( re.sub("[^0-9]", "", l_numbers[0]) )
+            non_resident = int( re.sub("[^0-9]", "", l_numbers[2]) )
+            n_total = int( re.sub("[^0-9]", "", l_numbers[3]) )
             if(n_total == n_resident + non_resident): 
                         bFound = True
                         #print('    find', n_resident, non_resident, n_total)
