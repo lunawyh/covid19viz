@@ -17,7 +17,6 @@ import csv
 import datetime 
 import urllib
 import ssl
-import requests
 # ==============================================================================
 # -- codes -------------------------------------------------------------------
 # ==============================================================================
@@ -65,7 +64,11 @@ class dataGrabMa(object):
         # save to a database file
         if(fName is not None): self.save2File( lst_data, fName )
         return lst_data
+<<<<<<< HEAD
     ## open a csv
+=======
+    ## open a csv 
+>>>>>>> aa58caeb5257c21e95ecd4691238da0331cb4893
     def open4File(self, f_name):
         # unzip downloaded file and get a csv file
         print('  unzip ...')
@@ -144,7 +147,11 @@ class dataGrabMa(object):
         # get the updated date from the website
         # update self.name_file and self.now_date
         print('  get the updated date ...')
+<<<<<<< HEAD
         c_page = requests.get(self.l_state_config[5][1])
+=======
+        c_page = requests.get(self.l_state_config[5][2])
+>>>>>>> aa58caeb5257c21e95ecd4691238da0331cb4893
         ''' this is an example ONLY
         c_tree = html.fromstring(c_page.content)
         l_dates = c_tree.xpath('//strong/text()')
@@ -158,7 +165,11 @@ class dataGrabMa(object):
         '''
         # save csv file
         #urllib.urlretrieve(csv_url, fRaw)  # does NOT work
+<<<<<<< HEAD
         r = requests.get(zip_url)
+=======
+        r = requests.get(zip_url)        
+>>>>>>> aa58caeb5257c21e95ecd4691238da0331cb4893
         with open(fRaw, 'wb') as f:
             f.write(r.content)
         print('  saved to', fRaw)

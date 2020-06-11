@@ -28,6 +28,7 @@ import urllib
 from shutil import copyfile
 from rainbowviz21 import *
 from predictionviz22 import *
+
 from lxml import html
 import requests
 import sys
@@ -145,9 +146,6 @@ class runCoViz(object):
             if(len(self.l_mi_cases) > 0):
                 self.img_overlay = self.img_map.copy()
                 self.infoShowCases(self.img_overlay, self.l_mi_cases)
-                #cv2.imwrite(self.state_dir + 'results/mi_county'+self.name_file+'.png', self.img_overlay)
-                #if(self.isNameOnToday(self.name_file)):
-                #    cv2.imwrite(self.state_dir + 'results/mi_county20200000.png', self.img_overlay)
             pass  
         elif(key == 65476 or key == 1114052 or key == 7798783 or key == 7733248):   # F7 key run all commands
             self.stateMachine = 100 
@@ -209,7 +207,7 @@ class runCoViz(object):
             if(self.data_grab is not None):
                 ret, f_data = self.data_grab.parseData()
                 if(ret): 
-                    print(' Get new data in LA')                    
+                    print('  new data in LA')                    
                     self.csv_pos_now, self.l_mi_cases, self.l_cases_yest = self.readDataByDay(999999) 
                     self.stateMaSub = 0
                     self.map_data_updated += 1
@@ -394,59 +392,100 @@ class runCoViz(object):
         if( type_download == 5 or type_download == 15):   # download only
             sys.path.insert(0, "./oh")
             from dataGrabOh15 import *
-            # step A: downlowd and save
+            # create new class
             data_grab = dataGrabOh(self.l_state_config, self.state_name)	
-            # step B: parse to standard file
+            # download as a raw file and save
             lst_data, self.name_file, self.now_date = data_grab.parseData(self.name_file, type_download)		
         elif( type_download == 25):   # download only
             sys.path.insert(0, "./tx")
             from dataGrabTx25 import *
-            # step A: downlowd and save
+            # create new class
             data_grab = dataGrabTx(self.l_state_config, self.state_name)	
-            # step B: parse to standard file
+            # download as a raw file and save
             lst_data, name_file, now_date = data_grab.parseData(self.name_file)		
             if(len(lst_data) > 0): 
                 self.name_file, self.now_date = name_file, now_date
         elif( type_download == 35):   # download only
             sys.path.insert(0, "./fl")
             from dataGrabFl35 import *
-            # step A: downlowd and save
+            # create new class
             data_grab = dataGrabFl(self.l_state_config, self.state_name)	
-            # step B: parse to standard file
+            # download as a raw file 
             lst_data, name_file, now_date = data_grab.parseData(self.name_file, self.now_date, type_download)		
-            # step C: save
+            # save
             if(len(lst_data) > 0): 
                 self.name_file, self.now_date = name_file, now_date
                 f_name = self.state_dir + 'data/'+self.state_name.lower()+'_covid19_'+self.name_file+'.csv'
                 self.save2File( lst_data, f_name )
+
         elif( type_download == 101 ):   # download counties in the list
             sys.path.insert(0, "./ca")
             from dataGrab58 import *
-            # step A: downlowd and save
+            # create new class
             data_grab = dataGrab(self.l_state_config, self.state_name)	
-            # step B: parse to standard file
-            lst_data = data_grab.parseDataCa(self.name_file)		
-            f_name = self.state_dir + 'data/'+self.state_name.lower()+'_covid19_'+self.name_file+'.csv'
-            # step C: save
-            self.save2File( lst_data, f_name )
-        elif( type_download == 1 ):
-            f_name = self.state_dir + 'data_html/'+self.state_name.lower()+'_covid19_'+self.name_file+'.html'
-            if(not os.path.isdir(self.state_dir + 'data_html/') ): os.mkdir(self.state_dir + 'data_html/')
-            # step A: downlowd and save
-            df_a = self.open4Website(f_name)
-            f_name = self.state_dir + 'data/'+self.state_name.lower()+'_covid19_'+self.name_file+'.csv'
-            # step B: parse and open
-            lst_raw_data = self.parseDfData(df_a)
-            # step C: convert to standard file and save
-            lst_data = self.saveLatestDateMi(lst_raw_data)
+            # download as a raw file
+            lst_data, name_file, now_date = data_grab.parseDataCa(self.name_file)		
+            # save
+            if(len(lst_data) > 0):
+                self.name_file, self.now_date = name_file, now_date
+                #f_name = self.state_dir + 'data/'+self.state_name.lower()+'_covid19_'+self.name_file+'.csv'
+                #self.save2File( lst_data, f_name )
+        elif( type_download == 23):   # download only
+            sys.path.insert(0, "./ms")
+            from dataGrabMS23 import *
+            # create new class
+            data_grab = dataGrabMS(self.l_state_config, self.state_name)	
+            # download as a raw file and save
+            lst_data, name_file, now_date = data_grab.parseData(self.name_file)		
+            if(len(lst_data) > 0): 
+                self.name_file, self.now_date = name_file, now_date
+        elif( type_download == 44):   # download only
+            sys.path.insert(0, "./ut")
+            from dataGrabUt44 import *
+            # create new class
+            data_grab = dataGrabUT(self.l_state_config, self.state_name)	
+            # download as a raw file and save
+            lst_data, name_file, now_date = data_grab.parseData(self.name_file)		
+            if(len(lst_data) > 0): 
+                self.name_file, self.now_date = name_file, now_date
+            ########
+        elif( type_download == 19):   # download only
+            sys.path.insert(0, "./wy")
+            from dataGrabWY19 import *
+            # create new class
+            data_grab = dataGrabUT(self.l_state_config, self.state_name)	
+            # download as a raw file and save
+            lst_data, name_file, now_date = data_grab.parseData(self.name_file)		
+            if(len(lst_data) > 0): 
+                self.name_file, self.now_date = name_file, now_date
+            ########
+ 
+        elif( type_download == 2):   # download only
+            sys.path.insert(0, "./mi")
+            from dataGrabMI2 import *
+            # create new class
+            data_grab = dataGrabMI(self.l_state_config, self.state_name)	
+            # download as a raw file and save
+            lst_data, name_file, now_date = data_grab.parseData(self.name_file)		
+            if(len(lst_data) > 0): 
+                self.name_file, self.now_date = name_file, now_date
+
         elif( type_download == 10):   # download only
             sys.path.insert(0, "./la")
             from dataGrabLA10 import *
-            # step A: downlowd and save
+            # create new class
             self.data_grab = dataGrabLa(self.l_state_config, self.state_name)	
-            self.data_grab.browseData(self.name_file)		
-            # step B: parse to standard file
+            self.data_grab.browseData(self.name_file)	
+            # download as a raw file and save
             self.stateMaSub = 100010
+            return (0, [], [])
+        elif( type_download == 33):   # download only
+            sys.path.insert(0, "./ga")
+            from dataGrabGA33 import *
+            # create new class
+            self.data_grab = dataGrabGa(self.l_state_config, self.state_name)	
+            ret, lst_data = self.data_grab.parseData(self.name_file)		
+            
         elif (type_download == 50):  # download only
             sys.path.insert(0, "./ct")
             from dataGrabCt15 import *
@@ -581,7 +620,7 @@ class runCoViz(object):
         line_h=13	
         offset_h = int( self.l_state_config[1][1] ) - line_h * len(l_cases)/2-25
         for a_case in l_cases:
-            if('County' in str(a_case[0])):
+            if(str(a_case[0]) in 'County'):
                 continue
             elif('Total' in str(a_case[0])):
                 wish_total = int(a_case[1])
@@ -629,7 +668,7 @@ class runCoViz(object):
                 info_cases = '%d Overall Confirmed'%(n_total)
                 info_date = 'COVID-19 until ' + self.now_date + ' in '+self.state_name
             cv2.putText(img,info_cases, 
-		    (300,30),
+		    (300,30), 
 		    cv2.FONT_HERSHEY_DUPLEX, 
 		    1,
 		    (255,64,0),
