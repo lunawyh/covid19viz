@@ -91,7 +91,7 @@ class dataGrabVt(object):
 
     def saveDataFromDlVt(self, l_data, a_test_date, bDaily=True):
         initial_test_date = None
-        #l_daily = []
+       # l_daily = []
         l_overral = []
         #total_daily = 0
         total_overral = 0
@@ -110,7 +110,7 @@ class dataGrabVt(object):
             #total_daily += int(a_item[2])
             total_overral += int(a_item[4])
             total_overral_deaths += int(a_item[5])
-            #l_daily.append([a_item[1], a_item[2], 0])
+            l_overral.append([a_item[1], a_item[4], a_item[5]])
             l_overral.sort(key=lambda county: county[0])
         #l_daily.append(['Total', total_daily, 0])
         l_overral.append(['Total', total_overral, total_overral_deaths])
