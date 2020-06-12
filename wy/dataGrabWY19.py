@@ -21,6 +21,7 @@ import requests
 from lxml import html
 import json
 import numpy as np
+import webbrowser
 # ==============================================================================
 # -- codes -------------------------------------------------------------------
 # ==============================================================================
@@ -96,10 +97,11 @@ class dataGrabUT(object):
             else:
                 lst_data_se.append(a_item)
         '''
-
-        c_tree = html.fromstring(page_content)
+        c_tree = webbrowser.open('csv_url')
+        #c_tree = html.fromstring(page_content)
         print('    look for updated date')
-        se_dates = c_tree.xpath('//strong/text()')
+        #se_dates = c_tree.xpath('//strong/text()')
+        se_dates = c_tree('//strong/text()')
         for se_data in se_dates:
             print('  se_data', se_data)
             if('/' in se_data):

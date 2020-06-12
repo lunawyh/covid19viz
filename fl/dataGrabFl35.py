@@ -116,7 +116,8 @@ class dataGrabFl(object):
                     #s_date = s_date[: n_end] 
                     #print(' ^^^^^^^^^^^^^^ ', s_date)
                     #s_date = re.sub("[^0-9]", "", s_date)
-                    #print(' &&&&&&&&&&&&&&&&&&&&&&&&& ', s_date)
+                    #print(' &&&&&&&&&&&&&&&&&&&&&&&&& ', s_date) 00:00:00
+                    s_date = s_date.replace ('00:00:00', '')
 
                     dt_obj = datetime.datetime.strptime(s_date, '%Y%m%d')
                     print('  updated on', dt_obj)
