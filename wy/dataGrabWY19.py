@@ -21,7 +21,8 @@ import requests
 from lxml import html
 import json
 import numpy as np
-import webbrowser
+from selenium import webdriver
+import time
 # ==============================================================================
 # -- codes -------------------------------------------------------------------
 # ==============================================================================
@@ -68,64 +69,64 @@ class dataGrabUT(object):
         else: return []
         return l_data
 
-    ## open a website 
-    def open4WebsiteMain(self, fRaw):
-        csv_url = self.l_state_config[5][1]
-        print('  open4WebsiteMain', csv_url)
-        # save html file
-        if(not isfile(fRaw) ): 
-            #urllib.urlretrieve(csv_url, fRaw)
-            # save html file, can not use urllib.urlretrieve
-            r = requests.get(csv_url)
-            with open(fRaw, 'wb') as f:
-                f.write(r.content)
-        # read updated date
-        print( 'read date')
-        #if( isfile(fRaw)): 
-        #    with open(fRaw, 'r') as file:
-        #        page_content = file.read()
-        #else: return []
-        c_page = requests.get(csv_url)
-        page_content = c_page.content
-        print('  page_content', page_content)
-        #lst_data_se = []
-        # reset subtotal of SE
-        '''
-        for a_item in lst_data:
-            if('Southeast Utah' in a_item[0]):
-                lst_data_se.append(['Southeast Utah', 0, a_item[2]])
-            else:
-                lst_data_se.append(a_item)
-        '''
-        c_tree = webbrowser.open('csv_url')
-        #c_tree = html.fromstring(page_content)
+    ## download a website 
+    def getUpdatedDate(self, page_content, fRaw):
+        c_tree = html.fromstring(page_content)
         print('    look for updated date')
-        #se_dates = c_tree.xpath('//strong/text()')
-        se_dates = c_tree('//strong/text()')
+        se_dates = c_tree.xpath('//strong/text()')
         for se_data in se_dates:
-            print('  se_data', se_data)
+            #print('  se_data', se_data)
             if('/' in se_data):
                 print('      updated date', se_data)
-                #break
+                # update file name
+                dt_obj = datetime.datetime.strptime(se_data, '%m/%d/%y')
+                self.name_file = dt_obj.strftime('%Y%m%d')
+                self.now_date = dt_obj.strftime('%m/%d/%Y')
+                f_name = self.state_dir + 'data_html/'+self.state_name.lower()+'_covid19_'+self.name_file+'.html'
+                return f_name, se_dates
+        return fRaw, se_dates
+    ## download a website 
+    def saveWebsite(self, fRaw):
+        csv_url = self.l_state_config[5][1]
+        print('  download4Website', csv_url)
+        driver = webdriver.Chrome()
+        driver.get(csv_url)
+        time.sleep(2)
+        page_text = driver.page_source
+	fRaw, se_dates = self.getUpdatedDate(page_text, fRaw)
+        if( not isfile(fRaw)): 
+            with open(fRaw, "w") as fp:
+                fp.write(page_text.encode('utf8'))
+        time.sleep(1)
+        driver.quit()  # close the window
+        #f = file('test', 'r')
+        #print f.read().decode('utf8')
+
+        return page_text, se_dates
+    ## open a website 
+    def open4WebsiteMain(self, fRaw):
+        
+        # read updated date
+        print( '  open4WebsiteMain: read date')
+        page_content, se_dates = self.saveWebsite(fRaw)
+
+        # updated date
         print('    look for county data')
-        '''
-        se_dates = c_tree.xpath('//h3[@class = "yoast-schema-graph yoast-schema-graph--main"]/text()')
-        l_county_cases = []
+        state_machine = 100
         for se_data in se_dates:
-            if(se_data.isdigit()):
-                #print('      county number:', se_data)
-                l_county_cases.append(['', int(se_data), 0])
-        c_index = 0
-        se_dates = c_tree.xpath('//span[@class="et_pb_text_inner"]/text()')
-        for se_data in se_dates:
-            if(' Cases by County' in se_data):
-                print('      county names:', se_data)
-                l_county_cases[c_index][0] = se_data.split(' ')[0]
-                print('      data:', l_county_cases[c_index])
-                lst_data_se.append(l_county_cases[c_index])
-                c_index += 1
-                if(c_index >= len(l_county_cases)): break
+            if(state_machine == 100):
+                if('Cases by County' in se_data): state_machine = 200
+            elif(state_machine == 200):
+                if(':' in se_data): 
+                    print('      county data:', se_data)
+                    state_machine = 300
+            elif(state_machine == 300):
+                if(':' in se_data): 
+                    print('      county data:', se_data)
+                else: 
+                    break
         # calculate total
+        '''
         xx = list( sorted(lst_data_se) )
         arr_data_all = np.array(xx).T        
         total_confirmed=(sum(map(int, arr_data_all[1])))
