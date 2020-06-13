@@ -17,6 +17,7 @@ import csv
 import datetime 
 import urllib
 import ssl
+import requests
 # ==============================================================================
 # -- codes -------------------------------------------------------------------
 # ==============================================================================
@@ -64,11 +65,9 @@ class dataGrabMa(object):
         # save to a database file
         if(fName is not None): self.save2File( lst_data, fName )
         return lst_data
-<<<<<<< HEAD
     ## open a csv
-=======
-    ## open a csv 
->>>>>>> aa58caeb5257c21e95ecd4691238da0331cb4893
+
+    ## open a csv
     def open4File(self, f_name):
         # unzip downloaded file and get a csv file
         print('  unzip ...')
@@ -147,33 +146,14 @@ class dataGrabMa(object):
         # get the updated date from the website
         # update self.name_file and self.now_date
         print('  get the updated date ...')
-<<<<<<< HEAD
         c_page = requests.get(self.l_state_config[5][1])
-=======
         c_page = requests.get(self.l_state_config[5][2])
->>>>>>> aa58caeb5257c21e95ecd4691238da0331cb4893
-        ''' this is an example ONLY
-        c_tree = html.fromstring(c_page.content)
-        l_dates = c_tree.xpath('//strong/text()')
-        for l_date in l_dates:
-            if('Confirmed COVID-19 Cases by Jurisdiction updated' in l_date):
-                a_date = l_date.replace('Confirmed COVID-19 Cases by Jurisdiction updated ', '')
-                dt_obj = datetime.datetime.strptime(a_date, '%m/%d/%Y')
-                self.name_file = dt_obj.strftime('%Y%m%d')
-                self.now_date = dt_obj.strftime('%m/%d/%Y')
-                break
-        '''
         # save csv file
-        #urllib.urlretrieve(csv_url, fRaw)  # does NOT work
-<<<<<<< HEAD
         r = requests.get(zip_url)
-=======
-        r = requests.get(zip_url)        
->>>>>>> aa58caeb5257c21e95ecd4691238da0331cb4893
         with open(fRaw, 'wb') as f:
             f.write(r.content)
         print('  saved to', fRaw)
-        return True
+        return fRaw
     ## paser data CA
     def parseData(self, name_target, type_download):
             self.name_file = name_target
@@ -182,10 +162,12 @@ class dataGrabMa(object):
             # step A: downlowd and save
             result = self.download4Website(f_name)
             # step B: parse and open
-            lst_raw_data = self.open4File(f_name)
+            for c_name in result:
+                if c_name == 'County.csv':
+                    lst_raw_data = self.open4File(c_name)
+                else
+                    lst_raw_data = []
             # step C: convert to standard file and save
-            if( type_download == 5):
-                lst_data = self.saveLatestDateNy(lst_raw_data)
             if( type_download == 22):
                 lst_data = self.saveLatestDateMa(lst_raw_data)
 
