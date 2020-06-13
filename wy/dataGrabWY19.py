@@ -42,6 +42,7 @@ class dataGrabWY(object):
 
     ## save downloaded data to daily or overal data 
     def saveLatestDateUt(self, l_raw_data):
+        '''
         l_overall = []
         total_cases, total_death = 0, 0
         
@@ -55,8 +56,9 @@ class dataGrabWY(object):
             l_overall.append([a_item[0], a_item[1], a_item[2]])
         l_overall.append(['Total', total_cases, total_death])  
         print ('  Total', total_cases, total_death)
-        self.save2File(l_overall, self.state_dir + 'data/'+self.state_name.lower()+'_covid19_'+self.name_file+'.csv')
-        return l_overall
+        '''
+        self.save2File(l_raw_data, self.state_dir + 'data/'+self.state_name.lower()+'_covid19_'+self.name_file+'.csv')
+        return l_raw_data
     ## save to csv 
     def save2File(self, l_data, csv_name):
         csv_data_f = open(csv_name, 'w')
@@ -120,6 +122,7 @@ class dataGrabWY(object):
 
         # updated date
         l_data = []
+        l_data.append(['County', 'Cases', 'Deaths'])
         n_total_confirmed = 0
         print('    look for county data')
         state_machine = 100
@@ -173,8 +176,8 @@ class dataGrabWY(object):
 
 
             # step B: parse and open
-            #lst_data = self.saveLatestDateUt(lst_raw_data)
-            return(lst_raw_data, self.name_file, self.now_date)  #add in l_d_all
+            lst_data = self.saveLatestDateUt(lst_raw_data)
+            return(lst_data, self.name_file, self.now_date)  #add in l_d_all
 
 
 
