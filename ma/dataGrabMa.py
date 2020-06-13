@@ -40,7 +40,7 @@ class dataGrabMa(object):
 
     def save2File(self, l_data, csv_name):
         csv_data_f = open(csv_name, 'wb')
-        # create the csv writer 
+        # create the csv writer
         csvwriter = csv.writer(csv_data_f)
         # make sure the 1st row is colum names
         if('County' in str(l_data[0][0])): pass
@@ -48,16 +48,16 @@ class dataGrabMa(object):
         for a_row in l_data:
             csvwriter.writerow(a_row)
         csv_data_f.close()
-    ## parse from exel format to list 
+    ## parse from exel format to list
     def parseDfData(self, df, fName=None):
-        (n_rows, n_columns) = df.shape 
+        (n_rows, n_columns) = df.shape
         # check shape
         #print('parseDfData', df.title)
         lst_data = []
         for ii in range(n_rows):
             a_case = []
             for jj in range(n_columns):
-                if( str(df.iloc[ii, jj]) == 'nan'  ): 
+                if( str(df.iloc[ii, jj]) == 'nan'  ):
                     a_case.append( 0 )
                     continue
                 a_case.append( df.iloc[ii, jj] )
@@ -65,7 +65,9 @@ class dataGrabMa(object):
         # save to a database file
         if(fName is not None): self.save2File( lst_data, fName )
         return lst_data
-    ## open a csv 
+    ## open a csv
+
+    ## open a csv
     def open4File(self, f_name):
         # unzip downloaded file and get a csv file
         print('  unzip ...')
@@ -137,32 +139,21 @@ class dataGrabMa(object):
         return l_overral
 
 
-    ## download a website 
+    ## download a website
     def download4Website(self, fRaw):
         zip_url = self.l_state_config[5][1]
         print('  download4Website from', zip_url)
         # get the updated date from the website
         # update self.name_file and self.now_date
         print('  get the updated date ...')
+        c_page = requests.get(self.l_state_config[5][1])
         c_page = requests.get(self.l_state_config[5][2])
-        ''' this is an example ONLY
-        c_tree = html.fromstring(c_page.content)
-        l_dates = c_tree.xpath('//strong/text()')
-        for l_date in l_dates:
-            if('Confirmed COVID-19 Cases by Jurisdiction updated' in l_date):
-                a_date = l_date.replace('Confirmed COVID-19 Cases by Jurisdiction updated ', '')
-                dt_obj = datetime.datetime.strptime(a_date, '%m/%d/%Y')
-                self.name_file = dt_obj.strftime('%Y%m%d')
-                self.now_date = dt_obj.strftime('%m/%d/%Y')
-                break
-        '''
         # save csv file
-        #urllib.urlretrieve(csv_url, fRaw)  # does NOT work
-        r = requests.get(zip_url)        
+        r = requests.get(zip_url)
         with open(fRaw, 'wb') as f:
             f.write(r.content)
         print('  saved to', fRaw)
-        return True
+        return fRaw
     ## paser data CA
     def parseData(self, name_target, type_download):
             self.name_file = name_target
@@ -171,13 +162,15 @@ class dataGrabMa(object):
             # step A: downlowd and save
             result = self.download4Website(f_name)
             # step B: parse and open
-            lst_raw_data = self.open4File(f_name)
+            for c_name in result:
+                if c_name == 'County.csv':
+                    lst_raw_data = self.open4File(c_name)
+                else
+                    lst_raw_data = []
             # step C: convert to standard file and save
-            if( type_download == 5):
-                lst_data = self.saveLatestDateNy(lst_raw_data)
             if( type_download == 22):
                 lst_data = self.saveLatestDateMa(lst_raw_data)
 
-            return(lst_data, self.name_file, self.now_date)  
+            return(lst_data, self.name_file, self.now_date)
 
 ## end of file
