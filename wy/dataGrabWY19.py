@@ -120,6 +120,7 @@ class dataGrabWY(object):
 
         # updated date
         l_data = []
+        n_total_confirmed = 0
         print('    look for county data')
         state_machine = 100
         for se_data in se_dates:
@@ -127,27 +128,30 @@ class dataGrabWY(object):
                 if('Cases by County' in se_data): state_machine = 200
             elif(state_machine == 200):
                 if(':' in se_data): 
-                    print('      county', se_data)
+                    #print('      county', se_data)
                     state_machine = 300
 
                     l_data1 = se_data.split (':')
                     l_data2 = l_data1[1].split(' ')
                     print ('  $$$$', l_data1[0], l_data2[1])
-                    l_data.append([l_data1[0], l_data2[1], 0])
+                    l_data.append([l_data1[0], int(l_data2[1]), 0])
+                    n_total_confirmed += int(l_data2[1])
             elif(state_machine == 300):
                 if(':' in se_data): 
 
                     l_data1 = se_data.split (':')
                     l_data2 = l_data1[1].split(' ')
                     print ('  $$$$', l_data1[0], l_data2[1])
-                    l_data.append([l_data1[0], l_data2[1], 0])
-                    print('      county', se_data)
+                    l_data.append([l_data1[0], int(l_data2[1]), 0])
+                    n_total_confirmed += int(l_data2[1])
+                    #print('      county', se_data)
                 else: 
                     break
 
 
-        #print('  l_data', l_data)
         # calculate total#
+        l_data.append(['Total', n_total_confirmed, 0])
+        print(['Total', n_total_confirmed, 0])
         '''
         xx = list( sorted(lst_data_se) )
         arr_data_all = np.array(xx).T        
@@ -169,8 +173,8 @@ class dataGrabWY(object):
 
 
             # step B: parse and open
-            lst_data = self.saveLatestDateUt(lst_raw_data)
-            return(lst_data, self.name_file, self.now_date)  #add in l_d_all
+            #lst_data = self.saveLatestDateUt(lst_raw_data)
+            return(lst_raw_data, self.name_file, self.now_date)  #add in l_d_all
 
 
 
