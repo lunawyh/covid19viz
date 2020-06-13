@@ -110,8 +110,6 @@ class dataGrabVt(object):
             #total_daily += int(a_item[2])
             total_overral += int(a_item[4])
             total_overral_deaths += int(a_item[5])
-            l_overral.append([a_item[1], a_item[4], a_item[5]])
-            l_overral.sort(key=lambda county: county[0])
             #l_daily.append([a_item[1], a_item[2], 0])
             l_overral.append([a_item[1], a_item[4], a_item[5]])
         l_overral.sort(key=lambda county: county[0])
