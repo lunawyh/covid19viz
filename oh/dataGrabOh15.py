@@ -63,9 +63,11 @@ class dataGrabOh(object):
         return lst_data
     ## open a csv 
     def open4File(self, csv_name):
+        print("open4File", csv_name)
         if(isfile(csv_name) ):
             df = pd.read_csv(csv_name)
             l_data = self.parseDfData(df)
+            print("l_data", len(l_data))
         else: return []
         return l_data
     ## save to csv
@@ -157,7 +159,7 @@ class dataGrabOh(object):
             if( dt_src >= dt_dst): return True
             else: return False
     ## save downloaded data to daily or overal data 
-    def saveDataFromDlOh(self, l_data, a_date, bDaily=True):
+    def saveDataFromDlOh(self, l_data, a_date, bDaily=True):        #change to matrix
         l_daily = []
         total_daily = 0
         total_death = 0
@@ -212,6 +214,7 @@ class dataGrabOh(object):
     ## download a website 
     def download4Website(self, fRaw):
         csv_url = self.l_state_config[5][1]
+        print("  download4Website", csv_url)
         # save csv file
         urllib.urlretrieve(csv_url, fRaw)
         return True
