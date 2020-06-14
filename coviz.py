@@ -372,6 +372,13 @@ class runCoViz(object):
             data_grab = dataGrabOh(self.l_state_config, self.state_name)	
             # download as a raw file and save
             lst_data, self.name_file, self.now_date = data_grab.parseData(self.name_file, type_download)		
+        elif( type_download == 18):   # download only
+            sys.path.insert(0, "./il")
+            from dataGrabIl18 import *
+            # create new class
+            data_grab = dataGrabIl(self.l_state_config, self.state_name)	
+            # download as a raw file and save
+            lst_data, self.name_file, self.now_date = data_grab.parseData(self.name_file, type_download)		
         elif( type_download == 25):   # download only
             sys.path.insert(0, "./tx")
             from dataGrabTx25 import *
