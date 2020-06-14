@@ -21,14 +21,14 @@ import requests
 from lxml import html
 import json
 import numpy as np
-from selenium import webdriver
+from selenium import webdriver  # https://selenium-python.readthedocs.io/installation.html
 import time
 # ==============================================================================
 # -- codes -------------------------------------------------------------------
 # ==============================================================================
 
 # class for dataGrab
-class dataGrabUT(object):
+class dataGrabWY(object):
     ## the start entry of this class
     def __init__(self, l_config, n_state):
 
@@ -43,10 +43,18 @@ class dataGrabUT(object):
     ## save downloaded data to daily or overal data 
     def saveLatestDateUt(self, l_raw_data):
         l_overall = []
+        total_cases, total_death = 0, 0
         
         l_overall.append(['County', 'Cases', 'Deaths'])
+
         for a_item in l_raw_data:
-            l_overall.append(a_item)
+            if ('Confirmed' in a_item[1]): pass
+            else: continue
+            total_cases += int(a_item[1])
+            total_death += int(a_item[2])
+            l_overall.append([a_item[0], a_item[1], a_item[2]])
+        l_overall.append(['Total', total_cases, total_death])  
+        print ('  Total', total_cases, total_death)
         self.save2File(l_overall, self.state_dir + 'data/'+self.state_name.lower()+'_covid19_'+self.name_file+'.csv')
         return l_overall
     ## save to csv 
@@ -111,6 +119,7 @@ class dataGrabUT(object):
         page_content, se_dates = self.saveWebsite(fRaw)
 
         # updated date
+        l_data = []
         print('    look for county data')
         state_machine = 100
         for se_data in se_dates:
@@ -118,14 +127,27 @@ class dataGrabUT(object):
                 if('Cases by County' in se_data): state_machine = 200
             elif(state_machine == 200):
                 if(':' in se_data): 
-                    print('      county data:', se_data)
+                    print('      county', se_data)
                     state_machine = 300
+
+                    l_data1 = se_data.split (':')
+                    l_data2 = l_data1[1].split(' ')
+                    print ('  $$$$', l_data1[0], l_data2[1])
+                    l_data.append([l_data1[0], l_data2[1], 0])
             elif(state_machine == 300):
                 if(':' in se_data): 
-                    print('      county data:', se_data)
+
+                    l_data1 = se_data.split (':')
+                    l_data2 = l_data1[1].split(' ')
+                    print ('  $$$$', l_data1[0], l_data2[1])
+                    l_data.append([l_data1[0], l_data2[1], 0])
+                    print('      county', se_data)
                 else: 
                     break
-        # calculate total
+
+
+        #print('  l_data', l_data)
+        # calculate total#
         '''
         xx = list( sorted(lst_data_se) )
         arr_data_all = np.array(xx).T        
@@ -133,7 +155,8 @@ class dataGrabUT(object):
         total_death=(sum(map(int, arr_data_all[2])))
         lst_data_se.append(['Total', total_confirmed, total_death])
         '''
-        return []
+
+        return l_data
     
     ## paser data Ut
     def parseData(self, name_file):

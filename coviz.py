@@ -453,7 +453,7 @@ class runCoViz(object):
             sys.path.insert(0, "./wy")
             from dataGrabWY19 import *
             # create new class
-            data_grab = dataGrabUT(self.l_state_config, self.state_name)	
+            data_grab = dataGrabWY(self.l_state_config, self.state_name)	
             # download as a raw file and save
             lst_data, name_file, now_date = data_grab.parseData(self.name_file)		
             if(len(lst_data) > 0): 
