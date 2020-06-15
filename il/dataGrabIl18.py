@@ -22,6 +22,7 @@ from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.action_chains import ActionChains
 import time
+import numpy as np
 # ==============================================================================
 # -- codes -------------------------------------------------------------------
 # ==============================================================================
@@ -75,27 +76,8 @@ class dataGrabIl(object):
         return l_data
     ## save to csv
     def saveLatestDateIl(self, l_data):
-        # find different date time
-        l_dates = []
-        for a_item in l_data:
-            if(a_item[3] in 'Total'): continue
-            dt_obj = datetime.datetime.strptime(a_item[3], '%m/%d/%Y')
-            dt_src = dt_obj.strftime('%m/%d/%Y')
-            #
-            bFound = False
-            for a_date in l_dates:
-                if(a_date in dt_src): 
-                    bFound = True
-                    break
-            if(not bFound):
-                l_dates.append(dt_src)
-        # generate all daily data
-        l_date_sort = sorted(l_dates, reverse=False)
-        print('  saveLatestDateIl', len(l_date_sort))
-        l_daily = []
-        for a_date in l_date_sort:
-            l_daily = self.saveDataFromDlOh(l_data, a_date, bDaily=False)
-        return l_daily
+        self.save2File(l_data, self.state_dir + 'data/'+self.state_name.lower()+'_covid19_'+self.name_file+'.csv')
+        return l_data
     ## is validated or not 
     def isValidDate(self, src, dst, bDaily=True):
         if(bDaily):
@@ -220,23 +202,38 @@ class dataGrabIl(object):
         for se_data in se_dates:
             if('2020' in se_data):
                 print('      updated date', se_data)
+                # update file name
+                dt_obj = datetime.datetime.strptime(se_data, '%m/%d/%Y')
+                self.name_file = dt_obj.strftime('%Y%m%d')
+                self.now_date = dt_obj.strftime('%m/%d/%Y')
                 break
         print('    look for county data') 
         n_start = page_content.find('<tbody>')
         if(n_start >= 0): 
+            l_county = []
+            l_cases = []
+            l_data = []
             n_end = page_content.find('</tbody>')
             #print('  page_content:', page_content[n_start:n_end+8])
             c_tree = html.fromstring(page_content[n_start:n_end+8])
             se_dates = c_tree.xpath('//a/text()') 
             print('      county', len(se_dates))
             for se_data in se_dates:
-                print('      ', se_data)
-                #break
+                #print('      ', se_data)
+                l_county.append(se_data)
             se_dates = c_tree.xpath('//td/text()') 
             print('      cases', len(se_dates))
             for se_data in se_dates:
-                print('      ', se_data)
-
+                #print('      ', se_data)
+                l_cases.append(int(se_data))
+            l_cases2 = np.reshape(l_cases, (len(l_cases)/3, 3)).T
+            print('      cases reshaped', len(l_cases2))
+            total_cases = (sum(map(int, l_cases2[1])))
+            total_death = (sum(map(int, l_cases2[2])))
+            
+            l_data = np.vstack((np.array(l_county), l_cases2[1], l_cases2[2]))
+            print('      l_data', len(l_data))
+            return np.vstack((l_data.T, np.array(['Total', total_cases, total_death])))
         return []
     ## paser data CA
     def parseData(self, name_target, type_download):
@@ -244,9 +241,9 @@ class dataGrabIl(object):
             f_name = self.state_dir + 'data_html/'+self.state_name.lower()+'_covid19_'+self.name_file+'.html'
             if(not os.path.isdir(self.state_dir + 'data_html/') ): os.mkdir(self.state_dir + 'data_html/')
             # step A: downlowd and save
-            result = self.download4Website(f_name)
+            lst_raw_data = self.download4Website(f_name)
             # step B: parse and open
-            lst_raw_data = [] # self.open4File(f_name)
+            #lst_raw_data = [] # self.open4File(f_name)
             # step C: convert to standard file and save
             lst_data = self.saveLatestDateIl(lst_raw_data)
             return(lst_data, self.name_file, self.now_date)  
