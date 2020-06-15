@@ -1,11 +1,11 @@
 name,value,lon,quantity,offset
-VIZ_W,880,,,0
+VIZ_W,800,,,0
 VIZ_H,1000,,,1
-state_map,Must input,,,2
+state_map,il_state_map.jpg,,,2
 cordinate,None,,,3
-type_download,1,,,4
-weblink_state,Must input,,,5
-state_name,Must input,,,6
+weblink_num,18,,,4
+weblink_state,https://www.dph.illinois.gov/covid19/covid19-statistics,,,5
+state_name,Illinois,,,6
 basemap_type,1,,,7
 basemap_center,0,0,,8
 basemap_size,0,0,,9

@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf8 -*-
-# 			dataGrabOh.py
+# 			dataGrabIl.py
 #
 #	grab data from OH state websites
 #
@@ -17,12 +17,17 @@ import csv
 import datetime 
 import urllib
 import ssl
+from lxml import html
+from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.common.action_chains import ActionChains
+import time
 # ==============================================================================
 # -- codes -------------------------------------------------------------------
 # ==============================================================================
 
 # class for dataGrab
-class dataGrabOh(object):
+class dataGrabIl(object):
     ## the start entry of this class
     def __init__(self, l_config, n_state):
 
@@ -63,66 +68,13 @@ class dataGrabOh(object):
         return lst_data
     ## open a csv 
     def open4File(self, csv_name):
-        print("open4File", csv_name)
         if(isfile(csv_name) ):
             df = pd.read_csv(csv_name)
             l_data = self.parseDfData(df)
-            print("l_data", len(l_data))
         else: return []
         return l_data
     ## save to csv
-
-    def saveLatestDateNy(self, l_data):
-        l_d_sort = sorted(l_data, key=lambda k: k[0], reverse=False)
-        # find different date time
-        l_date = []
-        for a_item in l_d_sort:
-            #
-            bFound = False
-            for a_date in l_date:
-                if(a_date in a_item[0]):
-                    bFound = True
-                    break
-            if(not bFound):
-                l_date.append(a_item[0])
-        # generate all daily data
-        l_daily = []
-        for a_date in l_date:
-            l_daily = self.saveDataFromDlNy(l_d_sort, a_date, bDaily=False)
-        return l_daily
-
-    def saveDataFromDlNy(self, l_data, a_test_date, bDaily=True):
-        initial_test_date = None
-        l_daily = []
-        l_overral = []
-        total_daily = 0
-        total_overral = 0
-        for a_item in l_data:
-            #if (a_test_date is None):
-            if (a_test_date is not initial_test_date):
-                initial_test_date = a_test_date
-                dt_obj = datetime.datetime.strptime(a_test_date, '%m/%d/%Y')
-                self.name_file = dt_obj.strftime('%Y%m%d')
-                self.now_date = dt_obj.strftime('%m/%d/%Y')
-            elif (a_test_date in a_item[0]):
-                pass
-            else:
-                continue
-            total_daily += int(a_item[2])
-            total_overral += int(a_item[3])
-            l_daily.append([a_item[1], a_item[2], 0])
-            l_overral.append([a_item[1], a_item[3], 0])
-        l_daily.append(['Total', total_daily, 0])
-        l_overral.append(['Total', total_overral, 0])
-        #if (not os.path.isdir(self.state_dir + 'daily/')): os.mkdir(self.state_dir + 'daily/')
-        if (not os.path.isdir(self.state_dir + 'data/')): os.mkdir(self.state_dir + 'data/')
-        #self.save2File(l_daily,
-        #               self.state_dir + 'daily/' + self.state_name.lower() + '_covid19_' + self.name_file + '.csv')
-        self.save2File(l_overral,
-                       self.state_dir + 'data/' + self.state_name.lower() + '_covid19_' + self.name_file + '.csv')
-        return l_overral
-
-    def saveLatestDateOh(self, l_data):
+    def saveLatestDateIl(self, l_data):
         # find different date time
         l_dates = []
         for a_item in l_data:
@@ -139,7 +91,7 @@ class dataGrabOh(object):
                 l_dates.append(dt_src)
         # generate all daily data
         l_date_sort = sorted(l_dates, reverse=False)
-        print('  saveLatestDateOh', len(l_date_sort))
+        print('  saveLatestDateIl', len(l_date_sort))
         l_daily = []
         for a_date in l_date_sort:
             l_daily = self.saveDataFromDlOh(l_data, a_date, bDaily=False)
@@ -159,7 +111,7 @@ class dataGrabOh(object):
             if( dt_src >= dt_dst): return True
             else: return False
     ## save downloaded data to daily or overal data 
-    def saveDataFromDlOh(self, l_data, a_date, bDaily=True):        #change to matrix
+    def saveDataFromDlOh(self, l_data, a_date, bDaily=True):
         l_daily = []
         total_daily = 0
         total_death = 0
@@ -211,27 +163,92 @@ class dataGrabOh(object):
         #print('   saved to', self.state_dir + type_dir+self.state_name.lower()+'_covid19_'+self.name_file+'.csv')
         return l_daily
 
+    ## parse from exel format to list 
+    def parseDfData(self, df, fName=None):
+        (n_rows, n_columns) = df.shape 
+        # check shape, df.title, 
+        print('  parseDfData', df.shape)
+        lst_data = []
+        for ii in range(n_rows):
+            a_case = []
+            for jj in range(n_columns):
+                if( str(df.iloc[ii, jj]) == 'nan'  ): 
+                    a_case.append( 0 )
+                    continue
+                a_case.append( df.iloc[ii, jj] )
+            lst_data.append( a_case )
+        # save to a database file
+        if(fName is not None): self.save2File( lst_data, fName )
+        return lst_data
+    ## download a website 
+    def saveWebsite(self, fRaw):
+        csv_url = self.l_state_config[5][1]
+        print('  download4Website', csv_url)
+        driver = webdriver.Chrome()
+        driver.get(csv_url)
+        time.sleep(2)
+        driver.find_elements_by_link_text('By County')[0].click()
+        #time.sleep(1)
+        #driver.find_element_by_id("input-filter").send_keys("Alexander")
+        time.sleep(1)
+        #driver.find_element_by_id("myDiv").click()
+        #ActionChains(driver).double_click(qqq).perform()
+        driver.execute_script('createTableRows(99);')
+        time.sleep(1)
+        page_text = driver.page_source
+        with open(fRaw, "w") as fp:
+            fp.write(page_text.encode('utf8'))
+        time.sleep(1)
+        driver.quit()  # close the window
+        #f = file('test', 'r')
+        #print f.read().decode('utf8')
+
+        return page_text
     ## download a website 
     def download4Website(self, fRaw):
-        csv_url = self.l_state_config[5][1]
-        print("  download4Website", csv_url)
-        # save csv file
-        urllib.urlretrieve(csv_url, fRaw)
-        return True
+        # save raw html file
+        if(isfile(fRaw) ): 
+            f = file(fRaw, 'r')
+            page_content = f.read().decode('utf8')
+        else:    
+            page_content = self.saveWebsite(fRaw)
+            print('  saved to', fRaw)
+        # read updated data
+        c_tree = html.fromstring(page_content)
+        print('    look for updated date') 
+        se_dates = c_tree.xpath('//span[@id="updatedDate"]/text()') # span id="updatedDate"
+        for se_data in se_dates:
+            if('2020' in se_data):
+                print('      updated date', se_data)
+                break
+        print('    look for county data') 
+        n_start = page_content.find('<tbody>')
+        if(n_start >= 0): 
+            n_end = page_content.find('</tbody>')
+            #print('  page_content:', page_content[n_start:n_end+8])
+            c_tree = html.fromstring(page_content[n_start:n_end+8])
+            se_dates = c_tree.xpath('//a/text()') 
+            print('      county', len(se_dates))
+            for se_data in se_dates:
+                print('      ', se_data)
+                #break
+            se_dates = c_tree.xpath('//td/text()') 
+            print('      cases', len(se_dates))
+            for se_data in se_dates:
+                print('      ', se_data)
+
+        return []
     ## paser data CA
     def parseData(self, name_target, type_download):
             self.name_file = name_target
-            f_name = self.state_dir + 'data_raw/'+self.state_name.lower()+'_covid19_'+self.name_file+'.csv'
-            if(not os.path.isdir(self.state_dir + 'data_raw/') ): os.mkdir(self.state_dir + 'data_raw/')
+            f_name = self.state_dir + 'data_html/'+self.state_name.lower()+'_covid19_'+self.name_file+'.html'
+            if(not os.path.isdir(self.state_dir + 'data_html/') ): os.mkdir(self.state_dir + 'data_html/')
             # step A: downlowd and save
             result = self.download4Website(f_name)
             # step B: parse and open
-            lst_raw_data = self.open4File(f_name)
+            lst_raw_data = [] # self.open4File(f_name)
             # step C: convert to standard file and save
-            if( type_download == 5):
-                lst_data = self.saveLatestDateNy(lst_raw_data)
-            if( type_download == 15):
-                lst_data = self.saveLatestDateOh(lst_raw_data)
+            lst_data = self.saveLatestDateIl(lst_raw_data)
             return(lst_data, self.name_file, self.now_date)  
 
 ## end of file
