@@ -18,6 +18,7 @@ import datetime
 import urllib
 import ssl
 import requests
+import zipfile
 # ==============================================================================
 # -- codes -------------------------------------------------------------------
 # ==============================================================================
@@ -73,10 +74,9 @@ class dataGrabMa(object):
         print('  unzip ...')
         # open a csv file
         csv_name = 'County.csv'
-        if(isfile(csv_name) ):
-            df = pd.read_csv(csv_name)
-            l_data = self.parseDfData(df)
-        else: return []
+        l_data = []
+        ##file_name = '\Dennis\Covid19\covid19viz\ma\data_raw\ma_covid19_20200613.zip\County.csv'
+        l_data = pd.read_csv("/Dennis/Covid19/covid19viz/ma/data_raw/ma_covid19_20200613.zip/County.csv")
         return l_data
     ## save to csv
 
@@ -110,7 +110,7 @@ class dataGrabMa(object):
             #if (a_test_date is None):
             if (initial_test_date is None and a_test_date in a_item[8]):
                 initial_test_date = a_test_date
-                dt_obj = datetime.datetime.strptime(a_test_date, '%Y/%m/%d %H:%M:%S')
+                dt_obj = datetime.datetime.strptime(a_test_date, '%Y/%m/%d')
                 self.name_file = dt_obj.strftime('%Y%m%d')
                 self.now_date = dt_obj.strftime('%m/%d/%Y')
             elif (a_test_date in a_item[8]):
@@ -153,7 +153,9 @@ class dataGrabMa(object):
         with open(fRaw, 'wb') as f:
             f.write(r.content)
         print('  saved to', fRaw)
-        return fRaw
+        archive = zipfile.ZipFile(fRaw, 'r')
+        csvdata = archive.read('County.csv')
+        return csv.reader(csvdata)
     ## paser data CA
     def parseData(self, name_target, type_download):
             self.name_file = name_target
@@ -161,16 +163,13 @@ class dataGrabMa(object):
             if(not os.path.isdir(self.state_dir + 'data_raw/') ): os.mkdir(self.state_dir + 'data_raw/')
             # step A: downlowd and save
             result = self.download4Website(f_name)
+            self.parseDfData(result)
             # step B: parse and open
-            for c_name in result:
-                if c_name == 'County.csv':
-                    lst_raw_data = self.open4File(c_name)
-                else
-                    lst_raw_data = []
+            lst_raw_data = self.open4File(f_name)
             # step C: convert to standard file and save
             if( type_download == 22):
                 lst_data = self.saveLatestDateMa(lst_raw_data)
-
+            print(lst_data)
             return(lst_data, self.name_file, self.now_date)
 
 ## end of file

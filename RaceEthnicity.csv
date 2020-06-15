@@ -1,0 +1,325 @@
+Date,Race/Ethnicity,All Cases,Ever Hospitaltized,Deaths
+4/6/2020,Non-Hispanic White,2120,320,55
+4/6/2020,Non-Hispanic Black/African American,643,61,3
+4/6/2020,Hispanic,857,80,6
+4/6/2020,Non-Hispanic Asian,173,20,4
+4/6/2020,Non-Hispanic Other,384,56,4
+4/6/2020,Unknown/Missing,9660,704,188
+4/8/2020,Hispanic,1162,104,14
+4/8/2020,Non-Hispanic White,2751,416,98
+4/8/2020,Non-Hispanic Black/African American,889,85,7
+4/8/2020,Non-Hispanic Asian,235,31,6
+4/8/2020,Non-Hispanic Other,506,73,8
+4/8/2020,Unknown/Missing,11247,874,300
+4/9/2020,Hispanic,1315,124,19
+4/9/2020,Non-Hispanic White,3151,479,120
+4/9/2020,Non-Hispanic Black/African American,992,100,11
+4/9/2020,Non-Hispanic Asian,265,34,6
+4/9/2020,Non-Hispanic Other,577,85,9
+4/9/2020,Unknown/Missing,12641,924,338
+4/10/2020,Hispanic,1563,,23
+4/10/2020,Non-Hispanic White,3588,,152
+4/10/2020,Non-Hispanic Black/African American,1151,,15
+4/10/2020,Non-Hispanic Asian,297,,9
+4/10/2020,Non-Hispanic Other,632,,12
+4/10/2020,Unknown/Missing,13743,,388
+4/11/2020,Hispanic,1707,,26
+4/11/2020,Non-Hispanic White,3889,,178
+4/11/2020,Non-Hispanic Black/African American,1254,,17
+4/11/2020,Non-Hispanic Asian,317,,12
+4/11/2020,Non-Hispanic Other,683,,14
+4/11/2020,Unknown/Missing,15010,,439
+4/12/2020,Hispanic,1885,,28
+4/12/2020,Non-Hispanic White,4271,,199
+4/12/2020,Non-Hispanic Black/African American,1358,,20
+4/12/2020,Non-Hispanic Asian,331,,13
+4/12/2020,Non-Hispanic Other,733,,16
+4/12/2020,Unknown/Missing,16897,,480
+4/13/2020,Hispanic,2033,,32
+4/13/2020,Non-Hispanic White,4588,,222
+4/13/2020,Non-Hispanic Black/African American,1432,,27
+4/13/2020,Non-Hispanic Asian,347,,14
+4/13/2020,Non-Hispanic Other,778,,16
+4/13/2020,Unknown/Missing,17689,,533
+4/14/2020,Hispanic,2255,199,38
+4/14/2020,Non-Hispanic White,4997,762,256
+4/14/2020,Non-Hispanic Black/African American,1579,182,35
+4/14/2020,Non-Hispanic Asian,370,56,16
+4/14/2020,Non-Hispanic Other,844,119,17
+4/14/2020,Unknown/Missing,18118,1233,595
+4/15/2020,Hispanic,2537,228,50
+4/15/2020,Non-Hispanic White,5437,858,306
+4/15/2020,Non-Hispanic Black/African American,1749,207,40
+4/15/2020,Non-Hispanic Asian,397,60,16
+4/15/2020,Non-Hispanic Other,916,130,21
+4/15/2020,Unknown/Missing,18882,1309,675
+4/16/2020,Hispanic,2865,269,56
+4/16/2020,Non-Hispanic White,6014,951,356
+4/16/2020,Non-Hispanic Black/African American,1942,230,47
+4/16/2020,Non-Hispanic Asian,451,66,19
+4/16/2020,Non-Hispanic Other,994,140,25
+4/16/2020,Unknown/Missing,19915,1406,742
+4/17/2020,Hispanic,3185,304,58
+4/17/2020,Non-Hispanic White,6537,1038,414
+4/17/2020,Non-Hispanic Black/African American,2144,258,59
+4/17/2020,Non-Hispanic Asian,485,76,21
+4/17/2020,Non-Hispanic Other,1082,158,34
+4/17/2020,Unknown/Missing,20969,1480,818
+4/18/2020,Non-Hispanic White,7122,1103,464
+4/18/2020,Non-Hispanic Black/African American,2339,284,71
+4/18/2020,Hispanic,3518,335,75
+4/18/2020,Non-Hispanic Asian,517,80,26
+4/18/2020,Non-Hispanic Other,1167,166,39
+4/18/2020,Unknown/Missing,21709,1541,885
+4/19/2020,Non-Hispanic White,7640,1161,520
+4/19/2020,Non-Hispanic Black/African American,2524,306,78
+4/19/2020,Hispanic,3818,359,81
+4/19/2020,Non-Hispanic Asian,538,85,30
+4/19/2020,Non-Hispanic Other,1239,184,41
+4/19/2020,Unknown/Missing,22318,1580,956
+4/20/2020,Non-Hispanic White,8170,1208,556
+4/20/2020,Non-Hispanic Black/African American,2651,313,85
+4/20/2020,Hispanic,4003,367,87
+4/20/2020,Non-Hispanic Asian,552,88,36
+4/20/2020,Non-Hispanic Other,1281,187,43
+4/20/2020,Unknown/Missing,22986,1627,1002
+4/21/2020,Non-Hispanic White,8601,1295,618
+4/21/2020,Non-Hispanic Black/African American,2811,336,94
+4/21/2020,Hispanic,4306,406,98
+4/21/2020,Non-Hispanic Asian,579,99,40
+4/21/2020,Non-Hispanic Other,1364,201,47
+4/21/2020,Unknown/Missing,23538,1672,1064
+4/22/2020,Non-Hispanic White,9216,1392,705
+4/22/2020,Non-Hispanic Black/African American,3007,368,107
+4/22/2020,Hispanic,4608,444,106
+4/22/2020,Non-Hispanic Asian,618,110,42
+4/22/2020,Non-Hispanic Other,1492,208,50
+4/22/2020,Unknown/Missing,24003,1734,1172
+4/23/2020,Non-Hispanic White,9868,1494,774
+4/23/2020,Non-Hispanic Black/African American,3208,400,120
+4/23/2020,Hispanic,4907,473,120
+4/23/2020,Non-Hispanic Asian,666,117,46
+4/23/2020,Non-Hispanic Other,1570,223,55
+4/23/2020,Unknown/Missing,25804,1786,1245
+4/24/2020,Non-Hispanic White,10559,1578,824
+4/24/2020,Non-Hispanic Black/African American,3454,429,128
+4/24/2020,Hispanic,5335,510,137
+4/24/2020,Non-Hispanic Asian,708,123,51
+4/24/2020,Non-Hispanic Other,1650,238,62
+4/24/2020,Unknown/Missing,29263,1874,1354
+4/25/2020,Non-Hispanic White,11315,1659,896
+4/25/2020,Non-Hispanic Black/African American,3653,453,138
+4/25/2020,Hispanic,5693,545,155
+4/25/2020,Non-Hispanic Asian,743,133,53
+4/25/2020,Non-Hispanic Other,1764,245,66
+4/25/2020,Unknown/Missing,30180,1930,1422
+4/26/2020,Non-Hispanic White,11668,1707,965
+4/26/2020,Non-Hispanic Black/African American,3751,462,144
+4/26/2020,Hispanic,5928,566,162
+4/26/2020,Non-Hispanic Asian,766,137,58
+4/26/2020,Non-Hispanic Other,1822,254,73
+4/26/2020,Unknown/Missing,31003,1978,1497
+4/27/2020,Non-Hispanic White,12040,1765,1018
+4/27/2020,Non-Hispanic Black/African American,3822,475,153
+4/27/2020,Hispanic,6188,586,165
+4/27/2020,Non-Hispanic Asian,791,139,59
+4/27/2020,Non-Hispanic Other,1865,265,76
+4/27/2020,Unknown/Missing,31756,2007,1532
+4/28/2020,Non-Hispanic White,12674,1870,1069
+4/28/2020,Non-Hispanic Black/African American,4011,508,165
+4/28/2020,Hispanic,6617,629,181
+4/28/2020,Non-Hispanic Asian,845,143,59
+4/28/2020,Non-Hispanic Other,1928,281,84
+4/28/2020,Unknown/Missing,32227,2084,1595
+4/29/2020,Non-Hispanic White,13355,1958,1171
+4/29/2020,Non-Hispanic Black/African American,4242,543,179
+4/29/2020,Hispanic,7119,663,187
+4/29/2020,Non-Hispanic Asian,891,153,65
+4/29/2020,Non-Hispanic Other,2030,291,93
+4/29/2020,Unknown/Missing,32628,2150,1710
+4/30/2020,Non-Hispanic White,13891,2050,1247
+4/30/2020,Non-Hispanic Black/African American,4411,558,186
+4/30/2020,Hispanic,7498,691,204
+4/30/2020,Non-Hispanic Asian,927,157,67
+4/30/2020,Non-Hispanic Other,2127,295,101
+4/30/2020,Unknown/Missing,33351,2191,1757
+5/1/2020,Non-Hispanic White,14484,2145,1321
+5/1/2020,Non-Hispanic Black/African American,4621,592,201
+5/1/2020,Hispanic,7830,716,207
+5/1/2020,Non-Hispanic Asian,977,160,68
+5/1/2020,Non-Hispanic Other,2239,305,106
+5/1/2020,Unknown/Missing,34160,2251,1813
+5/2/2020,Non-Hispanic White,15077,2242,1399
+5/2/2020,Non-Hispanic Black/African American,4784,606,208
+5/2/2020,Hispanic,8200,739,212
+5/2/2020,Non-Hispanic Asian,1002,162,68
+5/2/2020,Non-Hispanic Other,2322,317,111
+5/2/2020,Unknown/Missing,34878,2312,1848
+5/3/2020,Non-Hispanic White,15468,2302,1478
+5/3/2020,Non-Hispanic Black/African American,4874,620,216
+5/3/2020,Hispanic,8473,759,215
+5/3/2020,Non-Hispanic Asian,1023,165,72
+5/3/2020,Non-Hispanic Other,2381,321,117
+5/3/2020,Unknown/Missing,35868,2340,1906
+5/4/2020,Non-Hispanic White,15983,2361,1525
+5/4/2020,Non-Hispanic Black/African American,4976,626,224
+5/4/2020,Hispanic,8711,772,220
+5/4/2020,Non-Hispanic Asian,1050,167,73
+5/4/2020,Non-Hispanic Other,2434,332,122
+5/4/2020,Unknown/Missing,35933,2364,1926
+5/5/2020,Non-Hispanic White,16384,2448,1593
+5/5/2020,Non-Hispanic Black/African American,5113,647,231
+5/5/2020,Hispanic,8960,803,226
+5/5/2020,Non-Hispanic Asian,1073,173,75
+5/5/2020,Non-Hispanic Other,2474,340,129
+5/5/2020,Unknown/Missing,36267,2420,1958
+5/6/2020,Non-Hispanic White,16939,2542,1688
+5/6/2020,Non-Hispanic Black/African American,5283,666,242
+5/6/2020,Hispanic,9329,852,240
+5/6/2020,Non-Hispanic Asian,1118,181,78
+5/6/2020,Non-Hispanic Other,2565,361,132
+5/6/2020,Unknown/Missing,36791,2478,2040
+5/7/2020,Non-Hispanic White,17283,2598,1739
+5/7/2020,Non-Hispanic Black/African American,5403,677,243
+5/7/2020,Hispanic,9620,867,247
+5/7/2020,Non-Hispanic Asian,1147,186,79
+5/7/2020,Non-Hispanic Other,2600,365,137
+5/7/2020,Unknown/Missing,37668,2544,2107
+5/8/2020,Non-Hispanic White,18239,2664,1793
+5/8/2020,Non-Hispanic Black/African American,6162,703,247
+5/8/2020,Hispanic,11200,932,281
+5/8/2020,Non-Hispanic Asian,1282,188,81
+5/8/2020,Non-Hispanic Other,2956,381,139
+5/8/2020,Unknown/Missing,35494,2566,2161
+5/9/2020,Non-Hispanic White,18661,2715,1853
+5/9/2020,Non-Hispanic Black/African American,6288,713,252
+5/9/2020,Hispanic,11486,955,289
+5/9/2020,Non-Hispanic Asian,1314,193,82
+5/9/2020,Non-Hispanic Other,3029,390,147
+5/9/2020,Unknown/Missing,35965,2585,2217
+5/10/2020,Non-Hispanic White,19094,2743,1911
+5/10/2020,Non-Hispanic Black/African American,6445,723,254
+5/10/2020,Hispanic,11904,956,296
+5/10/2020,Non-Hispanic Asian,1354,197,84
+5/10/2020,Non-Hispanic Other,3118,399,152
+5/10/2020,Unknown/Missing,35878,2599,2282
+5/11/2020,Non-Hispanic White,19429,2807,1974
+5/11/2020,Non-Hispanic Black/African American,6555,731,262
+5/11/2020,Hispanic,12181,968,307
+5/11/2020,Non-Hispanic Asian,1378,202,85
+5/11/2020,Non-Hispanic Other,3151,407,156
+5/11/2020,Unknown/Missing,35768,2617,2324
+5/12/2020,Non-Hispanic White,19817,2868,2000
+5/12/2020,Non-Hispanic Black/African American,6694,741,265
+5/12/2020,Hispanic,12510,991,318
+5/12/2020,Non-Hispanic Asian,1406,208,86
+5/12/2020,Non-Hispanic Other,3236,421,155
+5/12/2020,Unknown/Missing,35669,2613,2317
+5/13/2020,Non-Hispanic White,20243,2950,2096
+5/13/2020,Non-Hispanic Black/African American,6897,768,271
+5/13/2020,Hispanic,12932,1022,327
+5/13/2020,Non-Hispanic Asian,1433,214,90
+5/13/2020,Non-Hispanic Other,3322,428,160
+5/13/2020,Unknown/Missing,35670,2650,2371
+5/14/2020,Non-Hispanic White,20660,3018,2178
+5/14/2020,Non-Hispanic Black/African American,7037,787,277
+5/14/2020,Hispanic,13179,1045,335
+5/14/2020,Non-Hispanic Asian,1459,220,91
+5/14/2020,Non-Hispanic Other,3404,442,163
+5/14/2020,Unknown/Missing,36443,2695,2438
+5/15/2020,Non-Hispanic White,21120,3072,2235
+5/15/2020,Non-Hispanic Black/African American,7250,799,284
+5/15/2020,Hispanic,13787,1057,341
+5/15/2020,Non-Hispanic Asian,1506,222,91
+5/15/2020,Non-Hispanic Other,3510,449,167
+5/15/2020,Unknown/Missing,36248,2715,2474
+5/16/2020,Non-Hispanic White,21470,3126,2283
+5/16/2020,Non-Hispanic Black/African American,7362,812,288
+5/16/2020,Hispanic,14043,1074,347
+5/16/2020,Non-Hispanic Asian,1527,231,93
+5/16/2020,Non-Hispanic Other,3584,462,178
+5/16/2020,Unknown/Missing,36947,2751,2516
+5/17/2020,Non-Hispanic White,21670,3160,2327
+5/17/2020,Non-Hispanic Black/African American,7410,820,296
+5/17/2020,Hispanic,14297,1082,352
+5/17/2020,Non-Hispanic Asian,1555,231,93
+5/17/2020,Non-Hispanic Other,3630,467,180
+5/17/2020,Unknown/Missing,37448,2779,2549
+5/18/2020,Non-Hispanic White,22022,3194,2356
+5/18/2020,Non-Hispanic Black/African American,7522,827,299
+5/18/2020,Hispanic,14758,1099,355
+5/18/2020,Non-Hispanic Asian,1588,236,95
+5/18/2020,Non-Hispanic Other,3667,468,187
+5/18/2020,Unknown/Missing,37495,2797,2570
+5/19/2020,Non-Hispanic White,22376,3265,2398
+5/19/2020,Non-Hispanic Black/African American,7649,847,304
+5/19/2020,Hispanic,15171,1125,365
+5/19/2020,Non-Hispanic Asian,1613,244,100
+5/19/2020,Non-Hispanic Other,3740,478,187
+5/19/2020,Unknown/Missing,37376,2807,2584
+5/20/2020,Non-Hispanic White,22721,3320,2463
+5/20/2020,Non-Hispanic Black/African American,7770,865,310
+5/20/2020,Hispanic,15524,1145,373
+5/20/2020,Non-Hispanic Asian,1634,256,106
+5/20/2020,Non-Hispanic Other,3842,489,195
+5/20/2020,Unknown/Missing,37479,2822,2619
+5/21/2020,Non-Hispanic White,23065,3388,2510
+5/21/2020,Non-Hispanic Black/African American,7892,882,313
+5/21/2020,Hispanic,15870,1178,395
+5/21/2020,Non-Hispanic Asian,1661,260,106
+5/21/2020,Non-Hispanic Other,3917,500,198
+5/21/2020,Unknown/Missing,37679,2832,2626
+5/22/2020,Non-Hispanic White,23351,3457,2556
+5/22/2020,Non-Hispanic Black/African American,7999,897,315
+5/22/2020,Hispanic,16217,1192,397
+5/22/2020,Non-Hispanic Asian,1694,264,110
+5/22/2020,Non-Hispanic Other,3977,508,203
+5/22/2020,Unknown/Missing,37651,2844,2647
+5/23/2020,Non-Hispanic White,23588,3497,2592
+5/23/2020,Non-Hispanic Black/African American,8106,908,318
+5/23/2020,Hispanic,16444,1205,400
+5/23/2020,Non-Hispanic Asian,1712,267,114
+5/23/2020,Non-Hispanic Other,4064,511,206
+5/23/2020,Unknown/Missing,37748,2872,2674
+5/24/2020,Non-Hispanic White,23853,3516,2630
+5/24/2020,Non-Hispanic Black/African American,8165,910,319
+5/24/2020,Hispanic,16647,1212,401
+5/24/2020,Non-Hispanic Asian,1733,267,115
+5/24/2020,Non-Hispanic Other,4112,521,209
+5/24/2020,Unknown/Missing,38165,2882,2698
+5/25/2020,Non-Hispanic White,24065,3528,2648
+5/25/2020,Non-Hispanic Black/African American,8252,915,321
+5/25/2020,Hispanic,16713,1214,404
+5/25/2020,Non-Hispanic Asian,1742,269,117
+5/25/2020,Non-Hispanic Other,4158,524,211
+5/25/2020,Unknown/Missing,38341,2889,2715
+5/26/2020,Non-Hispanic White,24192,3551,2678
+5/26/2020,Non-Hispanic Black/African American,8286,920,325
+5/26/2020,Hispanic,16814,1217,405
+5/26/2020,Non-Hispanic Asian,1750,270,117
+5/26/2020,Non-Hispanic Other,4185,530,214
+5/26/2020,Unknown/Missing,38466,2900,2734
+5/27/2020,Non-Hispanic White,24401,3606,2715
+5/27/2020,Non-Hispanic Black/African American,8352,930,331
+5/27/2020,Hispanic,16998,1227,408
+5/27/2020,Non-Hispanic Asian,1764,276,119
+5/27/2020,Non-Hispanic Other,4243,542,214
+5/27/2020,Unknown/Missing,38462,2911,2760
+5/28/2020,Non-Hispanic White,24582,3658,2768
+5/28/2020,Non-Hispanic Black/African American,8425,946,336
+5/28/2020,Hispanic,17178,1255,418
+5/28/2020,Non-Hispanic Asian,1781,286,121
+5/28/2020,Non-Hispanic Other,4274,547,216
+5/28/2020,Unknown/Missing,38655,2926,2781
+5/29/2020,Non-Hispanic White,24783,3716,2807
+5/29/2020,Non-Hispanic Black/African American,8508,956,340
+5/29/2020,Hispanic,17298,1266,421
+5/29/2020,Non-Hispanic Asian,1792,285,124
+5/29/2020,Non-Hispanic Other,4355,555,218
+5/29/2020,Unknown/Missing,38776,2947,2808
+5/30/2020,Non-Hispanic White,25037,3761,2832
+5/30/2020,Non-Hispanic Black/African American,8593,977,344
+5/30/2020,Hispanic,17557,1269,423
+5/30/2020,Non-Hispanic Asian,1806,283,124
+5/30/2020,Non-Hispanic Other,4398,559,220
+5/30/2020,Unknown/Missing,38910,2940,2825
