@@ -42,13 +42,13 @@ class dataGrabWY(object):
 
     ## save downloaded data to daily or overal data 
     def saveLatestDateUt(self, l_raw_data):
-        l_overall = []
+        #l_overall = []
         
  
 
         self.save2File(l_raw_data, self.state_dir + 'data/'+self.state_name.lower()+'_covid19_'+self.name_file+'.csv')
         print ('GHJJ')
-        return l_overall
+        return l_raw_data
     ## save to csv 
     def save2File(self, l_data, csv_name):
         csv_data_f = open(csv_name, 'w')

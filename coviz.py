@@ -24,13 +24,11 @@ import os
 from os import listdir
 from os.path import isfile, join
 import math
-import urllib
+
 from shutil import copyfile
 from rainbowviz21 import *
 from predictionviz22 import *
 
-from lxml import html
-import requests
 import sys
 # ==============================================================================
 # -- codes -------------------------------------------------------------------
@@ -320,28 +318,6 @@ class runCoViz(object):
             l_data = self.parseDfData(df)
         else: return []
         return l_data
-    ## open a website 
-    def open4Website(self, fRaw):
-        #csv_url = "https://www.michigan.gov/coronavirus/0,9753,7-406-98163-520743--,00.html"
-        #csv_url = 'https://www.michigan.gov/coronavirus/0,9753,7-406-98163_98173---,00.html'
-        csv_url = self.l_state_config[5][1]
-        # save html file
-        urllib.urlretrieve(csv_url, fRaw)
-        # save html file
-        c_page = requests.get(csv_url)
-        c_tree = html.fromstring(c_page.content)
-        l_dates = c_tree.xpath('//strong/text()')
-        for l_date in l_dates:
-            if('Confirmed COVID-19 Cases by Jurisdiction updated' in l_date):
-                a_date = l_date.replace('Confirmed COVID-19 Cases by Jurisdiction updated ', '')
-                dt_obj = datetime.datetime.strptime(a_date, '%m/%d/%Y')
-                self.name_file = dt_obj.strftime('%Y%m%d')
-                self.now_date = dt_obj.strftime('%m/%d/%Y')
-                break
-        # read tables
-        cov_tables = pd.read_html(csv_url)
-        # read 1st table: Overall Confirmed COVID-19 Cases by County
-        return cov_tables[0]
     ## parse from exel format to list 
     def parseDfData(self, df, fName=None):
         (n_rows, n_columns) = df.shape 
@@ -394,6 +370,13 @@ class runCoViz(object):
             from dataGrabOh15 import *
             # create new class
             data_grab = dataGrabOh(self.l_state_config, self.state_name)	
+            # download as a raw file and save
+            lst_data, self.name_file, self.now_date = data_grab.parseData(self.name_file, type_download)		
+        elif( type_download == 18):   # download only
+            sys.path.insert(0, "./il")
+            from dataGrabIl18 import *
+            # create new class
+            data_grab = dataGrabIl(self.l_state_config, self.state_name)	
             # download as a raw file and save
             lst_data, self.name_file, self.now_date = data_grab.parseData(self.name_file, type_download)		
         elif( type_download == 25):   # download only

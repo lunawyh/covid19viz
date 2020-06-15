@@ -158,9 +158,9 @@ class mapViz(object):
         for a_item in l_cases:
             if('Total' in a_item[0]): continue
             if('County' in a_item[0]): continue
-            n_case = int(a_item[1])
-            if(n_case > case_max): case_max = n_case
-            case_total += n_case
+            n_item = int(a_item[1])
+            if(n_item > case_max): case_max = n_item
+            case_total += n_item
         c_color = 'w'
         cmap=plt.get_cmap("Blues")
         #l_info = []
