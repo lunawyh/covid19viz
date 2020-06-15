@@ -7,12 +7,12 @@ weblink_num,19,,,4
 weblink_state,https://health.wyo.gov/publichealth/infectious-disease-epidemiology-unit/disease/novel-coronavirus/,,,5
 state_name,Wyoming,,,6
 basemap_type,1,,,7
-basemap_center,42.909962,-107.622071,,8
-basemap_size,300000,300000,,9
+basemap_center,43.410826,-108.259278,,8
+basemap_size,320000,320000,,9
 basemap_list_num,2,,,10
-basemap_title,2.656759,-1.898988,1,11
-basemap_logo,1.976629,3.283506,1,12
-basemap_list1,1.139652,-3.890411,0,13
+basemap_title,2.456759,-2.098988,1,11
+basemap_logo,2.256629,2.583506,1,12
+basemap_list1,1.139652,-4.090411,0,13
 basemap_list2,0.339652,-2.390411,45,14
 basemap_list3,0,0,0,15
 basemap_list4,0,0,0,16
