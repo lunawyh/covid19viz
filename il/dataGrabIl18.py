@@ -72,6 +72,7 @@ class dataGrabIl(object):
         if(isfile(csv_name) ):
             df = pd.read_csv(csv_name)
             l_data = self.parseDfData(df)
+            #print("l_data", len(l_data))
         else: return []
         return l_data
     ## save to csv
@@ -168,8 +169,11 @@ class dataGrabIl(object):
         print('  download4Website', csv_url)
         driver = webdriver.Chrome()
         driver.get(csv_url)
-        time.sleep(2)
+        time.sleep(5)
         driver.find_elements_by_link_text('By County')[0].click()
+        '''do we need to add 
+        driver.find_elements_by_link_text('All')[0].click() 
+        ? '''
         #time.sleep(1)
         #driver.find_element_by_id("input-filter").send_keys("Alexander")
         time.sleep(1)
