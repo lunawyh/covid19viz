@@ -1,0 +1,51 @@
+﻿Order1,Order2,Facility,Population,Positive,Negative,Pending,Inconclusive,Total,Inmate/Staff
+1,1,Mobile Testing at Massachusetts Correctional Institution – Framingham (MCI-F),MCI-F inmates,37,64,0,6,107,Inmate
+1,2,Mobile Testing at Massachusetts Correctional Institution – Framingham (MCI-F),Southern Middlesex Correctional Center (SMCC) inmates,0,40,0,1,41,Inmate
+1,3,Mobile Testing at Massachusetts Correctional Institution – Framingham (MCI-F),Department of Corrections Staff,2,109,0,0,111,Staff
+1,4,Mobile Testing at Massachusetts Correctional Institution – Framingham (MCI-F),Wellpath Staff,1,8,0,0,9,Staff
+2,5,Mobile Testing at MA Treatment Center (MTC),MTC Civil and State Inmates,73,360,0,31,464,Inmate
+2,6,Mobile Testing at MA Treatment Center (MTC),Department of Corrections Staff,5,217,0,0,222,Staff
+2,7,Mobile Testing at MA Treatment Center (MTC),Wellpath Staff,0,13,0,0,13,Staff
+2,8,Mobile Testing at MA Treatment Center (MTC),Bridgewater State Hospital /CCRS Staff,1,37,0,0,38,Staff
+3,9,Mobile Testing at Massachusetts Correctional Institution – Shirley (MCI-S),MCI-S Inmates,91,742,0,0,833,Inmate
+3,10,Mobile Testing at Massachusetts Correctional Institution – Shirley (MCI-S),Department of Corrections Staff,6,295,0,0,301,Staff
+3,11,Mobile Testing at Massachusetts Correctional Institution – Shirley (MCI-S),Wellpath Staff,0,20,0,0,20,Staff
+4,12,Mobile Testing at Old Colony Correctional Center (OCCC),OCCC Proper Inmates,0,592,0,0,592,Inmate
+4,13,Mobile Testing at Old Colony Correctional Center (OCCC),ISOU/RU Patients at OCCC,1,29,0,0,30,Inmate
+4,14,Mobile Testing at Old Colony Correctional Center (OCCC),Bridgewater State Hospital Civil Commit Patients,1,73,3,2,79,Inmate
+4,15,Mobile Testing at Old Colony Correctional Center (OCCC),OCCC-Minimum Security Inmates,0,84,0,0,84,Inmate
+4,16,Mobile Testing at Old Colony Correctional Center (OCCC),Department of Corrections Staff,2,65,0,0,67,Staff
+4,17,Mobile Testing at Old Colony Correctional Center (OCCC),Wellpath Staff,0,10,0,0,10,Staff
+4,18,Mobile Testing at Old Colony Correctional Center (OCCC),Bridgewater State Hospital /CCRS Staff,0,39,0,1,40,Staff
+5,19,Mobile testing at North Central Correctional Institution(NCCI) - Gardner,NCCI - Gardner Inmates,0,928,0,0,928,Inmate
+5,20,Mobile testing at North Central Correctional Institution(NCCI) - Gardner,Department of Corrections Staff,0,55,0,0,55,Staff
+5,21,Mobile testing at North Central Correctional Institution(NCCI) - Gardner,Wellpath Staff,0,3,0,0,3,Staff
+6,22,Mobile Testing at Massachusetts Correctional Institution – Concord (MCI-C),MCI-Concord Inmates,0,582,0,0,582,Inmate
+6,23,Mobile Testing at Massachusetts Correctional Institution – Concord (MCI-C),MCI-C and NECC DOC Staff,1,171,0,0,172,Staff
+6,24,Mobile Testing at Massachusetts Correctional Institution – Concord (MCI-C),MCI-C and NECC Wellpath Staff,0,24,0,0,24,Staff
+7,25,Mobile Testing at Northeast Correctional Center (NECC),NECC Inmates,0,149,0,0,149,Inmate
+8,26,Boston Pre-Release (BPR),BPR Inmates,0,68,0,0,68,Inmate
+8,27,Boston Pre-Release (BPR),Department of Corrections Staff,0,22,6,0,28,Staff
+8,28,Boston Pre-Release (BPR),Wellpath Staff,0,0,0,0,0,Staff
+9,29,Massachusetts Alcohol and Substance Abuse Center,MASAC Civils,2,35,0,0,37,Inmate
+9,30,Massachusetts Alcohol and Substance Abuse Center,Department of Corrections Staff,0,6,0,0,6,Staff
+9,31,Massachusetts Alcohol and Substance Abuse Center,Wellpath/Contractors,9,58,0,1,68,Staff
+10,32,Mobile testing at Souza Baranowski Correctional Center,DOC MCI-S Staff,0,14,0,0,14,Staff
+10,33,Mobile testing at Souza Baranowski Correctional Center,DOC SBCC Staff,1,98,0,0,99,Staff
+10,34,Mobile testing at Souza Baranowski Correctional Center,Wellpath Staff,0,17,0,0,17,Staff
+10,35,Mobile testing at Souza Baranowski Correctional Center,SBCC Inmates,2,677,0,0,679,Inmate
+11,36,Mobile Testing at MCI-Shirley (Minimum),MCI-S Minimum Inmates,0,239,0,0,239,Inmate
+12,37,Mobile Testing at MCI-Cedar Junction,MCI - Cedar Junction Inmates,0,507,1,0,508,Inmate
+12,38,Mobile Testing at MCI-Cedar Junction,DOC Staff - CJ,0,77,0,0,77,Staff
+12,39,Mobile Testing at MCI-Cedar Junction,DOC - Norfolk,0,20,0,0,20,Staff
+12,40,Mobile Testing at MCI-Cedar Junction,DOC - Pondville,1,2,0,0,3,Staff
+12,41,Mobile Testing at MCI-Cedar Junction,DOC - SBCC,0,1,0,0,1,Staff
+12,42,Mobile Testing at MCI-Cedar Junction,DOC - Transportation,0,1,0,0,1,Staff
+12,43,Mobile Testing at MCI-Cedar Junction,DOC - Food Service,0,2,0,0,2,Staff
+12,44,Mobile Testing at MCI-Cedar Junction,Wellpath Staff,0,8,0,0,8,Staff
+13,45,Mobile Testing at Pondville Correctional Center,PCC Inmates,0,113,0,0,113,Inmate
+14,46,Mobile Testing at MCI-Norfolk,MCI - Norfolk Inmates,1,1233,0,0,1234,Inmate
+14,47,Mobile Testing at MCI-Norfolk,DOC Staff - Norfolk,1,41,0,0,42,Staff
+14,48,Mobile Testing at MCI-Norfolk,DOC Staff - Pondville,0,4,0,0,4,Staff
+14,49,Mobile Testing at MCI-Norfolk,Wellpath Staff,0,4,0,0,4,Staff
+,,Data Current as of 6/10,,,,,,,

@@ -1,0 +1,103 @@
+Date,Race/Ethnicity,All Cases,Ever Hospitaltized,Deaths
+6/1/2020,Non-Hispanic White,26162,3813,2904
+6/1/2020,Non-Hispanic Black/African American,8853,987,348
+6/1/2020,Hispanic,18331,1290,445
+6/1/2020,Non-Hispanic Asian,1875,291,128
+6/1/2020,Non-Hispanic Other,4549,571,227
+6/1/2020,Unknown/Missing,41035,3000,2983
+6/2/2020,Non-Hispanic White,26390,3859,2947
+6/2/2020,Non-Hispanic Black/African American,8904,993,349
+6/2/2020,Hispanic,18470,1301,451
+6/2/2020,Non-Hispanic Asian,1892,296,129
+6/2/2020,Non-Hispanic Other,4574,581,228
+6/2/2020,Unknown/Missing,40933,3033,2981
+6/3/2020,Non-Hispanic White,26941,3897,2992
+6/3/2020,Non-Hispanic Black/African American,9209,1013,354
+6/3/2020,Hispanic,18691,1313,463
+6/3/2020,Non-Hispanic Asian,1931,300,130
+6/3/2020,Non-Hispanic Other,4644,595,230
+6/3/2020,Unknown/Missing,40176,3033,2983
+6/4/2020,Non-Hispanic White,27098,3954,3028
+6/4/2020,Non-Hispanic Black/African American,9257,1023,356
+6/4/2020,Hispanic,18811,1325,464
+6/4/2020,Non-Hispanic Asian,1951,301,130
+6/4/2020,Non-Hispanic Other,4708,604,232
+6/4/2020,Unknown/Missing,40238,3031,2991
+6/5/2020,Non-Hispanic White,27320,3986,3046
+6/5/2020,Non-Hispanic Black/African American,9288,1033,358
+6/5/2020,Hispanic,19010,1335,465
+6/5/2020,Non-Hispanic Asian,1970,304,131
+6/5/2020,Non-Hispanic Other,4746,611,237
+6/5/2020,Unknown/Missing,40223,3034,2998
+6/6/2020,Non-Hispanic White,27515,4014,3074
+6/6/2020,Non-Hispanic Black/African American,9330,1039,361
+6/6/2020,Hispanic,19145,1359,484
+6/6/2020,Non-Hispanic Asian,1987,303,131
+6/6/2020,Non-Hispanic Other,4795,614,238
+6/6/2020,Unknown/Missing,40360,3040,3001
+6/7/2020,Non-Hispanic White,29877,4936,5370
+6/7/2020,Non-Hispanic Black/African American,9600,1204,606
+6/7/2020,Hispanic,19268,1369,491
+6/7/2020,Non-Hispanic Asian,2056,331,189
+6/7/2020,Non-Hispanic Other,5083,798,504
+6/7/2020,Unknown/Missing,37552,1755,156
+6/8/2020,Non-Hispanic White,30009,4952,5392
+6/8/2020,Non-Hispanic Black/African American,9617,1208,611
+6/8/2020,Hispanic,19324,1374,496
+6/8/2020,Non-Hispanic Asian,2065,333,190
+6/8/2020,Non-Hispanic Other,5096,799,505
+6/8/2020,Unknown/Missing,37515,1759,159
+6/9/2020,Non-Hispanic White,30199,4999,5433
+6/9/2020,Non-Hispanic Black/African American,9652,1216,617
+6/9/2020,Hispanic,19436,1386,499
+6/9/2020,Non-Hispanic Asian,2076,335,191
+6/9/2020,Non-Hispanic Other,5133,807,509
+6/9/2020,Unknown/Missing,37393,1764,159
+6/10/2020,Non-Hispanic White,30422,5043,5467
+6/10/2020,Non-Hispanic Black/African American,9729,1224,620
+6/10/2020,Hispanic,19596,1400,501
+6/10/2020,Non-Hispanic Asian,2092,335,192
+6/10/2020,Non-Hispanic Other,5179,818,511
+6/10/2020,Unknown/Missing,37138,1762,163
+6/11/2020,Non-Hispanic White,30593,5088,5500
+6/11/2020,Non-Hispanic Black/African American,9765,1238,625
+6/11/2020,Hispanic,19712,1413,509
+6/11/2020,Non-Hispanic Asian,2107,338,194
+6/11/2020,Non-Hispanic Other,5232,825,510
+6/11/2020,Unknown/Missing,37258,1752,154
+6/12/2020,Non-Hispanic White,30752,5120,5534
+6/12/2020,Non-Hispanic Black/African American,9805,1244,625
+6/12/2020,Hispanic,19829,1424,514
+6/12/2020,Non-Hispanic Asian,2124,339,194
+6/12/2020,Non-Hispanic Other,5269,837,514
+6/12/2020,Unknown/Missing,37280,1762,157
+6/13/2020,Non-Hispanic White,30894,5144,5557
+6/13/2020,Non-Hispanic Black/African American,9839,1250,627
+6/13/2020,Hispanic,19936,1434,516
+6/13/2020,Non-Hispanic Asian,2131,341,195
+6/13/2020,Non-Hispanic Other,5295,841,519
+6/13/2020,Unknown/Missing,37300,1762,162
+6/14/2020,Non-Hispanic White,31004,5167,5597
+6/14/2020,Non-Hispanic Black/African American,9859,1252,630
+6/14/2020,Hispanic,20017,1440,523
+6/14/2020,Non-Hispanic Asian,2150,346,202
+6/14/2020,Non-Hispanic Other,5308,842,520
+6/14/2020,Unknown/Missing,37265,1755,152
+6/15/2020,Non-Hispanic White,31071,5179,5610
+6/15/2020,Non-Hispanic Black/African American,9873,1255,630
+6/15/2020,Hispanic,20064,1442,525
+6/15/2020,Non-Hispanic Asian,2152,346,203
+6/15/2020,Non-Hispanic Other,5322,843,523
+6/15/2020,Unknown/Missing,37208,1752,156
+6/16/2020,Non-Hispanic White,31180,5208,5624
+6/16/2020,Non-Hispanic Black/African American,9906,1262,630
+6/16/2020,Hispanic,20161,1446,525
+6/16/2020,Non-Hispanic Asian,2161,348,204
+6/16/2020,Non-Hispanic Other,5341,844,521
+6/16/2020,Unknown/Missing,37136,1759,161
+6/17/2020,Non-Hispanic White,31324,5246,5681
+6/17/2020,Non-Hispanic Black/African American,9936,1265,634
+6/17/2020,Hispanic,20255,1452,528
+6/17/2020,Non-Hispanic Asian,2179,351,206
+6/17/2020,Non-Hispanic Other,5382,851,521
+6/17/2020,Unknown/Missing,37075,1760,164

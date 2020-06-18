@@ -18,7 +18,9 @@ import datetime
 import urllib
 import ssl
 import requests
+from lxml import html
 import zipfile
+import StringIO
 # ==============================================================================
 # -- codes -------------------------------------------------------------------
 # ==============================================================================
@@ -53,30 +55,27 @@ class dataGrabMa(object):
     def parseDfData(self, df, fName=None):
         (n_rows, n_columns) = df.shape
         # check shape
-        #print('parseDfData', df.title)
+        # print('parseDfData', df.title)
         lst_data = []
         for ii in range(n_rows):
             a_case = []
             for jj in range(n_columns):
-                if( str(df.iloc[ii, jj]) == 'nan'  ):
-                    a_case.append( 0 )
+                if (str(df.iloc[ii, jj]) == 'nan'):
+                    a_case.append(0)
                     continue
-                a_case.append( df.iloc[ii, jj] )
-            lst_data.append( a_case )
+                a_case.append(df.iloc[ii, jj])
+            lst_data.append(a_case)
         # save to a database file
-        if(fName is not None): self.save2File( lst_data, fName )
+        if (fName is not None): self.save2File(lst_data, fName)
         return lst_data
-    ## open a csv
 
     ## open a csv
-    def open4File(self, f_name):
-        # unzip downloaded file and get a csv file
-        print('  unzip ...')
-        # open a csv file
-        csv_name = 'County.csv'
-        l_data = []
-        ##file_name = '\Dennis\Covid19\covid19viz\ma\data_raw\ma_covid19_20200613.zip\County.csv'
-        l_data = pd.read_csv("/Dennis/Covid19/covid19viz/ma/data_raw/ma_covid19_20200613.zip/County.csv")
+    def open4File(self, csv_name):
+        if (isfile(csv_name)):
+            df = pd.read_csv(csv_name)
+            l_data = self.parseDfData(df)
+        else:
+            return []
         return l_data
     ## save to csv
 
@@ -88,11 +87,11 @@ class dataGrabMa(object):
             #
             bFound = False
             for a_date in l_date:
-                if(a_date in a_item[8]):
+                if(a_date in a_item[0]):
                     bFound = True
                     break
             if(not bFound):
-                l_date.append(a_item[8])
+                l_date.append(a_item[0])
         # generate all daily data
         l_daily = []
         for a_date in l_date:
@@ -108,27 +107,22 @@ class dataGrabMa(object):
         total_overral_deaths = 0
         for a_item in l_data:
             #if (a_test_date is None):
-            if (initial_test_date is None and a_test_date in a_item[8]):
+            if (initial_test_date is None and a_test_date in a_item[0]):
                 initial_test_date = a_test_date
-                dt_obj = datetime.datetime.strptime(a_test_date, '%Y/%m/%d')
+                dt_obj = datetime.datetime.strptime(a_test_date, '%m/%d/%Y')
                 self.name_file = dt_obj.strftime('%Y%m%d')
                 self.now_date = dt_obj.strftime('%m/%d/%Y')
-            elif (a_test_date in a_item[8]):
+            elif (a_test_date in a_item[0]):
                 pass
             else:
                 continue
             #total_daily += int(a_item[2])
-            total_overral += int(a_item[4])
-            total_overral_deaths += int(a_item[5])
+            total_overral += int(a_item[2])
+            total_overral_deaths += int(a_item[3])
             #l_daily.append([a_item[1], a_item[2], 0])
-            l_pending = []
-            if 'Pending Validation' in a_item:
-                l_pending = a_item
-            else:
-                l_overral.append([a_item[1], a_item[4], a_item[5]])
+            l_overral.append([a_item[1], a_item[2], a_item[3]])
             l_overral.sort(key=lambda county: county[0])
         #l_daily.append(['Total', total_daily, 0])
-        l_overral.append(l_pending)
         l_overral.append(['Total', total_overral, total_overral_deaths])
         #if (not os.path.isdir(self.state_dir + 'daily/')): os.mkdir(self.state_dir + 'daily/')
         if (not os.path.isdir(self.state_dir + 'data/')): os.mkdir(self.state_dir + 'data/')
@@ -138,10 +132,20 @@ class dataGrabMa(object):
                        self.state_dir + 'data/' + self.state_name.lower() + '_covid19_' + self.name_file + '.csv')
         return l_overral
 
+    def downloadAndParseLink(self,fRaw):
+        htmlPage = requests.get(fRaw)
+        tree = html.fromstring(htmlPage.content)
+        division = tree.xpath('//p//a/@href')
+        link = division[0]
+        link = "https://www.mass.gov" + link
+        print("get link: " + link)
+        return link
+
 
     ## download a website
-    def download4Website(self, fRaw):
+    def download4Website(self, l_name):
         zip_url = self.l_state_config[5][1]
+        print(self.downloadAndParseLink(zip_url))
         print('  download4Website from', zip_url)
         # get the updated date from the website
         # update self.name_file and self.now_date
@@ -149,21 +153,19 @@ class dataGrabMa(object):
         c_page = requests.get(self.l_state_config[5][1])
         c_page = requests.get(self.l_state_config[5][2])
         # save csv file
-        r = requests.get(zip_url)
-        with open(fRaw, 'wb') as f:
-            f.write(r.content)
-        print('  saved to', fRaw)
-        archive = zipfile.ZipFile(fRaw, 'r')
-        csvdata = archive.read('County.csv')
-        return csv.reader(csvdata)
+        link_zip = self.downloadAndParseLink(zip_url)
+        r = requests.get(link_zip)
+        r_zip = zipfile.ZipFile(StringIO.StringIO(r.content))
+        r_zip.extract('County.csv',l_name)
+        print('  saved to', l_name)
     ## paser data CA
     def parseData(self, name_target, type_download):
             self.name_file = name_target
-            f_name = self.state_dir + 'data_raw/'+self.state_name.lower()+'_covid19_'+self.name_file+'.zip'
+            f_name = self.state_dir + 'data_raw/'+self.state_name.lower()+'_covid19_'+self.name_file+'.csv'
+            l_name = self.state_dir + 'data_raw/'
             if(not os.path.isdir(self.state_dir + 'data_raw/') ): os.mkdir(self.state_dir + 'data_raw/')
             # step A: downlowd and save
-            result = self.download4Website(f_name)
-            self.parseDfData(result)
+            result = self.download4Website(l_name)
             # step B: parse and open
             lst_raw_data = self.open4File(f_name)
             # step C: convert to standard file and save
