@@ -33,10 +33,10 @@ class dataGrabVt(object):
         self.l_state_config = l_config
         self.name_file = ''
         self.now_date = ''
-    ## save to csv 
+    ## save to csv
     def save2File(self, l_data, csv_name):
         csv_data_f = open(csv_name, 'wb')
-        # create the csv writer 
+        # create the csv writer
         csvwriter = csv.writer(csv_data_f)
         # make sure the 1st row is colum names
         if('County' in str(l_data[0][0])): pass
@@ -44,16 +44,16 @@ class dataGrabVt(object):
         for a_row in l_data:
             csvwriter.writerow(a_row)
         csv_data_f.close()
-    ## parse from exel format to list 
+    ## parse from exel format to list
     def parseDfData(self, df, fName=None):
-        (n_rows, n_columns) = df.shape 
+        (n_rows, n_columns) = df.shape
         # check shape
         #print('parseDfData', df.title)
         lst_data = []
         for ii in range(n_rows):
             a_case = []
             for jj in range(n_columns):
-                if( str(df.iloc[ii, jj]) == 'nan'  ): 
+                if( str(df.iloc[ii, jj]) == 'nan'  ):
                     a_case.append( 0 )
                     continue
                 a_case.append( df.iloc[ii, jj] )
@@ -61,7 +61,7 @@ class dataGrabVt(object):
         # save to a database file
         if(fName is not None): self.save2File( lst_data, fName )
         return lst_data
-    ## open a csv 
+    ## open a csv
     def open4File(self, csv_name):
         if(isfile(csv_name) ):
             df = pd.read_csv(csv_name)
@@ -78,18 +78,18 @@ class dataGrabVt(object):
             #
             bFound = False
             for a_date in l_date:
-                if(a_date in a_item[8]):
+                if(a_date in a_item[11]):
                     bFound = True
                     break
             if(not bFound):
-                l_date.append(a_item[8])
+                l_date.append(a_item[11])
         # generate all daily data
         l_daily = []
         for a_date in l_date:
-            l_daily = self.saveDataFromDlVt(l_d_sort, a_date, bDaily=False)
+            l_daily = self.saveDataFromDlCt(l_d_sort, a_date, bDaily=False)
         return l_daily
 
-    def saveDataFromDlVt(self, l_data, a_test_date, bDaily=True):
+    def saveDataFromDlCt(self, l_data, a_test_date, bDaily=True):
         initial_test_date = None
         #l_daily = []
         l_overral = []
@@ -98,21 +98,20 @@ class dataGrabVt(object):
         total_overral_deaths = 0
         for a_item in l_data:
             #if (a_test_date is None):
-            if (initial_test_date is None and a_test_date in a_item[8]):
+            if (initial_test_date is None and a_test_date in a_item[11]):
                 initial_test_date = a_test_date
-                dt_obj = datetime.datetime.strptime(a_test_date, '%Y/%m/%d %H:%M:%S')
+                dt_obj = datetime.datetime.strptime(a_test_date[:19], '%Y/%m/%d %H:%M:%S')
                 self.name_file = dt_obj.strftime('%Y%m%d')
                 self.now_date = dt_obj.strftime('%m/%d/%Y')
-            elif (a_test_date in a_item[8]):
+            elif (a_test_date in a_item[11]):
                 pass
             else:
                 continue
             #total_daily += int(a_item[2])
-            total_overral += int(a_item[4])
-            total_overral_deaths += int(a_item[5])
+            total_overral += int(a_item[7])
+            total_overral_deaths += int(a_item[8])
             #l_daily.append([a_item[1], a_item[2], 0])
-            l_overral.append([a_item[1], a_item[4], a_item[5]])
-        l_overral.sort(key=lambda county: county[0])
+            l_overral.append([a_item[3], a_item[7], a_item[8]])
         #l_daily.append(['Total', total_daily, 0])
         l_overral.append(['Total', total_overral, total_overral_deaths])
         #if (not os.path.isdir(self.state_dir + 'daily/')): os.mkdir(self.state_dir + 'daily/')
