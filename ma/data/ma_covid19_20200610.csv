@@ -1,18 +1,18 @@
 County,Cases,Deaths
-Barnstable,1467.0,127.0
-Berkshire,574.0,41.0
-Bristol,7754.0,487.0
-Dukes,42.0,0
-Dukes and Nantucket,0,1.0
-Essex,15365.0,1024.0
-Franklin,344.0,49.0
-Hampden,6395.0,629.0
-Hampshire,905.0,100.0
-Middlesex,22889.0,1725.0
-Nantucket,13.0,0
-Norfolk,8774.0,873.0
-Plymouth,8418.0,608.0
-Suffolk,19099.0,936.0
-Unknown,297.0,10.0
-Worcester,11820.0,844.0
+Barnstable,1467,127
+Berkshire,574,41
+Bristol,7754,487
+Dukes,42,0
+Dukes and Nantucket,0,1
+Essex,15365,1024
+Franklin,344,49
+Hampden,6395,629
+Hampshire,905,100
+Middlesex,22889,1725
+Nantucket,13,0
+Norfolk,8774,873
+Plymouth,8418,608
+Suffolk,19099,936
+Unknown,297,10
+Worcester,11820,844
 Total,104156,7454
