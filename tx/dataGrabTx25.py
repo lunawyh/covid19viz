@@ -62,10 +62,11 @@ class dataGrabTx(object):
         return lst_data
     ## open a xlsx 
     def open4Xlsx(self, xlsx_name):
+        print("  open4Xlsx", xlsx_name)
         s_date = ''
         if(isfile(xlsx_name) ):
             xl_file = pd.ExcelFile(xlsx_name)
-            #print(xl_file.sheet_names)
+            print("  sheet names", xl_file.sheet_names)
             nfx = ''
             for sheet in xl_file.sheet_names:
                 if 'Cases and Fatalities' in (sheet):
@@ -75,6 +76,7 @@ class dataGrabTx(object):
                     nfx = sheet 
                     break
             if nfx == '':return [], s_date
+            print("  select sheet", nfx)
             df = xl_file.parse( nfx )
             n_date = df.columns[0].find('as of')
             if(n_date >= 0):

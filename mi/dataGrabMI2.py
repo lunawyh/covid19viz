@@ -114,7 +114,7 @@ class dataGrabMI(object):
             print('  sheet_names', xl_file.sheet_names)
             nfx = ''
             for sheet in xl_file.sheet_names:  # try to find known name of sheet
-                if ('Data' in (sheet)) or ('Data' in (sheet)):
+                if ('Sheet 1' in (sheet)) or ('Data' in (sheet)):
                     print('  select sheet', sheet)
                     nfx = sheet
                     break
