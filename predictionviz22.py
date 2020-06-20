@@ -87,15 +87,34 @@ class predictionViz(object):
 
     #    ## open a xlsx 
     def open4Xlsx(self, xlsx_name):
+        l_data = []
+        if(isfile(xlsx_name) ):
+            xl_file = pd.ExcelFile(xlsx_name)
+            print('  sheet_names', xl_file.sheet_names)
+            nfx = ''
+            for sheet in xl_file.sheet_names:  # try to find known name of sheet
+                if ('COVID-19 Cases' in (sheet)) or ('Cases by County' in (sheet)):
+                    print('  select sheet', sheet)
+                    nfx = sheet
+                    break
+            if nfx == '': # if not found, use the 1st sheet
+                if(len(xl_file.sheet_names) > 0): nfx = xl_file.sheet_names[0]
+                else: return []
+            df = xl_file.parse( nfx )
+            
+            l_data = self.parseDfData(df)
+
+        else: return []
+        return l_data
+        '''
         if(isfile(xlsx_name) ):
             xl_file = pd.ExcelFile(xlsx_name)
             df = xl_file.parse('COVID-19 Cases')
             l_data = self.parseDfData(df)
-        else: return []
-        return l_data
+        '''
     def close_event(self):
         self.pl_timer.stop()
-        plt.close() #timer calls this function after 3 seconds and closes the window 
+        plt.close() #timer calls this function after 3 seconds and closes the window  COVID-19 Cases
     def filterByDays(self, l_origin):
         l_filter = []
         f_days = 7
