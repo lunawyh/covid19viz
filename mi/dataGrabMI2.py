@@ -113,11 +113,14 @@ class dataGrabMI(object):
             xl_file = pd.ExcelFile(xlsx_name)
             print('  sheet_names', xl_file.sheet_names)
             nfx = ''
-            for sheet in xl_file.sheet_names:
-                if 'Sheet 1' in (sheet):
+            for sheet in xl_file.sheet_names:  # try to find known name of sheet
+                if ('Sheet 1' in (sheet)) or ('Data' in (sheet)):
+                    print('  select sheet', sheet)
                     nfx = sheet
                     break
-            if nfx == '':return []
+            if nfx == '': # if not found, use the 1st sheet
+                if(len(xl_file.sheet_names) > 0): nfx = xl_file.sheet_names[0]
+                else: return []
             df = xl_file.parse( nfx )
             
             l_data = self.parseDfData(df)
