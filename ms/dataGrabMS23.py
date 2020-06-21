@@ -92,7 +92,7 @@ class dataGrabMS(object):
                 #print (b_date)
                 #datetime_object = datetime.datetime.strptime(b_date[1], "%B")
                 #month_number = datetime_object.month
-                dt_obj = datetime.datetime.strptime(a_date, ' %B %d, %Y')
+                dt_obj = datetime.datetime.strptime(a_date.replace('.', '').replace(' ', ''), '%B%d,%Y')
                 self.name_file = dt_obj.strftime('%Y%m%d')
                 self.now_date = dt_obj.strftime('%m/%d/%Y')
                 break
