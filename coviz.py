@@ -212,7 +212,7 @@ class runCoViz(object):
         #print('stateManage...', state)
         if(self.stateMachine == 100):
                 self.stateMachine += 50
-                self.cmdProcess(65481, 0)  # press F5 grab data
+                self.cmdProcess(65474, 5000)  # press F5 grab data
                 self.stateMachine += 50
         elif(self.stateMachine == 200):
                 if(self.stateMaSub > 0): return 1000
