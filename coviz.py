@@ -153,7 +153,7 @@ class runCoViz(object):
         elif(key == 65479 or key == 1114055 or key == 7929856):   # F10 key next day
             self.data_daily = False
             self.csv_pos_now, self.l_mi_cases, self.l_cases_yest = self.readDataByDay(self.csv_pos_now+1) 
-        elif(key == 65481 or key == 1114057 or key == 7995393 or key == 8060928 or key == 63247 ):   # F12 key next day
+        elif(key == 65481 or key == 1114057 or key == 7995393 or key == 8060928 or key == 63247):   # F12 key next day
             save_file = None
             if(self.isNameOnToday(self.name_file)):
                 save_file = self.state_dir + 'results/mi_county20200000_predict.png'
