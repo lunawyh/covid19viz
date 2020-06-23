@@ -155,6 +155,7 @@ class dataGrabMa(object):
         htmlPage = requests.get(fRaw)
         tree = html.fromstring(htmlPage.content)
         division = tree.xpath('//p//a/@href')
+        print("$%#division", division)
         link = division[0]
         link = "https://www.mass.gov" + link
         print("  get link: " + link)

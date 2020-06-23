@@ -1,11 +1,11 @@
 name,value,lon,quantity,offset
 VIZ_W,842,,,0
 VIZ_H,1000,,,1
-state_map,arkansas-county-map.gif,,,2
+state_map,AR-USA-113364.jpeg,,,2
 cordinate,None,,,3
 weblink_num,102,,,4
 weblink_state,https://www.healthy.arkansas.gov/programs-services/topics/covid-19-county-data,,,5
-state_name,California,,,6
+state_name,Arizona,,,6
 basemap_type,1,,,7
 basemap_center,34.674516,-92.153847,,8
 basemap_size,570000,570000,,9

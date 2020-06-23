@@ -96,6 +96,19 @@ class dataGrabMS(object):
                 self.name_file = dt_obj.strftime('%Y%m%d')
                 self.now_date = dt_obj.strftime('%m/%d/%Y')
                 break
+
+        # get links to downloading files
+        division = c_tree.xpath('//ul//li//a/@href')
+        #print ('*(&division', division)
+        for 'resources' in division:
+            print('division_resources ^*&', division)
+            division = division[ :2]
+            link = division
+        link = "https://msdh.ms.gov" + link
+        print("  get link: " + link)
+       
+        return link
+        '''
         # read tables
         cov_tables = pd.read_html(csv_url)
         row_max, n_table = 0, 0
@@ -108,6 +121,7 @@ class dataGrabMS(object):
         # read  table: Overall Confirmed COVID-19 Cases by County
         print('  read table ', n_table)
         return cov_tables[n_table]
+        '''
 
     ## parse from exel format to list 
     def parseDfData(self, df, fName=None):
