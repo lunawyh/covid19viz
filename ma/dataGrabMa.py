@@ -104,12 +104,12 @@ class dataGrabMa(object):
         print('  data in days', len(l_date) )
         # generate all daily data
         l_daily_latest = []
-	max_name_file = '20200101'
+        max_name_file = '20200101'
         for a_date in l_date:
             l_daily, n_name_file  = self.saveDataFromDlMa(l_d_sort, a_date, bDaily=False)
             if(n_name_file > max_name_file): 
-		max_name_file = n_name_file
-		l_daily_latest = l_daily
+                max_name_file = n_name_file
+                l_daily_latest = l_daily
                 dt_obj = datetime.datetime.strptime(n_name_file, '%Y%m%d')
                 self.name_file = dt_obj.strftime('%Y%m%d')
                 self.now_date = dt_obj.strftime('%m/%d/%Y')
@@ -122,7 +122,7 @@ class dataGrabMa(object):
         #
         total_overral = 0
         total_overral_deaths = 0
-	n_name_file = '20200101'
+        n_name_file = '20200101'
         for a_item in l_data:
             #if (a_test_date is None):
             if (initial_test_date is None and a_test_date in a_item[0]):
@@ -183,7 +183,7 @@ class dataGrabMa(object):
         #r_zip.extract('County.csv',l_name)
         r_zip = zipfile.ZipFile(fRaw, 'r')
         data_csv = r_zip.open('County.csv')
-	#l_data = self.parseDfData(df_data_county)
+        #l_data = self.parseDfData(df_data_county)
         return data_csv
     ## paser data CA
     def parseData(self, name_target, type_download):

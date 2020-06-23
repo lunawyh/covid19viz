@@ -93,10 +93,12 @@ class dataGrabVt(object):
         initial_test_date = None
         #l_daily = []
         l_overral = []
+        l_overral.append(['County','Cases','Deaths'])
         #total_daily = 0
         total_overral = 0
         total_overral_deaths = 0
         for a_item in l_data:
+            if ('Pending Validation' in a_item[3]): continue
             #if (a_test_date is None):
             if (initial_test_date is None and a_test_date in a_item[11]):
                 initial_test_date = a_test_date
@@ -111,7 +113,7 @@ class dataGrabVt(object):
             total_overral += int(a_item[7])
             total_overral_deaths += int(a_item[8])
             #l_daily.append([a_item[1], a_item[2], 0])
-            l_overral.append([a_item[3], a_item[7], a_item[8]])
+            l_overral.append([a_item[3].replace(' County', ''), a_item[7], a_item[8]])
         #l_daily.append(['Total', total_daily, 0])
         l_overral.append(['Total', total_overral, total_overral_deaths])
         #if (not os.path.isdir(self.state_dir + 'daily/')): os.mkdir(self.state_dir + 'daily/')
