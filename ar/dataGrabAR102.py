@@ -49,15 +49,16 @@ class dataGrabAR(object):
         csv_data_f.close()
 
     ## open a website 
-    def find_date(self, fRaw):
+    def find_date(self, fRaw, name_file):
       
         csv_url = self.l_state_config[5][1]
         print('  find_date', csv_url)
         # save html file
         c_page = requests.get(csv_url)
         c_tree = html.fromstring(c_page.content)
-	with open(fRaw, 'wb') as f:
-	    f.write(c_page.content)
+        with open(fRaw, 'wb') as f:
+            f.write(c_page.content)
+        '''
         l_dates = c_tree.xpath('//p/text()')
         for l_date in l_dates:
             #if('Updated ' in l_date):
@@ -68,6 +69,11 @@ class dataGrabAR(object):
                 self.name_file = dt_obj.strftime('%Y%m%d')
                 self.now_date = dt_obj.strftime('%m/%d/%Y')
                 break
+        '''
+        if(True):
+                dt_obj = datetime.datetime.strptime(name_file, '%Y%m%d')
+                self.name_file = dt_obj.strftime('%Y%m%d')
+                self.now_date = dt_obj.strftime('%m/%d/%Y')
         return True
     ## parse from exel format to list 
     def parseDfData(self, df, fName=None):
@@ -107,15 +113,15 @@ class dataGrabAR(object):
         #print ('^^^', l_dates)
         l_cases2 = np.reshape(l_dates, (len(l_dates)/4, 4)).T
         l_data = np.vstack((l_cases2[0], l_cases2[1], l_cases2[3])).T 
-	l_data[-1][1] = l_data[-1][1].replace('*', '').replace(',', '')
-	'''
+        l_data[-1][1] = l_data[-1][1].replace('*', '').replace(',', '')
+        '''
         l_data_1 = l_data[:-1] 
         l_data_2 = l_data[-1]
         l_data_3 = [l_data_2[0], l_data_2[1].replace('*', '').replace(',', ''), l_data_2[2]]     
         l_data_4 = np.vstack((l_data_1, l_data_3))
         return(l_data_4)
-	'''
-	return l_data
+        '''
+        return l_data
         #print ('^^^', l_data_4)
 
         #print('      cases reshaped', len(l_cases2))
@@ -135,11 +141,11 @@ class dataGrabAR(object):
     ## paser data CA
     def parseData(self, name_file):
             self.name_file = name_file
-            #self.now_date
+            self.now_date = ''
             f_name = self.state_dir + 'data_raw/'+self.state_name.lower()+'_covid19_'+self.name_file+'.html'
             if(not os.path.isdir(self.state_dir + 'data_raw/') ): os.mkdir(self.state_dir + 'data_raw/')
             # step A: read date
-            self.find_date(f_name)
+            self.find_date(f_name, name_file)
             lst_data = self.open4excel(name_file)
             #print ('open',lst_data )
             self.saveLatestDate(lst_data, self.name_file)
