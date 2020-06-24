@@ -144,6 +144,12 @@ class dataGrabFl(object):
             #print('  pageTxt 5:', pageTxt)
             # get text in the table list
             n_start = pageTxt.find('confirmed cases')
+           
+            for txt in pageTxt:
+                if 'name' in txt:
+                    re.split('(\d+)',txt)
+                    print('^^^', txt)
+            '''
             if(n_start < 0):
                 return ([], pdfReader)
             pageTxt = pageTxt[n_start + 17:]
@@ -154,7 +160,8 @@ class dataGrabFl(object):
             n_start = pageTxt.find('Total')
             if(n_start < 0):
                 return ([], pdfReader)
-            pageTxt = pageTxt[n_start + 6:]
+            pageTxt = pageTxt[n_start + 6:]            
+            '''
 
             tableTxt = ''
             pre_char = '\n'
@@ -163,7 +170,7 @@ class dataGrabFl(object):
                     if( pre_char.isdigit() ): tableTxt += '\n'
                 pre_char = a_char
                 tableTxt += a_char
-            print('  tableTxt on 5:', len(tableTxt))
+            #print('  tableTxt on 5:', len(tableTxt))
             l_d_sort = self.parseTableConfirmed(tableTxt)
             return (l_d_sort, pdfReader)
     ## paser data FL
