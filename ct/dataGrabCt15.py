@@ -33,10 +33,10 @@ class dataGrabCt(object):
         self.l_state_config = l_config
         self.name_file = ''
         self.now_date = ''
-    ## save to csv 
+    ## save to csv
     def save2File(self, l_data, csv_name):
         csv_data_f = open(csv_name, 'wb')
-        # create the csv writer 
+        # create the csv writer
         csvwriter = csv.writer(csv_data_f)
         # make sure the 1st row is colum names
         if('County' in str(l_data[0][0])): pass
@@ -44,16 +44,16 @@ class dataGrabCt(object):
         for a_row in l_data:
             csvwriter.writerow(a_row)
         csv_data_f.close()
-    ## parse from exel format to list 
+    ## parse from exel format to list
     def parseDfData(self, df, fName=None):
-        (n_rows, n_columns) = df.shape 
+        (n_rows, n_columns) = df.shape
         # check shape
         #print('parseDfData', df.title)
         lst_data = []
         for ii in range(n_rows):
             a_case = []
             for jj in range(n_columns):
-                if( str(df.iloc[ii, jj]) == 'nan'  ): 
+                if( str(df.iloc[ii, jj]) == 'nan'  ):
                     a_case.append( 0 )
                     continue
                 a_case.append( df.iloc[ii, jj] )
@@ -61,7 +61,7 @@ class dataGrabCt(object):
         # save to a database file
         if(fName is not None): self.save2File( lst_data, fName )
         return lst_data
-    ## open a csv 
+    ## open a csv
     def open4File(self, csv_name):
         if(isfile(csv_name) ):
             df = pd.read_csv(csv_name)
@@ -123,7 +123,7 @@ class dataGrabCt(object):
         return l_overral
 
 
-    ## download a website 
+    ## download a website
     def download4Website(self, fRaw):
         csv_url = self.l_state_config[5][1]
         # save csv file
@@ -144,6 +144,6 @@ class dataGrabCt(object):
             if( type_download == 50):
                 lst_data = self.saveLatestDateCt(lst_raw_data)
 
-            return(lst_data, self.name_file, self.now_date)  
+            return(lst_data, self.name_file, self.now_date)
 
 ## end of file
