@@ -155,7 +155,6 @@ class dataGrabMa(object):
         htmlPage = requests.get(fRaw)
         tree = html.fromstring(htmlPage.content)
         division = tree.xpath('//p//a/@href')
-        print("$%#division", division)
         link = division[0]
         link = "https://www.mass.gov" + link
         print("  get link: " + link)
@@ -184,7 +183,7 @@ class dataGrabMa(object):
         #r_zip.extract('County.csv',l_name)
         r_zip = zipfile.ZipFile(fRaw, 'r')
         data_csv = r_zip.open('County.csv')
-	#l_data = self.parseDfData(df_data_county)
+        #l_data = self.parseDfData(df_data_county)
         return data_csv
     ## paser data CA
     def parseData(self, name_target, type_download):

@@ -4,7 +4,7 @@ VIZ_H,871,,,1
 state_map,vermont-county-map.jpg,,,2
 cordinate,None,,,3
 weblink_num,14,,,4
-weblink_state,https://opendata.arcgis.com/datasets/b7f5dac3ea2e4700abc8521be425ff55_0.csv?outSR=%7B%22latestWkid%22%3A3857%2C%22wkid%22%3A102100%7D,,,5
+weblink_state,https://opendata.arcgis.com/datasets/073171444627458b80e4d2a99aa8e146_0.csv?outSR=%7B%22latestWkid%22%3A3857%2C%22wkid%22%3A102100%7D,,,5
 state_name,Vermont,,,6
 basemap_type,1,,,7
 basemap_center,0,0,,8
@@ -12,7 +12,7 @@ basemap_size,0,0,,9
 basemap_list_num,2,,,10
 basemap_title,1,-0.8,1,11
 basemap_logo,1,1.4,1,12
-basemap_list1,0,-3,0,13
+basemap_list1,1,-2.1,0,13
 basemap_list2,0.339652,-2.390411,45,14
 basemap_list3,0,0,0,15
 basemap_list4,0,0,0,16
