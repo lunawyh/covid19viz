@@ -455,7 +455,7 @@ class runCoViz(object):
                 self.name_file, self.now_date = name_file, now_date
 
         elif( type_download == 103):   # download only
-            sys.path.insert(0, "./mi")
+            sys.path.insert(0, "./me")
             from dataGrabME103 import *
             # create new class
             data_grab = dataGrabME(self.l_state_config, self.state_name)	
