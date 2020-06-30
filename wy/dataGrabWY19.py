@@ -79,6 +79,8 @@ class dataGrabWY(object):
             if('/' in se_data):
                 print('      updated date', se_data)
                 # update file name
+                se_data=se_data.replace('1 p.m.', '').replace(' ', '')
+                print('      updated date', se_data)
                 dt_obj = datetime.datetime.strptime(se_data, '%m/%d/%y')
                 self.name_file = dt_obj.strftime('%Y%m%d')
                 self.now_date = dt_obj.strftime('%m/%d/%Y')
