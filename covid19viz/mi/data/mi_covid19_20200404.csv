@@ -1,0 +1,75 @@
+County,Cases,Deaths
+Allegan,10,0
+Antrim,4,0
+Arenac,3,0
+Barry,5,0
+Bay,24,0
+Berrien,56,1.0
+Branch,10,0
+Calhoun,34,1.0
+Cass,6,1.0
+Charlevoix,7,0
+Cheboygan,7,1.0
+Chippewa,1,0
+Clare,1,0
+Clinton,54,1.0
+Crawford,1,0
+Delta,5,0
+Detroit City,3958,131.0
+Dickinson,1,1.0
+Eaton,53,2.0
+Emmet,7,2.0
+Genesee,464,15.0
+Gladwin,3,0
+Gogebic,3,1.0
+Grand Traverse,12,3.0
+Gratiot,4,0
+Hillsdale,37,2.0
+Houghton,2,0
+Huron,4,0
+Ingham,168,1.0
+Ionia,6,0
+Iosco,2,1.0
+Isabella,10,2.0
+Jackson,81,3.0
+Kalamazoo,45,3.0
+Kalkaska,8,1.0
+Kent,153,2.0
+Lapeer,27,0
+Leelanau,1,0
+Lenawee,27,0
+Livingston,129,2.0
+Luce,1,0
+Mackinac,2,0
+Macomb,1838,78.0
+Manistee,4,0
+Marquette,11,1.0
+Mecosta,4,1.0
+Midland,17,0
+Missaukee,1,1.0
+Monroe,101,0
+Montcalm,13,0
+Muskegon,31,2.0
+Newaygo,2,0
+Oakland,2785,142.0
+Oceana,3,0
+Ogemaw,2,0
+Osceola,4,0
+Oscoda,2,0
+Otsego,22,1.0
+Ottawa,39,0
+Roscommon,2,0
+Saginaw,103,0
+Sanilac,13,1.0
+Shiawassee,22,0
+St Clair,85,2.0
+St Joseph,9,0
+Tuscola,20,2.0
+Van Buren,12,1.0
+Washtenaw,501,8.0
+Wayne,2804,121.0
+Wexford,4,0
+Other*,188,1.0
+Unknown,64,0
+Out of State,83,1.0
+Totals,14225,540.0

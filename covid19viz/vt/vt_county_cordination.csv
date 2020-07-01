@@ -1,0 +1,19 @@
+county,type,x,y
+Addison,0,80,370
+Bennington,0,82,745
+Caledonia,0,368,215
+Chittenden,0,99,215
+Essex,0,470,120
+Franklin,0,145,50
+Grand Isle,0,44,85
+Lamoille,0,220,161
+Orange,0,288,388
+Orleans,0,326,65
+Rutland,0,114,555
+Washington,0,224,290
+Windham,0,202,770
+Windsor,0,240,560
+Other,0,500,600
+Out of State,0,500,650
+Unknown,0,500,700
+Not Reported,0,500,750

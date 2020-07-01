@@ -1,0 +1,19 @@
+county,type,x,y
+Barnstable,0,80,370
+Berkshire,0,82,745
+Bristol,0,368,215
+Dukes,0,99,215
+Essex,0,470,120
+Franklin,0,145,50
+Hampden,0,44,85
+Hampshire,0,220,161
+Middlesex,0,288,388
+Nantucket,0,326,65
+Norfolk,0,114,555
+Plymouth,0,224,290
+Suffolk,0,202,770
+Worchester,0,240,560
+Other,0,500,600
+Out of State,0,500,650
+Unknown,0,500,700
+Not Reported,0,500,750

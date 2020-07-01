@@ -1,0 +1,74 @@
+County,Cases,Deaths
+Allegan,5,0
+Antrim,4,0
+Arenac,1,0
+Barry,4,0
+Bay,16,0
+Berrien,40,1
+Branch,5,0
+Calhoun,25,0
+Cass,6,1
+Charlevoix,5,0
+Cheboygan,3,0
+Chippewa,1,0
+Clare,1,0
+Clinton,43,1
+Crawford,1,0
+Delta,4,0
+Detroit City,2858,101
+Dickinson,1,0
+Eaton,37,1
+Emmet,6,1
+Genesee,349,10
+Gladwin,2,0
+Gogebic,3,1
+Grand Traverse,9,2
+Gratiot,5,0
+Hillsdale,24,1
+Houghton,1,0
+Huron,4,0
+Ingham,128,1
+Ionia,5,0
+Iosco,1,0
+Isabella,8,1
+Jackson,67,2
+Kalamazoo,34,1
+Kalkaska,7,1
+Kent,125,2
+Lapeer,21,0
+Leelanau,1,0
+Lenawee,24,0
+Livingston,113,2
+Mackinac,1,0
+Macomb,1332,58
+Manistee,1,0
+Marquette,5,0
+Mecosta,3,1
+Midland,15,0
+Missaukee,1,1
+Monroe,79,0
+Montcalm,10,0
+Muskegon,26,2
+Newaygo,2,0
+Oakland,2183,119
+Oceana,2,0
+Ogemaw,2,0
+Osceola,3,0
+Oscoda,2,0
+Otsego,19,0
+Ottawa,35,0
+Roscommon,1,0
+Saginaw,82,0
+Sanilac,8,1
+Shiawassee,17,0
+St. Clair,53,0
+St. Joseph,8,0
+Tuscola,14,2
+Van Buren,12,1
+Washtenaw,438,8
+Wayne,2211,93
+Wexford,3,0
+Other*,166,0
+Out of State,48,1
+Unknown,12,0
+Total,10791,417

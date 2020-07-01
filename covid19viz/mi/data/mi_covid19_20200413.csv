@@ -1,0 +1,81 @@
+County,Cases,Deaths
+Allegan,23,0
+Antrim,8,0
+Arenac,5,0
+Barry,11,0
+Bay,59,2.0
+Berrien,105,4.0
+Branch,29,2.0
+Calhoun,83,2.0
+Cass,11,1.0
+Charlevoix,11,1.0
+Cheboygan,12,1.0
+Clare,4,1.0
+Clinton,93,4.0
+Crawford,12,1.0
+Delta,9,1.0
+Detroit City,6781,395.0
+Dickinson,3,2.0
+Eaton,74,5.0
+Emmet,21,2.0
+Genesee,988,77.0
+Gladwin,4,0
+Gogebic,4,1.0
+Grand Traverse,17,3.0
+Gratiot,7,0
+Hillsdale,77,7.0
+Houghton,1,0
+Huron,6,0
+Ingham,254,4.0
+Ionia,15,2.0
+Iosco,4,1.0
+Isabella,41,4.0
+Jackson,172,6.0
+Kalamazoo,91,7.0
+Kalkaska,14,2.0
+Kent,311,13.0
+Lake,2,0
+Lapeer,106,6.0
+Leelanau,4,0
+Lenawee,50,0
+Livingston,225,5.0
+Luce,1,0
+Mackinac,4,0
+Macomb,3418,240.0
+Manistee,10,0
+Marquette,24,4.0
+Mason,2,0
+Mecosta,11,1.0
+Menominee,1,0
+Midland,33,1.0
+Missaukee,1,1.0
+Monroe,190,7.0
+Montcalm,22,1.0
+Montmorency,1,0
+Muskegon,68,4.0
+Newaygo,6,0
+Oakland,5073,347.0
+Oceana,3,1.0
+Ogemaw,4,0
+Osceola,5,0
+Oscoda,4,0
+Otsego,34,2.0
+Ottawa,69,2.0
+Presque Isle,2,0
+Roscommon,9,0
+Saginaw,293,13.0
+Sanilac,23,2.0
+Schoolcraft,3,0
+Shiawassee,53,1.0
+St Clair,206,7.0
+St Joseph,21,1.0
+Tuscola,45,7.0
+Van Buren,22,1.0
+Washtenaw,736,18.0
+Wayne,4867,365.0
+Wexford,7,1.0
+MDOC*,370,8.0
+FCI**,21,0
+Unknown,78,4.0
+Out of State,148,1.0
+Totals,25635,1602.0
