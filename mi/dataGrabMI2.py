@@ -61,7 +61,7 @@ class dataGrabMI(object):
         for l_date in l_dates:
             if('Updated ' in l_date):
                 a_date = l_date.replace('Updated ', '')
-                a_date = a_date[2:]
+                #a_date = a_date[2:]
                 print('  a_date', a_date)
                 dt_obj = datetime.datetime.strptime(a_date, '%m/%d/%Y')
                 self.name_file = dt_obj.strftime('%Y%m%d')

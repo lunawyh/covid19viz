@@ -123,7 +123,7 @@ class dataGrabMS(object):
                 n_table = jj
         # read  table: Overall Confirmed COVID-19 Cases by County
         print('  read table ', n_table)
-        return cov_tables[1]
+        return cov_tables[n_table]   # use the maximum size of table, do not use fixed number
 
 
     ## parse from exel format to list 
