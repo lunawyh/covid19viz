@@ -269,8 +269,7 @@ class runCoViz(object):
         elif(pos < 0): pos = 0
         #print('  ', csv_data_files[pos])
         #if( len(csv_data_files[pos]) != 23): return (pos, [])
-        offset = 11
-        print (' mmmm', csv_data_files)
+        offset = 11	
         dt_obj = datetime.datetime.strptime(csv_data_files[pos][offset:offset+8], '%Y%m%d')
         self.name_file = dt_obj.strftime('%Y%m%d')
         #print('  ', self.name_file)

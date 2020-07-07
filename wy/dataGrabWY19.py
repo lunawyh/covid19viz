@@ -75,7 +75,7 @@ class dataGrabWY(object):
         print('    look for updated date')
         se_dates = c_tree.xpath('//strong/text()')
         for se_data in se_dates:
-            print('  se_data', se_data)
+            #print('  se_data', se_data)
             if('/' in se_data):
                 print('      updated date', se_data)
                 # update file name
