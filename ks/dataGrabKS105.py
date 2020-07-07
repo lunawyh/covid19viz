@@ -125,40 +125,46 @@ class dataGrabFl(object):
     ## paser data FL
     def readList4Page(self, pdfReader, page):
         pageObj = pdfReader.getPage(page)
-        print ('            pageObj', pageObj.extractText())
-	pageTxt = pageObj.extractText().split('\n')
+        #print ('            pageObj', pageObj.extractText())
+        pageTxt = pageObj.extractText().split('\n')
         lst_cases = []
         a_name = ''
+        a_number = 0
 
+        case_total = 0
+        case_total_rd = 0
         tableTxt = ''
         pre_char = '\n'
-	state_machine = 100
-        for a_line in pageTxt:
-		print('  a_line', a_line)
-		if(state_machine == 100): 
-			if('Count' in a_line):
-				state_machine = 200
-		if(state_machine == 200): 
-			if( a_line.lower().islower() ): # all are letters
-			    a_name = a_line
-			    state_machine = 300
-			else: # number + name
-			    # a line of numbers
-			    pass
-		elif(state_machine == 300):
-			if( a_line.lower().islower() ): # all are letters
-			    
-			else if( a_line.lower().islower() ): # number
-		                # one or two lines of numbers
-		                a_digital = self.getNumberConfirmed(lst_cases, a_name)
-		                if(a_digital <= 0): print('  a_row', a_name)
+        state_machine = 100
+        for a_line in pageTxt:                     
 
-        for a_char in pageTxt:
-                if( a_char.isalpha() ):
-                    if( pre_char.isdigit() ): tableTxt += '\n'
-                pre_char = a_char
-                tableTxt += a_char
-        print('  tableTxt on 5:', len(tableTxt))     
+            if(state_machine == 100): 
+                if('Case' in a_line):
+                    state_machine = 150     
+            elif(state_machine == 150): 
+                if('Count' in a_line):
+                    state_machine = 200     
+            elif(state_machine == 200): 
+                print(' ----200 :', a_line)
+                a_line1 = a_line.split(' ')  #.replace(' ', '')
+                print('  200 :', a_line1) #len(a_line)
+                if( len(a_line1) == 3 ): # name
+                    a_name += a_line1[1]
+                    print('  200 a:', a_name)
+                    
+                elif( len(a_line1) == 4 ): # number + name
+                    a_name += a_line1[2]
+                    a_number += int(a_line1[1])
+                    print('  200 b:', a_number, a_name )
+
+                elif( len(a_line1) == 2 ): # number
+                    if(a_line1[1] == ''): continue
+                    a_number += int(a_line1[1])
+                    print('  200 c:', a_number)
+                else: # number + name
+                    # a line of numbers
+                    print('  200 d:',a_line1)
+                    pass
         return lst_cases
     ## paser data FL
     def dataReadConfirmed(self, f_name):
@@ -174,6 +180,7 @@ class dataGrabFl(object):
             n_start = pageTxt.find('Updated')
             if(n_start >= 0): 
                     s_date = pageTxt
+                    print('  ', s_date)
                     n_start = s_date.find('Updated ')
                     n_end = s_date.find('There')
                     s_date = s_date[n_start: n_end] 
@@ -190,179 +197,22 @@ class dataGrabFl(object):
             # read data of confirmed
             l_cases_all = []
             for page in range(4):
-		lst_cases = self.readList4Page(pdfReader, page)
-		l_cases_all += lst_cases
+                lst_cases = self.readList4Page(pdfReader, page)
+                l_cases_all += lst_cases
+                #break
             
             #l_d_sort = self.parseTableConfirmed(tableTxt)
             return (l_cases_all)
 
-    ## paser data FL
-    def getNumberConfirmed(self, l_numbers, a_name=''):
-        #print('    getNumberConfirmed', l_numbers)
-        bFound = False
-        if(len(l_numbers) == 1): 
-            rowTxt = l_numbers[0]
-            n_start = rowTxt.find('%')
-            if(n_start < 0): 
-                print('  error numbers', rowTxt)
-                return 0
-            len_row = len(rowTxt)
-            for ii in range(1, n_start):
-                for jj in range(n_start+1, len_row):
-                    n_resident = int( re.sub("[^0-9]", "", rowTxt[:n_start-ii]) )
-                    txt_resident = ( re.sub("[^0-9]", "", rowTxt[n_start:jj]) )
-                    if(len(txt_resident) <= 0): non_resident = 0
-                    else: non_resident = int(txt_resident)
-                    n_total = int( re.sub("[^0-9]", "", rowTxt[jj:]) )
-                    #print('    guess', n_resident, non_resident, n_total, a_name)
-                    if(n_total == n_resident + non_resident): 
-                        bFound = True
-                        #print('    find', n_resident, non_resident, n_total)
-                        return n_total
-        elif(len(l_numbers) == 2): 
-            n_resident = int( re.sub("[^0-9]", "", l_numbers[0]) )
-            rowTxt = l_numbers[1]
-            n_start = rowTxt.find('%')
-            if(n_start < 0): 
-                print('  error numbers', l_numbers[0])
-                return 0
-            len_row = len(rowTxt)
-            for jj in range(n_start+1, len_row):
-                    txt_resident = ( re.sub("[^0-9]", "", rowTxt[n_start:jj]) )
-                    if(len(txt_resident) <= 0): non_resident = 0
-                    else: non_resident = int(txt_resident)
-                    n_total = int( re.sub("[^0-9]", "", rowTxt[jj:]) )
-                    #print('    guess', n_resident, non_resident, n_total, a_name)
-                    if(n_total == n_resident + non_resident): 
-                        bFound = True
-                        #print('    find', n_resident, non_resident, n_total)
-                        return n_total
-        elif(len(l_numbers) == 3): 
-            n_resident = int( re.sub("[^0-9]", "", l_numbers[0]) )
-            if('%' in l_numbers[1]): non_resident = 0
-            else: non_resident = int( re.sub("[^0-9]", "", l_numbers[1]) )
-            n_total = int( re.sub("[^0-9]", "", l_numbers[2]) )
-            if(n_total == n_resident + non_resident): 
-                        bFound = True
-                        #print('    find', n_resident, non_resident, n_total)
-                        return n_total
-        elif(len(l_numbers) == 4): 
-            n_resident = int( re.sub("[^0-9]", "", l_numbers[0]) )
-            non_resident = int( re.sub("[^0-9]", "", l_numbers[2]) )
-            n_total = int( re.sub("[^0-9]", "", l_numbers[3]) )
-            if(n_total == n_resident + non_resident): 
-                        bFound = True
-                        #print('    find', n_resident, non_resident, n_total)
-                        return n_total
-
-        print('    getNumberConfirmed NOT find number', l_numbers, a_name)
-        return 0
-    ## paser data FL
-    def parseTableConfirmed(self, pageTxt):
-            case_total = 0
-            case_total_rd = 0
-            l_overall = [] 
-            #l_overall.append(['County', 'Cases', 'Deaths'])
-
-            l_pageTxt = pageTxt.split('\n')
-            state_machine = 1
-            a_name = ''
-            a_digital = 0
-            l_numbers = []
-            for a_row in l_pageTxt:
-		        #print('  a_row', a_row)
-		        if(state_machine == 1):
-		            if( a_row.lower().islower() ):
-		                # a county
-		                a_name = a_row
-		                l_numbers = []
-		                state_machine = 2
-		        elif(state_machine == 2):
-		            if( a_row.lower().islower() ):
-		                print('  error county name', a_row)
-		            else:
-		                # a line of numbers
-		                l_numbers.append(a_row)
-		                state_machine = 3
-		        elif(state_machine == 3):
-		            if( a_row == '' ):
-		                pass
-		            elif( a_row.lower().islower() ):
-		                # one or two lines of numbers
-		                a_digital = self.getNumberConfirmed(l_numbers, a_name)
-		                if(a_digital <= 0): print('  a_row', a_name)
-		                if('Total' in a_name): 
-		                    case_total_rd =  a_digital
-		                    print('    Total is read', a_digital)
-		                else:
-		                    case_total += a_digital
-		                    if(a_name in 'Dade'): a_name = 'Miami-Dade'
-		                    l_overall.append([a_name, a_digital, 0])
-		                # another county
-		                a_name = a_row
-		                l_numbers = []
-		                state_machine = 2
-		                # to next county
-		            else:
-		                # a line of numbers
-		                l_numbers.append(a_row)
-		                state_machine = 3
-            # the last name and number
-            a_digital = self.getNumberConfirmed(l_numbers)
-            l_overall.append([a_name, a_digital, 0])
-            case_total += a_digital
-            
-            l_d_sort = sorted(l_overall, key=lambda k: k[0])
-            if(case_total == case_total_rd): 
-                l_d_sort.append(['Total', case_total, 0])
-                print('  Total is confirmed', case_total, case_total_rd)
-            else: 
-                l_d_sort.append(['Total', case_total_rd, 0])
-                print('  Total is mismatched', case_total, case_total_rd)
-            return (l_d_sort)
-    ## paser data FL
-    def dataReadDeath(self, l_d_sort, pdfReader):
-            print('  C.dataReadDeath')
-            # read death in county
-            p_s, p_e = 20, 78
-            #p_s, p_e = 31, 43 # page number in PDF for 4/19/2020
-            #p_s, p_e = 30, 48 # page number in PDF for 4/24/2020
-            case_total = 0
-            for page in range(p_s-1, p_e+1):
-		    pageObj = pdfReader.getPage(page)
-		    pageTxt = pageObj.extractText()
-		    l_pageTxt = pageTxt.split('\n')
-		    if('Coronavirus: line list of deaths in Florida residents' in l_pageTxt[0]): pass
-		    else: continue
-		    state_machine = 1
-		    for a_row in l_pageTxt:
-		        #print(a_row)    
-		        if(state_machine == 1):
-		            if('today' in a_row):
-		                state_machine = 2
-		        elif(state_machine == 2 ):
-		            if( a_row.lower().islower() ): pass
- 		            else: continue
-		            if( 'Unknown' in a_row ): continue
- 		            if('Dade' in a_row): a_row = 'Miami-Dade'
-		            for a_d_row in l_d_sort:
-				if a_d_row[0] in a_row:
-				    a_d_row[2] += 1
-				    case_total += 1
-				    break
-		    print('    PDF page on', page+1, case_total)
-		    #break
-            l_d_sort[-1][2] = case_total
-            return l_d_sort 
     ## paser data FL
     def parseData(self, name_target, date_target, type_download):
             self.name_file = name_target
             self.now_date = date_target
             f_target = self.dataDownload(name_target)
             if(f_target == ''): return ([], name_target, '')
-            l_d_sort, pdfReader = self.dataReadConfirmed(f_target)
-            if(len(l_d_sort) > 0): l_d_all = self.dataReadDeath(l_d_sort, pdfReader)
-            else: l_d_all = []
-            return(l_d_all, self.name_file, self.now_date)  
+            l_d_sort = self.dataReadConfirmed(f_target)
+            #if(len(l_d_sort) > 0): l_d_all = self.dataReadDeath(l_d_sort, pdfReader)
+            #else: l_d_all = []
+            return(l_d_sort, self.name_file, self.now_date)  
 
 ## end of file
