@@ -136,15 +136,27 @@ class dataGrabFl(object):
         tableTxt = ''
         pre_char = '\n'
         state_machine = 100
+        if(page == 1): print(pageTxt)
         for a_line in pageTxt:                     
-
             if(state_machine == 100): 
-                if('Case' in a_line):
-                    state_machine = 150     
-                    
+                if(page == 0):
+                    if('Case' in a_line):
+                        state_machine = 150     
+                else:
+                    if ('Change' in a_line):
+                        state_machine = 150    
             elif(state_machine == 150): 
-                if('Count' in a_line):
-                    state_machine = 200     
+                if (page == 0):
+
+                    if('Count' in a_line):
+                        state_machine = 200   
+                if (page == 3):
+                    if ('2020' in a_line):
+                            state_machine = 300  
+
+                else:
+                    if ('2020' in a_line):
+                        state_machine = 200
                     
             elif(state_machine == 200): 
                 #print(' ----200 :', a_line)
@@ -165,6 +177,9 @@ class dataGrabFl(object):
                     a_name = a_line1[1]
                     print('  200 b:', a_number, a_name )
                 elif( n_line1 == 1 ): # number
+                    #if  int(a_line1[0]) == False:
+                    #    state_machine = 300
+                    a_line1[0]= a_line1[0].replace(',' , '')
                     a_number = int(a_line1[0])
                     lst_cases.append([a_name, a_number, 0])
                     print('  200 c:', a_number)
@@ -172,6 +187,16 @@ class dataGrabFl(object):
                     # a line of numbers
                     print('  200 d:',a_line1)
                     pass
+
+            if(state_machine == 300): 
+                a_line2 = a_line.split(' ')  #.replace(' ', '')
+                a_line1 = []      
+                print (' mmmm',a_line2)   
+                for a_lin in a_line2:
+                    if a_lin != '': a_line1.append(a_lin)
+                print (' nnnn',a_line1)   
+   
+
         print('readList4Page:', lst_cases)
         return lst_cases
     ## paser data FL
@@ -204,7 +229,7 @@ class dataGrabFl(object):
             self.now_date = dt_obj.strftime('%m/%d/%Y')
             # read data of confirmed
             l_cases_all = []
-            for page in range(4):
+            for page in range(3,4):
                 lst_cases = self.readList4Page(pdfReader, page)
                 l_cases_all += lst_cases
                 #break
