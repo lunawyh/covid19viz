@@ -141,30 +141,38 @@ class dataGrabFl(object):
             if(state_machine == 100): 
                 if('Case' in a_line):
                     state_machine = 150     
+                    
             elif(state_machine == 150): 
                 if('Count' in a_line):
                     state_machine = 200     
+                    
             elif(state_machine == 200): 
-                print(' ----200 :', a_line)
-                a_line1 = a_line.split(' ')  #.replace(' ', '')
-                print('  200 :', a_line1) #len(a_line)
-                if( len(a_line1) == 3 ): # name
-                    a_name += a_line1[1]
+                #print(' ----200 :', a_line)
+                a_line2 = a_line.split(' ')  #.replace(' ', '')
+                a_line1 = []
+                for a_l in a_line2:
+                    if a_l != '': a_line1.append(a_l)
+                #
+                n_line1 = len(a_line1)
+                if(n_line1 < 1): continue
+                if( n_line1 == 2 ): # name
+                    a_name = a_line1[0]
                     print('  200 a:', a_name)
                     
-                elif( len(a_line1) == 4 ): # number + name
-                    a_name += a_line1[2]
-                    a_number += int(a_line1[1])
+                elif( n_line1 == 3 ): # number + name
+                    a_number = int(a_line1[0])
+                    lst_cases.append([a_name, a_number, 0])
+                    a_name = a_line1[1]
                     print('  200 b:', a_number, a_name )
-
-                elif( len(a_line1) == 2 ): # number
-                    if(a_line1[1] == ''): continue
-                    a_number += int(a_line1[1])
+                elif( n_line1 == 1 ): # number
+                    a_number = int(a_line1[0])
+                    lst_cases.append([a_name, a_number, 0])
                     print('  200 c:', a_number)
                 else: # number + name
                     # a line of numbers
                     print('  200 d:',a_line1)
                     pass
+        print('readList4Page:', lst_cases)
         return lst_cases
     ## paser data FL
     def dataReadConfirmed(self, f_name):
@@ -180,7 +188,7 @@ class dataGrabFl(object):
             n_start = pageTxt.find('Updated')
             if(n_start >= 0): 
                     s_date = pageTxt
-                    print('  ', s_date)
+                    #print('  ', s_date)
                     n_start = s_date.find('Updated ')
                     n_end = s_date.find('There')
                     s_date = s_date[n_start: n_end] 
