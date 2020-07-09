@@ -4,8 +4,8 @@ VIZ_H,750,,,1
 state_map,maine-county-map.jpg,,,2
 cordinate,None,,,3
 type_download,325,,,4
-weblink_state,Must input,,,5
-state_name,515,,,6
+weblink_state,https://docs.google.com/spreadsheets/d/e/2PACX-1vRPtRRaID4XRBSnrzGomnTtUUkq5qsq5zj8fGpg5xse8ytsyFUVqAKKypYybVpsU5cHgIbY3BOiynOC/pub?gid=0&single=true&output=csv,,,5
+state_name,Maine,,,6
 basemap_type,1,,,7
 basemap_center,0,0,,8
 basemap_size,0,0,,9
