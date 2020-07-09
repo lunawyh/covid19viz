@@ -1,11 +1,11 @@
 name,value,lon,quantity,offset
-VIZ_W,880,,,0
-VIZ_H,1000,,,1
-state_map,Must input,,,2
+VIZ_W,660,,,0
+VIZ_H,750,,,1
+state_map,maine-county-map.jpg,,,2
 cordinate,None,,,3
-type_download,1,,,4
+type_download,325,,,4
 weblink_state,Must input,,,5
-state_name,Must input,,,6
+state_name,515,,,6
 basemap_type,1,,,7
 basemap_center,0,0,,8
 basemap_size,0,0,,9
