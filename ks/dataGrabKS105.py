@@ -133,8 +133,7 @@ class dataGrabFl(object):
 
         case_total = 0
         case_total_rd = 0
-        tableTxt = ''
-        pre_char = '\n'
+        
         state_machine = 100
         if(page == 1): print(pageTxt)
         for a_line in pageTxt:                     
@@ -150,12 +149,8 @@ class dataGrabFl(object):
 
                     if('Count' in a_line):
                         state_machine = 200   
-                if (page == 3):
-                    if ('2020' in a_line):
-                            state_machine = 300  
-
                 else:
-                    if ('2020' in a_line):
+                    if ('202' in a_line):
                         state_machine = 200
                     
             elif(state_machine == 200): 
@@ -170,35 +165,77 @@ class dataGrabFl(object):
                 if( n_line1 == 2 ): # name
                     a_name = a_line1[0]
                     print('  200 a:', a_name)
-                    
-                elif( n_line1 == 3 ): # number + name
-                    a_number = int(a_line1[0])
-                    lst_cases.append([a_name, a_number, 0])
-                    a_name = a_line1[1]
-                    print('  200 b:', a_number, a_name )
+                    state_machine = 300
                 elif( n_line1 == 1 ): # number
                     #if  int(a_line1[0]) == False:
                     #    state_machine = 300
                     a_line1[0]= a_line1[0].replace(',' , '')
                     a_number = int(a_line1[0])
                     lst_cases.append([a_name, a_number, 0])
+                    
                     print('  200 c:', a_number)
+                    state_machine = 500
+
+            elif(state_machine == 300): 
+                #print(' ----200 :', a_line)
+                a_line2 = a_line.split(' ')  #.replace(' ', '')
+                a_line1 = []
+                for a_l in a_line2:
+                    if a_l != '': a_line1.append(a_l)
+                #
+                n_line1 = len(a_line1)
+                if(n_line1 < 1): continue
+                if( n_line1 == 2 ): # name
+                    a_name = a_line1[0]
+                    print('  300 a:', a_name)
+                    
+                elif( n_line1 == 3 ): # number + name
+                    a_number = int(a_line1[0])
+                    lst_cases.append([a_name, a_number, 0])
+                    case_total += a_number
+                    a_name = a_line1[1]
+                    print('  300 b:', a_number, a_name )
+                elif( n_line1 == 1 ): # number
+                    #if  int(a_line1[0]) == False:
+                    #    state_machine = 300
+                    if len(a_line1[0]) >= 1 : continue
+                    #print ('mmmm' ,a_line1)
+                    a_line1[0]= a_line1[0].replace(',' , '')
+                    a_number = int(a_line1[0])
+                    if(a_name == ''):
+                        state_machine = 500
+                        continue
+                    lst_cases.append([a_name, a_number, 0])
+                    case_total += a_number
+                    a_name = ''
+                    print('  300 c:', a_number)
                 else: # number + name
                     # a line of numbers
-                    print('  200 d:',a_line1)
+                    print('  300 d:',a_line1)
                     pass
 
-            if(state_machine == 300): 
+            if(state_machine == 500): 
                 a_line2 = a_line.split(' ')  #.replace(' ', '')
                 a_line1 = []      
-                print (' mmmm',a_line2)   
+                #print (' mmmm',a_line2)   
                 for a_lin in a_line2:
-                    if a_lin != '': a_line1.append(a_lin)
-                print (' nnnn',a_line1)   
-   
+                    if a_lin == '': 
+                        pass
+                    else: a_line1.append(a_lin)
+                            
+                  
+                n_line1 = len(a_line1)
+                if(n_line1 < 1): continue
+                print (' nnnn',a_line1) 
+                if( n_line1 == 1 ): # number
+                    if(a_line1[0] == ','): continue
+                    else: 
+                        case_total_rd = a_number*1000 + int(a_line1[0])
+                        print('  case_total_rd', case_total_rd)
+
 
         print('readList4Page:', lst_cases)
-        return lst_cases
+        return lst_cases, case_total, case_total_rd
     ## paser data FL
     def dataReadConfirmed(self, f_name):
             stack = [] 
@@ -229,10 +266,17 @@ class dataGrabFl(object):
             self.now_date = dt_obj.strftime('%m/%d/%Y')
             # read data of confirmed
             l_cases_all = []
-            for page in range(3,4):
-                lst_cases = self.readList4Page(pdfReader, page)
+            n_cases_total = 0
+            for page in range(0,40):
+                lst_cases, case_total_page, case_total_rd = self.readList4Page(pdfReader, page)
                 l_cases_all += lst_cases
-                #break
+                n_cases_total += case_total_page
+                if(case_total_rd > 0):
+                    if(n_cases_total == case_total_rd):
+                        l_cases_all.append(['total', n_cases_total, 0])
+                    else:
+                        print('  total is not matched', n_cases_total, case_total_rd)
+                    break
             
             #l_d_sort = self.parseTableConfirmed(tableTxt)
             return (l_cases_all)

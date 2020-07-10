@@ -611,7 +611,7 @@ class runCoViz(object):
     def lookupMapData(self, c_name, lst_data):
         c_name_clean = c_name.replace('*', '').replace('.', '')
         for cov in lst_data:
-            if c_name_clean in cov[0].replace('*', '').replace('.', ''):
+            #if c_name_clean in cov[0].replace('*', '').replace('.', ''):
                 return True, cov
         #print ('Not found', c_name)
         return False, [' ', 0, 10, 30, (0,0,255)]
