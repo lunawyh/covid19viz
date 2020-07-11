@@ -22,7 +22,7 @@ import ssl
 # ==============================================================================
 
 # class for dataGrab
-class dataGrabCt(object):
+class dataGrabMe(object):
     ## the start entry of this class
     def __init__(self, l_config, n_state):
 
@@ -78,11 +78,11 @@ class dataGrabCt(object):
             #
             bFound = False
             for a_date in l_date:
-                if(a_date in a_item[0]):
+                if(a_date in a_item[2]):
                     bFound = True
                     break
             if(not bFound):
-                l_date.append(a_item[0])
+                l_date.append(a_item[2])
         # generate all daily data
         l_daily = []
         for a_date in l_date:
@@ -98,20 +98,20 @@ class dataGrabCt(object):
         total_overral_deaths = 0
         for a_item in l_data:
             #if (a_test_date is None):
-            if (initial_test_date is None and a_test_date in a_item[0]):
+            if (initial_test_date is None and a_test_date in a_item[2]):
                 initial_test_date = a_test_date
-                dt_obj = datetime.datetime.strptime(a_test_date, '%m/%d/%Y')
+                dt_obj = datetime.datetime.strptime(a_test_date, '%Y-%m-%d')
                 self.name_file = dt_obj.strftime('%Y%m%d')
                 self.now_date = dt_obj.strftime('%m/%d/%Y')
-            elif (a_test_date in a_item[0]):
+            elif (a_test_date in a_item[2]):
                 pass
             else:
                 continue
             #total_daily += int(a_item[2])
             total_overral += int(a_item[3])
-            total_overral_deaths += int(a_item[8])
+            total_overral_deaths += int(a_item[4])
             #l_daily.append([a_item[1], a_item[2], 0])
-            l_overral.append([a_item[2], a_item[3], a_item[8]])
+            l_overral.append([a_item[0], a_item[3], a_item[4]])
         #l_daily.append(['Total', total_daily, 0])
         l_overral.append(['Total', total_overral, total_overral_deaths])
         #if (not os.path.isdir(self.state_dir + 'daily/')): os.mkdir(self.state_dir + 'daily/')
@@ -141,7 +141,7 @@ class dataGrabCt(object):
             # step C: convert to standard file and save
             if( type_download == 5):
                 lst_data = self.saveLatestDateNy(lst_raw_data)
-            if( type_download == 50):
+            if( type_download == 325):
                 lst_data = self.saveLatestDateCt(lst_raw_data)
 
             return(lst_data, self.name_file, self.now_date)

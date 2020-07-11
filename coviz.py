@@ -373,14 +373,14 @@ class runCoViz(object):
             # create new class
             data_grab = dataGrabOh(self.l_state_config, self.state_name)	
             # download as a raw file and save
-            lst_data, self.name_file, self.now_date = data_grab.parseData(self.name_file, type_download)		
+            lst_data, self.name_file, self.now_date = data_grab.parseData(self.name_file, self.now_date, type_download)		
         elif( type_download == 18):   # download only
             sys.path.insert(0, "./il")
             from dataGrabIl18 import *
             # create new class
             data_grab = dataGrabIl(self.l_state_config, self.state_name)	
             # download as a raw file and save
-            lst_data, self.name_file, self.now_date = data_grab.parseData(self.name_file, type_download)		
+            lst_data, self.name_file, self.now_date = data_grab.parseData(self.name_file, self.now_date, type_download)		
         elif( type_download == 25):   # download only
             sys.path.insert(0, "./tx")
             from dataGrabTx25 import *
@@ -468,17 +468,6 @@ class runCoViz(object):
             if(len(lst_data) > 0): 
                 self.name_file, self.now_date = name_file, now_date
 
-        elif( type_download == 103):   # download only
-            sys.path.insert(0, "./me")
-            from dataGrabME103 import *
-            # create new class
-            data_grab = dataGrabME(self.l_state_config, self.state_name)	
-            # download as a raw file and save
-            lst_data, name_file, now_date = data_grab.parseData(self.name_file)	
-            #len(the number of characters is a string/object)
-            if(len(lst_data) > 0): 
-                self.name_file, self.now_date = name_file, now_date
-
         elif( type_download == 102):   # download only
             sys.path.insert(0, "./ar")
             from dataGrabAR102 import *
@@ -512,21 +501,28 @@ class runCoViz(object):
             # step A: downlowd and save
             data_grab = dataGrabCt(self.l_state_config, self.state_name)
             # step B: parse to standard file
-            lst_data, self.name_file, self.now_date = data_grab.parseData(self.name_file, type_download)
+            lst_data, self.name_file, self.now_date = data_grab.parseData(self.name_file, self.now_date, type_download)
         elif (type_download == 14):  # download only
             sys.path.insert(0, "./vt")
             from dataGrabVt import *
             # step A: downlowd and save
             data_grab = dataGrabVt(self.l_state_config, self.state_name)
             # step B: parse to standard file
-            lst_data, self.name_file, self.now_date = data_grab.parseData(self.name_file, type_download)
+            lst_data, self.name_file, self.now_date = data_grab.parseData(self.name_file, self.now_date, type_download)
         elif (type_download == 22):  # download only
             sys.path.insert(0, "./ma")
             from dataGrabMa import *
             # step A: downlowd and save
             data_grab = dataGrabMa(self.l_state_config, self.state_name)
             # step B: parse to standard file
-            lst_data, self.name_file, self.now_date = data_grab.parseData(self.name_file, type_download)
+            lst_data, self.name_file, self.now_date = data_grab.parseData(self.name_file, self.now_date, type_download)
+        elif (type_download == 325):  # download only
+            sys.path.insert(0, "./me")
+            from dataGrabMe import *
+            # step A: downlowd and save
+            data_grab = dataGrabMe(self.l_state_config, self.state_name)
+            # step B: parse to standard file
+            lst_data, self.name_file, self.now_date = data_grab.parseData(self.name_file, self.now_date, type_download)
         #read data on yesterday 
         name_last = self.getOverallYesterday(self.name_file)
         if(name_last is not None):
