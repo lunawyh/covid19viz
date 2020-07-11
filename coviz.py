@@ -137,6 +137,8 @@ class runCoViz(object):
                 l_type=type_data, l_last = self.l_cases_yest, 
                 save_file=save_file, date=self.now_date, timeout=t0)
             pass  
+        elif(key == 65473 or key == 1114049 or key == 7602175):   # F4 key parse history data
+            pass  
         elif(key == 65474 or key == 1114050 or key == 7602176):   # F5 key refresh newest from website
             self.data_daily = False
 
@@ -385,7 +387,7 @@ class runCoViz(object):
             # create new class
             data_grab = dataGrabTx(self.l_state_config, self.state_name)	
             # download as a raw file and save
-            lst_data, name_file, now_date = data_grab.parseData(self.name_file)		
+            lst_data, name_file, now_date = data_grab.parseData(self.name_file, self.now_date, type_download)		
             if(len(lst_data) > 0): 
                 self.name_file, self.now_date = name_file, now_date
         elif( type_download == 35):   # download only
@@ -431,7 +433,7 @@ class runCoViz(object):
             # create new class
             data_grab = dataGrabMS(self.l_state_config, self.state_name)	
             # download as a raw file and save
-            lst_data, name_file, now_date = data_grab.parseData(self.name_file)		
+            lst_data, name_file, now_date = data_grab.parseData(self.name_file, self.now_date, type_download)		
             if(len(lst_data) > 0): 
                 self.name_file, self.now_date = name_file, now_date
         elif( type_download == 44):   # download only
@@ -440,7 +442,7 @@ class runCoViz(object):
             # create new class
             data_grab = dataGrabUT(self.l_state_config, self.state_name)	
             # download as a raw file and save
-            lst_data, name_file, now_date = data_grab.parseData(self.name_file)		
+            lst_data, name_file, now_date = data_grab.parseData(self.name_file, self.now_date, type_download)		
             if(len(lst_data) > 0): 
                 self.name_file, self.now_date = name_file, now_date
             ########
@@ -450,7 +452,7 @@ class runCoViz(object):
             # create new class
             data_grab = dataGrabWY(self.l_state_config, self.state_name)	
             # download as a raw file and save
-            lst_data, name_file, now_date = data_grab.parseData(self.name_file)		
+            lst_data, name_file, now_date = data_grab.parseData(self.name_file, self.now_date, type_download)		
             if(len(lst_data) > 0): 
                 self.name_file, self.now_date = name_file, now_date
             ########
@@ -460,6 +462,28 @@ class runCoViz(object):
             from dataGrabMI2 import *
             # create new class
             data_grab = dataGrabMI(self.l_state_config, self.state_name)	
+            # download as a raw file and save
+            lst_data, name_file, now_date = data_grab.parseData(self.name_file, self.now_date, type_download)	
+            #len(the number of characters is a string/object)
+            if(len(lst_data) > 0): 
+                self.name_file, self.now_date = name_file, now_date
+
+        elif( type_download == 103):   # download only
+            sys.path.insert(0, "./me")
+            from dataGrabME103 import *
+            # create new class
+            data_grab = dataGrabME(self.l_state_config, self.state_name)	
+            # download as a raw file and save
+            lst_data, name_file, now_date = data_grab.parseData(self.name_file)	
+            #len(the number of characters is a string/object)
+            if(len(lst_data) > 0): 
+                self.name_file, self.now_date = name_file, now_date
+
+        elif( type_download == 102):   # download only
+            sys.path.insert(0, "./ar")
+            from dataGrabAR102 import *
+            # create new class
+            data_grab = dataGrabAR(self.l_state_config, self.state_name)	
             # download as a raw file and save
             lst_data, name_file, now_date = data_grab.parseData(self.name_file)	
             #len(the number of characters is a string/object)
@@ -480,7 +504,7 @@ class runCoViz(object):
             from dataGrabGA33 import *
             # create new class
             self.data_grab = dataGrabGa(self.l_state_config, self.state_name)	
-            ret, lst_data = self.data_grab.parseData(self.name_file)		
+            ret, lst_data = self.data_grab.parseData(self.name_file, self.now_date, type_download)		
             
         elif (type_download == 50):  # download only
             sys.path.insert(0, "./ct")
@@ -509,7 +533,7 @@ class runCoViz(object):
             # step A: downlowd and save
             data_grab = dataGrabMe(self.l_state_config, self.state_name)
             # step B: parse to standard file
-            lst_data, self.name_file, self.now_date = data_grab.parseData(self.name_file, type_download)
+            lst_data, self.name_file, self.now_date = data_grab.parseData(self.name_file, self.now_date, type_download)
         #read data on yesterday 
         name_last = self.getOverallYesterday(self.name_file)
         if(name_last is not None):
