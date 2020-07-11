@@ -125,17 +125,17 @@ class dataGrabFl(object):
     ## paser data FL
     def readList4Page(self, pdfReader, page):
         pageObj = pdfReader.getPage(page)
-        #print ('            pageObj', pageObj.extractText())
+        print ('  ------readList4Page', page)
         pageTxt = pageObj.extractText().split('\n')
         lst_cases = []
         a_name = ''
         a_number = 0
 
-        case_total = 0
+        case_total_append = 0
         case_total_rd = 0
         
         state_machine = 100
-        if(page == 1): print(pageTxt)
+        #if(page == 1): print(pageTxt)
         for a_line in pageTxt:                     
             if(state_machine == 100): 
                 if(page == 0):
@@ -146,7 +146,6 @@ class dataGrabFl(object):
                         state_machine = 150    
             elif(state_machine == 150): 
                 if (page == 0):
-
                     if('Count' in a_line):
                         state_machine = 200   
                 else:
@@ -154,88 +153,81 @@ class dataGrabFl(object):
                         state_machine = 200
                     
             elif(state_machine == 200): 
-                #print(' ----200 :', a_line)
-                a_line2 = a_line.split(' ')  #.replace(' ', '')
+                a_line2 = a_line.split(' ')  
                 a_line1 = []
                 for a_l in a_line2:
                     if a_l != '': a_line1.append(a_l)
-                #
+                # after seperated with space, get the list of word
                 n_line1 = len(a_line1)
                 if(n_line1 < 1): continue
+
+                #print('  --200 :', a_line)
                 if( n_line1 == 2 ): # name
                     a_name = a_line1[0]
-                    print('  200 a:', a_name)
+                    #print('  200 a:', a_name)
                     state_machine = 300
                 elif( n_line1 == 1 ): # number
-                    #if  int(a_line1[0]) == False:
-                    #    state_machine = 300
                     a_line1[0]= a_line1[0].replace(',' , '')
                     a_number = int(a_line1[0])
                     lst_cases.append([a_name, a_number, 0])
                     
-                    print('  200 c:', a_number)
+                    #print('  200 c:', a_number)
                     state_machine = 500
+                else: # errors
+                    print('  200 d ERROR:',a_line)
+                    pass
 
             elif(state_machine == 300): 
-                #print(' ----200 :', a_line)
-                a_line2 = a_line.split(' ')  #.replace(' ', '')
+                a_line2 = a_line.split(' ')  
                 a_line1 = []
                 for a_l in a_line2:
                     if a_l != '': a_line1.append(a_l)
-                #
+                # after seperated with space, get the list of word
                 n_line1 = len(a_line1)
                 if(n_line1 < 1): continue
+
+                #print('  --300 :', a_line)
                 if( n_line1 == 2 ): # name
                     a_name = a_line1[0]
-                    print('  300 a:', a_name)
+                    #print('  300 a:', a_name)
                     
                 elif( n_line1 == 3 ): # number + name
                     a_number = int(a_line1[0])
                     lst_cases.append([a_name, a_number, 0])
-                    case_total += a_number
+                    case_total_append += a_number
                     a_name = a_line1[1]
-                    print('  300 b:', a_number, a_name )
+                    #print('  300 b:', a_number, a_name )
                 elif( n_line1 == 1 ): # number
-                    #if  int(a_line1[0]) == False:
-                    #    state_machine = 300
-                    if len(a_line1[0]) >= 1 : continue
-                    #print ('mmmm' ,a_line1)
-                    a_line1[0]= a_line1[0].replace(',' , '')
                     a_number = int(a_line1[0])
                     if(a_name == ''):
                         state_machine = 500
                         continue
                     lst_cases.append([a_name, a_number, 0])
-                    case_total += a_number
+                    case_total_append += a_number
                     a_name = ''
-                    print('  300 c:', a_number)
-                else: # number + name
-                    # a line of numbers
-                    print('  300 d:',a_line1)
+                    #print('  300 c:', a_number)
+                else: # errors
+                    print('  300 d ERROR:',a_line)
                     pass
 
             if(state_machine == 500): 
-                a_line2 = a_line.split(' ')  #.replace(' ', '')
+                a_line2 = a_line.split(' ')  
                 a_line1 = []      
-                #print (' mmmm',a_line2)   
-                for a_lin in a_line2:
-                    if a_lin == '': 
-                        pass
-                    else: a_line1.append(a_lin)
-                            
-                  
+                for a_l in a_line2:
+                    if a_l != '': a_line1.append(a_l)
+                # after seperated with space, get the list of word                                 
                 n_line1 = len(a_line1)
                 if(n_line1 < 1): continue
-                print (' nnnn',a_line1) 
+
+                #print('  --500 :', a_line)                
                 if( n_line1 == 1 ): # number
                     if(a_line1[0] == ','): continue
                     else: 
                         case_total_rd = a_number*1000 + int(a_line1[0])
-                        print('  case_total_rd', case_total_rd)
+                        print('    case_total_rd', case_total_rd)
 
-
-        print('readList4Page:', lst_cases)
-        return lst_cases, case_total, case_total_rd
+        print('    readList4Page:', len(lst_cases), case_total_append, case_total_rd)
+        return lst_cases, case_total_append, case_total_rd
     ## paser data FL
     def dataReadConfirmed(self, f_name):
             stack = [] 
@@ -267,17 +259,18 @@ class dataGrabFl(object):
             # read data of confirmed
             l_cases_all = []
             n_cases_total = 0
-            for page in range(0,40):
-                lst_cases, case_total_page, case_total_rd = self.readList4Page(pdfReader, page)
-                l_cases_all += lst_cases
+            for page in range(0,10):
+                lst_cases_page, case_total_page, case_total_rd = self.readList4Page(pdfReader, page)
+                l_cases_all += lst_cases_page
                 n_cases_total += case_total_page
                 if(case_total_rd > 0):
                     if(n_cases_total == case_total_rd):
-                        l_cases_all.append(['total', n_cases_total, 0])
+                        print('  total is matched in', len(l_cases_all), n_cases_total, case_total_rd)
+                        l_cases_all.append(['Total', n_cases_total, 0])
                     else:
-                        print('  total is not matched', n_cases_total, case_total_rd)
+                        print('  total is not matched in', len(l_cases_all), n_cases_total, case_total_rd)
                     break
-            
+                #break
             #l_d_sort = self.parseTableConfirmed(tableTxt)
             return (l_cases_all)
 

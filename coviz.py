@@ -137,6 +137,8 @@ class runCoViz(object):
                 l_type=type_data, l_last = self.l_cases_yest, 
                 save_file=save_file, date=self.now_date, timeout=t0)
             pass  
+        elif(key == 65473 or key == 1114049 or key == 7602175):   # F4 key parse history data
+            pass  
         elif(key == 65474 or key == 1114050 or key == 7602176):   # F5 key refresh newest from website
             self.data_daily = False
 
@@ -385,7 +387,7 @@ class runCoViz(object):
             # create new class
             data_grab = dataGrabTx(self.l_state_config, self.state_name)	
             # download as a raw file and save
-            lst_data, name_file, now_date = data_grab.parseData(self.name_file)		
+            lst_data, name_file, now_date = data_grab.parseData(self.name_file, self.now_date, type_download)		
             if(len(lst_data) > 0): 
                 self.name_file, self.now_date = name_file, now_date
         elif( type_download == 35):   # download only
@@ -431,7 +433,7 @@ class runCoViz(object):
             # create new class
             data_grab = dataGrabMS(self.l_state_config, self.state_name)	
             # download as a raw file and save
-            lst_data, name_file, now_date = data_grab.parseData(self.name_file)		
+            lst_data, name_file, now_date = data_grab.parseData(self.name_file, self.now_date, type_download)		
             if(len(lst_data) > 0): 
                 self.name_file, self.now_date = name_file, now_date
         elif( type_download == 44):   # download only
@@ -440,7 +442,7 @@ class runCoViz(object):
             # create new class
             data_grab = dataGrabUT(self.l_state_config, self.state_name)	
             # download as a raw file and save
-            lst_data, name_file, now_date = data_grab.parseData(self.name_file)		
+            lst_data, name_file, now_date = data_grab.parseData(self.name_file, self.now_date, type_download)		
             if(len(lst_data) > 0): 
                 self.name_file, self.now_date = name_file, now_date
             ########
@@ -450,7 +452,7 @@ class runCoViz(object):
             # create new class
             data_grab = dataGrabWY(self.l_state_config, self.state_name)	
             # download as a raw file and save
-            lst_data, name_file, now_date = data_grab.parseData(self.name_file)		
+            lst_data, name_file, now_date = data_grab.parseData(self.name_file, self.now_date, type_download)		
             if(len(lst_data) > 0): 
                 self.name_file, self.now_date = name_file, now_date
             ########
@@ -461,7 +463,7 @@ class runCoViz(object):
             # create new class
             data_grab = dataGrabMI(self.l_state_config, self.state_name)	
             # download as a raw file and save
-            lst_data, name_file, now_date = data_grab.parseData(self.name_file)	
+            lst_data, name_file, now_date = data_grab.parseData(self.name_file, self.now_date, type_download)	
             #len(the number of characters is a string/object)
             if(len(lst_data) > 0): 
                 self.name_file, self.now_date = name_file, now_date
@@ -502,7 +504,7 @@ class runCoViz(object):
             from dataGrabGA33 import *
             # create new class
             self.data_grab = dataGrabGa(self.l_state_config, self.state_name)	
-            ret, lst_data = self.data_grab.parseData(self.name_file)		
+            ret, lst_data = self.data_grab.parseData(self.name_file, self.now_date, type_download)		
             
         elif (type_download == 50):  # download only
             sys.path.insert(0, "./ct")
@@ -611,7 +613,7 @@ class runCoViz(object):
     def lookupMapData(self, c_name, lst_data):
         c_name_clean = c_name.replace('*', '').replace('.', '')
         for cov in lst_data:
-            #if c_name_clean in cov[0].replace('*', '').replace('.', ''):
+            if c_name_clean in cov[0].replace('*', '').replace('.', ''):
                 return True, cov
         #print ('Not found', c_name)
         return False, [' ', 0, 10, 30, (0,0,255)]

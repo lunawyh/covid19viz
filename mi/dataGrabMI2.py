@@ -149,7 +149,7 @@ class dataGrabMI(object):
                 break
         return a_address
     ## paser data CA
-    def parseData(self, name_file):
+    def parseData(self, name_file, date_target, type_download):
             self.name_file = name_file
             # step A: read date
             self.open4Website(name_file)

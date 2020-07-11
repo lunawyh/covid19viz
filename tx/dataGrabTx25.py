@@ -47,7 +47,7 @@ class dataGrabTx(object):
     def parseDfData(self, df, fName=None):
         (n_rows, n_columns) = df.shape 
         # check shape
-        #print('  parseDfData', df.columns[0])
+        print('  parseDfData of', df.shape)
         lst_data = []
         for ii in range(n_rows):
             a_case = []
@@ -57,6 +57,9 @@ class dataGrabTx(object):
                     continue
                 a_case.append( df.iloc[ii, jj] )
             lst_data.append( a_case )
+            if( len(a_case) > 0 and a_case[0] == 'Total' ):
+                print('  Last Read', a_case)
+                break
         # save to a database file
         if(fName is not None): self.save2File( lst_data, fName )
         return lst_data
@@ -81,7 +84,7 @@ class dataGrabTx(object):
             n_date = df.columns[0].find('as of')
             if(n_date >= 0):
                 s_date = df.columns[0][n_date+6 : n_date+6+5].replace(' ', '')
-                #print(' s_date', s_date)
+                print('  updated date is found', s_date)
             l_data = self.parseDfData(df)
         else: return [], s_date
         return l_data, s_date
@@ -101,7 +104,7 @@ class dataGrabTx(object):
         self.save2File(l_overall, self.state_dir + 'data/'+self.state_name.lower()+'_covid19_'+name_file+'.csv')
         return l_overall
     ## paser data CA
-    def parseData(self, name_file):
+    def parseData(self, name_file, date_target, type_download):
             f_name = self.state_dir + 'data_raw/'+self.state_name.lower()+'_covid19_'+name_file+'.xlsx'
             f_n_total = self.state_dir + 'data_raw/'+self.state_name.lower()+'_covid19_'+name_file+'total.xlsx'
             if(not os.path.isdir(self.state_dir + 'data_raw/') ): os.mkdir(self.state_dir + 'data_raw/')

@@ -148,7 +148,7 @@ class dataGrabMS(object):
 
     
     ## paser data MS
-    def parseData(self, name_file):
+    def parseData(self, name_file, date_target, type_download):
             self.name_file = name_file
             f_name = self.state_dir + 'data_html/'+self.state_name.lower()+'_covid19_'+self.name_file+'.html'
             if(not os.path.isdir(self.state_dir + 'data_html/') ): os.mkdir(self.state_dir + 'data_html/')
