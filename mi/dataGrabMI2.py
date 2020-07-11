@@ -61,6 +61,7 @@ class dataGrabMI(object):
         for l_date in l_dates:
             if('Updated ' in l_date):
                 a_date = l_date.replace('Updated ', '')
+                #a_date = a_date[2:]
                 print('  a_date', a_date)
                 dt_obj = datetime.datetime.strptime(a_date, '%m/%d/%Y')
                 self.name_file = dt_obj.strftime('%Y%m%d')
@@ -113,11 +114,14 @@ class dataGrabMI(object):
             xl_file = pd.ExcelFile(xlsx_name)
             print('  sheet_names', xl_file.sheet_names)
             nfx = ''
-            for sheet in xl_file.sheet_names:
-                if 'Sheet 1' in (sheet):
+            for sheet in xl_file.sheet_names:  # try to find known name of sheet
+                if ('Sheet 1' in (sheet)) or ('Data' in (sheet)):
+                    print('  select sheet', sheet)
                     nfx = sheet
                     break
-            if nfx == '':return []
+            if nfx == '': # if not found, use the 1st sheet
+                if(len(xl_file.sheet_names) > 0): nfx = xl_file.sheet_names[0]
+                else: return []
             df = xl_file.parse( nfx )
             
             l_data = self.parseDfData(df)
@@ -145,7 +149,7 @@ class dataGrabMI(object):
                 break
         return a_address
     ## paser data CA
-    def parseData(self, name_file):
+    def parseData(self, name_file, date_target, type_download):
             self.name_file = name_file
             # step A: read date
             self.open4Website(name_file)

@@ -219,7 +219,7 @@ class dataGrabOh(object):
         urllib.urlretrieve(csv_url, fRaw)
         return True
     ## paser data CA
-    def parseData(self, name_target, type_download):
+    def parseData(self, name_target, date_target, type_download):
             self.name_file = name_target
             f_name = self.state_dir + 'data_raw/'+self.state_name.lower()+'_covid19_'+self.name_file+'.csv'
             if(not os.path.isdir(self.state_dir + 'data_raw/') ): os.mkdir(self.state_dir + 'data_raw/')
