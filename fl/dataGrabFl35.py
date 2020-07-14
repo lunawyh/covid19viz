@@ -89,10 +89,12 @@ class dataGrabFl(object):
         c_page = requests.get(csv_url)
         c_tree = html.fromstring(c_page.content)
         l_dates = c_tree.xpath('//a')  # ('//div[@class="col-xs-12 button--wrap"]')
+        #print('   dddd', l_dates)
         a_address = ''
         for l_date in l_dates:
             #print(l_date.text_content())
-            if('See state report' in l_date.text_content()):
+            if('See State Report ' in l_date.text_content()):
+                print('   sss', l_date)
                 a_address = l_date.get('href')
                 print('  find pdf at', l_date.get('href'))
                 break
@@ -104,7 +106,7 @@ class dataGrabFl(object):
             if(not os.path.isdir(self.state_dir + 'data_raw/') ): os.mkdir(self.state_dir + 'data_raw/')
             # step A: downlowd and save
             if( True): # not isfile(f_name) ): 
-                a_address = self.open4Website(None)
+                a_address = self.open4Website(f_name)
                 print ('%%%%%%%#@%%%%%%%')
                 if(a_address == ''): return ([], None, None)
                 n_start = a_address.find('reports')
@@ -136,14 +138,15 @@ class dataGrabFl(object):
     def dataReadConfirmed(self, f_name):
             print('  B.dataReadConfirmed on page 5', f_name)
             # step B: parse and open
+            #print('    nnn', f_name)
             pdfFileObj = open(f_name, 'rb')
             pdfReader = PyPDF2.PdfFileReader(pdfFileObj)
 
             pageObj = pdfReader.getPage(4)
             pageTxt = pageObj.extractText()
-            #print('  pageTxt 5:', pageTxt)
+            print('  pageTxt 5:', pageTxt)
             # get text in the table list
-            n_start = pageTxt.find('confirmed cases')
+            n_start = pageTxt.find('counties have cases')
             if(n_start < 0):
                 return ([], pdfReader)
             pageTxt = pageTxt[n_start + 17:]

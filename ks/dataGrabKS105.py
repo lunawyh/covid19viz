@@ -26,7 +26,7 @@ from lxml import html
 # ==============================================================================
 
 # class for dataGrab
-class dataGrabFl(object):
+class dataGrabks(object):
     ## the start entry of this class
     def __init__(self, l_config, n_state):
 
@@ -95,7 +95,7 @@ class dataGrabFl(object):
         
         #code
         tree = html.fromstring(c_page.content)
-        division = tree.xpath('//p//a/@href')
+        division = tree.xpath('//div//p//a/@href')
         link = division[1]
         #link = "https://www.mass.gov" + link
         print("  get link: " + link)
@@ -192,12 +192,14 @@ class dataGrabFl(object):
                     #print('  300 a:', a_name)
                     
                 elif( n_line1 == 3 ): # number + name
+                    if a_line1[0] != ',' : continue
                     a_number = int(a_line1[0])
                     lst_cases.append([a_name, a_number, 0])
                     case_total_append += a_number
                     a_name = a_line1[1]
                     #print('  300 b:', a_number, a_name )
                 elif( n_line1 == 1 ): # number
+                    if a_line1 != ',' : continue
                     a_number = int(a_line1[0])
                     if(a_name == ''):
                         state_machine = 500
@@ -243,7 +245,7 @@ class dataGrabFl(object):
             if(n_start >= 0): 
                     s_date = pageTxt
                     #print('  ', s_date)
-                    n_start = s_date.find('Updated ')
+                    n_start = s_date.find('Updated')
                     n_end = s_date.find('There')
                     s_date = s_date[n_start: n_end] 
                     s_date = s_date.replace('Updated ','').replace('\n','')
@@ -278,8 +280,10 @@ class dataGrabFl(object):
     def parseData(self, name_target, date_target, type_download):
             self.name_file = name_target
             self.now_date = date_target
+            #step A, download raw data
             f_target = self.dataDownload(name_target)
             if(f_target == ''): return ([], name_target, '')
+            #step B, read data
             l_d_sort = self.dataReadConfirmed(f_target)
             #if(len(l_d_sort) > 0): l_d_all = self.dataReadDeath(l_d_sort, pdfReader)
             #else: l_d_all = []
