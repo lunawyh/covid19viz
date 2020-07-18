@@ -305,17 +305,17 @@ class dataGrabFl(object):
     def dataReadDeath4Pages(self, l_d_sort, pdfReader):
             print('  C.dataReadDeath')
             # read death in county
-            p_s, p_e = 20, 48
+            p_s, p_e = 20, 81
             #p_s, p_e = 31, 43 # page number in PDF for 4/19/2020
             #p_s, p_e = 30, 48 # page number in PDF for 4/24/2020
             case_total = 0
             for page in range(p_s-1, p_e+1):
-		    print('    pdf page', page)
 		    pageObj = pdfReader.getPage(page)
 		    pageTxt = pageObj.extractText()
 		    l_pageTxt = pageTxt.split('\n')
 		    if('Coronavirus: line list of deaths in Florida residents' in l_pageTxt[0]): pass
 		    else: continue
+		    print('    pdf page is found', page)
 		    state_machine = 1
 		    for a_row in l_pageTxt:
 		        #print(a_row)    
@@ -355,7 +355,7 @@ class dataGrabFl(object):
             #else: continue
             state_machine = 1
             for a_row in l_pageTxt:
-		        #print(a_row)    
+		        print('dataReadDeath', a_row)    
 		        if(state_machine == 1):
 		            if('%' in a_row):
 		                state_machine = 2
