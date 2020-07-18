@@ -148,6 +148,8 @@ class dataGrabks(object):
                 if (page == 0):
                     if('Count' in a_line):
                         state_machine = 200   
+                    elif('ount' in a_line):
+                        state_machine = 200   
                 else:
                     if ('202' in a_line):
                         state_machine = 200
@@ -188,29 +190,59 @@ class dataGrabks(object):
 
                 #print('  --300 :', a_line)
                 if( n_line1 == 2 ): # name
+                    if(a_name != ''):
+                        lst_cases.append([a_name, a_number, 0]) # save last name
+                        case_total_append += a_number
+                        #a_name = ''
                     a_name = a_line1[0]
                     #print('  300 a:', a_name)
                     
                 elif( n_line1 == 3 ): # number + name
-                    if a_line1[0] != ',' : continue
                     a_number = int(a_line1[0])
-                    lst_cases.append([a_name, a_number, 0])
+                    lst_cases.append([a_name, a_number, 0]) # save last name
                     case_total_append += a_number
                     a_name = a_line1[1]
                     #print('  300 b:', a_number, a_name )
-                elif( n_line1 == 1 ): # number
-                    if a_line1 != ',' : continue
+                elif( n_line1 == 1 ): # number or ,
+                    if ',' in a_line : 
+                        state_machine = 400
+                        continue
+                    #
                     a_number = int(a_line1[0])
                     if(a_name == ''):
                         state_machine = 500
+                        print('    300 d:', a_number)
                         continue
-                    lst_cases.append([a_name, a_number, 0])
-                    case_total_append += a_number
-                    a_name = ''
                     #print('  300 c:', a_number)
                 else: # errors
                     print('  300 d ERROR:',a_line)
                     pass
+            elif(state_machine == 400): 
+                a_line2 = a_line.split(' ')  
+                a_line1 = []
+                for a_l in a_line2:
+                    if a_l != '': a_line1.append(a_l)
+                # after seperated with space, get the list of word
+                n_line1 = len(a_line1)
+                if(n_line1 < 1): continue
+
+                #print('  --400 :', a_line)
+                if( n_line1 == 1 ): # number
+                    if ',' in a_line :  
+                        print('  400 a ERROR:',a_line)
+                        continue
+                    else:
+                        a_number = int(a_line1[0]) + a_number * 1000
+                        if(a_name == ''):
+                            a_number = int(a_line1[0])
+                            state_machine = 500
+                            print('  400 d:', a_number)
+                            continue
+                        #print('  400 e:', a_name)
+                        lst_cases.append([a_name, a_number, 0])
+                        case_total_append += a_number
+                        a_name = ''
+                        state_machine = 300
 
             if(state_machine == 500): 
                 a_line2 = a_line.split(' ')  
@@ -221,12 +253,16 @@ class dataGrabks(object):
                 n_line1 = len(a_line1)
                 if(n_line1 < 1): continue
 
-                #print('  --500 :', a_line)                
+                print('    --500 :', a_line)                
                 if( n_line1 == 1 ): # number
                     if(a_line1[0] == ','): continue
                     else: 
                         case_total_rd = a_number*1000 + int(a_line1[0])
                         print('    case_total_rd', case_total_rd)
+        if(a_name != ''):
+                    lst_cases.append([a_name, a_number, 0])
+                    case_total_append += a_number
+                    a_name = ''
 
         print('    readList4Page:', len(lst_cases), case_total_append, case_total_rd)
         return lst_cases, case_total_append, case_total_rd

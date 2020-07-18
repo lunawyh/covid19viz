@@ -93,7 +93,7 @@ class dataGrabFl(object):
         a_address = ''
         for l_date in l_dates:
             #print(l_date.text_content())
-            if('See State Report ' in l_date.text_content()):
+            if('See State Report' in l_date.text_content() or 'See state report' in l_date.text_content()):
                 print('   sss', l_date)
                 a_address = l_date.get('href')
                 print('  find pdf at', l_date.get('href'))
@@ -107,8 +107,9 @@ class dataGrabFl(object):
             # step A: downlowd and save
             if( True): # not isfile(f_name) ): 
                 a_address = self.open4Website(f_name)
-                print ('%%%%%%%#@%%%%%%%')
-                if(a_address == ''): return ([], None, None)
+                if(a_address == ''): 
+                    print ('    No address of downloading PDF is found')
+                    return ('')
                 n_start = a_address.find('reports')
                 if(n_start >= 0): 
                     s_date = name_target 
@@ -144,11 +145,14 @@ class dataGrabFl(object):
 
             pageObj = pdfReader.getPage(4)
             pageTxt = pageObj.extractText()
-            print('  pageTxt 5:', pageTxt)
+            #print('  pageTxt 5:', pageTxt)
             # get text in the table list
             n_start = pageTxt.find('counties have cases')
             if(n_start < 0):
-                return ([], pdfReader)
+                n_start = pageTxt.find('confirmed cases')
+                if(n_start < 0):
+                    return ([], pdfReader)
+                #return ([], pdfReader)
             pageTxt = pageTxt[n_start + 17:]
             n_start = pageTxt.find('Total')
             if(n_start < 0):
@@ -177,7 +181,7 @@ class dataGrabFl(object):
             rowTxt = l_numbers[0]
             n_start = rowTxt.find('%')
             if(n_start < 0): 
-                print('  error numbers', rowTxt)
+                print('    error 1 numbers', rowTxt)
                 return 0
             len_row = len(rowTxt)
             for ii in range(1, n_start):
@@ -197,8 +201,8 @@ class dataGrabFl(object):
             rowTxt = l_numbers[1]
             n_start = rowTxt.find('%')
             if(n_start < 0): 
-                print('  error numbers', l_numbers[0])
-                return 0
+                print('    error 2 numbers', l_numbers)
+                return int(l_numbers[1])
             len_row = len(rowTxt)
             for jj in range(n_start+1, len_row):
                     txt_resident = ( re.sub("[^0-9]", "", rowTxt[n_start:jj]) )
@@ -263,8 +267,8 @@ class dataGrabFl(object):
 		            elif( a_row.lower().islower() ):
 		                # one or two lines of numbers
 		                a_digital = self.getNumberConfirmed(l_numbers, a_name)
-		                if(a_digital <= 0): print('  a_row', a_name)
-		                if('Total' in a_name): 
+		                if(a_digital <= 0): print('    at a_row', a_name)
+		                if('Total' in a_name or 'otal' in a_name): 
 		                    case_total_rd =  a_digital
 		                    print('    Total is read', a_digital)
 		                else:
@@ -297,11 +301,12 @@ class dataGrabFl(object):
     def dataReadDeath(self, l_d_sort, pdfReader):
             print('  C.dataReadDeath')
             # read death in county
-            p_s, p_e = 20, 78
+            p_s, p_e = 20, 48
             #p_s, p_e = 31, 43 # page number in PDF for 4/19/2020
             #p_s, p_e = 30, 48 # page number in PDF for 4/24/2020
             case_total = 0
             for page in range(p_s-1, p_e+1):
+		    print('    pdf page', page)
 		    pageObj = pdfReader.getPage(page)
 		    pageTxt = pageObj.extractText()
 		    l_pageTxt = pageTxt.split('\n')
