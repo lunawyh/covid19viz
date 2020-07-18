@@ -301,37 +301,70 @@ class dataGrabFl(object):
     def dataReadDeath(self, l_d_sort, pdfReader):
             print('  C.dataReadDeath')
             # read death in county
-            p_s, p_e = 20, 48
+            p_s, p_e = 20, 78
             #p_s, p_e = 31, 43 # page number in PDF for 4/19/2020
-            #p_s, p_e = 30, 48 # page number in PDF for 4/24/2020
+            lst_cases = []
+            a_name = ''
+            a_number = 0
+            case_total_append = 0
+            case_total_rd = 0
+
+            pageObj = pdfReader.getPage(3)
+            pageTxt = pageObj.extractText()
+            l_pageTxt = pageTxt.split('\n')
+            #print('   l_pageTxt ',l_pageTxt )
             case_total = 0
-            for page in range(p_s-1, p_e+1):
-		    print('    pdf page', page)
-		    pageObj = pdfReader.getPage(page)
-		    pageTxt = pageObj.extractText()
-		    l_pageTxt = pageTxt.split('\n')
-		    if('Coronavirus: line list of deaths in Florida residents' in l_pageTxt[0]): pass
-		    else: continue
-		    state_machine = 1
-		    for a_row in l_pageTxt:
+            if('Coronavirus: line list of deaths in Florida residents' in l_pageTxt[0]): pass
+            #else: continue
+            state_machine = 1
+            for a_row in l_pageTxt:
 		        #print(a_row)    
 		        if(state_machine == 1):
-		            if('today' in a_row):
+		            if('%' in a_row):
 		                state_machine = 2
+		        
 		        elif(state_machine == 2 ):
-		            if( a_row.lower().islower() ): pass
- 		            else: continue
-		            if( 'Unknown' in a_row ): continue
- 		            if('Dade' in a_row): a_row = 'Miami-Dade'
-		            for a_d_row in l_d_sort:
-				if a_d_row[0] in a_row:
-				    a_d_row[2] += 1
-				    case_total += 1
-				    break
-		    print('    PDF page on', page+1, case_total)
-		    #break
-            l_d_sort[-1][2] = case_total
+		            if('%' in a_row):
+		                state_machine = 3
+		        elif(state_machine == 3 ):
+		            if('%' in a_row):
+		                state_machine = 4
+		        elif(state_machine == 4 ):
+		            #print('   VVVVV_________________________________' ,a_row)
+		            if 'COVID-19: ' in a_row: break
+		            if '%' in a_row:
+		            	print('    _________% :', a_row)
+		            	
+		            elif a_row.isalpha() == True or a_row == 'Indian River' or a_row == 'Palm Beach'  or a_row == 'Santa Rosa'  or a_row == 'St. Johns' or a_row == 'St. Lucie':
+		            	#print('  ++++++letters :', a_row)
+		            	a_name = a_row
+		            	lst_cases.append([a_name, a_number, 0])
+		            else:
+		            	#print('----numbers :', a_row)
+		            	if ',' in a_row:
+		            		a_row = a_row.split(',')
+		            		print (' *************', a_row)
+		            		#a_row[0] = a_row[0][0:1 ]
+		            		print (' =======' ,a_row[0] + a_row[1])
+		            		a_row = a_row[0] + a_row[1]
+		            		a_number = int(a_row)
+		            		case_total_rd = a_number
+		            		lst_cases.append([a_name, a_number, 0])
+		            		break
+		            	a_number = int(a_row)
+		            	case_total_append += a_number
+		            	lst_cases.append([a_name, a_number, 0])
+
             return l_d_sort 
+            #print('    PDF page on', page+1, case_total)
+            #break
+
+
+            #p_s, p_e = 30, 48 # page number in PDF for 4/24/2020
+            #case_total = 0
+            #for page in range(p_s-1, p_e+1):
+
+            #l_d_sort[-1][2] = case_total
     ## paser data FL
     def parseData(self, name_target, date_target, type_download):
             self.name_file = name_target
