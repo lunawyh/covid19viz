@@ -81,7 +81,7 @@ class dataGrabtn(object):
         return True
     ## open a website 
     def open4Website(self, fRaw):
-        csv_url = self.l_state_config[5][1]
+        csv_url = self.l_state_config[5][2]
         print('  search website', csv_url)
         # save html file
         #urllib.urlretrieve(csv_url, fRaw)
@@ -134,8 +134,7 @@ class dataGrabtn(object):
 
     ## paser data FL
     def dataReadConfirmed(self, f_name):
-            stack = [] 
-            print('  B.dataReadConfirmed on page 0', f_name)
+            print('  B.dataReadConfirmed on page 0 of', f_name)
             # step B: parse and open
             pdfFileObj = open(f_name, 'rb')
             pdfReader = PyPDF2.PdfFileReader(pdfFileObj)
@@ -146,21 +145,23 @@ class dataGrabtn(object):
             print ('  ===+++++++++++++', pageTxt)
             n_start = pageTxt.find('TennesseeCOVID')
             if(n_start >= 0): 
-                    s_date = pageTxt
-                    print('  ssss', s_date)
-                    n_start = s_date.find('TennesseeCOVID-')
-                    n_end = s_date.find('Epidemiology')
-                    s_date = s_date[n_start: n_end] 
-                    s_date = s_date.replace('TennesseeCOVID-19-','').replace('\n','')
-                    print('  ^^^^^^^^^^', s_date)
-                    #s_date = s_date.replace ('00:00:00', '')
+                #s_date = pageTxt
+                print('  ssss', s_date)
+                n_start = pageTxt.find('TennesseeCOVID-')
+                n_end = pageTxt.find('Epidemiology')
+                s_date = pageTxt[n_start: n_end] 
+                s_date = s_date.replace('TennesseeCOVID-19-','').replace('\n','')
+                print('  ^^^^^^^^^^', s_date)
+                #s_date = s_date.replace ('00:00:00', '')
 
-            dt_obj = datetime.datetime.strptime(s_date.replace(' ',''), '%B%d,%Y')
-            print('  updated on', dt_obj)
+                dt_obj = datetime.datetime.strptime(s_date.replace(' ',''), '%B%d,%Y')
+                print('  updated on', dt_obj)
 
 
-            self.name_file = dt_obj.strftime('%Y%m%d')
-            self.now_date = dt_obj.strftime('%m/%d/%Y')
+                self.name_file = dt_obj.strftime('%Y%m%d')
+                self.now_date = dt_obj.strftime('%m/%d/%Y')
+            else:
+                return []
             # read data of confirmed
             l_cases_all = []
             n_cases_total = 0

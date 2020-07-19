@@ -4,7 +4,7 @@ VIZ_H,660,,,1
 state_map,unnamed.png,,,2
 cordinate,None,,,3
 weblink_num,109,,,4
-weblink_state,https://www.tn.gov/content/tn/health/cedep/ncov/data.html,,,5
+weblink_state,https://www.tn.gov/health/cedep/ncov/data/downloadable-datasets.html,https://www.tn.gov/content/tn/health/cedep/ncov/data.html,,5
 state_name,Tennessee,,,6
 basemap_type,1,,,7
 basemap_center,35.604396,-86.826505,,8
