@@ -74,14 +74,10 @@ class dataGrabtn(object):
         return l_data
 
     ## download a website 
-    def download4Website(self, pdf_url, fRaw):
-        print("  download4Website: ", pdf_url, fRaw)
-        csv_url = self.l_state_config[5][1]
-        # save pdf file
-        urllib.urlretrieve(pdf_url, fRaw)
-        r = requests.get(pdf_url)
-        with open(fRaw, 'wb') as f:
-            f.write(r.content)
+    def download4Website(self, csv_url, fRaw):
+        #csv_url = self.l_state_config[5][1]
+        # save csv file
+        urllib.urlretrieve(csv_url, fRaw)
         return True
     ## open a website 
     def open4Website(self, fRaw):
@@ -92,9 +88,6 @@ class dataGrabtn(object):
         # save html file
         c_page = requests.get(csv_url)
         print ("    HIHI")
-        
-        #code
-        
         tree = html.fromstring(c_page.content)
         division = tree.xpath('//div//iframe/@src')
         link = division[0]
@@ -138,101 +131,7 @@ class dataGrabtn(object):
         case_total_rd = 0
         
         state_machine = 100
-        #if(page == 1): print(pageTxt)
-        for a_line in pageTxt:                     
-            if(state_machine == 100): 
-                if(page == 0):
-                    if('Case' in a_line):
-                        state_machine = 150     
-                else:
-                    if ('Change' in a_line):
-                        state_machine = 150    
-            elif(state_machine == 150): 
-                if (page == 0):
-                    if('Count' in a_line):
-                        state_machine = 200   
-                else:
-                    if ('202' in a_line):
-                        state_machine = 200
-                    
-            elif(state_machine == 200): 
-                a_line2 = a_line.split(' ')  
-                a_line1 = []
-                for a_l in a_line2:
-                    if a_l != '': a_line1.append(a_l)
-                # after seperated with space, get the list of word
-                n_line1 = len(a_line1)
-                if(n_line1 < 1): continue
 
-                #print('  --200 :', a_line)
-                if( n_line1 == 2 ): # name
-                    a_name = a_line1[0]
-                    #print('  200 a:', a_name)
-                    state_machine = 300
-                elif( n_line1 == 1 ): # number
-                    a_line1[0]= a_line1[0].replace(',' , '')
-                    a_number = int(a_line1[0])
-                    lst_cases.append([a_name, a_number, 0])
-                    
-                    #print('  200 c:', a_number)
-                    state_machine = 500
-                else: # errors
-                    print('  200 d ERROR:',a_line)
-                    pass
-
-            elif(state_machine == 300): 
-                a_line2 = a_line.split(' ')  
-                a_line1 = []
-                for a_l in a_line2:
-                    if a_l != '': a_line1.append(a_l)
-                # after seperated with space, get the list of word
-                n_line1 = len(a_line1)
-                if(n_line1 < 1): continue
-
-                #print('  --300 :', a_line)
-                if( n_line1 == 2 ): # name
-                    a_name = a_line1[0]
-                    #print('  300 a:', a_name)
-                    
-                elif( n_line1 == 3 ): # number + name
-                    if a_line1[0] != ',' : continue
-                    a_number = int(a_line1[0])
-                    lst_cases.append([a_name, a_number, 0])
-                    case_total_append += a_number
-                    a_name = a_line1[1]
-                    #print('  300 b:', a_number, a_name )
-                elif( n_line1 == 1 ): # number
-                    if a_line1 != ',' : continue
-                    a_number = int(a_line1[0])
-                    if(a_name == ''):
-                        state_machine = 500
-                        continue
-                    lst_cases.append([a_name, a_number, 0])
-                    case_total_append += a_number
-                    a_name = ''
-                    #print('  300 c:', a_number)
-                else: # errors
-                    print('  300 d ERROR:',a_line)
-                    pass
-
-            if(state_machine == 500): 
-                a_line2 = a_line.split(' ')  
-                a_line1 = []      
-                for a_l in a_line2:
-                    if a_l != '': a_line1.append(a_l)
-                # after seperated with space, get the list of word                                 
-                n_line1 = len(a_line1)
-                if(n_line1 < 1): continue
-
-                #print('  --500 :', a_line)                
-                if( n_line1 == 1 ): # number
-                    if(a_line1[0] == ','): continue
-                    else: 
-                        case_total_rd = a_number*1000 + int(a_line1[0])
-                        print('    case_total_rd', case_total_rd)
-
-        print('    readList4Page:', len(lst_cases), case_total_append, case_total_rd)
-        return lst_cases, case_total_append, case_total_rd
     ## paser data FL
     def dataReadConfirmed(self, f_name):
             stack = [] 
