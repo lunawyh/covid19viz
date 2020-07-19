@@ -91,26 +91,37 @@ class dataGrabFl(object):
         l_dates = c_tree.xpath('//a')  # ('//div[@class="col-xs-12 button--wrap"]')
         #print('   dddd', l_dates)
         a_address = ''
+        a2_address = ''
         for l_date in l_dates:
             #print(l_date.text_content())
             if('See State Report' in l_date.text_content() or 'See state report' in l_date.text_content()):
-                print('   sss', l_date)
                 a_address = l_date.get('href')
+                #print('   __________sss', a_address)
                 print('  find pdf at', l_date.get('href'))
+            if('See State Linelist' in l_date.text_content() or 'See State Linelist' in l_date.text_content()):
+                print('   2nd sss', l_date)
+                a2_address = l_date.get('href')
+                print('  find 2nd pdf at', l_date.get('href'))
                 break
-        return a_address
+        return a_address, a2_address       
     ## paser data FL
     def dataDownload(self, name_target):
             print('  A.dataDownload', name_target)
             f_name = self.state_dir + 'data_raw/'+self.state_name.lower()+'_covid19_'+name_target+'.pdf'
+            f2_name = self.state_dir + 'data_raw/'+self.state_name.lower()+'_covid19_'+name_target+'_Death.pdf'
             if(not os.path.isdir(self.state_dir + 'data_raw/') ): os.mkdir(self.state_dir + 'data_raw/')
             # step A: downlowd and save
             if( True): # not isfile(f_name) ): 
                 a_address = self.open4Website(f_name)
-                if(a_address == ''): 
+                a_address1 = a_address[0]
+                #print (' ____________________' , a_address1)
+                a2_address = self.open4Website(f2_name)
+                a2_address = a2_address[1]
+                #print (' **************', a2_address)    
+                if(a_address1 == ''): 
                     print ('    No address of downloading PDF is found')
                     return ('')
-                n_start = a_address.find('reports')
+                n_start = a_address1.find('reports')
                 if(n_start >= 0): 
                     s_date = name_target 
                     n_end = s_date.find('09')
@@ -128,18 +139,29 @@ class dataGrabFl(object):
                     self.name_file = dt_obj.strftime('%Y%m%d')
                     self.now_date = dt_obj.strftime('%m/%d/%Y')
                     f_name = self.state_dir + 'data_raw/'+self.state_name.lower()+'_covid19_'+self.name_file+'.pdf'
+                    f2_name = self.state_dir + 'data_raw/'+self.state_name.lower()+'_covid19_'+self.name_file+'_Death.pdf'
                     if(not isfile(f_name) ):
                         result = self.download4Website(a_address, f_name)
-                        print('  downloaded', result)
+                        #print('  downloaded', result)
                     else:
                         print('  already exiting')
-                else: f_name = ''
-            return f_name
+                    if(not isfile(f2_name) ):
+                        result = self.download4Website(a2_address, f2_name)
+                        #print('  downloaded 2nd', result)
+                    else:
+                        print('  already exiting 2nd')
+                else: 
+                        f_name = ''
+                        f2_name = ''
+                print('##############', f_name)
+                print('$$$$$$$$$$$$$$$$$$$', f2_name)
+            return f_name, f2_name
     ## paser data FL
     def dataReadConfirmed(self, f_name):
             print('  B.dataReadConfirmed on page 5', f_name)
             # step B: parse and open
-            #print('    nnn', f_name)
+            print('    nnn')
+            print('    nnn', f_name)
             pdfFileObj = open(f_name, 'rb')
             pdfReader = PyPDF2.PdfFileReader(pdfFileObj)
 
@@ -172,7 +194,7 @@ class dataGrabFl(object):
                 tableTxt += a_char
             print('  tableTxt on 5:', len(tableTxt))
             l_d_sort = self.parseTableConfirmed(tableTxt)
-            return (l_d_sort, pdfReader)
+            return (l_d_sort)
     ## paser data FL
     def getNumberConfirmed(self, l_numbers, a_name=''):
         #print('    getNumberConfirmed', l_numbers)
@@ -302,39 +324,62 @@ class dataGrabFl(object):
                 print('  Total is mismatched', case_total, case_total_rd)
             return (l_d_sort)
    ## paser data FL
-    def dataReadDeath4Pages(self, l_d_sort, pdfReader):
+    def dataReadDeath4Pages(self, f2_target):
             print('  C.dataReadDeath')
+            #pdfFileObj = open(f2_target, 'rb')
+            #print('   __________f2_target', f2_target)
+            
+            pdfFileObj = open(f2_target, 'rb')
+            pdfReader = PyPDF2.PdfFileReader(pdfFileObj)
+            print('@@@@@@@@2222', pdfFileObj)
+            pageObj = pdfReader.getPage(page)
             # read death in county
-            p_s, p_e = 20, 81
+            p_s, p_e = 0, 79
             #p_s, p_e = 31, 43 # page number in PDF for 4/19/2020
             #p_s, p_e = 30, 48 # page number in PDF for 4/24/2020
+            state_name = []
             case_total = 0
-            for page in range(p_s-1, p_e+1):
-		    pageObj = pdfReader.getPage(page)
-		    pageTxt = pageObj.extractText()
-		    l_pageTxt = pageTxt.split('\n')
-		    if('Coronavirus: line list of deaths in Florida residents' in l_pageTxt[0]): pass
-		    else: continue
-		    print('    pdf page is found', page)
-		    state_machine = 1
-		    for a_row in l_pageTxt:
-		        #print(a_row)    
-		        if(state_machine == 1):
-		            if('today' in a_row):
-		                state_machine = 2
-		        elif(state_machine == 2 ):
-		            if( a_row.lower().islower() ): pass
- 		            else: continue
-		            if( 'Unknown' in a_row ): continue
- 		            if('Dade' in a_row): a_row = 'Miami-Dade'
-		            for a_d_row in l_d_sort:
-				if a_d_row[0] in a_row:
-				    a_d_row[2] += 1
-				    case_total += 1
-				    break
-		    print('    PDF page on', page+1, case_total)
+            a_named = ''
+            for page in range(0, 80):
+                print('HHIII', page)
+                #pageObj = pdfReader.getPage(page)
+                print('888****', pageObj)
+                
+                pageTxt = page.extractText()
+                
+                l_pageTxt = pageTxt.split('\n')
+                if('Coronavirus: line list of deaths in Florida residents' in l_pageTxt[0]): pass
+                else: continue
+                print('    pdf page is found', page)
+                print ('########33', l_pageTxt)
+
+
+                state_machine = 1
+                for a_row in l_pageTxt:
+                	#print(a_row)    
+                	if(state_machine == 1):
+		                if('today' in a_row):
+		                    state_machine = 2
+                	elif(state_machine == 2 ):
+		                if( a_row.lower().islower() ): pass
+ 		                else: continue
+		                if( 'Unknown' in a_row ): continue
+ 		                if('Dade' in a_row): a_row = 'Miami-Dade'
+ 		            
+                    
+                        for a_d_row in state_name:
+				            if a_d_row[0] in a_row:
+				                a_d_row += 1
+				                case_total += 1
+				            if a_d_row[0] not in a_row:
+				                a_named.append(a_d_row[0])
+				                print('&&&&&&&&&&&&&', a_named)
+
+                
+		    #print('    PDF page on', page+1, case_total)
 		    #break
-            l_d_sort[-1][2] = case_total
+            l_d_sort = case_total
+            #l_d_sort[-1][2] = case_total
             return l_d_sort 
     ## paser data FL
     def dataReadDeath(self, l_d_sort, pdfReader):
@@ -397,11 +442,22 @@ class dataGrabFl(object):
     def parseData(self, name_target, date_target, type_download):
             self.name_file = name_target
             self.now_date = date_target
+            #step A
             f_target = self.dataDownload(name_target)
+            f2_target = self.dataDownload(name_target)
+            print (' _________________________________(((((((((((((((', f_target[0])
+            print (' _________________________________)))))))))))))))', f2_target[1])
+            #f2_target = self.dataDownload(name_target[2])
+            
             if(f_target == ''): return ([], name_target, '')
-            l_d_sort, pdfReader = self.dataReadConfirmed(f_target)
-            if(len(l_d_sort) > 0): l_d_all = self.dataReadDeath(l_d_sort, pdfReader)
+            #step B
+            l_d_sort = self.dataReadConfirmed(f_target[0])
+            l2_d_sort = self.dataReadDeath4Pages(f_target[1])
+            #step C
+            if(len(l_d_sort) > 0): l2_d_sort
             else: l_d_all = []
-            return(l_d_all, self.name_file, self.now_date)  
+            l_d_all = []
+            return(l_d_all, self.name_file, self.now_date) 
+            #return( self.name_file, self.now_date)  
 
 ## end of file

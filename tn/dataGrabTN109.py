@@ -76,9 +76,9 @@ class dataGrabtn(object):
     ## download a website 
     def download4Website(self, pdf_url, fRaw):
         print("  download4Website: ", pdf_url, fRaw)
-        #csv_url = self.l_state_config[5][1]
+        csv_url = self.l_state_config[5][1]
         # save pdf file
-        #urllib.urlretrieve(pdf_url, fRaw)
+        urllib.urlretrieve(pdf_url, fRaw)
         r = requests.get(pdf_url)
         with open(fRaw, 'wb') as f:
             f.write(r.content)
@@ -98,9 +98,10 @@ class dataGrabtn(object):
         tree = html.fromstring(c_page.content)
         division = tree.xpath('//div//iframe/@src')
         link = division[0]
+        print('  ____________________', link)
         #print (' HJHJ', division)
         #link = "https://www.tn.gov" + link
-        print("  get link: " + link)
+        #print("  get link: " + link)
         return link
 
 
@@ -235,7 +236,7 @@ class dataGrabtn(object):
     ## paser data FL
     def dataReadConfirmed(self, f_name):
             stack = [] 
-            print('  B.dataReadConfirmed on page 5', f_name)
+            print('  B.dataReadConfirmed on page 0', f_name)
             # step B: parse and open
             pdfFileObj = open(f_name, 'rb')
             pdfReader = PyPDF2.PdfFileReader(pdfFileObj)
@@ -243,6 +244,7 @@ class dataGrabtn(object):
             pageObj = pdfReader.getPage(0)
             # get date
             pageTxt = pageObj.extractText()
+            print ('  ===+++++++++++++', pageTxt)
             n_start = pageTxt.find('TennesseeCOVID')
             if(n_start >= 0): 
                     s_date = pageTxt
