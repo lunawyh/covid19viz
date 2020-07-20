@@ -1,10 +1,10 @@
 name,value,lon,quantity,offset
 VIZ_W,880,,,0
 VIZ_H,1000,,,1
-state_map,Must input,,,2
+state_map,new-jersey-county-map.jpg,,,2
 cordinate,None,,,3
 weblink_num,97,,,4
-weblink_state,https://covid19.nj.gov/,,,5
+weblink_state,https://maps.arcgis.com/apps/MapSeries/index.html?appid=c2efd1898e48452e83d7218329e953d7,,,5
 state_name,New Jersey,,,6
 basemap_type,1,,,7
 basemap_center,0,0,,8
