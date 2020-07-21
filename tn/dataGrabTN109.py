@@ -81,17 +81,25 @@ class dataGrabtn(object):
         return True
     ## open a website 
     def open4Website(self, fRaw):
-        csv_url = self.l_state_config[5][2]
+        csv_url = self.l_state_config[5][1]
         print('  search website', csv_url)
         # save html file
         #urllib.urlretrieve(csv_url, fRaw)
         # save html file
         c_page = requests.get(csv_url)
-        print ("    HIHI")
+        
         tree = html.fromstring(c_page.content)
-        division = tree.xpath('//div//iframe/@src')
-        link = division[0]
-        print('  ____________________', link)
+        division = tree.xpath('//div//p//a')
+        #print('IIIII', division)
+        #print ("    HIHI", division)
+        link = ''
+        for l_data in division:
+            if('Age by County' in l_data.text_content()):
+                a_address = l_data.get('href')
+                print('  find pdf at', l_data.get('href')) 
+                link = 'https://www.tn.gov'+ a_address        
+                print('  ____________________', link)
+                break
         #print (' HJHJ', division)
         #link = "https://www.tn.gov" + link
         #print("  get link: " + link)
@@ -101,7 +109,7 @@ class dataGrabtn(object):
     ## paser data FL    
     def dataDownload(self, name_target):
             print('  A.dataDownload', name_target)
-            f_name = self.state_dir + 'data_raw/'+self.state_name.lower()+'_covid19_'+name_target+'.pdf'
+            f_name = self.state_dir + 'data_raw/'+self.state_name.lower()+'_covid19_'+name_target+'.xlsx'
             if(not os.path.isdir(self.state_dir + 'data_raw/') ): os.mkdir(self.state_dir + 'data_raw/')
             # step A: downlowd and save
             if( True): # not isfile(f_name) ): 
@@ -134,51 +142,73 @@ class dataGrabtn(object):
 
     ## paser data FL
     def dataReadConfirmed(self, f_name):
-            print('  B.dataReadConfirmed on page 0 of', f_name)
-            # step B: parse and open
-            pdfFileObj = open(f_name, 'rb')
-            pdfReader = PyPDF2.PdfFileReader(pdfFileObj)
-
-            pageObj = pdfReader.getPage(0)
-            # get date
-            pageTxt = pageObj.extractText()
-            print ('  ===+++++++++++++', pageTxt)
-            n_start = pageTxt.find('TennesseeCOVID')
-            if(n_start >= 0): 
-                #s_date = pageTxt
-                print('  ssss', s_date)
-                n_start = pageTxt.find('TennesseeCOVID-')
-                n_end = pageTxt.find('Epidemiology')
-                s_date = pageTxt[n_start: n_end] 
-                s_date = s_date.replace('TennesseeCOVID-19-','').replace('\n','')
-                print('  ^^^^^^^^^^', s_date)
-                #s_date = s_date.replace ('00:00:00', '')
-
-                dt_obj = datetime.datetime.strptime(s_date.replace(' ',''), '%B%d,%Y')
-                print('  updated on', dt_obj)
-
-
-                self.name_file = dt_obj.strftime('%Y%m%d')
-                self.now_date = dt_obj.strftime('%m/%d/%Y')
-            else:
-                return []
-            # read data of confirmed
-            l_cases_all = []
-            n_cases_total = 0
-            for page in range(0,10):
-                lst_cases_page, case_total_page, case_total_rd = self.readList4Page(pdfReader, page)
-                l_cases_all += lst_cases_page
-                n_cases_total += case_total_page
-                if(case_total_rd > 0):
-                    if(n_cases_total == case_total_rd):
-                        print('  total is matched in', len(l_cases_all), n_cases_total, case_total_rd)
-                        l_cases_all.append(['Total', n_cases_total, 0])
-                    else:
-                        print('  total is not matched in', len(l_cases_all), n_cases_total, case_total_rd)
+        l_data = []
+        if(isfile(f_name)):
+            xl_file = pd.ExcelFile(f_name)
+            print('  sheet_names', xl_file.sheet_names)
+            nfx = ''
+            for sheet in xl_file.sheet_names:  # try to find known name of sheet
+                if ('DAILY_COUNTY_AGE_GROUP_FINAL' in (sheet)) or ('Data' in (sheet)):
+                    print('  select sheet', sheet)
+                    nfx = sheet
                     break
-                #break
-            #l_d_sort = self.parseTableConfirmed(tableTxt)
-            return (l_cases_all)
+            if nfx == '': 
+                # if not found, use the 1st sheet
+                if(len(xl_file.sheet_names) > 0): nfx = xl_file.sheet_names[0]
+                else: return []
+            df = xl_file.parse( nfx )
+            
+            l_data = self.parseDfData(df)
+            #print('  l_data', l_data)
+
+        return l_data                  
+        
+
+    ## parse from exel format to list 
+    def parseDfData(self, df, fName=None):
+        (n_rows, n_columns) = df.shape 
+        # check shape
+        #print('parseDfData', df.title)
+        lst_data = []
+        for ii in range(n_rows):
+            a_case = []
+            for jj in range(n_columns):
+                #is the 'iloc(select rows and columns by number)' is ' nan(not a number)'
+                if( str(df.iloc[ii, jj]) == 'nan'  ): 
+                    a_case.append( 0 )
+
+                    continue
+                #a_case will have all the data from the 'data'
+                a_case.append( df.iloc[ii, jj] )
+            lst_data.append( a_case )
+        return lst_data
+    def dataFilter(self, l_data_in)     :
+        l_data_all = []
+        l_cas_total = 0
+        state_case = ''
+        print ('dataFilter', l_data_in[-1][0])
+        c_time = l_data_in[-1][0]
+        #c_time = int(c_time).replace('00:00:00', '')
+        state_machine = 100
+        for a_row in l_data_in:
+            if a_row[0] != c_time: continue
+                
+        
+            #print(' HIHI')
+            bFound = False
+            for a_ll in l_data_all:
+                if a_row[1] == a_ll[0]:
+                    bFound = True
+                    a_ll[1] += int(a_row[3])
+                    l_cas_total += int(a_row[3])
+                    break
+            if(not bFound):
+                l_cas_total += int(a_row[3])
+                l_data_all.append([ a_row[1], int(a_row[3]), 0 ])
+        l_data_all.append(['Total', int(l_cas_total), 0])
+        print('++++++++++++++++++++ l_data_all_no2', l_data_all)
+        print('total::::::::', l_cas_total)
+        return l_data_all   
 
     ## paser data FL
     def parseData(self, name_target, date_target, type_download):
@@ -191,6 +221,9 @@ class dataGrabtn(object):
             l_d_sort = self.dataReadConfirmed(f_target)
             #if(len(l_d_sort) > 0): l_d_all = self.dataReadDeath(l_d_sort, pdfReader)
             #else: l_d_all = []
-            return(l_d_sort, self.name_file, self.now_date)  
+            # Step C: filter data
+            l_data_all = self.dataFilter(l_d_sort)
+            #l_data_find = self.gotTheData(l_data_all)
+            return(l_data_all, self.name_file, self.now_date)  
 
 ## end of file
