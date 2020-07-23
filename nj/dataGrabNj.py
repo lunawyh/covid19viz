@@ -152,29 +152,20 @@ class dataGrabNj(object):
         return l_overral, n_name_file
 
     def downloadAndParseLink(self,fRaw):
-        htmlPage = requests.get(fRaw)
-        tree = html.fromstring(htmlPage.content)
-        division = tree.xpath('//p//a/@href')
-        link = division[0]
-        link = "https://www.mass.gov" + link
-        print("  get link: " + link)
-        l_date = link.split('/')[4].split('-')
-        print("  get date: ", l_date[4:])
-        return link
+        f = open('Pagehtml.txt','w')
+        htmlPage = urllib.urlopen(fRaw)
+        pageHTML = htmlPage.read()
+        f.write(pageHTML)
+        print('asdf')
+        f.close()
+        return self
 
 
     ## download a website
     def download4Website(self, fRaw):
-        zip_url = self.l_state_config[5][1]
-        #print(self.downloadAndParseLink(zip_url))
-        #print('  download4Website from', zip_url)
-        # get the updated date from the website
-        # update self.name_file and self.now_date
+        page_url = self.l_state_config[5][1]
         print('  download4Website ...')
-        #c_page = requests.get(self.l_state_config[5][1])
-        #c_page = requests.get(self.l_state_config[5][2])
-        # save csv file
-        link_zip = self.downloadAndParseLink(zip_url)
+        link_zip = self.downloadAndParseLink(page_url)
         r = requests.get(link_zip)
         with open(fRaw, 'wb') as f:
             f.write(r.content)
