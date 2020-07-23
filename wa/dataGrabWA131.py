@@ -88,7 +88,8 @@ class dataGrabwa(object):
         # save html file
         c_page = requests.get(csv_url)
         c_tree = html.fromstring(c_page.content)
-        l_text_data = c_tree.xpath('//ul//li//a/text()')
+        #l_text_data = c_tree.xpath('//ul//li//a/text()')
+        l_text_data = c_tree.xpath('//class[@id="linklist"]/text()')
         #tree = html.fromstring(c_page.content)
         #l_text_data = tree.xpath('//div//ul//li//a')
         #print('IIIII', l_text_data)

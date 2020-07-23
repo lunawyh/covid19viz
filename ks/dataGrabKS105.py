@@ -253,12 +253,14 @@ class dataGrabks(object):
                 n_line1 = len(a_line1)
                 if(n_line1 < 1): continue
 
-                print('    --500 :', a_line)                
+                print('    --500 :', a_line) 
+                              
                 if( n_line1 == 1 ): # number
                     if(a_line1[0] == ','): continue
                     else: 
                         case_total_rd = a_number*1000 + int(a_line1[0])
                         print('    case_total_rd', case_total_rd)
+                else: pass
         if(a_name != ''):
                     lst_cases.append([a_name, a_number, 0])
                     case_total_append += a_number
