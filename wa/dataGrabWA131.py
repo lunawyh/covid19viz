@@ -21,6 +21,11 @@ import PyPDF2
 import re
 import requests
 from lxml import html
+# selenium
+from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.common.action_chains import ActionChains
+import time
 # ==============================================================================
 # -- codes -------------------------------------------------------------------
 # ==============================================================================
@@ -84,38 +89,44 @@ class dataGrabwa(object):
         csv_url = self.l_state_config[5][1]
         print('  search website', csv_url)
         # save html file
-        #urllib.urlretrieve(csv_url, fRaw)
-        # save html file
-        c_page = requests.get(csv_url)
-        c_tree = html.fromstring(c_page.content)
-        #l_text_data = c_tree.xpath('//ul//li//a/text()')
-        l_text_data = c_tree.xpath('//class[@id="linklist"]/text()')
-        #tree = html.fromstring(c_page.content)
-        #l_text_data = tree.xpath('//div//ul//li//a')
-        #print('IIIII', l_text_data)
-        print ("    HIHI", l_text_data)
-        link = ''
-        for l_data in l_text_data:
-            if('Cases and Deaths by Week' in l_data.text_content()):
-                a_address = l_data.get('href')
-                print('  find pdf at', l_data.get('href')) 
-                link = 'https://www.doh.wa.gov/'+ a_address        
-                print('  ____________________', link)
-                break
-        print (' HJHJ', l_text_data)
-        #link = "https://www.tn.gov" + link
-        #print("  get link: " + link)
-        return link
+        #c_page = requests.get(csv_url)
+        #c_tree = html.fromstring(c_page.content)
+	#
+	driver = webdriver.Chrome()
+	driver.get(csv_url)
+	time.sleep(5)
+	page_text = driver.page_source
+	with open(fRaw, "w") as fp:
+	    fp.write(page_text.encode('utf8'))
+	#
+        #print('  open4Website', page_text)
+        c_tree = html.fromstring(page_text)
 
+        l_text_data = c_tree.xpath('//div//div//p//strong/text()')
+        print('  open4Website date:', l_text_data)
+	statemachine = 100
+        for a_data in l_text_data:
+            if(statemachine == 100):
+                if('Website Last Updated' in a_data): statemachine = 200
+            elif(statemachine == 200):
+                print('    found date:', a_data)
+                break
+
+        l_text_data = c_tree.xpath('//div//div//div//table//tbody//tr//td//a/text()')
+        print('  open4Website county:', l_text_data)
+        l_text_data = c_tree.xpath('//div//div//div//table//tbody//tr//td/text()')
+        print('  open4Website data:', l_text_data)
+        return ''
 
     ## paser data FL    
     def dataDownload(self, name_target):
             print('  A.dataDownload', name_target)
-            f_name = self.state_dir + 'data_raw/'+self.state_name.lower()+'_covid19_'+name_target+'.xlsx'
+            f_name = self.state_dir + 'data_raw/'+self.state_name.lower()+'_covid19_'+name_target+'.html'
             if(not os.path.isdir(self.state_dir + 'data_raw/') ): os.mkdir(self.state_dir + 'data_raw/')
             # step A: downlowd and save
             if( True): # not isfile(f_name) ): 
-                a_address = self.open4Website(None)
+                a_address = self.open4Website(f_name)
+                if(a_address == ''): return ''
                 #rg_a_address = requests.get(a_address)
                 #dt_obj = datetime.datetime.strptime(s_date, '%Y%m%d')
                 #print('  updated on', dt_obj)
@@ -218,7 +229,7 @@ class dataGrabwa(object):
             self.now_date = date_target
             #step A, download raw data
             f_target = self.dataDownload(name_target)
-            if(f_target == ''): return ([], name_target, '')
+            if(f_target == ''): return ([], name_target, date_target)
             #step B, read data
             l_d_sort = self.dataReadConfirmed(f_target)
             #if(len(l_d_sort) > 0): l_d_all = self.dataReadDeath(l_d_sort, pdfReader)
