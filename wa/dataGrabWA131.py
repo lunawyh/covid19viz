@@ -26,6 +26,7 @@ from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.action_chains import ActionChains
 import time
+import numpy as np
 # ==============================================================================
 # -- codes -------------------------------------------------------------------
 # ==============================================================================
@@ -91,20 +92,20 @@ class dataGrabwa(object):
         # save html file
         #c_page = requests.get(csv_url)
         #c_tree = html.fromstring(c_page.content)
-	#
-	driver = webdriver.Chrome()
-	driver.get(csv_url)
-	time.sleep(5)
-	page_text = driver.page_source
-	with open(fRaw, "w") as fp:
+        #
+        driver = webdriver.Chrome()
+        driver.get(csv_url)
+        time.sleep(5)
+        page_text = driver.page_source
+        with open(fRaw, "w") as fp:
 	    fp.write(page_text.encode('utf8'))
-	#
+        #
         #print('  open4Website', page_text)
         c_tree = html.fromstring(page_text)
 
         l_text_data = c_tree.xpath('//div//div//p//strong/text()')
-        print('  open4Website date:', l_text_data)
-	statemachine = 100
+        #print('  open4Website date:', l_text_data)
+        statemachine = 100
         for a_data in l_text_data:
             if(statemachine == 100):
                 if('Website Last Updated' in a_data): statemachine = 200
@@ -112,12 +113,28 @@ class dataGrabwa(object):
                 print('    found date:', a_data)
                 break
 
-        l_text_data = c_tree.xpath('//div//div//div//table//tbody//tr//td//a/text()')
-        print('  open4Website county:', l_text_data)
-        l_text_data = c_tree.xpath('//div//div//div//table//tbody//tr//td/text()')
-        print('  open4Website data:', l_text_data)
-        return ''
+        l_text_data_nam = c_tree.xpath('//div//div//div//table//tbody//tr//td//a/text()')
+        #print('  open4Website county:', l_text_data)
+        l_text_data_num = c_tree.xpath('//div//div//div//table//tbody//tr//td/text()')
+        #l_ending = 'Negative'
+        #l_text_data_num = l_text_data_num.split(',')
+        l_cases1 = []
+        for l_rrr in l_text_data_num:
+            if l_rrr == 'Negative':
+                break
+            elif l_rrr == 'Unassigned': continue
+            else:
+                l_cases1.append(l_rrr)
+        #print('  open4Website data:', l_data1)
+        l_cases2 = np.reshape( l_cases1, (len( l_cases1)/3, 3)).T
+        l_cases3 = np.vstack((l_text_data_nam, l_cases2[0], l_cases2[2])).T 
 
+        print('mmmmmmmmm, l_cases3')
+        return l_cases3
+
+
+
+    '''
     ## paser data FL    
     def dataDownload(self, name_target):
             print('  A.dataDownload', name_target)
@@ -126,6 +143,7 @@ class dataGrabwa(object):
             # step A: downlowd and save
             if( True): # not isfile(f_name) ): 
                 a_address = self.open4Website(f_name)
+                print('******************', a_address)
                 if(a_address == ''): return ''
                 #rg_a_address = requests.get(a_address)
                 #dt_obj = datetime.datetime.strptime(s_date, '%Y%m%d')
@@ -139,6 +157,7 @@ class dataGrabwa(object):
                         print('  already exiting')
             else: f_name = ''
             return f_name
+    '''
     ## paser data FL
     def readList4Page(self, pdfReader, page):
         pageObj = pdfReader.getPage(page)
@@ -155,6 +174,7 @@ class dataGrabwa(object):
 
     ## paser data FL
     def dataReadConfirmed(self, f_name):
+        print('>>>>>>>>>>>>', f_name)
         l_data = []
         if(isfile(f_name)):
             xl_file = pd.ExcelFile(f_name)
@@ -228,7 +248,7 @@ class dataGrabwa(object):
             self.name_file = name_target
             self.now_date = date_target
             #step A, download raw data
-            f_target = self.dataDownload(name_target)
+            f_target = self.open4Website(name_target)
             if(f_target == ''): return ([], name_target, date_target)
             #step B, read data
             l_d_sort = self.dataReadConfirmed(f_target)
