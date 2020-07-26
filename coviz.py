@@ -422,7 +422,7 @@ class runCoViz(object):
             # create new class
             data_grab = dataGrabwa(self.l_state_config, self.state_name)	
             # download as a raw file and save
-            lst_data, name_file, now_date = data_grab.parseData(self.name_file)	
+            lst_data, name_file, now_date = data_grab.parseData(self.name_file, self.now_date, type_download)	
             #len(the number of characters is a string/object)
             if(len(lst_data) > 0): 
                 self.name_file, self.now_date = name_file, now_date
