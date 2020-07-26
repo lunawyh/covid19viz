@@ -402,15 +402,41 @@ class runCoViz(object):
                 self.name_file, self.now_date = name_file, now_date
                 f_name = self.state_dir + 'data/'+self.state_name.lower()+'_covid19_'+self.name_file+'.csv'
                 self.save2File( lst_data, f_name )
-        elif( type_download == 105):   # download only
-            sys.path.insert(0, "./ks")
-            from dataGrabKS105 import *
+
+        elif( type_download == 109):   # download only
+            sys.path.insert(0, "./tn")
+            from dataGrabTN109 import *
             # create new class
-            data_grab = dataGrabFl(self.l_state_config, self.state_name)	
+            data_grab = dataGrabtn(self.l_state_config, self.state_name)	
             # download as a raw file 
             lst_data, name_file, now_date = data_grab.parseData(self.name_file, self.now_date, type_download)		
             # save
             if(len(lst_data) > 0): 
+                self.name_file, self.now_date = name_file, now_date
+                f_name = self.state_dir + 'data/'+self.state_name.lower()+'_covid19_'+self.name_file+'.csv'
+                self.save2File( lst_data, f_name )
+
+        elif( type_download == 131):   # download only
+            sys.path.insert(0, "./wa")
+            from dataGrabWA131 import *
+            # create new class
+            data_grab = dataGrabwa(self.l_state_config, self.state_name)	
+            # download as a raw file and save
+            lst_data, name_file, now_date = data_grab.parseData(self.name_file, self.now_date, type_download)	
+            #len(the number of characters is a string/object)
+            if(len(lst_data) > 0): 
+                self.name_file, self.now_date = name_file, now_date
+
+        elif( type_download == 105):   # download only
+            sys.path.insert(0, "./ks")
+            from dataGrabKS105 import *
+            # create new class
+            data_grab = dataGrabks(self.l_state_config, self.state_name)	
+            # download as a raw file 
+            lst_data, name_file, now_date = data_grab.parseData(self.name_file, self.now_date, type_download)		
+            # save
+            #step C, save data, and update time
+            if(len(lst_data) > 5): 
                 self.name_file, self.now_date = name_file, now_date
                 f_name = self.state_dir + 'data/'+self.state_name.lower()+'_covid19_'+self.name_file+'.csv'
                 self.save2File( lst_data, f_name )
