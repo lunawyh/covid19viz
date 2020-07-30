@@ -94,13 +94,13 @@ class dataGrabPA(object):
         for l_date in l_dates:
             #print(l_date.text_content())
             if('County case counts by date' in l_date.text_content() or 'See state report' in l_date.text_content()):
-                #print('   sss', l_date)
-                a_address = l_date.get('href')
-                print('  find pdf at', l_date.get('href'))
+                #print('   sss', l_date) https://www.health.pa.gov/topics/Documents/Diseases%20and%20Conditions/COVID-19%20County%20Data/County%20Case%20Counts_7-30-2020.pdf
+                a_address = 'https://www.health.pa.gov' + l_date.get('href')
+                print('  find pdf 1 at', a_address)
             if('Death by county of residence' in l_date.text_content() or 'See state linelist' in l_date.text_content()):
                 #print('   sss', l_date)
-                b_address = l_date.get('href')
-                print('  find pdf at', l_date.get('href'))
+                b_address = 'https://www.health.pa.gov' + l_date.get('href')
+                print('  find pdf 2 at', b_address)
                 #break
         return a_address, b_address
     ## paser data FL
@@ -118,7 +118,7 @@ class dataGrabPA(object):
                     return ('')
 
 
-                s_date = 20200729
+                s_date = '20200729'
 
                 dt_obj = datetime.datetime.strptime(s_date, '%Y%m%d')
                 print('  updated on', dt_obj)
