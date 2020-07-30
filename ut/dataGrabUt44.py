@@ -156,7 +156,9 @@ class dataGrabUT(object):
             if('COVID-19 Update' in sw_detail):
                 l_detail1 = sw_detail.split('.')
                 print('      updated date', l_detail1[0])
-                l_detail2 = l_detail1[2].split('\n')
+
+                print('      ********************', l_detail1[1])
+                l_detail2 = l_detail1[1].split('\n')
                 for a_county in l_detail2:
                     l_detail3 = a_county.split(':')
                     if(len(l_detail3) > 1): 
@@ -228,6 +230,7 @@ class dataGrabUT(object):
         total_confirmed=(sum(map(int, arr_data_all[1])))
         total_death=(sum(map(int, arr_data_all[2])))
         lst_data_se.append(['Total', total_confirmed, total_death])
+        print('*******', lst_data_se)
         return lst_data_se
     
     ## paser data Ut

@@ -127,9 +127,32 @@ class dataGrabwa(object):
                 l_cases1.append(l_rrr)
         #print('  open4Website data:', l_data1)
         l_cases2 = np.reshape( l_cases1, (len( l_cases1)/3, 3)).T
-        l_cases3 = np.vstack((l_text_data_nam, l_cases2[0], l_cases2[2])).T 
 
-        print('mmmmmmmmm, l_cases3')
+        l_dataOfCases = []
+        for r_lj in l_cases2[0]:
+            if ',' in r_lj:
+                str(r_lj).replace(',', '')
+                l_dataOfCases.append(int(l_case))
+            else:
+                l_case = r_lj
+                l_dataOfCases.append(int(l_case))
+        print('88888', len(l_dataOfCases))
+
+        l_dataOfCases2 = []
+        for r_cj in l_cases2[2]:
+            if ',' in r_cj:
+                str(r_cj).replace(',', '')
+                l_dataOfCases2.append(int(l_case))
+            else:
+                l_case = r_cj
+                l_dataOfCases2.append(int(l_case))
+        #print('333333', len(l_dataOfCases2))
+        #print('999999', len(l_text_data_nam))
+        #print('cccccccccccc', l_text_data_nam)
+        l_text_data_nam.append('Unassigned')
+        l_text_data_nam.append('Total')
+        l_cases3 = np.vstack((l_text_data_nam, l_dataOfCases,l_dataOfCases2)).T 
+        print('mmmmmmmmm', l_cases3)
         return l_cases3
 
 
@@ -248,15 +271,15 @@ class dataGrabwa(object):
             self.name_file = name_target
             self.now_date = date_target
             #step A, download raw data
-            f_target = self.open4Website(name_target)
-            if(f_target == ''): return ([], name_target, date_target)
+            l_target = self.open4Website(name_target)
+            if(len(l_target) <= 0): return ([], name_target, date_target)
             #step B, read data
-            l_d_sort = self.dataReadConfirmed(f_target)
+            #l_d_sort = self.dataReadConfirmed(l_target)
             #if(len(l_d_sort) > 0): l_d_all = self.dataReadDeath(l_d_sort, pdfReader)
             #else: l_d_all = []
             # Step C: filter data
-            l_data_all = self.dataFilter(l_d_sort)
+            #l_data_all = self.dataFilter(l_d_sort)
             #l_data_find = self.gotTheData(l_data_all)
-            return(l_data_all, self.name_file, self.now_date)  
+            return(l_target, self.name_file, self.now_date)  
 
 ## end of file
