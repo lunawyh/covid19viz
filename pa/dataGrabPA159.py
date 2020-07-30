@@ -88,13 +88,14 @@ class dataGrabPA(object):
         # save html file
         c_page = requests.get(csv_url)
         c_tree = html.fromstring(c_page.content)
+        # get pdf address
         l_dates = c_tree.xpath('//div//li//a')  # ('//div[@class="col-xs-12 button--wrap"]')
         #print('   dddd', l_dates)
         a_address, b_address = '', ''
         for l_date in l_dates:
             #print(l_date.text_content())
             if('County case counts by date' in l_date.text_content() or 'See state report' in l_date.text_content()):
-                #print('   sss', l_date) https://www.health.pa.gov/topics/Documents/Diseases%20and%20Conditions/COVID-19%20County%20Data/County%20Case%20Counts_7-30-2020.pdf
+                #print('   sss', l_date) 
                 a_address = 'https://www.health.pa.gov' + l_date.get('href')
                 print('  find pdf 1 at', a_address)
             if('Death by county of residence' in l_date.text_content() or 'See state linelist' in l_date.text_content()):
@@ -102,29 +103,34 @@ class dataGrabPA(object):
                 b_address = 'https://www.health.pa.gov' + l_date.get('href')
                 print('  find pdf 2 at', b_address)
                 #break
+        # get updated time
+        l_dates = c_tree.xpath('//div//p//em/text()')  
+        for l_date in l_dates:
+            #
+            if('Page last updated????' in l_date):
+                print('   found ', l_date) 
+                #s_date = '20200729'
+                dt_obj = datetime.datetime.strptime(l_date.split(' ')[-1], '%m/%d/%Y')
+                #print('  updated on', dt_obj)
+                #nums = int(n_start)
+                self.name_file = dt_obj.strftime('%Y%m%d')
+                self.now_date = dt_obj.strftime('%m/%d/%Y')
+                break
         return a_address, b_address
     ## paser data FL
     def dataDownload(self, name_target):
             print('  A.dataDownload', name_target)
-            f_namea = self.state_dir + 'data_raw/'+self.state_name.lower()+'_covid19_'+name_target+'.pdf'
-            f_nameb = self.state_dir + 'data_raw/'+self.state_name.lower()+'_covid19_'+name_target+'_death.pdf'
+            #f_namea = self.state_dir + 'data_raw/'+self.state_name.lower()+'_covid19_'+name_target+'.pdf'
+            #f_nameb = self.state_dir + 'data_raw/'+self.state_name.lower()+'_covid19_'+name_target+'_death.pdf'
             if(not os.path.isdir(self.state_dir + 'data_raw/') ): os.mkdir(self.state_dir + 'data_raw/')
             # step A: downlowd and save
             if( True): 
-                a_address, b_address = self.open4Website(f_namea)
-                print(',,,,,,,,,,,,,,,,,,,,', a_address)
+                a_address, b_address = self.open4Website('')
+                #print(',,,,,,,,,,,,,,,,,,,,', a_address)
                 if(a_address == ''): 
                     print ('    No address of downloading PDF is found')
-                    return ('')
-
-
-                s_date = '20200729'
-
-                dt_obj = datetime.datetime.strptime(s_date, '%Y%m%d')
-                print('  updated on', dt_obj)
-                #nums = int(n_start)
-                self.name_file = dt_obj.strftime('%Y%m%d')
-                self.now_date = dt_obj.strftime('%m/%d/%Y')
+                    return ('', '')
+                # download now
                 f_namea = self.state_dir + 'data_raw/'+self.state_name.lower()+'_covid19_'+self.name_file+'.pdf'
                 f_nameb = self.state_dir + 'data_raw/'+self.state_name.lower()+'_covid19_'+self.name_file+'_death.pdf'
                 if(not isfile(f_namea) ):
