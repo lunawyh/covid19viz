@@ -58,7 +58,8 @@ class rainbowViz(object):
         return l_data
     #
     def isRealCounty(self, c_name, lst_counties):
-        if('Detroit' in c_name):return True  # Detroit is listed seperately in MI report
+        if('Detroit' in c_name):return True  	# Detroit is listed seperately in MI report
+        if('Utah' in c_name):return True  	# Southeast Utah, Southwest Utah could be shown
         for a_county in lst_counties:
             if(c_name in a_county[3]): return True
         return False

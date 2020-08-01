@@ -87,15 +87,34 @@ class predictionViz(object):
 
     #    ## open a xlsx 
     def open4Xlsx(self, xlsx_name):
+        l_data = []
+        if(isfile(xlsx_name) ):
+            xl_file = pd.ExcelFile(xlsx_name)
+            print('  sheet_names', xl_file.sheet_names)
+            nfx = ''
+            for sheet in xl_file.sheet_names:  # try to find known name of sheet
+                if ('COVID-19 Cases' in (sheet)) or ('Cases by County' in (sheet)):
+                    print('  select sheet', sheet)
+                    nfx = sheet
+                    break
+            if nfx == '': # if not found, use the 1st sheet
+                if(len(xl_file.sheet_names) > 0): nfx = xl_file.sheet_names[0]
+                else: return []
+            df = xl_file.parse( nfx )
+            
+            l_data = self.parseDfData(df)
+
+        else: return []
+        return l_data
+        '''
         if(isfile(xlsx_name) ):
             xl_file = pd.ExcelFile(xlsx_name)
             df = xl_file.parse('COVID-19 Cases')
             l_data = self.parseDfData(df)
-        else: return []
-        return l_data
+        '''
     def close_event(self):
         self.pl_timer.stop()
-        plt.close() #timer calls this function after 3 seconds and closes the window 
+        plt.close() #timer calls this function after 3 seconds and closes the window  COVID-19 Cases
     def filterByDays(self, l_origin):
         l_filter = []
         f_days = 7
@@ -121,18 +140,19 @@ class predictionViz(object):
                 l_data_day = self.open4Xlsx("./tx/data_raw/"+csv_data_files[-1])
             else: return False
             for a_day in l_data_day:
-                #print(a_day)
+                #print(a_day[0])                
                 if 'Total' in str(a_day[0]) or '56' in str(a_day[0]):
+                    print('  Total is read', a_day[0:3])
                     lst_data_overall = a_day[11:]
-
-                    print(' Total is read', a_day[0])
                     #    lst_data_overall.append(int(a_number))
+                    break
                 if 'County Name' in str(a_day[0]) or 'Cases' in str(a_day[0]):
-                    #print(')))))))))))))))))))))))))))))))', a_day[11:])
+                    print('  Date is read', a_day[0:3])
                     for a_date in a_day[11:]:
-                        day_mmdd.append(a_date.replace('Cases\n', ''))
-                    print(' Date is read', a_day[0])
+                        #print('      ', a_date)
+                        day_mmdd.append(a_date.replace('Cases', '').replace('\r', '').replace('\n', '').replace(' ', ''))
                     #day_mmdd = a_day[0:]
+                    
             if( len(day_mmdd) < 1): return False
             #print(')))))))))))))))))))))))))))))))', day_mmdd)
             dt_s = datetime.datetime.strptime('2020-'+day_mmdd[-1], '%Y-%m-%d')         
@@ -181,6 +201,7 @@ class predictionViz(object):
         day_mmdd = day_mmdd[preDay:]    # postDay   
         #if(self.state_name in 'MI'): data[-2] = data[-1] * 1.15 # updated on 4/12/2020
         if(len(data) < 2): return False
+        print(' lst_data_daily', data)
         days = np.arange(0.0, len(data), 1.0)
         popt, pcov = curve_fit(self.SIR, days, data)
         print(' contact parameter, recovery rate:', popt)

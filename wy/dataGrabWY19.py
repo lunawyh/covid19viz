@@ -42,22 +42,12 @@ class dataGrabWY(object):
 
     ## save downloaded data to daily or overal data 
     def saveLatestDateUt(self, l_raw_data):
-        '''
-        l_overall = []
-        total_cases, total_death = 0, 0
+        #l_overall = []
         
-        l_overall.append(['County', 'Cases', 'Deaths'])
+ 
 
-        for a_item in l_raw_data:
-            if ('Confirmed' in a_item[1]): pass
-            else: continue
-            total_cases += int(a_item[1])
-            total_death += int(a_item[2])
-            l_overall.append([a_item[0], a_item[1], a_item[2]])
-        l_overall.append(['Total', total_cases, total_death])  
-        print ('  Total', total_cases, total_death)
-        '''
         self.save2File(l_raw_data, self.state_dir + 'data/'+self.state_name.lower()+'_covid19_'+self.name_file+'.csv')
+        print ('GHJJ')
         return l_raw_data
     ## save to csv 
     def save2File(self, l_data, csv_name):
@@ -89,6 +79,9 @@ class dataGrabWY(object):
             if('/' in se_data):
                 print('      updated date', se_data)
                 # update file name
+                #print('      updated date from web', se_data)
+                se_data=se_data.split(' ')[0]  # .replace('1 p.m.', '').replace(' ', '')
+                print('      updated date', se_data)
                 dt_obj = datetime.datetime.strptime(se_data, '%m/%d/%y')
                 self.name_file = dt_obj.strftime('%Y%m%d')
                 self.now_date = dt_obj.strftime('%m/%d/%Y')
@@ -122,8 +115,8 @@ class dataGrabWY(object):
 
         # updated date
         l_data = []
+        n_total = 0
         l_data.append(['County', 'Cases', 'Deaths'])
-        n_total_confirmed = 0
         print('    look for county data')
         state_machine = 100
         for se_data in se_dates:
@@ -131,44 +124,46 @@ class dataGrabWY(object):
                 if('Cases by County' in se_data): state_machine = 200
             elif(state_machine == 200):
                 if(':' in se_data): 
-                    #print('      county', se_data)
+                    print('      county', se_data)
                     state_machine = 300
 
                     l_data1 = se_data.split (':')
                     l_data2 = l_data1[1].split(' ')
                     print ('  $$$$', l_data1[0], l_data2[1])
                     l_data.append([l_data1[0], int(l_data2[1]), 0])
-                    n_total_confirmed += int(l_data2[1])
+                    n_total+= int(l_data2[1])
+                    
             elif(state_machine == 300):
                 if(':' in se_data): 
 
                     l_data1 = se_data.split (':')
-                    l_data2 = l_data1[1].split(' ')
+                    if ' (' in l_data1[1]:
+                    	l_data2 = l_data1[1].split(' ')
+                    else:
+                    	l_data2 = l_data1[1]
+                    	print('  )))))))))))))))))))', l_data1[1])
+                    	l_data3 = l_data2.split('(')
+                    	print('  )))))))))))))))))))', l_data3)
                     print ('  $$$$', l_data1[0], l_data2[1])
                     l_data.append([l_data1[0], int(l_data2[1]), 0])
-                    n_total_confirmed += int(l_data2[1])
-                    #print('      county', se_data)
+                    print('      county', se_data)
+                    n_total+= int(l_data2[1])
+                    
                 else: 
+                    print("&%", se_data)
                     break
+        
+        l_data.append(['Total', n_total, 0])
+        #l_data = se_data
+        print('HIHIHIHI',n_total )
 
 
-        # calculate total#
-        l_data.append(['Total', n_total_confirmed, 0])
-        print(['Total', n_total_confirmed, 0])
-        '''
-        xx = list( sorted(lst_data_se) )
-        arr_data_all = np.array(xx).T        
-        total_confirmed=(sum(map(int, arr_data_all[1])))
-        total_death=(sum(map(int, arr_data_all[2])))
-        lst_data_se.append(['Total', total_confirmed, total_death])
-        '''
-
-        return l_data
+        return (l_data)
     
     ## paser data Ut
-    def parseData(self, name_file):
+    def parseData(self, name_file, date_target, type_download):
             self.name_file = name_file
-            f_name = self.state_dir + 'data_html/'+self.state_name.lower()+'_covid19_'+self.name_file+'.html'
+            f_name = self.state_dir + 'data/'+self.state_name.lower()+'_covid19_'+self.name_file+'.csv'
             if(not os.path.isdir(self.state_dir + 'data_html/') ): os.mkdir(self.state_dir + 'data_html/')
 
             # step A: downlowd and save
