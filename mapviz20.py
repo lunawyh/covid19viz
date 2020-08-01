@@ -275,7 +275,7 @@ class mapViz(object):
             lat2 -= 0.2 / pos_zoom
             x, y = m(lon2, lat2) 
             plt.text(x, y, 'On '+date + ' in '+self.state_name,fontsize=16, ha='left',va='center',color='g')
-        elif l_type ==2:
+        elif l_type ==2 and pos_zoom > 1.5:
             lat2, lon2 = lat_1+float(self.l_state_config[11][1]), lon_1+float(self.l_state_config[11][2])
             x, y = m(lon2, lat2) 
             plt.text(x, y, '%d Overall COVID-19'%(n_total),fontsize=20, ha='left',va='center',color='g')
@@ -285,6 +285,13 @@ class mapViz(object):
             lat2 -= 0.2 / pos_zoom
             x, y = m(lon2, lat2)
             plt.text(x, y, ' in ' + self.state_name, fontsize=16, ha='left', va='center',color='g')
+        elif l_type ==2:
+            lat2, lon2 = lat_1+float(self.l_state_config[11][1]), lon_1+float(self.l_state_config[11][2])
+            x, y = m(lon2, lat2) 
+            plt.text(x, y, '%d Overall confirmed'%(n_total),fontsize=20, ha='left',va='center',color='g')
+            lat2 -= 0.2 / pos_zoom
+            x, y = m(lon2, lat2) 
+            plt.text(x, y, 'COVID-19 Until '+date + ' in '+self.state_name,fontsize=16, ha='left',va='center',color='g')
         # 59. draw logo 
         lat2, lon2 = lat_1+float(self.l_state_config[12][1]), lon_1+float(self.l_state_config[12][2])
         x, y = m(lon2, lat2)

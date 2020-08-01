@@ -403,6 +403,20 @@ class runCoViz(object):
                 f_name = self.state_dir + 'data/'+self.state_name.lower()+'_covid19_'+self.name_file+'.csv'
                 self.save2File( lst_data, f_name )
 
+        elif( type_download == 159):   # download only
+            sys.path.insert(0, "./pa")
+            from dataGrabPA159 import *
+            # create new class
+            data_grab = dataGrabPA(self.l_state_config, self.state_name)	
+            # download as a raw file 
+            lst_data, name_file, now_date = data_grab.parseData(self.name_file, self.now_date, type_download)		
+            # save
+            if(len(lst_data) > 0): 
+                self.name_file, self.now_date = name_file, now_date
+                f_name = self.state_dir + 'data/'+self.state_name.lower()+'_covid19_'+self.name_file+'.csv'
+                self.save2File( lst_data, f_name )
+
+
         elif( type_download == 109):   # download only
             sys.path.insert(0, "./tn")
             from dataGrabTN109 import *
@@ -640,9 +654,9 @@ class runCoViz(object):
         return (True, lst_data)
     ## look up table to get pre-set information
     def lookupMapData(self, c_name, lst_data):
-        c_name_clean = c_name.replace('*', '').replace('.', '')
+        c_name_clean = str(c_name).replace('*', '').replace('.', '')
         for cov in lst_data:
-            if c_name_clean in cov[0].replace('*', '').replace('.', ''):
+            if c_name_clean in str(cov[0]).replace('*', '').replace('.', ''):
                 return True, cov
         #print ('Not found', c_name)
         return False, [' ', 0, 10, 30, (0,0,255)]
