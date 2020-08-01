@@ -247,8 +247,11 @@ class mapViz(object):
             x, y = m(lon2, lat2) 
             plt.text(x, y, a_county[3],fontsize=8, ha='center',va='center',color='k',rotation=a_county[10])
         # 55. draw list of counties
+        if(self.state_name == 'CT'): pos_zoom = 2.0
+        elif(self.state_name == 'MA'): pos_zoom = 2.0
+        else: pos_zoom = 1.0
         ii = 0
-        for a_case in l_cases_today:	
+        for a_case in l_cases_today:
             if('Total' in a_case[0]): continue
             if('County' in a_case[0]): continue
             isNext, lat_2, lon_2 = self.isNextList(ii, lat_1, lon_1)
@@ -256,32 +259,42 @@ class mapViz(object):
             if( self.getColorByCompare(a_case, l_last) ): nColor = 'g'
             else: nColor = 'y'
             # show name
-            lat2 -= 0.1
+            lat2 -= 0.1 / pos_zoom
             x, y = m(lon2, lat2) 
             plt.text(x, y, a_case[0],fontsize=8, ha='left',va='center',color=nColor)
             # show number
-            x, y = m(lon2 + 1.0, lat2) 
+            x, y = m(lon2 + 1.0 / pos_zoom, lat2) 
             plt.text(x, y, str(a_case[1]),fontsize=8, ha='left',va='center',color=nColor)
             ii += 1
-           
+
         # 58. draw title 
         if(l_type==1):
             lat2, lon2 = lat_1+float(self.l_state_config[11][1]), lon_1+float(self.l_state_config[11][2])
             x, y = m(lon2, lat2) 
             plt.text(x, y, '%d Daily confirmed COVID-19'%(n_total),fontsize=20, ha='left',va='center',color='g')
-            lat2 -= 0.2
+            lat2 -= 0.2 / pos_zoom
             x, y = m(lon2, lat2) 
             plt.text(x, y, 'On '+date + ' in '+self.state_name,fontsize=16, ha='left',va='center',color='g')
+        elif l_type ==2 and pos_zoom > 1.5:
+            lat2, lon2 = lat_1+float(self.l_state_config[11][1]), lon_1+float(self.l_state_config[11][2])
+            x, y = m(lon2, lat2) 
+            plt.text(x, y, '%d Overall COVID-19'%(n_total),fontsize=20, ha='left',va='center',color='g')
+            lat2 -= 0.2 / pos_zoom
+            x, y = m(lon2, lat2) 
+            plt.text(x, y, 'confirmed '+date ,fontsize=16, ha='left',va='center',color='g')
+            lat2 -= 0.2 / pos_zoom
+            x, y = m(lon2, lat2)
+            plt.text(x, y, ' in ' + self.state_name, fontsize=16, ha='left', va='center',color='g')
         elif l_type ==2:
             lat2, lon2 = lat_1+float(self.l_state_config[11][1]), lon_1+float(self.l_state_config[11][2])
             x, y = m(lon2, lat2) 
             plt.text(x, y, '%d Overall confirmed'%(n_total),fontsize=20, ha='left',va='center',color='g')
-            lat2 -= 0.2
+            lat2 -= 0.2 / pos_zoom
             x, y = m(lon2, lat2) 
             plt.text(x, y, 'COVID-19 Until '+date + ' in '+self.state_name,fontsize=16, ha='left',va='center',color='g')
         # 59. draw logo 
         lat2, lon2 = lat_1+float(self.l_state_config[12][1]), lon_1+float(self.l_state_config[12][2])
-        x, y = m(lon2, lat2) 
+        x, y = m(lon2, lat2)
         arr_lena = mpimg.imread('./doc/app_qrcode_logo.png')
         imagebox = OffsetImage(arr_lena)  # , zoom=0.15)
         ab = AnnotationBbox(imagebox, (x, y))
