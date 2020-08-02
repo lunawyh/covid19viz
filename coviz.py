@@ -70,6 +70,12 @@ class runCoViz(object):
         state_cfg = self.state_dir +'state_config.csv'
         if(not isfile(state_cfg)):
             copyfile('./doc/state_config.csv', state_cfg)  # src, dst)	
+            data_grab_file = self.state_dir +'dataGrab' + self.state_name + '.py'
+            with open('./doc/dataGrabXyz.py', 'r') as file:
+                data = file.read().replace('Xyz', self.state_name)
+            with open(data_grab_file, 'w') as file:
+                file.write(data)
+            
         self.l_state_config= self.open4File (state_cfg)	
         			
         VIZ_W = int( self.l_state_config[0][1] )
@@ -570,6 +576,15 @@ class runCoViz(object):
             data_grab = dataGrabNj(self.l_state_config, self.state_name)
             # step B: parse to standard file
             lst_data, self.name_file, self.now_date = data_grab.parseData(self.name_file, self.now_date, type_download)
+        '''  # This is a template entry into one state, to COPY and MODIFY, do NOT REMOVE or CHANGE
+        elif (type_download == 1):  # download only
+            sys.path.insert(0, "./Xyz")
+            from dataGrabXyz import *
+            # step A: downlowd and save
+            data_grab = dataGrabXyz(self.l_state_config, self.state_name)
+            # step B: parse to standard file
+            lst_data, self.name_file, self.now_date = data_grab.parseData(self.name_file, self.now_date, type_download)
+        '''
         #read data on yesterday 
         name_last = self.getOverallYesterday(self.name_file)
         if(name_last is not None):
