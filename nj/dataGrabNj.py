@@ -21,6 +21,8 @@ import requests
 from lxml import html
 import zipfile
 import StringIO
+from selenium import webdriver
+import time
 # ==============================================================================
 # -- codes -------------------------------------------------------------------
 # ==============================================================================
@@ -152,12 +154,13 @@ class dataGrabNj(object):
         return l_overral, n_name_file
 
     def downloadAndParseLink(self,fRaw):
-        f = open('Pagehtml.txt','w')
-        htmlPage = urllib.urlopen(fRaw)
-        pageHTML = htmlPage.read()
-        f.write(pageHTML)
-        print('asdf')
-        f.close()
+        siteOpen = webdriver.Chrome()
+        siteOpen.get(fRaw)
+        time.sleep(5)
+        with open("C:/Dennis/Covid19/covid19viz/nj/data_raw/page.txt", "w") as f:
+            f.write(siteOpen.page_source.encode('utf8'))
+            f.close()
+        siteOpen.quit()
         return self
 
 
