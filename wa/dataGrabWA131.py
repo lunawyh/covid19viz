@@ -99,12 +99,12 @@ class dataGrabwa(object):
         page_text = driver.page_source
 
         with open(fRaw, "w") as fp:
-	    fp.write(page_text.encode('utf8'))
+	        fp.write(page_text.encode('utf8'))
         #
         c_tree = html.fromstring(page_text)
-        print('  ooooooooooopen4Website', page_text)
+        #print('  ooooooooooopen4Website', page_text)
         l_text_data = c_tree.xpath('//div//div//p//strong/text()')
-        print('  open4Website date:', l_text_data)
+        #print('  open4Website date:', l_text_data)
         statemachine = 100
         for a_data in l_text_data:
             if(statemachine == 100):
@@ -114,11 +114,11 @@ class dataGrabwa(object):
                 break
 
         l_text_data_nam = c_tree.xpath('//div//div//div//table//tbody//tr//td//a/text()')
-        print('  open4Website county:', l_text_data)
+        #print('  open4Website county:', l_text_data)
         l_text_data_num = c_tree.xpath('//div//div//div//table//tbody//tr//td/text()')
         #l_ending = 'Negative'
         #l_text_data_num = l_text_data_num.split(',')
-        print('  vvvvvvvvvv county:', l_text_data_num)
+        #print('  vvvvvvvvvv county:', l_text_data_num)
         l_cases1 = []
         for l_rrr in l_text_data_num:
             if l_rrr == 'Negative':
