@@ -403,7 +403,6 @@ class runCoViz(object):
                 f_name = self.state_dir + 'data/'+self.state_name.lower()+'_covid19_'+self.name_file+'.csv'
                 self.save2File( lst_data, f_name )
 
-
         elif( type_download == 159):   # download only
             sys.path.insert(0, "./pa")
             from dataGrabPA159 import *
