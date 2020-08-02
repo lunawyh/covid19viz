@@ -32,7 +32,7 @@ import numpy as np
 # ==============================================================================
 
 # class for dataGrab
-class dataGrabwa(object):
+class dataGrabPA(object):
     ## the start entry of this class
     def __init__(self, l_config, n_state):
 
@@ -97,28 +97,29 @@ class dataGrabwa(object):
         driver.get(csv_url)
         time.sleep(5)
         page_text = driver.page_source
-
+        #print(';;;;;;;;;;;;;', page_text)
         with open(fRaw, "w") as fp:
 	    fp.write(page_text.encode('utf8'))
+        time.sleep(5)
         #
+        #print('  open4Website', page_text)
         c_tree = html.fromstring(page_text)
-        print('  ooooooooooopen4Website', page_text)
-        l_text_data = c_tree.xpath('//div//div//p//strong/text()')
-        print('  open4Website date:', l_text_data)
+
+        l_text_data = c_tree.xpath('//div//em/text()')
+        #print('  open4Website date:', l_text_data)
         statemachine = 100
         for a_data in l_text_data:
             if(statemachine == 100):
-                if('Website Last Updated' in a_data): statemachine = 200
-            elif(statemachine == 200):
-                print('    found date:', a_data)
-                break
+                if('Page last updated' in a_data): #statemachine = 200
+                	a_data = a_data.replace('Page last updated: 12:00 p.m. on ', '')
+                	#print('kkkkkkkkkkkkkkk', a_data)
+                	break
 
-        l_text_data_nam = c_tree.xpath('//div//div//div//table//tbody//tr//td//a/text()')
-        print('  open4Website county:', l_text_data)
-        l_text_data_num = c_tree.xpath('//div//div//div//table//tbody//tr//td/text()')
+        l_text_data_nam = c_tree.xpath('//ul//li//a/text()')
+        print('  ----------open4Website county:', l_text_data)
+        l_text_data_num = c_tree.xpath('//ul//li//a/text()')
         #l_ending = 'Negative'
         #l_text_data_num = l_text_data_num.split(',')
-        print('  vvvvvvvvvv county:', l_text_data_num)
         l_cases1 = []
         for l_rrr in l_text_data_num:
             if l_rrr == 'Negative':
