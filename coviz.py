@@ -448,8 +448,6 @@ class runCoViz(object):
                 self.name_file, self.now_date = name_file, now_date
                 f_name = self.state_dir + 'data/'+self.state_name.lower()+'_covid19_'+self.name_file+'.csv'
                 self.save2File( lst_data, f_name )
-<<<<<<< HEAD
-
         elif( type_download == 999):   # download only
             sys.path.insert(0, "./md")
             from dataGrabMD999 import *
@@ -462,8 +460,6 @@ class runCoViz(object):
                 self.name_file, self.now_date = name_file, now_date
                 f_name = self.state_dir + 'data/'+self.state_name.lower()+'_covid19_'+self.name_file+'.csv'
                 self.save2File( lst_data, f_name )
-=======
->>>>>>> 247d0037c306dcd6e1b57b3e5f53000bcf1a2ff4
 
         elif( type_download == 105):   # download only
             sys.path.insert(0, "./ks")

@@ -123,7 +123,7 @@ class dataGrabks(object):
             else: f_name = ''
             return f_name
     ## paser data FL
-    def readList4Page(self, pdfReader, page):
+    def readList4PageV1(self, pdfReader, page):
         pageObj = pdfReader.getPage(page)
         print ('  ------readList4Page', page)
         pageTxt = pageObj.extractText().split('\n')
@@ -135,47 +135,6 @@ class dataGrabks(object):
         case_total_rd = 0
         
         state_machine = 100
-        for a_line in pageTxt:                     
-            if(state_machine == 100): 
-                if(page == 0):
-                    if('Case' in a_line):
-                        state_machine = 150  
-                else:
-                    if ('Change' in a_line):
-                        state_machine = 150  
-            elif(state_machine == 150): 
-                if (page == 0):
-                    if('Count' in a_line):
-                        state_machine = 200   
-                    elif('ount' in a_line):
-                        state_machine = 200  
-                else:
-                    if ('202' in a_line):
-                        state_machine = 200     
-
-            elif(state_machine == 200): 
-                a_line2 = a_line.split(' ')  
-                a_line1 = []   
-                if a_line2[0] != '':
-                    #print('lllllllllll  ', a_line)  
-                    pass
-                if 'County' in a_line2 :
-                    a_name= a_line2[0]
-                    print('cccccccc  ', a_name)
-                   
-                elif a_line2[0].isdigit() == True:
-                    if len(a_line2) == 5:
-                        case_total_rd = a_line2[0]
-                        break
-                    else:
-                        a_number = a_line2[0]
-                        case_total_append += int(a_number)
-                        print('lllllllllll  ', a_number)
-                        lst_cases.append([a_name, a_number, 0])
-        print('lllllllll', lst_cases)
-    
-        '''
-
         #if(page == 1): print(pageTxt)
         for a_line in pageTxt:                     
             if(state_machine == 100): 
@@ -249,10 +208,7 @@ class dataGrabks(object):
                         state_machine = 400
                         continue
                     #
-                    if a_line1[0].isdigit() == True:
-                        a_number = int(a_line1[0])
-                    else :
-                        a_name = a_line1[0]
+                    a_number = int(a_line1[0])
                     if(a_name == ''):
                         state_machine = 500
                         print('    300 d:', a_number)
@@ -292,10 +248,10 @@ class dataGrabks(object):
                 a_line2 = a_line.split(' ')  
                 a_line1 = []      
                 for a_l in a_line2:
-                    if a_l != '' or a_l != 'a': a_line1.append(a_l)
+                    if a_l != '': a_line1.append(a_l)
                 # after seperated with space, get the list of word                                 
                 n_line1 = len(a_line1)
-                if(n_line1 < 1 or n_line1 != 'a'): continue
+                if(n_line1 < 1): continue
 
                 print('    --500 :', a_line) 
                               
@@ -312,7 +268,58 @@ class dataGrabks(object):
 
         print('    readList4Page:', len(lst_cases), case_total_append, case_total_rd)
         return lst_cases, case_total_append, case_total_rd
-        '''
+    ## paser data FL
+    def readList4Page(self, pdfReader, page):
+        pageObj = pdfReader.getPage(page)
+        print ('  ------readList4Page', page)
+        pageTxt = pageObj.extractText().split('\n')
+        lst_cases = []
+        a_name = ''
+        a_number = 0
+
+        case_total_append = 0
+        case_total_rd = 0
+        
+        state_machine = 100
+        for a_line in pageTxt:                     
+            if(state_machine == 100): 
+                if(page == 0):
+                    if('Case' in a_line):
+                        state_machine = 150  
+                else:
+                    if ('Change' in a_line):
+                        state_machine = 150  
+            elif(state_machine == 150): 
+                if (page == 0):
+                    if('Count' in a_line):
+                        state_machine = 200   
+                    elif('ount' in a_line):
+                        state_machine = 200  
+                else:
+                    if ('202' in a_line):
+                        state_machine = 200     
+
+            elif(state_machine == 200): 
+                a_line2 = a_line.split(' ')  
+                a_line1 = []   
+                if a_line2[0] != '':
+                    #print('lllllllllll  ', a_line)  
+                    pass
+                if 'County' in a_line2 :
+                    a_name= a_line2[0]
+                    #print('cccccccc  ', a_name)
+                   
+                elif a_line2[0].isdigit() == True:
+                    if len(a_line2) == 5:
+                        case_total_rd = a_line2[0]
+                        break
+                    else:
+                        a_number = a_line2[0]
+                        case_total_append += int(a_number)
+                        #print('lllllllllll  ', a_number)
+                        lst_cases.append([a_name, a_number, 0])
+        #print('lllllllll', lst_cases)
+    
 
         return lst_cases, case_total_append, case_total_rd
 
