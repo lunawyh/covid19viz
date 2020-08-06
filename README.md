@@ -57,7 +57,8 @@ New visualization and prediction of COVID-19 in USA, such as Michigan, CA, OH, N
                                                          
      add    C:\OSGeo4W64\bin to PATH
    
-     pip install --user git+https://github.com/matplotlib/basemap.git
+     pip install --user git+https://github.com/matplotlib/basemap.git or 
+     pip install basemap‑1.2.1‑cp27‑cp27m‑win_amd64.whl (downloaded from https://www.lfd.uci.edu/~gohlke/pythonlibs/)
 
 # How to run in Ubuntu
 1. Run python coviz.py
