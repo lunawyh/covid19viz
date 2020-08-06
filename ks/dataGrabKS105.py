@@ -135,6 +135,47 @@ class dataGrabks(object):
         case_total_rd = 0
         
         state_machine = 100
+        for a_line in pageTxt:                     
+            if(state_machine == 100): 
+                if(page == 0):
+                    if('Case' in a_line):
+                        state_machine = 150  
+                else:
+                    if ('Change' in a_line):
+                        state_machine = 150  
+            elif(state_machine == 150): 
+                if (page == 0):
+                    if('Count' in a_line):
+                        state_machine = 200   
+                    elif('ount' in a_line):
+                        state_machine = 200  
+                else:
+                    if ('202' in a_line):
+                        state_machine = 200     
+
+            elif(state_machine == 200): 
+                a_line2 = a_line.split(' ')  
+                a_line1 = []   
+                if a_line2[0] != '':
+                    #print('lllllllllll  ', a_line)  
+                    pass
+                if 'County' in a_line2 :
+                    a_name= a_line2[0]
+                    print('cccccccc  ', a_name)
+                   
+                elif a_line2[0].isdigit() == True:
+                    if len(a_line2) == 5:
+                        case_total_rd = a_line2[0]
+                        break
+                    else:
+                        a_number = a_line2[0]
+                        case_total_append += int(a_number)
+                        print('lllllllllll  ', a_number)
+                        lst_cases.append([a_name, a_number, 0])
+        print('lllllllll', lst_cases)
+    
+        '''
+
         #if(page == 1): print(pageTxt)
         for a_line in pageTxt:                     
             if(state_machine == 100): 
@@ -208,7 +249,10 @@ class dataGrabks(object):
                         state_machine = 400
                         continue
                     #
-                    a_number = int(a_line1[0])
+                    if a_line1[0].isdigit() == True:
+                        a_number = int(a_line1[0])
+                    else :
+                        a_name = a_line1[0]
                     if(a_name == ''):
                         state_machine = 500
                         print('    300 d:', a_number)
@@ -248,10 +292,10 @@ class dataGrabks(object):
                 a_line2 = a_line.split(' ')  
                 a_line1 = []      
                 for a_l in a_line2:
-                    if a_l != '': a_line1.append(a_l)
+                    if a_l != '' or a_l != 'a': a_line1.append(a_l)
                 # after seperated with space, get the list of word                                 
                 n_line1 = len(a_line1)
-                if(n_line1 < 1): continue
+                if(n_line1 < 1 or n_line1 != 'a'): continue
 
                 print('    --500 :', a_line) 
                               
@@ -268,6 +312,10 @@ class dataGrabks(object):
 
         print('    readList4Page:', len(lst_cases), case_total_append, case_total_rd)
         return lst_cases, case_total_append, case_total_rd
+        '''
+
+        return lst_cases, case_total_append, case_total_rd
+
     ## paser data FL
     def dataReadConfirmed(self, f_name):
             stack = [] 
@@ -299,7 +347,7 @@ class dataGrabks(object):
             # read data of confirmed
             l_cases_all = []
             n_cases_total = 0
-            for page in range(0,10):
+            for page in range(0,4):
                 lst_cases_page, case_total_page, case_total_rd = self.readList4Page(pdfReader, page)
                 l_cases_all += lst_cases_page
                 n_cases_total += case_total_page
@@ -314,15 +362,21 @@ class dataGrabks(object):
             #l_d_sort = self.parseTableConfirmed(tableTxt)
             return (l_cases_all)
 
+
     ## paser data FL
     def parseData(self, name_target, date_target, type_download):
             self.name_file = name_target
             self.now_date = date_target
+            f_name = self.state_dir + 'data_raw/'+self.state_name.lower()+'_covid19_'+self.name_file+'.zip'
+            #l_name = self.state_dir + 'data_raw/'
+            if(not os.path.isdir(self.state_dir + 'data_raw/') ): os.mkdir(self.state_dir + 'data_raw/')
+            # step A: downlowd and save
             #step A, download raw data
             f_target = self.dataDownload(name_target)
             if(f_target == ''): return ([], name_target, '')
             #step B, read data
-            l_d_sort = self.dataReadConfirmed(f_target)
+            l_d_sort = self.dataReadConfirmed(f_target )
+
             #if(len(l_d_sort) > 0): l_d_all = self.dataReadDeath(l_d_sort, pdfReader)
             #else: l_d_all = []
             return(l_d_sort, self.name_file, self.now_date)  

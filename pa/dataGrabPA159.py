@@ -135,8 +135,7 @@ class dataGrabPA(object):
             print('  B.dataReadConfirmed on page 5', f_name)
             # step B: parse and open
             text = extract_text(f_name)
-
-
+            #print(';;;;;;;;', text)
             #state names, nam_list_no3 is the final state_name list
             n_start = text.find('ADAMS')
             n_end = text.find('Region')
@@ -202,15 +201,51 @@ class dataGrabPA(object):
 
             #print('555555555555', len(nam_list_no3))
             #print('6666666666', len(num_list_no3))
-            nam_num_list = np.vstack((nam_list_no3, num_list_no3, [0] * len(nam_list_no3))).T  #^^^^^^^^^^^^^^^^^^^^^^^^
-            #print('7777777777', nam_num_list)
+            nam_num_list = np.vstack((nam_list_no3, num_list_no3, [0] * len(nam_list_no3))).T  
 
 
 
             #for Death data*************
             text2 = extract_text(f_nameb)
-            #print('lllllllllll', text2)
+            print('lllllllllll', text2)
 
+
+
+            #print('d222222222222222', death_p1r2_nam_list)
+            d2_start = text2.find('Rate2')
+            d2_end = text2.find('Montgomery')
+            death_num_no1 = text2[d2_start:d2_end]
+            death_p1r2_nam_list = death_num_no1.split('\n')
+            #print('99999',death_p1r2_nam_list)
+            d_number = []
+            for d_line in death_p1r2_nam_list[44:-2]:
+                if '.' in d_line: pass
+                if d_line == '':continue
+                d_number.append(int(d_line))
+
+            
+            d3_start = text2.find('851')
+            d3_end = text2.find('828,604')
+            death_num_no1 = text[d3_start:d3_end]
+            d_list_no2 = death_num_no1.split('\n')
+            print(';;;;;;',death_num_no1 )
+
+            d_number2 = []
+            for d_row in d_list_no2:
+               if d_row != '':
+                   d_number2.append(d_row)
+               elif d_row == '': break
+
+
+
+            death_case_final = d_number + d_number2
+            print('66666666666', death_case_final)
+            
+
+
+
+
+            
             d_start = text2.find('Rate2')
             d_end = text2.find('Montgomery')
             death_nam_no1 = text[d_start:d_end]
@@ -230,30 +265,8 @@ class dataGrabPA(object):
                dfd.replace('\n', '')
                #print('..............', dfd)
                death_state_nam_fin.append(dfd.lower())
-            #print('d111111111111111',death_state_nam_fin )
+            print('d111111111111111',death_state_nam_fin )
 
-
-            #print('d222222222222222', death_p1r2_nam_list)
-            d2_start = text2.find('Montgomery')
-            d2_end = text2.find('Northampton')
-            death_num_no1 = text2[d2_start:d2_end]
-            death_p1r2_nam_list = death_num_no1.split('\n')
-            death_p1r2_nam_list = death_p1r2_nam_list[1:-3]
-            lennum = len(death_p1r2_nam_list)
-            #print('len number 4444444  ',lennum)
-            lennum2 = lennum/2
-
-            death_p1r2_nam_list_2 = death_p1r2_nam_list[lennum2+2 :]
-            #print('d222222222222222', death_p1r2_nam_list_2)  #@@@@@@@@@@@@@@@@@@@@@@
-
-            d3_start = text2.find('York')
-            death_case = text2[d3_start: ]
-            death_case1 = death_case.split('\n')
-            death_case_2 = death_case1[2:20]
-            #print('55555555555555', death_case_2)
-
-            death_case_final = death_p1r2_nam_list_2 + death_case_2
-            #print('66666666666', death_case_final)
 
             #print('lennnnn name', len(nam_list_no3))
             #print('lennnnn case', len(num_list_no3))
@@ -271,7 +284,7 @@ class dataGrabPA(object):
                         a_case[2] = a_death[1]   
                         #final_nam_num_list.append(a_case)                
                         break
-            print (' list merged', nam_num_list)
+            print ('lllllllllllllll list merged', nam_num_list)
             
             return (nam_num_list)
 
