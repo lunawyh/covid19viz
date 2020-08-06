@@ -99,12 +99,12 @@ class dataGrabwa(object):
         page_text = driver.page_source
 
         with open(fRaw, "w") as fp:
-	    fp.write(page_text.encode('utf8'))
+	        fp.write(page_text.encode('utf8'))
         #
         c_tree = html.fromstring(page_text)
-        print('  ooooooooooopen4Website', page_text)
+        #print('  ooooooooooopen4Website', page_text)
         l_text_data = c_tree.xpath('//div//div//p//strong/text()')
-        print('  open4Website date:', l_text_data)
+        #print('  open4Website date:', l_text_data)
         statemachine = 100
         for a_data in l_text_data:
             if(statemachine == 100):
@@ -114,46 +114,31 @@ class dataGrabwa(object):
                 break
 
         l_text_data_nam = c_tree.xpath('//div//div//div//table//tbody//tr//td//a/text()')
-        print('  open4Website county:', l_text_data)
+        #print('  open4Website county:', l_text_data)
         l_text_data_num = c_tree.xpath('//div//div//div//table//tbody//tr//td/text()')
         #l_ending = 'Negative'
         #l_text_data_num = l_text_data_num.split(',')
-        print('  vvvvvvvvvv county:', l_text_data_num)
+        #print('  vvvvvvvvvv county:', l_text_data_num)
         l_cases1 = []
         for l_rrr in l_text_data_num:
-            if l_rrr == 'Negative':
-                break
+            if l_rrr == 'Negative': break
             elif l_rrr == 'Unassigned': continue
             else:
                 l_cases1.append(l_rrr)
-        #print('  open4Website data:', l_data1)
-        l_cases2 = np.reshape( l_cases1, (len( l_cases1)/3, 3)).T
-
-        l_dataOfCases = []
-        for r_lj in l_cases2[0]:
-            if ',' in r_lj:
-                str(r_lj).replace(',', '')
-                l_dataOfCases.append(int(l_case))
-            else:
-                l_case = r_lj
-                l_dataOfCases.append(int(l_case))
-        print('88888', len(l_dataOfCases))
-
-        l_dataOfCases2 = []
-        for r_cj in l_cases2[2]:
-            if ',' in r_cj:
-                str(r_cj).replace(',', '')
-                l_dataOfCases2.append(int(l_case))
-            else:
-                l_case = r_cj
-                l_dataOfCases2.append(int(l_case))
-        #print('333333', len(l_dataOfCases2))
-        #print('999999', len(l_text_data_nam))
-        #print('cccccccccccc', l_text_data_nam)
+        # delete , and convert to int
+        l_cases2 = []
+        for r_lj in l_cases1:
+            l_cases2.append(int(str(r_lj).replace(',', '')))                
+        # change shape        
+        l_cases3 = np.reshape( l_cases2, (len( l_cases2)/3, 3)).T
+        print('  l_text_data_num:', len(l_cases3), len(l_cases3[0]))
         l_text_data_nam.append('Unassigned')
         l_text_data_nam.append('Total')
-        l_cases3 = np.vstack((l_text_data_nam, l_dataOfCases,l_dataOfCases2)).T 
-        print('mmmmmmmmm', l_cases3)
+        print('  l_text_data_nam:', len(l_text_data_nam))
+        # put together        
+        l_cases3 = np.vstack((l_text_data_nam, l_cases3[0], l_cases3[2])).T 
+        print('  list name+number:', len(l_cases3), len(l_cases3[0]))
+        driver.quit()  # close the window
         return l_cases3
 
 
