@@ -554,6 +554,8 @@ class runCoViz(object):
             # create new class
             self.data_grab = dataGrabGa(self.l_state_config, self.state_name)	
             ret, lst_data = self.data_grab.parseData(self.name_file, self.now_date, type_download)		
+            if(len(lst_data) > 0): 
+                self.name_file, self.now_date = name_file, now_date
             
         elif (type_download == 50):  # download only
             sys.path.insert(0, "./ct")
