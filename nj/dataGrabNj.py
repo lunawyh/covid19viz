@@ -86,10 +86,10 @@ class dataGrabNj(object):
                 wr.writerow(c)
             myfile.close()
         print('  saved to', sRaw)
-        with open('C:/Dennis/Covid19/covid19viz/nj/debugging/nj.txt','wb') as filemy:
-            filemy.write(str(nj_info))
-            filemy.write(str(type(nj_info)))
-            filemy.close()
+        #with open('C:/Dennis/Covid19/covid19viz/nj/debugging/nj.txt','wb') as filemy:
+        #    filemy.write(str(nj_info))
+        #    filemy.write(str(type(nj_info)))
+        #    filemy.close()
         return nj_info
 
     ## paser data CA
