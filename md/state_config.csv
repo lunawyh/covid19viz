@@ -3,10 +3,10 @@ VIZ_W,880,,,0
 VIZ_H,660,,,1
 state_map,Map_of_maryland_counties.jpg,,,2
 cordinate,None,,,3
-weblink_num,131,,,4
+weblink_num,999,,,4
 weblink_state,https://coronavirus.maryland.gov/,,,5
 state_name,Maryland,,,6
-basemap_type,999,,,7
+basemap_type,1,,,7
 basemap_center,39.117664,-77.385747,,8
 basemap_size,330000,330000,,9
 basemap_list_num,4,,,10

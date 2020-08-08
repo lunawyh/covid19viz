@@ -27,7 +27,7 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.action_chains import ActionChains
 import time
 import numpy as np
-import xml.etree.ElementTree as ET
+#import xml.etree.ElementTree as ET
 # ==============================================================================
 # -- codes -------------------------------------------------------------------
 # ==============================================================================
