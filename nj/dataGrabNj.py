@@ -22,7 +22,11 @@ from lxml import html
 import zipfile
 import StringIO
 from selenium import webdriver
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.common.by import By
 import time
+from bs4 import BeautifulSoup
 # ==============================================================================
 # -- codes -------------------------------------------------------------------
 # ==============================================================================
@@ -41,7 +45,7 @@ class dataGrabNj(object):
         self.now_date = ''
     ## save to csv
     def downloadFileMa(self, link_name):
-        urllib.urlopen(link_nameg)
+        urllib.urlopen(link_name)
 
     def save2File(self, l_data, csv_name):
         csv_data_f = open(csv_name, 'wb')
@@ -153,45 +157,56 @@ class dataGrabNj(object):
 
         return l_overral, n_name_file
 
-    def downloadAndParseLink(self,fRaw):
+    def downloadAndParseLink(self,link_address,fRaw):
         siteOpen = webdriver.Chrome()
-        siteOpen.get(fRaw)
-        time.sleep(5)
-        with open("C:/Dennis/Covid19/covid19viz/nj/data_raw/page.txt", "w") as f:
+        siteOpen.get(link_address)
+        time.sleep(10)
+        iframe = siteOpen.find_element_by_xpath("//iframe[@class='embedContainer stretch']")
+        siteOpen.switch_to.frame(iframe)
+        with open(fRaw, 'w') as f:
             f.write(siteOpen.page_source.encode('utf8'))
             f.close()
-        siteOpen.quit()
-        return self
+        downloadButtons = siteOpen.find_elements_by_xpath('//div[@class="external-html"]')
+        allList = []
+        totalPositives = 0
+        totalDeaths = 0
+        for dbutton in downloadButtons[2:len(downloadButtons)]:
+            dStringList = dbutton.text.split()
+            countyList = ''
+            for w in dStringList:
+                if w == "County":
+                    break
+                else:
+                    countyList = str(countyList + " " + str(w))
+            del dStringList[0:(dStringList.index('County')+1)]
+            allList.append([countyList,int(str(dStringList[3]).replace(',','')),int(str(dStringList[6]).replace(',',''))])
+            totalPositives = totalPositives + int(str(dStringList[3]).replace(',',''))
+            totalDeaths = totalDeaths + int(str(dStringList[6]).replace(',', ''))
+        allList.append(['Total',totalPositives,totalDeaths])
+        siteOpen.close()
+        return allList
 
 
     ## download a website
-    def download4Website(self, fRaw):
+    def saveData(self, fRaw, sRaw):
         page_url = self.l_state_config[5][1]
         print('  download4Website ...')
-        link_zip = self.downloadAndParseLink(page_url)
-        r = requests.get(link_zip)
-        with open(fRaw, 'wb') as f:
-            f.write(r.content)
-        print('  saved to', fRaw)
-        #r_zip = zipfile.ZipFile(StringIO.StringIO(r.content))
-        #r_zip.extract('County.csv',l_name)
-        r_zip = zipfile.ZipFile(fRaw, 'r')
-        data_csv = r_zip.open('County.csv')
-        #l_data = self.parseDfData(df_data_county)
-        return data_csv
+        nj_info = self.downloadAndParseLink(page_url,fRaw)
+        with open(sRaw, 'wb') as myfile:
+            wr = csv.writer(myfile, quoting=csv.QUOTE_ALL)
+            for c in nj_info:
+                wr.writerow(c)
+            myfile.close()
+        print('  saved to', sRaw)
+
     ## paser data CA
     def parseData(self, name_target, date_target, type_download):
             self.name_file = name_target
-            f_name = self.state_dir + 'data_raw/'+self.state_name.lower()+'_covid19_'+self.name_file+'.zip'
-            #l_name = self.state_dir + 'data_raw/'
+            f_name = self.state_dir + 'data_raw/'+self.state_name.lower()+'_covid19_'+self.name_file+'.html'
+            s_name = self.state_dir + 'data/'+self.state_name.lower()+'_covid19_'+self.name_file+'.csv'
             if(not os.path.isdir(self.state_dir + 'data_raw/') ): os.mkdir(self.state_dir + 'data_raw/')
             # step A: downlowd and save
-            data_csv = self.download4Website(f_name)
-            # step B: parse and open
-            lst_raw_data = self.open4FileBuffer(data_csv)
-            # step C: convert to standard file and save
-            lst_data = self.saveLatestDateMa(lst_raw_data)
-            print(lst_data)
-            return(lst_data, self.name_file, self.now_date)
+            data_csv = self.saveData(f_name, s_name)
+            return(data_csv, self.name_file, self.now_date)
 
 ## end of file
