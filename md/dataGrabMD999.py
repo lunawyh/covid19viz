@@ -27,6 +27,7 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.action_chains import ActionChains
 import time
 import numpy as np
+import xml.etree.ElementTree as ET
 # ==============================================================================
 # -- codes -------------------------------------------------------------------
 # ==============================================================================
@@ -102,61 +103,47 @@ class dataGrabmd(object):
 	    fp.write(page_text.encode('utf8'))
         #
         c_tree = html.fromstring(page_text)
-        '''
-        print('  ooooooooooopen4Website', page_text)
-        l_text_data = c_tree.xpath('//html//body/text()')
-        print('  open4Website date:', l_text_data)
-        statemachine = 100
-        for a_data in l_text_data:
-            if(statemachine == 100):
-                if('opendata-ui version' in a_data): statemachine = 200
-            elif(statemachine == 200):
-                print('    found date:', a_data)
-                break
-        '''
+     
 
-        l_text_data_nam = c_tree.xpath('//div//div//div//table//tbody//tr//td//a/text()')
-        print('  open4Website county:', l_text_data)
-        l_text_data_num = c_tree.xpath('//div//div//div//table//tbody//tr//td/text()')
-        #l_ending = 'Negative'
-        #l_text_data_num = l_text_data_num.split(',')
-        print('  vvvvvvvvvv county:', l_text_data_num)
-        l_cases1 = []
-        for l_rrr in l_text_data_num:
-            if l_rrr == 'Negative':
-                break
-            elif l_rrr == 'Unassigned': continue
-            else:
-                l_cases1.append(l_rrr)
-        #print('  open4Website data:', l_data1)
-        l_cases2 = np.reshape( l_cases1, (len( l_cases1)/3, 3)).T
+        l_text_data_nam = c_tree.xpath('//tbody//tr//td/text()')
 
-        l_dataOfCases = []
-        for r_lj in l_cases2[0]:
-            if ',' in r_lj:
-                str(r_lj).replace(',', '')
-                l_dataOfCases.append(int(l_case))
-            else:
-                l_case = r_lj
-                l_dataOfCases.append(int(l_case))
-        print('88888', len(l_dataOfCases))
+        state_data = []
+        a_name = ''
+        a_case = 0
+        a_death = 0
+        total_num = 0
+        total_death = 0
+        
+        state_m = 100
 
-        l_dataOfCases2 = []
-        for r_cj in l_cases2[2]:
-            if ',' in r_cj:
-                str(r_cj).replace(',', '')
-                l_dataOfCases2.append(int(l_case))
+        for a_ls in l_text_data_nam[3: ]:
+            #print('8888888888888888888888888888888')
+            if '*' in a_ls: continue
+            elif '(' in a_ls: 
+                a_death = int(a_ls.replace('(', '').replace(')', ''))
+                print('  a_death', a_death)          
+            elif(a_ls.replace(',', '').isdigit()):                
+                a_case = int(a_ls.replace(',', ''))
+                print('  a_case', a_case)
+                
             else:
-                l_case = r_cj
-                l_dataOfCases2.append(int(l_case))
-        #print('333333', len(l_dataOfCases2))
-        #print('999999', len(l_text_data_nam))
-        #print('cccccccccccc', l_text_data_nam)
-        l_text_data_nam.append('Unassigned')
-        l_text_data_nam.append('Total')
-        l_cases3 = np.vstack((l_text_data_nam, l_dataOfCases,l_dataOfCases2)).T 
-        print('mmmmmmmmm', l_cases3)
-        return l_cases3
+                
+                if(state_m == 100):  
+                    a_name = a_ls                  
+                    state_m = 200
+                else:
+                    print('  a_name', a_name)
+                    state_data.append([a_name, a_case, a_death])
+                    total_num += a_case
+                    total_death += a_death
+                    a_name = a_ls
+                    if('Age' in a_name): break
+        state_data.append(['Total', total_num, total_death])
+
+        #print('  oooooooooooopen4Website county:', state_data)  
+
+        driver.quit()
+        return state_data
 
 
     ## paser data FL
@@ -257,3 +244,8 @@ class dataGrabmd(object):
             return(l_target, self.name_file, self.now_date)  
 
 ## end of file
+
+
+
+
+
