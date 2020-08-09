@@ -26,7 +26,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 import time
-from bs4 import BeautifulSoup
+
 # ==============================================================================
 # -- codes -------------------------------------------------------------------
 # ==============================================================================
@@ -56,21 +56,26 @@ class dataGrabNj(object):
             f.close()
         downloadButtons = siteOpen.find_elements_by_xpath('//div[@class="external-html"]')
         allList = []
+        allList.append(['County','Cases','Deaths'])
         totalPositives = 0
         totalDeaths = 0
-        for dbutton in downloadButtons[2:len(downloadButtons)]:
+        for dbutton in downloadButtons[2:]:
             dStringList = dbutton.text.split()
             countyList = ''
+            bFound = False
             for w in dStringList:
                 if w == "County":
+                    bFound = True
                     break
                 else:
                     countyList = str(countyList + str(w))
+            if(not bFound): continue
             del dStringList[0:(dStringList.index('County')+1)]
             allList.append([countyList,int(str(dStringList[3]).replace(',','')),int(str(dStringList[6]).replace(',',''))])
             totalPositives = totalPositives + int(str(dStringList[3]).replace(',',''))
             totalDeaths = totalDeaths + int(str(dStringList[6]).replace(',', ''))
         allList.append(['Total',totalPositives,totalDeaths])
+        print('  downloadAndParseLink', len(allList), len(allList[0]))
         siteOpen.close()
         return allList
 
@@ -100,7 +105,7 @@ class dataGrabNj(object):
             if(not os.path.isdir(self.state_dir + 'data_raw/') ): os.mkdir(self.state_dir + 'data_raw/')
             # step A: downlowd and save
             data_csv = self.saveData(f_name, s_name)
-            print(len(data_csv))
+            print('  total list of cases', len(data_csv))
             return(data_csv, self.name_file, self.now_date)
 
 ## end of file

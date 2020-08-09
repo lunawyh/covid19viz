@@ -180,6 +180,7 @@ class runCoViz(object):
             if(type_data==1):
                 if(self.isNameOnToday(self.name_file)):
                     save_file = self.state_dir + 'results/mi_county20200000_daily.png'
+                    if(not os.path.isdir(self.state_dir + 'results/') ): os.mkdir(self.state_dir + 'results/')
             rainbow_viz = rainbowViz(self.state_name)	
             rainbow_viz.infoShowRainbow(type_data, self.l_mi_cases,
                 save_file=save_file, date=self.now_date, timeout=t0)
@@ -189,6 +190,7 @@ class runCoViz(object):
             save_file = None
             if(self.isNameOnToday(self.name_file)):
                 save_file = self.state_dir + 'results/mi_county20200000_death.png'
+                if(not os.path.isdir(self.state_dir + 'results/') ): os.mkdir(self.state_dir + 'results/')
             rainbow_viz = rainbowViz(self.state_name)	
             rainbow_viz.infoShowRainbow(3, list_death,
                 save_file=save_file, date=self.now_date, timeout=t0)
@@ -553,7 +555,7 @@ class runCoViz(object):
             from dataGrabGA33 import *
             # create new class
             self.data_grab = dataGrabGa(self.l_state_config, self.state_name)	
-            ret, lst_data = self.data_grab.parseData(self.name_file, self.now_date, type_download)		
+            lst_data, self.name_file, self.now_date = self.data_grab.parseData(self.name_file, self.now_date, type_download)		
             
         elif (type_download == 50):  # download only
             sys.path.insert(0, "./ct")
