@@ -28,7 +28,7 @@ from selenium.webdriver.common.action_chains import ActionChains
 import time
 import numpy as np
 import os, subprocess
-from pdfminer.high_level import extract_text
+from pdfminer.high_level import extract_text  # pip install pdfminer.six
  
 # ==============================================================================
 # -- codes -------------------------------------------------------------------
@@ -131,11 +131,24 @@ class dataGrabPA(object):
         return l_d_sort
 
     ## paser data FL
-    def dataReadConfirmed(self, f_name, f_nameb):
-            print('  B.dataReadConfirmed on page 5', f_name)
+    def dataReadConfirmed(self, f_namea, f_nameb):
+            print('  B.dataReadConfirmed on page 1', f_namea)
             # step B: parse and open
-            text = extract_text(f_name)
-            #print(';;;;;;;;', text)
+            text = extract_text(f_namea)
+            #print('  dataReadConfirmed', text)
+            l_text = text.split('\n')
+            l_cases1 = []
+            l_cases1_sub = []
+            for a_text in l_text:
+                if(a_text == '' and len(l_cases1_sub)>0 ):
+                    l_cases1.append(l_cases1_sub)
+                    l_cases1_sub = []
+                else:
+                    l_cases1_sub.append(a_text)
+            print('  l_cases1', len(l_cases1), len(l_cases1[0]))        
+            for l_sub1 in l_cases1:
+                print('  l_sub1', l_sub1[0])
+            return []
             #state names, nam_list_no3 is the final state_name list
             n_start = text.find('ADAMS')
             n_end = text.find('Region')
