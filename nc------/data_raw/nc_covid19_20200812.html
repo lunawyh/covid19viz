@@ -1,0 +1,511 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" version="XHTML+RDFa 1.0" dir="ltr" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:dc="http://purl.org/dc/terms/" xmlns:foaf="http://xmlns.com/foaf/0.1/" xmlns:og="http://ogp.me/ns#" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" xmlns:sioc="http://rdfs.org/sioc/ns#" xmlns:sioct="http://rdfs.org/sioc/types#" xmlns:skos="http://www.w3.org/2004/02/skos/core#" xmlns:xsd="http://www.w3.org/2001/XMLSchema#" class="js js flexbox flexboxlegacy canvas canvastext webgl no-touch geolocation postmessage websqldatabase indexeddb hashchange history draganddrop websockets rgba hsla multiplebgs backgroundsize borderimage borderradius boxshadow textshadow opacity cssanimations csscolumns cssgradients cssreflections csstransforms csstransforms3d csstransitions fontface generatedcontent video audio localstorage sessionstorage webworkers applicationcache svg inlinesvg smil svgclippaths" style="height: 100%;"><head profile="http://www.w3.org/1999/xhtml/vocab">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+  <link rel="manifest" href="/manifest.json">
+  <meta name="msapplication-TileColor" content="#ffffff">
+  <meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
+  <meta name="theme-color" content="#ffffff">
+  <!--[if IE]><![endif]-->
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link rel="apple-touch-icon" href="/apple-icon-76x76.png" sizes="76x76">
+<link rel="icon" href="/favicon-96x96.png" sizes="96x96">
+<link rel="icon" href="/favicon-32x32.png" sizes="32x32">
+<link rel="icon" href="/favicon-192x192.png" sizes="192x192">
+<link rel="apple-touch-icon" href="/apple-icon-180x180.png" sizes="180x180">
+<link rel="apple-touch-icon" href="/apple-icon-152x152.png" sizes="152x152">
+<link rel="apple-touch-icon" href="/apple-icon-144x144.png" sizes="144x144">
+<link rel="apple-touch-icon" href="/apple-icon-120x120.png" sizes="120x120">
+<link rel="apple-touch-icon" href="/apple-icon-114x114.png" sizes="114x114">
+<link rel="apple-touch-icon" href="/apple-icon-72x72.png" sizes="72x72">
+<link rel="apple-touch-icon" href="/apple-icon-60x60.png" sizes="60x60">
+<link rel="apple-touch-icon" href="/apple-icon-57x57.png" sizes="57x57">
+<link rel="icon" href="/favicon-16x16.png" sizes="16x16">
+<meta name="description" content="Knowing when to dial up or down measures that slow the spread of the virus depends on North Carolina’s testing, tracing and trends. This dashboard provides an overview on the metrics and capacities that the state is following.">
+<meta name="generator" content="Drupal 7 (http://drupal.org)">
+<link rel="canonical" href="https://covid19.ncdhhs.gov/dashboard">
+<link rel="shortlink" href="https://covid19.ncdhhs.gov/node/103">
+  <meta http-equiv="cleartype" content="on">
+  <title>NC DHHS COVID-19: COVID-19 North Carolina Dashboard</title>
+  <meta name="viewport" content="width=device-width, minimum-scale=1, maximum-scale=1, user-scalable=no">
+  <style type="text/css" media="all">
+@import url("//covid19.ncdhhs.gov/modules/system/system.base.css?qeniw1");
+@import url("//covid19.ncdhhs.gov/modules/system/system.menus.css?qeniw1");
+@import url("//covid19.ncdhhs.gov/modules/system/system.theme.css?qeniw1");
+</style>
+<style type="text/css" media="all">
+@import url("//covid19.ncdhhs.gov/sites/all/modules/contrib/jquery_update/replace/ui/themes/base/minified/jquery.ui.core.min.css?qeniw1");
+@import url("//covid19.ncdhhs.gov/sites/all/modules/contrib/jquery_update/replace/ui/themes/base/minified/jquery.ui.theme.min.css?qeniw1");
+@import url("//covid19.ncdhhs.gov/sites/all/modules/contrib/jquery_update/replace/ui/themes/base/minified/jquery.ui.menu.min.css?qeniw1");
+@import url("//covid19.ncdhhs.gov/sites/all/modules/contrib/jquery_update/replace/ui/themes/base/minified/jquery.ui.autocomplete.min.css?qeniw1");
+</style>
+<style type="text/css" media="all">
+@import url("//covid19.ncdhhs.gov/sites/all/modules/contrib/comment_notify/comment_notify.css?qeniw1");
+@import url("//covid19.ncdhhs.gov/sites/all/modules/contrib/ldap/ldap_user/ldap_user.css?qeniw1");
+@import url("//covid19.ncdhhs.gov/modules/comment/comment.css?qeniw1");
+@import url("//covid19.ncdhhs.gov/sites/all/modules/contrib/date/date_api/date.css?qeniw1");
+@import url("//covid19.ncdhhs.gov/sites/all/modules/contrib/date/date_popup/themes/datepicker.1.7.css?qeniw1");
+@import url("//covid19.ncdhhs.gov/modules/field/theme/field.css?qeniw1");
+@import url("//covid19.ncdhhs.gov/modules/node/node.css?qeniw1");
+@import url("//covid19.ncdhhs.gov/sites/all/modules/contrib/picture/picture_wysiwyg.css?qeniw1");
+@import url("//covid19.ncdhhs.gov/modules/user/user.css?qeniw1");
+@import url("//covid19.ncdhhs.gov/sites/all/modules/contrib/video_filter/video_filter.css?qeniw1");
+@import url("//covid19.ncdhhs.gov/sites/all/modules/contrib/extlink/extlink.css?qeniw1");
+@import url("//covid19.ncdhhs.gov/sites/all/modules/contrib/views/css/views.css?qeniw1");
+</style>
+<style type="text/css" media="all">
+@import url("//covid19.ncdhhs.gov/sites/all/modules/colorbox/styles/default/colorbox_style.css?qeniw1");
+@import url("//covid19.ncdhhs.gov/sites/all/modules/contrib/ctools/css/ctools.css?qeniw1");
+@import url("//covid19.ncdhhs.gov/sites/all/modules/contrib/ldap/ldap_servers/ldap_servers.admin.css?qeniw1");
+@import url("//covid19.ncdhhs.gov/profiles/openpublic/modules/contrib/panels/css/panels.css?qeniw1");
+</style>
+<style type="text/css" media="all">
+@import url("//covid19.ncdhhs.gov/profiles/north_carolina/modules/custom/nc_gtranslate/css/nc_gtranslate_block.css?qeniw1");
+</style>
+<style type="text/css" media="all">
+@import url("//covid19.ncdhhs.gov/profiles/north_carolina/themes/nc_base_theme/css/contextual-links.css?qeniw1");
+</style>
+<style type="text/css" media="print">
+@import url("//covid19.ncdhhs.gov/profiles/north_carolina/themes/nc_base_theme/css/print.css?qeniw1");
+</style>
+<link type="text/css" rel="stylesheet" href="//covid19.ncdhhs.gov/profiles/nc_site/themes/nc_site_child_theme/css/ncgov-theme-accent-blue.css?qeniw1" media="all">
+  <!--[if IE 8]><script src="profiles/nc_site/themes/nc_site_child_theme/js/libs/EventListener.js"></script><![endif]-->
+  <!--[if IE 8]><script src="profiles/nc_site/themes/nc_site_child_theme/js/libs/selectivizr-min.js"></script><![endif]-->
+  <script id="twitter-wjs" src="https://platform.twitter.com/widgets.js"></script><script async="" src="//www.google-analytics.com/analytics.js"></script><script type="text/javascript" src="//covid19.ncdhhs.gov/sites/all/modules/contrib/jquery_update/replace/jquery/1.10/jquery.min.js?v=1.10.2"></script>
+<script type="text/javascript">
+<!--//--><![CDATA[//><!--
+jQuery.migrateMute = true; jQuery.migrateTrace = false;
+//--><!]]>
+</script>
+<script type="text/javascript" src="//covid19.ncdhhs.gov/sites/all/modules/contrib/jquery_update/replace/jquery-migrate/1.2.1/jquery-migrate.min.js?v=1.2.1"></script>
+<script type="text/javascript" src="//covid19.ncdhhs.gov/misc/jquery-extend-3.4.0.js?v=1.10.2"></script>
+<script type="text/javascript" src="//covid19.ncdhhs.gov/misc/jquery-html-prefilter-3.5.0-backport.js?v=1.10.2"></script>
+<script type="text/javascript" src="//covid19.ncdhhs.gov/misc/jquery.once.js?v=1.2"></script>
+<script type="text/javascript" src="//covid19.ncdhhs.gov/misc/drupal.js?qeniw1"></script>
+<script type="text/javascript" src="//covid19.ncdhhs.gov/sites/all/modules/contrib/jquery_update/replace/ui/ui/minified/jquery.ui.core.min.js?v=1.10.2"></script>
+<script type="text/javascript" src="//covid19.ncdhhs.gov/sites/all/modules/contrib/jquery_update/replace/ui/ui/minified/jquery.ui.widget.min.js?v=1.10.2"></script>
+<script type="text/javascript" src="//covid19.ncdhhs.gov/sites/all/modules/contrib/jquery_update/replace/ui/ui/minified/jquery.ui.position.min.js?v=1.10.2"></script>
+<script type="text/javascript" src="//covid19.ncdhhs.gov/sites/all/modules/contrib/jquery_update/replace/ui/ui/minified/jquery.ui.menu.min.js?v=1.10.2"></script>
+<script type="text/javascript" src="//covid19.ncdhhs.gov/sites/all/modules/contrib/jquery_update/replace/ui/ui/minified/jquery.ui.autocomplete.min.js?v=1.10.2"></script>
+<script type="text/javascript" src="//covid19.ncdhhs.gov/sites/all/modules/contrib/jquery_update/replace/ui/external/jquery.cookie.js?v=67fb34f6a866c40d0570"></script>
+<script type="text/javascript" src="//covid19.ncdhhs.gov/profiles/north_carolina/modules/custom/nc_extlink/nc_extlink.js?qeniw1"></script>
+<script type="text/javascript">
+<!--//--><![CDATA[//><!--
+document.createElement( "picture" );
+//--><!]]>
+</script>
+<script type="text/javascript" src="//covid19.ncdhhs.gov/sites/all/modules/contrib/comment_notify/comment_notify.js?qeniw1"></script>
+<script type="text/javascript" src="//covid19.ncdhhs.gov/sites/all/modules/contrib/extlink/extlink.js?qeniw1"></script>
+<script type="text/javascript" src="//covid19.ncdhhs.gov/profiles/openpublic/libraries/colorbox/jquery.colorbox-min.js?qeniw1"></script>
+<script type="text/javascript" src="//covid19.ncdhhs.gov/sites/all/modules/colorbox/js/colorbox.js?qeniw1"></script>
+<script type="text/javascript" src="//covid19.ncdhhs.gov/sites/all/modules/colorbox/styles/default/colorbox_style.js?qeniw1"></script>
+<script type="text/javascript" src="//covid19.ncdhhs.gov/sites/all/modules/colorbox/js/colorbox_load.js?qeniw1"></script>
+<script type="text/javascript" src="//covid19.ncdhhs.gov/sites/all/modules/contrib/jcaption/jcaption.js?qeniw1"></script>
+<script type="text/javascript">
+<!--//--><![CDATA[//><!--
+window.CKEDITOR_BASEPATH = '/sites/all/libraries/ckeditor/'
+//--><!]]>
+</script>
+<script type="text/javascript" src="//covid19.ncdhhs.gov/sites/all/modules/contrib/google_analytics/googleanalytics.js?qeniw1"></script>
+<script type="text/javascript">
+<!--//--><![CDATA[//><!--
+(function(i,s,o,g,r,a,m){i["GoogleAnalyticsObject"]=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,"script","//www.google-analytics.com/analytics.js","ga");ga("create", "UA-165933233-1", {"cookieDomain":"auto"});ga("set", "anonymizeIp", true);ga("send", "pageview");
+//--><!]]>
+</script>
+<script type="text/javascript" src="//covid19.ncdhhs.gov/profiles/north_carolina/modules/custom/nc_gtranslate/js/nc_gtranslate.js?qeniw1"></script>
+<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script><link type="text/css" rel="stylesheet" charset="UTF-8" href="https://translate.googleapis.com/translate_static/css/translateelement.css"><script type="text/javascript" charset="UTF-8" src="https://translate.googleapis.com/translate_static/js/element/main.js"></script>
+<script type="text/javascript" src="//covid19.ncdhhs.gov/sites/all/modules/contrib/field_group/field_group.js?qeniw1"></script>
+<script type="text/javascript" src="//covid19.ncdhhs.gov/profiles/north_carolina/themes/nc_base_theme/js/libs/match.media.js?qeniw1"></script>
+<script type="text/javascript" src="//covid19.ncdhhs.gov/profiles/north_carolina/themes/nc_base_theme/js/modules/enquire.js?qeniw1"></script>
+<script type="text/javascript" src="//covid19.ncdhhs.gov/profiles/north_carolina/themes/nc_base_theme/js/modules/jquery.autosize.js?qeniw1"></script>
+<script type="text/javascript" src="//covid19.ncdhhs.gov/profiles/north_carolina/themes/nc_base_theme/js/modules/jquery.easing.1.3.js?qeniw1"></script>
+<script type="text/javascript" src="//covid19.ncdhhs.gov/profiles/north_carolina/themes/nc_base_theme/js/modules/jquery.fitvids.js?qeniw1"></script>
+<script type="text/javascript" src="//covid19.ncdhhs.gov/profiles/north_carolina/themes/nc_base_theme/js/modules/jquery.magnific-popup.js?qeniw1"></script>
+<script type="text/javascript" src="//covid19.ncdhhs.gov/profiles/north_carolina/themes/nc_base_theme/js/modules/jquery.maskedinput.js?qeniw1"></script>
+<script type="text/javascript" src="//covid19.ncdhhs.gov/profiles/north_carolina/themes/nc_base_theme/js/libs/modernizr.custom.min.js?qeniw1"></script>
+<script type="text/javascript" src="//covid19.ncdhhs.gov/profiles/north_carolina/themes/nc_base_theme/js/libs/respond.src.js?qeniw1"></script>
+<script type="text/javascript" src="//covid19.ncdhhs.gov/profiles/north_carolina/themes/nc_base_theme/js/vendors/scrollmagic.js?qeniw1"></script>
+<script type="text/javascript" src="//covid19.ncdhhs.gov/profiles/north_carolina/themes/nc_base_theme/js/vendors/jquery.overflow.menu.js?qeniw1"></script>
+<script type="text/javascript" src="//covid19.ncdhhs.gov/profiles/north_carolina/themes/nc_base_theme/js/vendors/jquery.matchHeight.js?qeniw1"></script>
+<script type="text/javascript" src="//covid19.ncdhhs.gov/profiles/north_carolina/themes/nc_base_theme/js/script.js?qeniw1"></script>
+<script type="text/javascript" src="//covid19.ncdhhs.gov/profiles/north_carolina/themes/nc_base_theme/js/modules/abt.anchor.js?qeniw1"></script>
+<script type="text/javascript" src="//covid19.ncdhhs.gov/profiles/north_carolina/themes/nc_base_theme/js/vendors/jquery.ui.accordion.js?qeniw1"></script>
+<script type="text/javascript" src="//covid19.ncdhhs.gov/profiles/north_carolina/themes/nc_base_theme/js/vendors/jquery.ui.tabs.js?qeniw1"></script>
+<script type="text/javascript" src="//covid19.ncdhhs.gov/profiles/north_carolina/themes/nc_base_theme/js/modules/abt.accordion.js?qeniw1"></script>
+<script type="text/javascript" src="//covid19.ncdhhs.gov/profiles/north_carolina/themes/nc_base_theme/js/modules/abt.ajaxErrorScroll.js?qeniw1"></script>
+<script type="text/javascript">
+<!--//--><![CDATA[//><!--
+jQuery.extend(Drupal.settings, {"basePath":"\/","pathPrefix":"","ajaxPageState":{"theme":"nc_site_child_theme","theme_token":"NGZ9kR21841sY1Lz-TVFiETWMDhQ4njuGv3sQfjLFyM","css":{"modules\/system\/system.base.css":1,"modules\/system\/system.menus.css":1,"modules\/system\/system.theme.css":1,"misc\/ui\/jquery.ui.core.css":1,"misc\/ui\/jquery.ui.theme.css":1,"misc\/ui\/jquery.ui.menu.css":1,"misc\/ui\/jquery.ui.autocomplete.css":1,"sites\/all\/modules\/contrib\/comment_notify\/comment_notify.css":1,"sites\/all\/modules\/contrib\/ldap\/ldap_user\/ldap_user.css":1,"modules\/comment\/comment.css":1,"sites\/all\/modules\/contrib\/date\/date_api\/date.css":1,"sites\/all\/modules\/contrib\/date\/date_popup\/themes\/datepicker.1.7.css":1,"modules\/field\/theme\/field.css":1,"profiles\/north_carolina\/modules\/custom\/nc_gtranslate\/css\/nc_gtranslate.css":1,"modules\/node\/node.css":1,"sites\/all\/modules\/contrib\/picture\/picture_wysiwyg.css":1,"modules\/user\/user.css":1,"sites\/all\/modules\/contrib\/video_filter\/video_filter.css":1,"sites\/all\/modules\/contrib\/extlink\/extlink.css":1,"sites\/all\/modules\/contrib\/views\/css\/views.css":1,"sites\/all\/modules\/colorbox\/styles\/default\/colorbox_style.css":1,"sites\/all\/modules\/contrib\/ctools\/css\/ctools.css":1,"sites\/all\/modules\/contrib\/ldap\/ldap_servers\/ldap_servers.admin.css":1,"profiles\/openpublic\/modules\/contrib\/panels\/css\/panels.css":1,"profiles\/north_carolina\/modules\/custom\/nc_gtranslate\/css\/nc_gtranslate_block.css":1,"profiles\/north_carolina\/themes\/nc_base_theme\/css\/contextual-links.css":1,"profiles\/north_carolina\/themes\/nc_base_theme\/css\/print.css":1,"profiles\/nc_site\/themes\/nc_site_child_theme\/css\/ncgov-theme-accent-blue.css":1},"js":{"sites\/all\/modules\/contrib\/picture\/picturefill2\/picturefill.min.js":1,"sites\/all\/modules\/contrib\/picture\/picture.min.js":1,"profiles\/north_carolina\/modules\/apps\/nc_alerts\/js\/nc_alerts_handler.js":1,"profiles\/north_carolina\/modules\/apps\/nc_alerts\/js\/nc_alerts.js":1,"profiles\/north_carolina\/themes\/nc_base_theme\/js\/vendors\/owl.carousel.js":1,"sites\/all\/modules\/contrib\/jquery_update\/replace\/jquery\/1.10\/jquery.min.js":1,"sites\/all\/modules\/contrib\/jquery_update\/replace\/jquery-migrate\/1.2.1\/jquery-migrate.min.js":1,"misc\/jquery-extend-3.4.0.js":1,"misc\/jquery-html-prefilter-3.5.0-backport.js":1,"misc\/jquery.once.js":1,"misc\/drupal.js":1,"sites\/all\/modules\/contrib\/jquery_update\/replace\/ui\/ui\/minified\/jquery.ui.core.min.js":1,"sites\/all\/modules\/contrib\/jquery_update\/replace\/ui\/ui\/minified\/jquery.ui.widget.min.js":1,"sites\/all\/modules\/contrib\/jquery_update\/replace\/ui\/ui\/minified\/jquery.ui.position.min.js":1,"sites\/all\/modules\/contrib\/jquery_update\/replace\/ui\/ui\/minified\/jquery.ui.menu.min.js":1,"sites\/all\/modules\/contrib\/jquery_update\/replace\/ui\/ui\/minified\/jquery.ui.autocomplete.min.js":1,"sites\/all\/modules\/contrib\/jquery_update\/replace\/ui\/external\/jquery.cookie.js":1,"profiles\/north_carolina\/modules\/custom\/nc_extlink\/nc_extlink.js":1,"sites\/all\/modules\/contrib\/comment_notify\/comment_notify.js":1,"sites\/all\/modules\/contrib\/extlink\/extlink.js":1,"profiles\/openpublic\/libraries\/colorbox\/jquery.colorbox-min.js":1,"sites\/all\/modules\/colorbox\/js\/colorbox.js":1,"sites\/all\/modules\/colorbox\/styles\/default\/colorbox_style.js":1,"sites\/all\/modules\/colorbox\/js\/colorbox_load.js":1,"sites\/all\/modules\/contrib\/jcaption\/jcaption.js":1,"sites\/all\/modules\/contrib\/google_analytics\/googleanalytics.js":1,"profiles\/north_carolina\/modules\/custom\/nc_gtranslate\/js\/nc_gtranslate.js":1,"\/\/translate.google.com\/translate_a\/element.js?cb=googleTranslateElementInit":1,"sites\/all\/modules\/contrib\/field_group\/field_group.js":1,"profiles\/north_carolina\/themes\/nc_base_theme\/js\/libs\/match.media.js":1,"profiles\/north_carolina\/themes\/nc_base_theme\/js\/modules\/enquire.js":1,"profiles\/north_carolina\/themes\/nc_base_theme\/js\/modules\/jquery.autosize.js":1,"profiles\/north_carolina\/themes\/nc_base_theme\/js\/modules\/jquery.easing.1.3.js":1,"profiles\/north_carolina\/themes\/nc_base_theme\/js\/modules\/jquery.fitvids.js":1,"profiles\/north_carolina\/themes\/nc_base_theme\/js\/modules\/jquery.magnific-popup.js":1,"profiles\/north_carolina\/themes\/nc_base_theme\/js\/modules\/jquery.maskedinput.js":1,"profiles\/north_carolina\/themes\/nc_base_theme\/js\/libs\/modernizr.custom.min.js":1,"profiles\/north_carolina\/themes\/nc_base_theme\/js\/libs\/respond.src.js":1,"profiles\/north_carolina\/themes\/nc_base_theme\/js\/vendors\/scrollmagic.js":1,"profiles\/north_carolina\/themes\/nc_base_theme\/js\/vendors\/jquery.overflow.menu.js":1,"profiles\/north_carolina\/themes\/nc_base_theme\/js\/vendors\/jquery.matchHeight.js":1,"profiles\/north_carolina\/themes\/nc_base_theme\/js\/script.js":1,"profiles\/north_carolina\/themes\/nc_base_theme\/js\/modules\/abt.anchor.js":1,"profiles\/north_carolina\/themes\/nc_base_theme\/js\/vendors\/jquery.ui.accordion.js":1,"profiles\/north_carolina\/themes\/nc_base_theme\/js\/vendors\/jquery.ui.tabs.js":1,"profiles\/north_carolina\/themes\/nc_base_theme\/js\/modules\/abt.accordion.js":1,"profiles\/north_carolina\/themes\/nc_base_theme\/js\/modules\/abt.ajaxErrorScroll.js":1}},"colorbox":{"opacity":"0.85","current":"{current} of {total}","previous":"\u00ab Prev","next":"Next \u00bb","close":"Close","maxWidth":"98%","maxHeight":"98%","fixed":true,"mobiledetect":true,"mobiledevicewidth":"480px"},"jcaption":{"jcaption_selectors":["img.caption"],"jcaption_alt_title":"title","jcaption_requireText":1,"jcaption_copyStyle":0,"jcaption_removeStyle":0,"jcaption_removeClass":1,"jcaption_removeAlign":1,"jcaption_copyAlignmentToClass":1,"jcaption_copyFloatToClass":1,"jcaption_copyClassToClass":1,"jcaption_autoWidth":1,"jcaption_keepLink":0,"jcaption_styleMarkup":"","jcaption_animate":0,"jcaption_showDuration":"200","jcaption_hideDuration":"200"},"extlink":{"extTarget":"_blank","extClass":"ext","extLabel":"(link is external)","extImgClass":0,"extSubdomains":1,"extExclude":"","extInclude":"","extCssExclude":"nav, .social-links","extCssExplicit":"","extAlert":0,"extAlertText":"This link will take you to an external web site.","mailtoClass":0,"mailtoLabel":"(link sends e-mail)"},"googleanalytics":{"trackOutbound":1,"trackMailto":1,"trackDownload":1,"trackDownloadExtensions":"7z|aac|arc|arj|asf|asx|avi|bin|csv|doc(x|m)?|dot(x|m)?|exe|flv|gif|gz|gzip|hqx|jar|jpe?g|js|mp(2|3|4|e?g)|mov(ie)?|msi|msp|pdf|phps|png|ppt(x|m)?|pot(x|m)?|pps(x|m)?|ppam|sld(x|m)?|thmx|qtm?|ra(m|r)?|sea|sit|tar|tgz|torrent|txt|wav|wma|wmv|wpd|xls(x|m|b)?|xlt(x|m)|xlam|xml|z|zip","trackColorbox":1},"nc_gtranslate":{"languages":"am,ar,zh-CN,zh-TW,hi,hmn,km,lo,pl,pt,ru,sr,so,es,th,ur,vi","color":"397AAC"},"urlIsAjaxTrusted":{"\/dashboard":true},"nc_alerts":{"options":{"transitionStyle":"goDown","navigation":true,"slideSpeed":500,"paginationSpeed":500,"singleItem":true,"mouseDrag":false,"callbacks":true,"addClassActive":true,"autoHeight":true,"navigationText":["\u003Ci class=\u0022icon-chevron-left\u0022\u003E\u003C\/i\u003E","\u003Ci class=\u0022icon-chevron-right\u0022\u003E\u003C\/i\u003E"]}},"currentUser":0,"field_group":{"html-element":"full"},"collapseAccordions":1});
+//--><!]]>
+</script>
+<script type="text/javascript" charset="UTF-8" src="https://translate.googleapis.com/element/TE_20200506_00/e/js/element/element_main.js"></script><style id="fit-vids-style">.fluid-width-video-wrapper{width:100%;position:relative;padding:0;}.fluid-width-video-wrapper iframe,.fluid-width-video-wrapper object,.fluid-width-video-wrapper embed {position:absolute;top:0;left:0;width:100%;height:100%;}</style><script charset="utf-8" src="https://platform.twitter.com/js/moment~timeline~tweet.006e6e150e3a965b21e4fc914a590d30.js"></script><script charset="utf-8" src="https://platform.twitter.com/js/timeline.5ca108765b2ea8f4f7bf6784a62617a7.js"></script></head>
+<body class="html not-front not-logged-in one-sidebar sidebar-second page-node page-node- page-node-103 node-type-site-page i18n-en footer-columns enterprise-core-white initMenuClickHandlers-processed initstickyheader-processed initoverflowmenu-processed apply-ajax-scroll-listener-processed" style="position: relative; min-height: 100%; top: 0px;">
+<!--[if lt IE 9]>
+<div class="alert-box breaking outdated-browser">
+  <h3>Did you know that your browser is out of date?</h3>
+  <p>Your browser is out of date and may not be able to properly display our website. <a href="http://outdatedbrowser.com/" title="Outdated Browser">Update my browser now</a> to experience this site.</p>
+</div>
+<![endif]-->
+<div id="skip-link">
+  <a href="#main-content" class="element-invisible element-focusable">Skip to main content</a>
+</div>
+  <div id="page-wrapper"><div id="page">
+
+    <div id="header" class="header-container">
+      <header class="group">
+          <div class="region region-header">
+    <div id="block-block-3" class="block block-block">
+
+    
+  <div class="content">
+    <style type="text/css">
+<!--/*--><![CDATA[/* ><!--*/
+.mobile-nav h1, .mobile-nav div {
+width: 50% !important;
+}
+.button.mbr-10 { margin-bottom: 10px; margin-right: 10px; }
+
+/*--><!]]>*/
+</style>  </div>
+</div>
+<div id="block-block-2" class="block block-block">
+
+    
+  <div class="content">
+    <style type="text/css">
+<!--/*--><![CDATA[/* ><!--*/
+.card.stat .meta [itemprop="name"] strong { font-size: 42px !important; }
+.button.mb-5 { margin-bottom: 5px; }
+@media screen and (min-width: 768px) {
+  body.front .no-breadcrumbs { padding-top: 0px !important; }
+  body.front #alert-box { margin-top: -30px; background: #092940; padding-top: 30px; }
+  body.front #messages ~ #content-container #alert-box { margin-top: 0px; }
+}
+
+/*--><!]]>*/
+</style>  </div>
+</div>
+<div id="block-nc-gtranslate-nc-translate" class="block block-nc-gtranslate bg-397aac">
+
+    <h2 class="element-invisible">Translate</h2>
+  
+  <div class="content">
+    <div class="wrapper"><div id="google_translate_element"><div class="skiptranslate goog-te-gadget" dir="ltr" style=""><div id=":0.targetLanguage" class="goog-te-gadget-simple" style="white-space: nowrap;"><img src="https://www.google.com/images/cleardot.gif" class="goog-te-gadget-icon" alt="" style="background-image: url(&quot;https://translate.googleapis.com/translate_static/img/te_ctrl3.gif&quot;); background-position: -65px 0px;"><span style="vertical-align: middle;"><a aria-haspopup="true" class="goog-te-menu-value" href="javascript:void(0)"><span>Select Language</span><img src="https://www.google.com/images/cleardot.gif" alt="" width="1" height="1"><span style="border-left: 1px solid rgb(187, 187, 187);">​</span><img src="https://www.google.com/images/cleardot.gif" alt="" width="1" height="1"><span aria-hidden="true" style="color: rgb(118, 118, 118);">▼</span></a></span></div></div></div></div>  </div>
+</div>
+  </div>
+        <div class="utility-wrapper wrapper">
+          <div class="header-search">
+            <div class="search">
+                              <form action="/dashboard" method="post" id="nc-search-block-form" accept-charset="UTF-8"><label for="nc_search_block_form" class="visuallyhidden">Search NC.gov</label>
+<input type="search" placeholder="Search..." name="nc_search_block_form" id="nc_search_block_form">
+<input type="submit" value="Submit"><span class="icon-search" aria-hidden="true"></span>
+<input type="hidden" name="form_build_id" value="form-WH043AEkC9Cs1xjsaxJ3uZQTkCMQQxGyFX5bSeufrPU">
+<input type="hidden" name="form_id" value="nc_search_block_form">
+</form>                          </div>
+          </div>
+        <div class="alert-widget"><button id="recall-alerts"><span class="icon-notifications" aria-hidden="true"></span><div class="alert-count">1</div></button></div></div>
+                  <style>
+    @media screen and (max-width: 1023px) {
+      .topical-nav ul li.home a {
+        background-image: url(https://files.nc.gov/covid/ncdhhs_covid_0.png?8HF5VQjQhhKvU7KBRjhl6az7xHbcLMWs);
+      }
+      .mobile-nav div img,
+      .mobile-nav div svg {
+        display: none;
+      }
+    }
+    @media screen and (min-width: 1024px) {
+      .mobile-nav div {
+        max-width: 300px;
+        height: auto;
+        max-height: 60px;
+      }
+      .mobile-nav div img {
+        max-width: 100%;
+        max-height: 100%;
+      }
+      .mobile-nav div svg {
+        display: block;
+        max-height: 100%;
+        height: auto;
+      }
+      .mobile-nav div a,
+      .mobile-nav h1 a {
+        background-image: none;
+        height: 60px;
+        width: auto;
+        text-align: left;
+      }
+      .mobile-nav .site-title-mobile {
+        display: none;
+      }
+      .menu-container {
+        padding-top: 100px;
+      }
+      .enterprise-nav {
+        height: 100px;
+      }
+      .enterprise-nav ul li a {
+        line-height: 90px;
+      }
+      .header-container .alert-widget {
+        top: 20px;
+      }
+      .header-search {
+        top: 30px;
+      }
+      .enterprise-nav ul li:last-child {
+        margin-right: 70px;
+      }
+    }
+    @media print {
+      .enterprise-core-dark .mobile-nav div a {
+        background: none !important;
+      }
+    }
+  </style>
+<div class="mobile-nav">
+  <button class="flyout-trigger open-trigger"><span class="icon-dehaze" aria-hidden="true"></span><span> Menu</span></button>
+  <div class="site-title">
+    <a href="/" rel="home" title="NCDHHS COVID-19">
+                <img src="https://files.nc.gov/covid/ncdhhs_covid_0.png?8HF5VQjQhhKvU7KBRjhl6az7xHbcLMWs" alt="NCDHHS COVID-19 logo"> 
+                <span class="site-title-mobile">NCDHHS COVID-19</span>
+    </a>
+  </div>
+  <button formaction="search" class="search-trigger"><span>Search </span><span class="icon-search" aria-hidden="true"></span></button>
+</div>
+<div class="menu-container mainMenu contents-less menu-full flyout-panel" id="mainMenu">
+  <div aria-label="First level" class="">
+    <button href="#" class="flyout-trigger close-trigger" aria-hidden="true"><span class="icon-close" aria-hidden="true"></span><span>Close Menu</span></button>
+    <div data-scrollmagic-pin-spacer="" class="scrollmagic-pin-spacer">
+              <nav class="topical-nav" role="navigation" aria-label="Topical Navigation"><h2 class="visuallyhidden">Topical Navigation</h2><ul class="wrapper"><li class="first leaf  home"><a href="/">Home</a></li><li class="expanded has-dropdown has-mega "><a href="/about-covid-19"><span class="icon-chevron-right" aria-hidden="true"></span>About COVID-19</a><div aria-label="Second level" style="width: 385px; left: 0px;"><a href="/about-covid-19" class="parent-title wrapper" aria-hidden="true"><span>About COVID-19</span></a><ul class="wrapper"><li class="flyout-trigger back-trigger" aria-hidden="true"><button href="#"><span class="icon-chevron-left" aria-hidden="true"></span> Back</button></li><li class="first leaf"><a href="/about-covid-19/north-carolinas-strategy-combat-covid-19">North Carolina's Strategy to Combat COVID-19</a></li><li class="leaf"><a href="/about-covid-19/symptoms">Symptoms</a></li><li class="collapsed"><a href="/about-covid-19/testing">Testing</a></li><li class="leaf"><a href="/about-covid-19/contact-tracing">Contact Tracing</a></li><li class="leaf"><a href="/about-covid-19/treatment">Treatment</a></li><li class="leaf"><a href="/about-covid-19/managing-overall-health">Managing Overall Health</a></li><li class="leaf"><a href="/about-covid-19/wellness-resources">Wellness Resources</a></li><li class="leaf"><a href="/about-covid-19/preventing-stigma">Preventing Stigma</a></li><li class="last leaf"><a href="/about-covid-19/multisystem-inflammatory-syndrome-children">Multisystem Inflammatory Syndrome in Children (MIS-C)</a></li></ul></div></li><li class="expanded active-trail has-dropdown has-mega current-page "><a href="/dashboard"><span class="icon-chevron-right" aria-hidden="true"></span>Dashboard</a><div aria-label="Second level" style="width: 385px; left: 0px;"><a href="/dashboard" class="parent-title wrapper" aria-hidden="true"><span>Dashboard</span></a><ul class="wrapper"><li class="flyout-trigger back-trigger" aria-hidden="true"><button href="#"><span class="icon-chevron-left" aria-hidden="true"></span> Back</button></li><li class="first leaf"><a href="/dashboard/cli-surveillance">CLI Surveillance</a></li><li class="leaf"><a href="/dashboard/cases">Cases</a></li><li class="leaf"><a href="/dashboard/testing">Testing</a></li><li class="leaf"><a href="/dashboard/hospitalizations">Hospitalizations</a></li><li class="leaf"><a href="/dashboard/contact-tracing">Contact Tracing</a></li><li class="leaf"><a href="/dashboard/ppe">PPE</a></li><li class="leaf"><a href="/dashboard/outbreaks-and-clusters">Outbreaks and Clusters</a></li><li class="leaf"><a href="/dashboard/reports">Reports</a></li><li class="last leaf"><a href="/dashboard/about-data">About the Data</a></li></ul></div></li><li class="expanded has-dropdown has-mega "><a href="/latest-updates"><span class="icon-chevron-right" aria-hidden="true"></span>Latest Info</a><div aria-label="Second level" style="width: 385px; left: 0px;"><a href="/latest-updates" class="parent-title wrapper" aria-hidden="true"><span>Latest Info</span></a><ul class="wrapper"><li class="flyout-trigger back-trigger" aria-hidden="true"><button href="#"><span class="icon-chevron-left" aria-hidden="true"></span> Back</button></li><li class="first last leaf"><a href="/materials-resources">Materials and Resources</a></li></ul></div></li><li class="expanded has-dropdown has-mega "><a href="/information"><span class="icon-chevron-right" aria-hidden="true"></span>Information For</a><div aria-label="Second level" style="width: 385px; left: 0px;"><a href="/information" class="parent-title wrapper" aria-hidden="true"><span>Information For</span></a><ul class="wrapper"><li class="flyout-trigger back-trigger" aria-hidden="true"><button href="#"><span class="icon-chevron-left" aria-hidden="true"></span> Back</button></li><li class="first collapsed"><a href="/information/health-care">Health Care</a></li><li class="collapsed"><a href="/information/child-care">Child Care</a></li><li class="leaf"><a href="/information/education">Education</a></li><li class="collapsed"><a href="/information/business">Business</a></li><li class="collapsed"><a href="/information/housing-sheltering">Housing and Sheltering</a></li><li class="collapsed"><a href="/information/individuals-families-communities">Individuals, Families and Communities</a></li><li class="last collapsed"><a href="/information/human-services">Human Services</a></li></ul></div></li><li class="expanded has-dropdown has-mega "><a href="/guidance"><span class="icon-chevron-right" aria-hidden="true"></span>Guidance</a><div aria-label="Second level" style="width: 385px; left: 0px;"><a href="/guidance" class="parent-title wrapper" aria-hidden="true"><span>Guidance</span></a><ul class="wrapper"><li class="flyout-trigger back-trigger" aria-hidden="true"><button href="#"><span class="icon-chevron-left" aria-hidden="true"></span> Back</button></li><li class="first leaf"><a href="/guidance/health-care">Health Care</a></li><li class="leaf"><a href="/guidance/child-care">Child Care</a></li><li class="leaf"><a href="/guidance/education">Education</a></li><li class="leaf"><a href="/guidance/businesses">Businesses</a></li><li class="leaf"><a href="/guidance/individuals-families-communities">Individuals, Families and Communities</a></li><li class="leaf"><a href="/guidance/human-services">Human Services</a></li><li class="leaf"><a href="/guidance/housing-sheltering">Housing and Sheltering</a></li><li class="leaf"><a href="/guidance/veterinarians-animal-services">Veterinarians and Animal Services</a></li><li class="leaf"><a href="/guidance/law-enforcement">Law Enforcement</a></li><li class="last leaf"><a href="/guidance/staying-ahead-curve">Staying Ahead of the Curve</a></li></ul></div></li><li class="last leaf "><a href="/how-help-information-about-volunteering-and-donations">How to Help</a></li></ul></nav>          </div>
+          <nav class="enterprise-nav" role="navigation" aria-label="Enterprise Navigation"><h2 class="visuallyhidden">Enterprise Navigation</h2><ul class="wrapper"><li><a href="https://ncdhhs.gov" title="NCDHHS"><span class="icon-nc-brand" aria-hidden="true"></span><span>NCDHHS</span></a></li><li><a href="https://nc.gov/covid19" title="NC.gov/COVID19"><span class="" aria-hidden="true"></span><span>NC.gov/COVID19</span></a></li><li><a href="https://www.nc.gov/" title="NC.gov"><span class="-select-" aria-hidden="true"></span><span>NC.gov</span></a></li></ul></nav>      </div>
+</div>
+              </header>
+    </div> <!-- /.section, /#header -->
+
+    
+    <div id="content-container" class="clearfix content-container">
+              <div id="alert-box">
+          <div class="section clearfix">
+              <div class="region region-alert-box">
+    <div id="alerts" data-alerts-hash="64d5757ac883fc9a592dcf48292f6ca7" class="wrapper group alerts"><div id="alert-51" class="alert-box warning" style=""><div class="wrapper group"><span class="alert-icon" aria-hidden="true"></span><div class="message"><h2 class="alert-type">COVID-19 </h2>Resources, information and assistance from across state government <a href="https://www.nc.gov/covid19" target="_blank" alt="Read More Visit the Information Hub" class="ext">Visit the Information Hub</a></div></div><div class="dismiss-single"><button class="alert-dismiss" id="dismiss-alerts" title="Dismiss"><span class="icon-close" aria-hidden="true"></span> <span>Dismiss</span></button></div></div></div>  </div>
+          </div>
+        </div> <!-- /.section, /#alert-box -->
+                    <div id="breadcrumb"><div class="breadcrumbs"><div class="wrapper" itemscope="" itemtype="http://data-vocabulary.org/Breadcrumb"><a href="/" itemprop="url" title="NCDHHS COVID-19"><span itemprop="title">NCDHHS COVID-19</span></a>  » <div itemprop="child" itemscope="" itemtype="http://data-vocabulary.org/Breadcrumb"><span itemprop="title">COVID-19 North Carolina Dashboard</span></div><button data-toggle="breadcrumbs icon-add" aria-hidden="true"><span class="visuallyhidden">Expand</span></button></div></div></div>
+                  <main id="main" class="wrapper group article-sidebar blocks-two-third ">
+
+        
+          
+          <article id="primary-content content" class="article column">
+            <div class="section">
+                            <a id="main-content"></a>
+
+                                                                <h1 class="page-title" id="page-title">
+                    COVID-19 North Carolina Dashboard                  </h1>
+                                              
+                              <div class="tabs">
+                                  </div>
+                                                                          <div class="region region-content">
+    <div id="block-system-main" class="block block-system">
+
+    
+  <div class="content">
+    <div id="node-103" class="node node-site-page node-full clearfix">
+
+      
+          
+  
+  <div class="content clearfix">
+        <div class="field field-name-body field-type-text-with-summary field-label-hidden ">
+        <div class="field-items">
+                    <div class="field-item">
+              <p>Knowing when to dial up or down measures that slow the spread of the virus depends on North Carolina’s testing, tracing and trends. This dashboard provides an overview on the metrics and capacities that the state is following.</p>
+<p><em>On Aug. 12, 2020, NCDHHS <a href="https://www.ncdhhs.gov/news/press-releases/ncdhhs-corrects-covid-19-testing-totals-after-identifying-labcorp-reporting">announced</a> corrections to the state’s daily and cumulative completed COVID-19 test counts after discovering a discrepancy in testing data that had been submitted by LabCorp.&nbsp; </em></p>
+<div class="tableauPlaceholder" id="viz1589944400342" style="position: relative; width: 100%; height: 1627px; overflow: hidden; display: block;"><noscript><a href="#"><img alt=" " src="https://public.tableau.com/static/images/NC/NCDHHS_COVID-19_Dashboard_Summary/NCDHHS_DASHBOARD_SUMMARY/1_rss.png" style="border: none" /></a></noscript>
+<script src="https://public.tableau.com/javascripts/api/viz_v1.js"></script><div class="fluid-width-video-wrapper"></div><iframe frameborder="0" marginheight="0" marginwidth="0" title="Data Visualization" allowtransparency="true" allowfullscreen="true" class="tableauViz" style="display: block; width: 100%; height: 1627px; margin: 0px; padding: 0px; border: none;" id="fitvid209138" src="https://public.tableau.com/views/NCDHHS_COVID-19_Dashboard_Summary/NCDHHS_DASHBOARD_SUMMARY?:embed=y&amp;:showVizHome=no&amp;:host_url=https%3A%2F%2Fpublic.tableau.com%2F&amp;:embed_code_version=3&amp;:tabs=no&amp;:‘toolbar’=‘no’&amp;:animate_transition=yes&amp;:display_static_image=no&amp;:‘display_spinner’=‘no’&amp;:display_overlay=yes&amp;:‘display_count’=‘no’&amp;:display_spinner=no&amp;publish=yes&amp;:loadOrderID=0"></iframe></div>
+<script type="text/javascript">
+<!--//--><![CDATA[// ><!--
+
+var divElement = document.getElementById('viz1589944400342');
+var vizElement = divElement.getElementsByTagName('object')[0];
+if (divElement.offsetWidth > 750) {
+  vizElement.style.width = '750px';
+  vizElement.style.height = '1427px';
+}
+else {
+  vizElement.style.width = '100%';
+  vizElement.style.height = '1627px';
+}
+var scriptElement = document.createElement('script');
+scriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';
+vizElement.parentNode.insertBefore(scriptElement, vizElement);
+
+//--><!]]>
+</script>            </div>
+              </div>
+  </div>
+  </div>
+  
+  
+</div>
+  </div>
+</div>
+  </div>
+                                        </div>
+
+            <!--landing page -->
+            
+          </article> <!-- /.section, /#content -->
+
+                      <aside id="sidebar-second" class="secondary-content column sidebar">
+              <div class="section">
+                  <div id="block-menu-block-nc-menus-1" class="block block-menu-block">
+  <nav class="section-nav">
+          <h3 class="nav-title">Dashboard</h3>
+        <div class="menu-block-wrapper menu-block-nc_menus-1 menu-name-main-menu parent-mlid-0 menu-level-2">
+  <ul class="menu clearfix"><li class="first leaf menu-mlid-1105"><a href="/dashboard/cli-surveillance">CLI Surveillance</a></li>
+<li class="leaf menu-mlid-1107"><a href="/dashboard/cases">Cases</a></li>
+<li class="leaf menu-mlid-1108"><a href="/dashboard/testing">Testing</a></li>
+<li class="leaf menu-mlid-1110"><a href="/dashboard/hospitalizations">Hospitalizations</a></li>
+<li class="leaf menu-mlid-1103"><a href="/dashboard/contact-tracing">Contact Tracing</a></li>
+<li class="leaf menu-mlid-1104"><a href="/dashboard/ppe">PPE</a></li>
+<li class="leaf menu-mlid-1111"><a href="/dashboard/outbreaks-and-clusters">Outbreaks and Clusters</a></li>
+<li class="leaf menu-mlid-1106"><a href="/dashboard/reports">Reports</a></li>
+<li class="last leaf menu-mlid-1109"><a href="/dashboard/about-data">About the Data</a></li>
+</ul></div>
+  </nav>
+</div>
+              </div>
+            </aside> <!-- /.section, /#sidebar-second -->
+          
+      </main>
+
+    </div> <!-- /#main, /#main-wrapper -->
+
+          <section id="social-share" class="band social-share">
+        <div class="band-content wrapper">
+              <div id="block-nc-social-nc-social-share" class="block block-nc-social">
+
+    
+  <div class="content">
+    <div class="social-links">
+  <p><strong>Share this page:</strong></p>
+  <ul>
+    <li>
+      <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fcovid19.ncdhhs.gov%2Fdashboard" target="_blank">
+        <span class="icon-facebook" aria-hidden="true"></span> <span>Facebook</span>
+      </a>
+    </li>
+    <li>
+      <a href="http://twitter.com/intent/tweet?url=https%3A%2F%2Fcovid19.ncdhhs.gov%2Fdashboard" target="_blank">
+        <span class="icon-twitter" aria-hidden="true"></span> <span>Twitter</span>
+      </a>
+    </li>
+  </ul>
+</div>
+  </div>
+</div>
+<div id="block-block-10" class="block block-block">
+
+    
+  <div class="content">
+    <script>
+<!--//--><![CDATA[// ><!--
+
+jQuery(document).ready(function() {
+  console.log("Javascript monitoring case count dashboard");
+  jQuery("a[href='#zip-code-map'], a[href='#by-counties-map'], a[href='#by-counties/map']").on("click", function() {
+    console.log("Refresh iframes");
+    jQuery( 'iframe' ).attr( 'src', function ( i, val ) { return val; });
+  })
+})
+
+//--><!]]>
+</script>  </div>
+</div>
+        </div>
+      </section>
+    
+    <section id="user-feedback" class="band user-feedback">
+      <div class="content wrapper">
+                          <div>
+            <a id="back-to-top" class="back-to-top" href="#content-container" title="Back to top"><span class="icon-vertical-align-top" aria-hidden="true"></span><span class="visuallyhidden">Back to top</span></a>          </div>
+              </div>
+    </section> <!-- /band user-feedback-->
+
+    
+    <div id="footer-wrapper" class="footer-container">
+      <footer class="group">
+
+
+                                  <section class="band topical">
+              <div id="footer-columns" class="wrapper">
+                <section class="parts-span-third">
+                    <section id="block-boxes-contact-information" class="block block-boxes block-boxes-simple inverted group contact">
+
+        <h3 class="section-title border">Contact Information</h3>
+    
+  <div>
+    <div id="boxes-box-contact_information" class="boxes-box"><div class="boxes-box-content"><div class="notranslate" itemscope="" itemtype="http://schema.org/Organization">
+<p>NC Department of Health and Human Services<br>
+		2001 Mail Service Center<br>
+		Raleigh, NC 27699-2000<br>
+		Customer Service Center:&nbsp;1-800-662-7030<br>
+		For COVID-19 questions call 2-1-1<br>
+		&nbsp;</p>
+</div>
+<h3>Census 2020</h3>
+<p><a href="https://census.nc.gov" target="_blank"><img alt="Census 2020 logo" src="https://files.nc.gov/census/census-logo-white.svg" width="100%"></a></p>
+</div></div>  </div>
+</section>
+                    <section id="block-block-8" class="block block-block inverted group">
+
+        <h3 class="section-title border">Recent Tweets</h3>
+    
+  <div>
+    <p><iframe id="twitter-widget-0" scrolling="no" frameborder="0" allowtransparency="true" allowfullscreen="true" class="twitter-timeline twitter-timeline-rendered" style="position: static; visibility: visible; display: inline-block; width: 520px; height: 600px; padding: 0px; border: none; max-width: 100%; min-width: 180px; margin-top: 0px; margin-bottom: 0px; min-height: 200px;" data-widget-id="profile:ncdhhs" title="Twitter Timeline"></iframe> </p>
+<script>
+<!--//--><![CDATA[// ><!--
+!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");
+//--><!]]>
+</script>  </div>
+</section>
+                    <section id="block-follow-site" class="block block-follow inverted group">
+
+        <h3 class="section-title border">Stay Connected</h3>
+    
+  <div class="social-links">
+    <div class="item-list"><ul><li class="first"><a href="https://twitter.com/ncdhhs" class="follow-link follow-link-twitter" title="Follow NC DHHS COVID-19 on Twitter"><span class="icon-twitter" aria-hidden="true"></span> <span>Twitter</span></a>
+</li>
+<li><a href="/rss.xml" class="follow-link follow-link-feed" title="Follow NC DHHS COVID-19 on RSS"><span class="icon-feed" aria-hidden="true"></span> <span>RSS</span></a>
+</li>
+<li><a href="https://www.youtube.com/user/ncdhhs/featured" class="follow-link follow-link-youtube" title="Follow NC DHHS COVID-19 on YouTube"><span class="icon-youtube" aria-hidden="true"></span> <span>YouTube</span></a>
+</li>
+<li><a href="https://www.linkedin.com/company/ncdhhs/" class="follow-link follow-link-linkedin" title="Follow NC DHHS COVID-19 on LinkedIn"><span class="icon-linkedin" aria-hidden="true"></span> <span>LinkedIn</span></a>
+</li>
+<li><a href="https://www.facebook.com/ncdhhs/" class="follow-link follow-link-facebook" title="Follow NC DHHS COVID-19 on Facebook"><span class="icon-facebook" aria-hidden="true"></span> <span>Facebook</span></a>
+</li>
+<li class="last"><a href="https://www.instagram.com/ncdhhs/" class="follow-link follow-link-instagram" title="Follow NC DHHS COVID-19 on Instagram"><span class="icon-instagram" aria-hidden="true"></span> <span>Instagram</span></a>
+</li>
+</ul></div>  </div>
+</section>
+                                  </section>
+              </div> <!-- /#footer-columns -->
+            </section>
+          
+                      <section class="band pad-small enterprise">
+                <div class="wrapper"><section><nav><ul class="group"><li><a href="https://www.nc.gov" title="NC.gov Home"><span>NC.gov Home</span><span class="icon-chevron-right" aria-hidden="true"></span></a></li><li><a href="https://www.ncdhhs.gov/about/department-initiatives/ncdhhs-google-translate-disclaimer" title="Translation Disclaimer"><span>Translation Disclaimer</span><span class="icon-chevron-right" aria-hidden="true"></span></a></li><li><a href="https://www.nc.gov/accessibility" title="Accessibility"><span>Accessibility</span><span class="icon-chevron-right" aria-hidden="true"></span></a></li><li><a href="https://www.nc.gov/terms" title="Terms of Use"><span>Terms of Use</span><span class="icon-chevron-right" aria-hidden="true"></span></a></li><li><a href="https://www.nc.gov/privacy" title="Privacy Policy"><span>Privacy Policy</span><span class="icon-chevron-right" aria-hidden="true"></span></a></li><li><a href="https://www.nc.gov/government/open-budget" title="Open Budget"><span>Open Budget</span><span class="icon-chevron-right" aria-hidden="true"></span></a></li></ul></nav><div class="brand"><a href="https://covid19.ncdhhs.gov/ncdhhs-response-covid-19" title="NC DHHS COVID-19"><img alt="" title="NC DHHS COVID-19" typeof="foaf:Image" src="https://files.nc.gov/covid/ncdhhs_covid_19.png?AZzvtYN.PQbIPQOM5bx2N.xMvRfDg7n1"></a></div></section></div>            </section>
+          
+        
+      </footer>
+    </div> <!-- /.section, /#footer-wrapper -->
+
+  </div></div> <!-- /#page, /#page-wrapper -->
+<script type="text/javascript" async="async" src="//covid19.ncdhhs.gov/sites/all/modules/contrib/picture/picturefill2/picturefill.min.js?v=2.3.1"></script>
+<script type="text/javascript" async="async" src="//covid19.ncdhhs.gov/sites/all/modules/contrib/picture/picture.min.js?v=7.72"></script>
+<script type="text/javascript" src="//covid19.ncdhhs.gov/profiles/north_carolina/modules/apps/nc_alerts/js/nc_alerts_handler.js?qeniw1"></script>
+<script type="text/javascript" src="//covid19.ncdhhs.gov/profiles/north_carolina/modules/apps/nc_alerts/js/nc_alerts.js?qeniw1"></script>
+<script type="text/javascript" src="//covid19.ncdhhs.gov/profiles/north_carolina/themes/nc_base_theme/js/vendors/owl.carousel.js?qeniw1"></script>
+<!--[if lte IE 9]><script src="profiles/nc_site/themes/nc_site_child_theme/js/libs/flexie.min.js"></script><![endif]-->
+
+
+<div id="cboxOverlay" style="display: none;"></div><div id="colorbox" class="" role="dialog" tabindex="-1" style="display: none;"><div id="cboxWrapper"><div><div id="cboxTopLeft" style="float: left;"></div><div id="cboxTopCenter" style="float: left;"></div><div id="cboxTopRight" style="float: left;"></div></div><div style="clear: left;"><div id="cboxMiddleLeft" style="float: left;"></div><div id="cboxContent" style="float: left;"><div id="cboxTitle" style="float: left;"></div><div id="cboxCurrent" style="float: left;"></div><button type="button" id="cboxPrevious"></button><button type="button" id="cboxNext"></button><button id="cboxSlideshow"></button><div id="cboxLoadingOverlay" style="float: left;"></div><div id="cboxLoadingGraphic" style="float: left;"></div></div><div id="cboxMiddleRight" style="float: left;"></div></div><div style="clear: left;"><div id="cboxBottomLeft" style="float: left;"></div><div id="cboxBottomCenter" style="float: left;"></div><div id="cboxBottomRight" style="float: left;"></div></div></div><div style="position: absolute; width: 9999px; visibility: hidden; display: none; max-width: none;"></div></div><div id="goog-gt-tt" class="skiptranslate" dir="ltr"><div style="padding: 8px;"><div><div class="logo"><img src="https://www.gstatic.com/images/branding/product/1x/translate_24dp.png" width="20" height="20" alt="Google Translate"></div></div></div><div class="top" style="padding: 8px; float: left; width: 100%;"><h1 class="title gray">Original text</h1></div><div class="middle" style="padding: 8px;"><div class="original-text"></div></div><div class="bottom" style="padding: 8px;"><div class="activity-links"><span class="activity-link">Contribute a better translation</span><span class="activity-link"></span></div><div class="started-activity-container"><hr style="color: #CCC; background-color: #CCC; height: 1px; border: none;"><div class="activity-root"></div></div></div><div class="status-message" style="display: none;"></div></div><iframe scrolling="no" frameborder="0" allowtransparency="true" src="https://platform.twitter.com/widgets/widget_iframe.3c5aa8e2a38bbbee4b6d88e6846fc657.html?origin=https%3A%2F%2Fcovid19.ncdhhs.gov" title="Twitter settings iframe" style="display: none;"></iframe><div class="goog-te-spinner-pos"><div class="goog-te-spinner-animation"><svg xmlns="http://www.w3.org/2000/svg" class="goog-te-spinner" width="96px" height="96px" viewBox="0 0 66 66"><circle class="goog-te-spinner-path" fill="none" stroke-width="6" stroke-linecap="round" cx="33" cy="33" r="30"></circle></svg></div></div><iframe frameborder="0" class="goog-te-menu-frame skiptranslate" title="Language Translate Widget" style="visibility: visible; box-sizing: content-box; width: 237px; height: 263px; display: none;"></iframe><iframe id="rufous-sandbox" scrolling="no" frameborder="0" allowtransparency="true" allowfullscreen="true" style="position: absolute; visibility: hidden; display: none; width: 0px; height: 0px; padding: 0px; border: none;" title="Twitter analytics iframe"></iframe></body></html>
