@@ -113,10 +113,6 @@ class dataGrabMa(object):
                 dt_obj = datetime.datetime.strptime(n_name_file, '%Y%m%d')
                 self.name_file = dt_obj.strftime('%Y%m%d')
                 self.now_date = dt_obj.strftime('%m/%d/%Y')
-        with open('C:/Dennis/Covid19/covid19viz/nj/debugging/ma.txt','wb') as filemy:
-            filemy.write(str(l_daily_latest))
-            filemy.write(str(type(l_daily_latest)))
-            filemy.close()
         return l_daily_latest
 
     def saveDataFromDlMa(self, l_data, a_test_date, bDaily=True):

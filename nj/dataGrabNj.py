@@ -54,20 +54,20 @@ class dataGrabNj(object):
         with open(fRaw, 'w') as f:
             f.write(siteOpen.page_source.encode('utf8'))
             f.close()
-        downloadButtons = siteOpen.find_elements_by_xpath('//div[@class="external-html"]')
+        caseNumbers = siteOpen.find_elements_by_xpath('//div[@class="external-html"]')
         allList = []
         totalPositives = 0
         totalDeaths = 0
-        for dbutton in downloadButtons[2:len(downloadButtons)]:
-            dStringList = dbutton.text.split()
-            countyList = ''
+        for cNum in caseNumbers[2:len(caseNumbers)-1]:
+            dStringList = cNum.text.split()
+            countyString = ''
             for w in dStringList:
                 if w == "County":
                     break
                 else:
-                    countyList = str(countyList + str(w))
+                    countyString = str(countyString + str(w))
             del dStringList[0:(dStringList.index('County')+1)]
-            allList.append([countyList,int(str(dStringList[3]).replace(',','')),int(str(dStringList[6]).replace(',',''))])
+            allList.append([countyString,int(str(dStringList[3]).replace(',','')),int(str(dStringList[6]).replace(',',''))])
             totalPositives = totalPositives + int(str(dStringList[3]).replace(',',''))
             totalDeaths = totalDeaths + int(str(dStringList[6]).replace(',', ''))
         allList.append(['Total',totalPositives,totalDeaths])
@@ -86,10 +86,6 @@ class dataGrabNj(object):
                 wr.writerow(c)
             myfile.close()
         print('  saved to', sRaw)
-        with open('C:/Dennis/Covid19/covid19viz/nj/debugging/nj.txt','wb') as filemy:
-            filemy.write(str(nj_info))
-            filemy.write(str(type(nj_info)))
-            filemy.close()
         return nj_info
 
     ## paser data CA
