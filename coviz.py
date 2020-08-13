@@ -180,6 +180,7 @@ class runCoViz(object):
             if(type_data==1):
                 if(self.isNameOnToday(self.name_file)):
                     save_file = self.state_dir + 'results/mi_county20200000_daily.png'
+                    if(not os.path.isdir(self.state_dir + 'results/') ): os.mkdir(self.state_dir + 'results/')
             rainbow_viz = rainbowViz(self.state_name)	
             rainbow_viz.infoShowRainbow(type_data, self.l_mi_cases,
                 save_file=save_file, date=self.now_date, timeout=t0)
@@ -189,6 +190,7 @@ class runCoViz(object):
             save_file = None
             if(self.isNameOnToday(self.name_file)):
                 save_file = self.state_dir + 'results/mi_county20200000_death.png'
+                if(not os.path.isdir(self.state_dir + 'results/') ): os.mkdir(self.state_dir + 'results/')
             rainbow_viz = rainbowViz(self.state_name)	
             rainbow_viz.infoShowRainbow(3, list_death,
                 save_file=save_file, date=self.now_date, timeout=t0)
@@ -446,6 +448,20 @@ class runCoViz(object):
             #len(the number of characters is a string/object)
             if(len(lst_data) > 0): 
                 self.name_file, self.now_date = name_file, now_date
+                f_name = self.state_dir + 'data/'+self.state_name.lower()+'_covid19_'+self.name_file+'.csv'
+                self.save2File( lst_data, f_name )
+        elif( type_download == 999):   # download only
+            sys.path.insert(0, "./md")
+            from dataGrabMD999 import *
+            # create new class
+            data_grab = dataGrabmd(self.l_state_config, self.state_name)	
+            # download as a raw file and save
+            lst_data, name_file, now_date = data_grab.parseData(self.name_file, self.now_date, type_download)	
+            #len(the number of characters is a string/object)
+            if(len(lst_data) > 0): 
+                self.name_file, self.now_date = name_file, now_date
+                f_name = self.state_dir + 'data/'+self.state_name.lower()+'_covid19_'+self.name_file+'.csv'
+                self.save2File( lst_data, f_name )
 
         elif( type_download == 105):   # download only
             sys.path.insert(0, "./ks")
@@ -539,7 +555,7 @@ class runCoViz(object):
             from dataGrabGA33 import *
             # create new class
             self.data_grab = dataGrabGa(self.l_state_config, self.state_name)	
-            ret, lst_data = self.data_grab.parseData(self.name_file, self.now_date, type_download)		
+            lst_data, self.name_file, self.now_date = self.data_grab.parseData(self.name_file, self.now_date, type_download)		
             
         elif (type_download == 50):  # download only
             sys.path.insert(0, "./ct")
