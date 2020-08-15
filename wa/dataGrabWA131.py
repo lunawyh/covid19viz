@@ -98,9 +98,7 @@ class dataGrabwa(object):
         time.sleep(5)
         page_text = driver.page_source
 
-        with open(fRaw, "w") as fp:
-	        fp.write(page_text.encode('utf8'))
-        #
+        # get updated time
         c_tree = html.fromstring(page_text)
         #print('  ooooooooooopen4Website', page_text)
         l_text_data = c_tree.xpath('//div//div//p//strong/text()')
@@ -111,26 +109,32 @@ class dataGrabwa(object):
                 if('Website Last Updated' in a_data): statemachine = 200
             elif(statemachine == 200):
                 print('    found date:', a_data)
+                dt_obj = datetime.datetime.strptime(a_data.split(' ')[-1], '%m/%d/%Y')
+                self.name_file = dt_obj.strftime('%Y%m%d')
+                self.now_date = dt_obj.strftime('%m/%d/%Y')
                 break
-
+        # save raw
+        fRaw = self.state_dir + 'data_raw/'+self.state_name.lower()+'_covid19_'+self.name_file+'.html'
+        with open(fRaw, "w") as fp:
+	        fp.write(page_text.encode('utf8'))
+        print('  raw data are saved to:', fRaw)
+        # get case data
         l_text_data_nam = c_tree.xpath('//div//div//div//table//tbody//tr//td//a/text()')
         #print('  open4Website county:', l_text_data)
         l_text_data_num = c_tree.xpath('//div//div//div//table//tbody//tr//td/text()')
         #l_ending = 'Negative'
         #l_text_data_num = l_text_data_num.split(',')
-        #print('  vvvvvvvvvv county:', l_text_data_num)
+        #print('  l_text_data_num:', l_text_data_num)
         l_cases1 = []
-        for l_rrr in l_text_data_num:
-            if l_rrr == 'Negative': break
-            elif l_rrr == 'Unassigned': continue
+        for l_qqq in l_text_data_num:
+            l_rrr = l_qqq.replace(',', '')
+            if l_rrr == 'Unassigned': continue
+            elif (not l_rrr.isdigit()): break
             else:
                 l_cases1.append(l_rrr)
         # delete , and convert to int
-        l_cases2 = []
-        for r_lj in l_cases1:
-            l_cases2.append(int(str(r_lj).replace(',', '')))                
         # change shape        
-        l_cases3 = np.reshape( l_cases2, (len( l_cases2)/3, 3)).T
+        l_cases3 = np.reshape( l_cases1, (len( l_cases1)/3, 3)).T
         print('  l_text_data_num:', len(l_cases3), len(l_cases3[0]))
         l_text_data_nam.append('Unassigned')
         l_text_data_nam.append('Total')
