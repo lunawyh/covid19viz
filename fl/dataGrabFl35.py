@@ -141,17 +141,16 @@ class dataGrabFl(object):
                     print('  already exiting', f_nameb)
 
             return f_namea, f_nameb
-    ## paser data FL
-    def dataReadConfirmed(self, f_name):
-            print('  B.dataReadConfirmed on page 5', f_name)
-            # step B: parse and open
-            #print('    nnn', f_name)
-            pdfFileObj = open(f_name, 'rb')
-            pdfReader = PyPDF2.PdfFileReader(pdfFileObj)
-
-            pageObj = pdfReader.getPage(4)
+    ## look for page containing confirmed data
+    def lookForConfirmedPage(self, pdfReader):
+        for page in range(4, 9):
+            pageObj = pdfReader.getPage(page)
             pageTxt = pageObj.extractText()
-            #print('  pageTxt 5:', pageTxt)
+            # locate page
+            n_start = pageTxt.find('Florida counties have')
+            if(n_start >= 0): print('  found at page ', page) 
+            else: continue
+            # get time
             n_start = pageTxt.find('Data through')
             if(n_start >= 0):
                 n_end = pageTxt.find('verified')
@@ -162,6 +161,19 @@ class dataGrabFl(object):
                 #nums = int(n_start)
                 self.name_file = dt_obj.strftime('%Y%m%d')
                 self.now_date = dt_obj.strftime('%m/%d/%Y')
+                return pageTxt
+        return ''
+    ## paser data FL
+    def dataReadConfirmed(self, f_name):
+            print('  B.dataReadConfirmed on page 5-10', f_name)
+            # step B: parse and open
+            #print('    nnn', f_name)
+            pdfFileObj = open(f_name, 'rb')
+            pdfReader = PyPDF2.PdfFileReader(pdfFileObj)
+
+            # look for page containing confirmed data
+            pageTxt = self.lookForConfirmedPage(pdfReader)
+            if(pageTxt == ''): return ([], pdfReader)
 
             # get text in the table list
             n_start = pageTxt.find('counties have cases')
