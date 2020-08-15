@@ -49,21 +49,21 @@ class dataGrabLa(object):
 
     ## open a website 
     def open4Website(self, fRaw):
-        #csv_url = "https://www.michigan.gov/coronavirus/0,9753,7-406-98163-520743--,00.html"
-        #csv_url = 'https://www.michigan.gov/coronavirus/0,9753,7-406-98163_98173---,00.html'
         csv_url = self.l_state_config[5][1]
+        print('  open4Website', csv_url)
         # save html file
         #urllib.urlretrieve(csv_url, fRaw)
         # save html file
         c_page = requests.get(csv_url)
         c_tree = html.fromstring(c_page.content)
-        l_dates = c_tree.xpath('//p//a/@href')
-        for l_date in l_dates:
-            print('........', l_date)
-            if('Data by Parish by Day' in l_date):
-                print('....', l_date)
-                link = l_date
-        return link
+        l_links = c_tree.xpath('//p//a')
+        a_address = ''
+        for l_data in l_links:      
+            if('Data by Parish by Day' in l_data.text_content()):
+                a_address = 'https://ldh.la.gov' + l_data.get('href')
+                print('  find link at', a_address)
+		
+        return a_address
     ## parse from exel format to list 
     def parseDfData(self, df, fName=None):
         (n_rows, n_columns) = df.shape 
