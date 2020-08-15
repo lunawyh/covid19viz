@@ -51,16 +51,19 @@ class dataGrabNj(object):
         time.sleep(10)
         iframe = siteOpen.find_element_by_xpath("//iframe[@class='embedContainer stretch']")
         siteOpen.switch_to.frame(iframe)
+        # get updated time
+        # save raw file
         with open(fRaw, 'w') as f:
             f.write(siteOpen.page_source.encode('utf8'))
             f.close()
-        downloadButtons = siteOpen.find_elements_by_xpath('//div[@class="external-html"]')
+        # read cases and numbers
+        caseNumbers = siteOpen.find_elements_by_xpath('//div[@class="external-html"]')
         allList = []
         allList.append(['County','Cases','Deaths'])
         totalPositives = 0
         totalDeaths = 0
-        for dbutton in downloadButtons[2:]:
-            dStringList = dbutton.text.split()
+        for case_num in caseNumbers[2:]:
+            dStringList = case_num.text.split()
             countyList = ''
             bFound = False
             for w in dStringList:
@@ -91,10 +94,6 @@ class dataGrabNj(object):
                 wr.writerow(c)
             myfile.close()
         print('  saved to', sRaw)
-        #with open('C:/Dennis/Covid19/covid19viz/nj/debugging/nj.txt','wb') as filemy:
-        #    filemy.write(str(nj_info))
-        #    filemy.write(str(type(nj_info)))
-        #    filemy.close()
         return nj_info
 
     ## paser data CA

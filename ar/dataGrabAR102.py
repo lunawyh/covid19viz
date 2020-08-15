@@ -140,9 +140,9 @@ class dataGrabAR(object):
         return l_raw_data
 
     ## paser data CA
-    def parseData(self, name_file):
+    def parseData(self, name_file, now_date, type_download):
             self.name_file = name_file
-            self.now_date = ''
+            self.now_date = now_date
             f_name = self.state_dir + 'data_raw/'+self.state_name.lower()+'_covid19_'+self.name_file+'.html'
             if(not os.path.isdir(self.state_dir + 'data_raw/') ): os.mkdir(self.state_dir + 'data_raw/')
             # step A: save raw data
