@@ -51,19 +51,19 @@ class dataGrabNj(object):
         time.sleep(10)
         iframe = siteOpen.find_element_by_xpath("//iframe[@class='embedContainer stretch']")
         siteOpen.switch_to.frame(iframe)
+        # get updated time
+        # save raw file
         with open(fRaw, 'w') as f:
             f.write(siteOpen.page_source.encode('utf8'))
             f.close()
+        # read cases and numbers
         caseNumbers = siteOpen.find_elements_by_xpath('//div[@class="external-html"]')
         allList = []
         allList.append(['County','Cases','Deaths'])
         totalPositives = 0
         totalDeaths = 0
-        for cNum in caseNumbers[2:len(caseNumbers)-1]:
-            dStringList = cNum.text.split()
-            countyString = ''
-        for dbutton in caseNumbers[2:]:
-            dStringList = dbutton.text.split()
+        for case_num in caseNumbers[2:]:
+            dStringList = case_num.text.split()
             countyList = ''
             bFound = False
             for w in dStringList:
@@ -71,11 +71,10 @@ class dataGrabNj(object):
                     bFound = True
                     break
                 else:
-                    countyString = str(countyString + " " str(w))
-                    countyList = str(countyList + " " + str(w))
+                    countyList = str(countyList + str(w))
             if(not bFound): continue
             del dStringList[0:(dStringList.index('County')+1)]
-            allList.append([countyString,int(str(dStringList[3]).replace(',','')),int(str(dStringList[6]).replace(',',''))])
+            allList.append([countyList,int(str(dStringList[3]).replace(',','')),int(str(dStringList[6]).replace(',',''))])
             totalPositives = totalPositives + int(str(dStringList[3]).replace(',',''))
             totalDeaths = totalDeaths + int(str(dStringList[6]).replace(',', ''))
         allList.append(['Total',totalPositives,totalDeaths])
