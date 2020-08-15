@@ -134,172 +134,95 @@ class dataGrabPA(object):
     def dataReadConfirmed(self, f_namea, f_nameb):
             print('  B.dataReadConfirmed on page 1', f_namea)
             # step B: parse and open
+            #---------------------------case-------------------------
             text = extract_text(f_namea)
             #print('  dataReadConfirmed', text)
             l_text = text.split('\n')
             l_cases1 = []
             l_cases1_sub = []
+            #print(';;;;;;;;;;;;', l_text)
             for a_text in l_text:
                 if(a_text == '' and len(l_cases1_sub)>0 ):
                     l_cases1.append(l_cases1_sub)
                     l_cases1_sub = []
                 else:
                     l_cases1_sub.append(a_text)
-            print('  l_cases1', len(l_cases1), len(l_cases1[0]))        
+            #print('  l_cases1', len(l_cases1), len(l_cases1[0]))        
             for l_sub1 in l_cases1:
                 print('  l_sub1', l_sub1[0])
-            return []
-            #state names, nam_list_no3 is the final state_name list
-            n_start = text.find('ADAMS')
-            n_end = text.find('Region')
-            pre_nam_list_no1 = text[n_start:n_end]
-            p1r2_nam_list = pre_nam_list_no1.split('\n')
-            nam_list_no1= []
-            state_nam = ''
-            for aaa in p1r2_nam_list:
-            	state_m =1 
-            	#print('seeeee      j',aaa)
-            	if len(aaa)== 2: pass
-            	elif len(aaa) >= 3:
-            	    nam_list_no1.append(aaa.lower())
-            n2_start = text.find('MERCER')
-            n2_end = text.find('YORK')
-            pr_nam_list_no2 = text[n2_start:n2_end]
-            #print('pre_2ndooooooooooooooooooo', pr_nam_list_no2)
-            pr2_nam_list = pr_nam_list_no2.split('\n')
-            #print('pre_2ndooooooooooooooooooo', pr_nam_list_no2)
-            #return ([], None)
-            nam_list_no2= []
-            state_nam = ''
-            for aaa in pr2_nam_list:
-            	state_m =1 
-            	#print('seeeee      j',aaa)
-            	if len(aaa)== 2: pass
-            	elif len(aaa) >= 3:
-            	    nam_list_no2.append(aaa.lower())
-            nam_list_no2.append('YORK')
-            #print('33333333333333', nam_list_no2)
-            nam_list_no3 = nam_list_no1 + nam_list_no2
-            #print('finalooooooooooooooooooo', nam_list_no3)
-
-
-            #state case numbers, num_list_no3 is the final state_case list
-            m_start = text.find('Probable')
-            m_end = text.find('PersonsWithNegativePCR')
-            pre_num_list_no1 = text[m_start+8 :m_end]
-            #print('111111111111111', pre_num_list_no1)
-            pr1_num_list = pre_num_list_no1.split('\n')
-            #print('333333333333', pr1_num_list)
-            number_list1 = []
-            for sss in pr1_num_list[2:]:
-                if len(sss) >= 1:
-                    number_list1.append(int(sss))
-                    #print('22222222222', sss)
+            #return []
+            #print('/////////////', l_cases1)
+            small_name2_list = []
+            #print('........', l_cases1[9])
+            for case in l_cases1[9]:
+                if len(case) <= 2: pass
                 else:
-                    break
-            m2_start = text.find('YORK')
-            pre_num_list_no1 = text[m2_start+4 :]
-            pr2_num_list = pre_num_list_no1.split('\n')
-            #print('333333333333', pr2_num_list)
-            number_list2 = []
-            for sss in pr2_num_list[2:]:
-                if len(sss) >= 1:
-                    number_list2.append(int(sss))
-                    #print('22222222222', sss)
+                    small_name2_list.append(case)
+            nam_list = l_cases1[0][1:]+small_name2_list[1:]
+            #print('full name list ..........', nam_list)      
+            num_list = l_cases1[5]+ l_cases1[10]
+            list_of_0s = [0]*len(nam_list)
+            #print('0s ', len(list_of_0s))
+            NamNum_list = np.vstack((nam_list, num_list, list_of_0s)).T
+            print('case list', NamNum_list)
+            #---------------------------death-------------------------
+            print('  B.dataReadConfirmed on page 1', f_namea)
+            # step B: parse and open
+            text = extract_text(f_nameb)
+            #print('  dataReadConfirmed', text)
+            l_text = text.split('\n')
+            l_cases1 = []
+            l_cases1_sub = []
+            #print(';;;;;;;;;;;;', l_text)
+
+
+            for a_text in l_text:
+                if(a_text == '' and len(l_cases1_sub)>0 ):
+                    l_cases1.append(l_cases1_sub)
+                    l_cases1_sub = []
                 else:
-                    break
-            num_list_no3 = number_list1 +number_list2
-            #print('4444444444444',num_list_no3 )
+                    l_cases1_sub.append(a_text)
+            #print('  l_cases1', len(l_cases1), len(l_cases1[0]))        
+            for l_sub1 in l_cases1:
+                print('  l_sub1', l_sub1[0])
+            #print('/////////////', l_cases1)
+
+            d_case1=[]
+            for dcase in l_cases1[6]:
+                d_case1.append(dcase.replace('\x0c', ''))
+            #print(';;;;;', d_case1)
+
+            deth_nam = l_cases1[2][3:] + d_case1 
+            #print('death state name;;;;', deth_nam)
+            deth_case = l_cases1[5] + l_cases1[7]
+            #print('death case num;;;;', deth_case)
+            #print('death name', len(deth_nam))
+            #print('death cases', len(deth_case))
+            d_NamNum_list = np.vstack((deth_nam, deth_case)).T
+            print('death list', d_NamNum_list)
+
+            #----------------------------------------------------
+            finall_list = []
+            print('', type(d_NamNum_list))
+            '''
+            for death in d_NamNum_list:
+		print('death....', death)
+		for case in NamNum_list :
+			if case[0] == death[0]:
+				print('death"""', death)
+				print('', death)
+				finall_list.append([case[0], case[1], death[1]])
+				case[2] += death[1]
+				break
+			else: 
+				finall_list.append([case[0], case[1], case[2]])
+				break
+            '''
 
 
-            #print('555555555555', len(nam_list_no3))
-            #print('6666666666', len(num_list_no3))
-            nam_num_list = np.vstack((nam_list_no3, num_list_no3, [0] * len(nam_list_no3))).T  
+            print(';;;;;;;;;;;;;;;;', finall_list)
 
-
-
-            #for Death data*************
-            text2 = extract_text(f_nameb)
-            print('lllllllllll', text2)
-
-
-
-            #print('d222222222222222', death_p1r2_nam_list)
-            d2_start = text2.find('Rate2')
-            d2_end = text2.find('Montgomery')
-            death_num_no1 = text2[d2_start:d2_end]
-            death_p1r2_nam_list = death_num_no1.split('\n')
-            #print('99999',death_p1r2_nam_list)
-            d_number = []
-            for d_line in death_p1r2_nam_list[44:-2]:
-                if '.' in d_line: pass
-                if d_line == '':continue
-                d_number.append(int(d_line))
-
-            
-            d3_start = text2.find('851')
-            d3_end = text2.find('828,604')
-            death_num_no1 = text[d3_start:d3_end]
-            d_list_no2 = death_num_no1.split('\n')
-            print(';;;;;;',death_num_no1 )
-
-            d_number2 = []
-            for d_row in d_list_no2:
-               if d_row != '':
-                   d_number2.append(d_row)
-               elif d_row == '': break
-
-
-
-            death_case_final = d_number + d_number2
-            print('66666666666', death_case_final)
-            
-
-
-
-
-            
-            d_start = text2.find('Rate2')
-            d_end = text2.find('Montgomery')
-            death_nam_no1 = text[d_start:d_end]
-            death_p1r2_nam_list = text2.split('\n')
-
-            death_state_nam1 = []
-            for ddd in death_p1r2_nam_list:
-               if( ddd.lower().islower() ):
-                   death_state_nam1.append(ddd)
-               else: pass
-            #print('d111111111111111',death_state_nam1 )
-            death_state_nam = death_state_nam1[5: -3 ]
-
-            death_state_nam_fin = []
-            for dfd in death_state_nam:
-               dfd.replace('\x0c', '')
-               dfd.replace('\n', '')
-               #print('..............', dfd)
-               death_state_nam_fin.append(dfd.lower())
-            print('d111111111111111',death_state_nam_fin )
-
-
-            #print('lennnnn name', len(nam_list_no3))
-            #print('lennnnn case', len(num_list_no3))
-            print('lennnnn death', len(death_case_final))
-            print('lennnnn death name', len(death_state_nam_fin))
-            death_nam_num_list = np.vstack((death_state_nam_fin, death_case_final)).T
-            print(' list death', death_nam_num_list)
-            print(' list names', nam_num_list)
-
-            #merge death_nam_num_list and nam_num_list            
-            #final_nam_num_list = []
-            for a_death in death_nam_num_list:
-                for a_case in nam_num_list:                
-                    if a_death[0] == a_case[0]:
-                        a_case[2] = a_death[1]   
-                        #final_nam_num_list.append(a_case)                
-                        break
-            print ('lllllllllllllll list merged', nam_num_list)
-            
-            return (nam_num_list)
+            return (finall_list)
 
     ## paser data FL************
     def dataDownload(self, name_target):
@@ -328,6 +251,7 @@ class dataGrabPA(object):
                 else:
                         print('  already exiting', f_nameb)
 
+               
             return f_namea, f_nameb
 
     ## download a website ********
