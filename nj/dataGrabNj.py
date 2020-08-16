@@ -62,7 +62,7 @@ class dataGrabNj(object):
         for cNum in caseNumbers[2:len(caseNumbers)-1]:
             dStringList = cNum.text.split()
             countyString = ''
-        for dbutton in downloadButtons[2:]:
+        for dbutton in caseNumbers[2:]:
             dStringList = dbutton.text.split()
             countyList = ''
             bFound = False
@@ -71,8 +71,8 @@ class dataGrabNj(object):
                     bFound = True
                     break
                 else:
-                    countyString = str(countyString + str(w))
-                    countyList = str(countyList + str(w))
+                    countyString = str(countyString + " " str(w))
+                    countyList = str(countyList + " " + str(w))
             if(not bFound): continue
             del dStringList[0:(dStringList.index('County')+1)]
             allList.append([countyString,int(str(dStringList[3]).replace(',','')),int(str(dStringList[6]).replace(',',''))])
