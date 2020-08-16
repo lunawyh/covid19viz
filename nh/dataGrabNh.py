@@ -45,12 +45,24 @@ class dataGrabNh(object):
         self.name_file = ''
         self.now_date = ''
     ## save to csv
+    def get_download_path(self):
+        """Returns the default downloads path for linux or windows"""
+        if os.name == 'nt':
+            import winreg
+            sub_key = r'SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders'
+            downloads_guid = '{374DE290-123F-4565-9164-39C4925E467B}'
+            with winreg.OpenKey(winreg.HKEY_CURRENT_USER, sub_key) as key:
+                location = winreg.QueryValueEx(key, downloads_guid)[0]
+            return location
+        else:
+            return os.path.join(os.path.expanduser('~'), 'Downloads')
 
     def downloadAndParseLink(self,link_address,fRaw,o_Raw):
-        chrome_options1 = webdriver.ChromeOptions()
-        prefs = {'download.default_directory': 'C:\Dennis\Covid19\covid19viz\\nh\data_raw'}
-        chrome_options1.add_experimental_option('prefs', prefs)
-        siteOpen = webdriver.Chrome(chrome_options=chrome_options1)
+        #chrome_options1 = webdriver.ChromeOptions()
+        #prefs = {'download.default_directory': 'C:\Dennis\Covid19\covid19viz\\nh\data_raw'}
+        #chrome_options1.add_experimental_option('prefs', prefs)
+        #siteOpen = webdriver.Chrome(chrome_options=chrome_options1)
+        siteOpen = webdriver.Chrome()
 
         siteOpen.get(link_address)
         time.sleep(5)
@@ -68,23 +80,28 @@ class dataGrabNh(object):
         linkclick = siteOpen.find_element_by_css_selector(".suppressClickBusting")
         linkclick.click()
         time.sleep(4)
-        os.rename(o_Raw, fRaw)
+        print('  pdf file is downloaded', o_Raw)
+        print('  save raw data to', os.getcwd() + fRaw[1:])
+        os.rename(o_Raw, os.getcwd() + fRaw[1:])
 
-        linkedPdf = PyPDF2.PdfFileReader(open(fRaw,'rb'))
-        print(str(linkedPdf.getNumPages()))
-        txtFile = str(linkedPdf.getPage(0).extractText().encode('utf8'))
-        print(txtFile)
-        with open("C:/Dennis/Covid19/covid19viz/nh/data_raw/mega.txt", "w") as f:
-            f.write(txtFile)
-            f.close()
+        #linkedPdf = PyPDF2.PdfFileReader(open(fRaw,'rb'))
+        #print(str(linkedPdf.getNumPages()))
+        #txtFile = str(linkedPdf.getPage(0).extractText().encode('utf8'))
+        #print(txtFile)
+        #with open("C:/Dennis/Covid19/covid19viz/nh/data_raw/mega.txt", "w") as f:
+        #    f.write(txtFile)
+        #    f.close()
 
-
+        siteOpen.quit()  # close the window
+        return []
 
     ## download a website
     def saveData(self, fRaw, sRaw, oRaw):
         page_url = self.l_state_config[5][1]
-        print('  download4Website ...')
+        print('  download4Website ...', page_url)
         nj_info = self.downloadAndParseLink(page_url,fRaw, oRaw)
+
+        if(len(nj_info) < 1): return []
         with open(sRaw, 'wb') as myfile:
             wr = csv.writer(myfile, quoting=csv.QUOTE_ALL)
             for c in nj_info:
@@ -97,7 +114,7 @@ class dataGrabNh(object):
     def parseData(self, name_target, date_target, type_download):
             self.name_file = name_target
             f_name = self.state_dir + 'data_raw/'+self.state_name.lower()+'_covid19_'+self.name_file+'.pdf'
-            o_name = "C:/Dennis/Covid19/covid19viz/nh/data_raw/Map of Cumulative Positive Cases.pdf"
+            o_name = self.get_download_path() + "/Map of Cumulative Positive Cases.pdf"
             s_name = self.state_dir + 'data/'+self.state_name.lower()+'_covid19_'+self.name_file+'.csv'
             if(not os.path.isdir(self.state_dir + 'data_raw/') ): os.mkdir(self.state_dir + 'data_raw/')
             # step A: downlowd and save

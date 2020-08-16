@@ -450,6 +450,20 @@ class runCoViz(object):
                 self.name_file, self.now_date = name_file, now_date
                 f_name = self.state_dir + 'data/'+self.state_name.lower()+'_covid19_'+self.name_file+'.csv'
                 self.save2File( lst_data, f_name )
+
+        elif( type_download == 666):   # download only
+            sys.path.insert(0, "./nc")
+            from dataGrabNC666 import *
+            # create new class
+            data_grab = dataGrabnc(self.l_state_config, self.state_name)	
+            # download as a raw file and save
+            lst_data, name_file, now_date = data_grab.parseData(self.name_file, self.now_date, type_download)	
+            #len(the number of characters is a string/object)
+            if(len(lst_data) > 0): 
+                self.name_file, self.now_date = name_file, now_date
+                f_name = self.state_dir + 'data/'+self.state_name.lower()+'_covid19_'+self.name_file+'.csv'
+                self.save2File( lst_data, f_name )
+
         elif( type_download == 999):   # download only
             sys.path.insert(0, "./md")
             from dataGrabMD999 import *
@@ -483,7 +497,7 @@ class runCoViz(object):
             # create new class
             data_grab = dataGrab(self.l_state_config, self.state_name)	
             # download as a raw file
-            lst_data, name_file, now_date = data_grab.parseDataCa(self.name_file)		
+            lst_data, name_file, now_date = data_grab.parseDataCa(self.name_file, self.now_date, type_download)		
             # save
             if(len(lst_data) > 0):
                 self.name_file, self.now_date = name_file, now_date
@@ -530,13 +544,24 @@ class runCoViz(object):
             if(len(lst_data) > 0): 
                 self.name_file, self.now_date = name_file, now_date
 
+        elif( type_download == 10):   # download only
+            sys.path.insert(0, "./la")
+            from dataGrabLA10 import *
+            # create new class
+            data_grab = dataGrabLa(self.l_state_config, self.state_name)	
+            # download as a raw file and save
+            lst_data, name_file, now_date = data_grab.parseData(self.name_file, self.now_date, type_download)	
+            #len(the number of characters is a string/object)
+            if(len(lst_data) > 0): 
+                self.name_file, self.now_date = name_file, now_date
+
         elif( type_download == 102):   # download only
             sys.path.insert(0, "./ar")
             from dataGrabAR102 import *
             # create new class
             data_grab = dataGrabAR(self.l_state_config, self.state_name)	
             # download as a raw file and save
-            lst_data, name_file, now_date = data_grab.parseData(self.name_file)	
+            lst_data, name_file, now_date = data_grab.parseData(self.name_file, self.now_date, type_download)	
             #len(the number of characters is a string/object)
             if(len(lst_data) > 0): 
                 self.name_file, self.now_date = name_file, now_date
@@ -592,6 +617,16 @@ class runCoViz(object):
             data_grab = dataGrabNj(self.l_state_config, self.state_name)
             # step B: parse to standard file
             lst_data, self.name_file, self.now_date = data_grab.parseData(self.name_file, self.now_date, type_download)
+        elif( type_download == 194):   # download only
+            sys.path.insert(0, "./nh")
+            from dataGrabNh import *
+            # create new class
+            data_grab = dataGrabNh(self.l_state_config, self.state_name)	
+            # download as a raw file and save
+            lst_data, name_file, now_date = data_grab.parseData(self.name_file, self.now_date, type_download)	
+            #len(the number of characters is a string/object)
+            if(len(lst_data) > 0): 
+                self.name_file, self.now_date = name_file, now_date
         '''  # This is a template entry into one state, to COPY and MODIFY, do NOT REMOVE or CHANGE
         elif (type_download == 1):  # download only
             sys.path.insert(0, "./Xyz")
