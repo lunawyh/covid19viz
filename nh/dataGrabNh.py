@@ -27,6 +27,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 import time
 import PyPDF2
+from pdfminer.high_level import extract_text
 
 # ==============================================================================
 # -- codes -------------------------------------------------------------------
@@ -70,13 +71,14 @@ class dataGrabNh(object):
         time.sleep(4)
         os.rename(o_Raw, fRaw)
 
-        linkedPdf = PyPDF2.PdfFileReader(open(fRaw,'rb'))
-        print(str(linkedPdf.getNumPages()))
-        txtFile = str(linkedPdf.getPage(0).extractText().encode('utf8'))
-        print(txtFile)
-        with open("C:/Dennis/Covid19/covid19viz/nh/data_raw/mega.txt", "w") as f:
-            f.write(txtFile)
-            f.close()
+        print(extract_text(fRaw))
+        #linkedPdf = PyPDF2.PdfFileReader(open(fRaw,'rb'))
+        #print(str(linkedPdf.getNumPages()))
+        #txtFile = str(linkedPdf.getPage(0).extractText().encode('utf8'))
+        #print(txtFile)
+        #with open("C:/Dennis/Covid19/covid19viz/nh/data_raw/mega.txt", "w") as f:
+        #    f.write(txtFile)
+        #    f.close()
 
 
 

@@ -592,6 +592,13 @@ class runCoViz(object):
             data_grab = dataGrabNj(self.l_state_config, self.state_name)
             # step B: parse to standard file
             lst_data, self.name_file, self.now_date = data_grab.parseData(self.name_file, self.now_date, type_download)
+        elif (type_download == 194):  # download only
+            sys.path.insert(0, "./nh")
+            from dataGrabNh import *
+            # step A: downlowd and save
+            data_grab = dataGrabNh(self.l_state_config, self.state_name)
+            # step B: parse to standard file
+            lst_data, self.name_file, self.now_date = data_grab.parseData(self.name_file, self.now_date, type_download)
         '''  # This is a template entry into one state, to COPY and MODIFY, do NOT REMOVE or CHANGE
         elif (type_download == 1):  # download only
             sys.path.insert(0, "./Xyz")
