@@ -296,14 +296,14 @@ class dataGrabks(object):
                     elif('ount' in a_line):
                         state_machine = 200  
                 else:
-                    if ('202' in a_line):
+                    if ('2020' in a_line):
                         state_machine = 200     
 
             elif(state_machine == 200): 
                 a_line2 = a_line.split(' ')  
                 a_line1 = []   
                 if a_line2[0] != '':
-                    #print('lllllllllll  ', a_line)  
+                    print('lllllllllll  ', a_line)  
                     pass
                 if 'County' in a_line2 :
                     a_name= a_line2[0]
@@ -354,7 +354,7 @@ class dataGrabks(object):
             # read data of confirmed
             l_cases_all = []
             n_cases_total = 0
-            for page in range(0,4):
+            for page in range(0,3):
                 lst_cases_page, case_total_page, case_total_rd = self.readList4Page(pdfReader, page)
                 l_cases_all += lst_cases_page
                 n_cases_total += case_total_page
@@ -367,6 +367,7 @@ class dataGrabks(object):
                     break
                 #break
             #l_d_sort = self.parseTableConfirmed(tableTxt)
+            l_cases_all[-1][0] = 'Total'
             return (l_cases_all)
 
 

@@ -151,18 +151,24 @@ class dataGrabPA(object):
             for l_sub1 in l_cases1:
                 print('  l_sub1', l_sub1[0])
             #return []
-            #print('/////////////', l_cases1)
+            print('/////////////', l_cases1)
             small_name2_list = []
             #print('........', l_cases1[9])
-            for case in l_cases1[9]:
+            for case in l_cases1[8]:
+                case.split(' ')
                 if len(case) <= 2: pass
                 else:
-                    small_name2_list.append(case)
-            nam_list = l_cases1[0][1:]+small_name2_list[1:]
-            #print('full name list ..........', nam_list)      
-            num_list = l_cases1[5]+ l_cases1[10]
+                    small_name2_list.append(case.replace('\x0c', ''))
+            small_name3_list= []
+            for case2 in l_cases1[2]:
+                if len(case2) <= 2: pass
+                else:
+                    small_name3_list.append(case2)
+            nam_list = small_name3_list[2:] +small_name2_list[1:]
+            print('full name list ..........', nam_list)      
+            num_list = l_cases1[4]+ l_cases1[9]
             list_of_0s = [0]*len(nam_list)
-            #print('0s ', len(list_of_0s))
+            print('num list  ........ ', num_list)
             NamNum_list = np.vstack((nam_list, num_list, list_of_0s)).T
             print('case list', NamNum_list)
             #---------------------------death-------------------------
@@ -185,7 +191,7 @@ class dataGrabPA(object):
             #print('  l_cases1', len(l_cases1), len(l_cases1[0]))        
             for l_sub1 in l_cases1:
                 print('  l_sub1', l_sub1[0])
-            #print('/////////////', l_cases1)
+            print('/////////////', l_cases1)
 
             d_case1=[]
             for dcase in l_cases1[6]:
