@@ -163,37 +163,51 @@ class dataGrabUT(object):
         sw_dates2 = c_tree.xpath('//ul//li/text()')
         num = []
         name = []
+        total_confirmed = 0
         for sw_data in sw_dates:
             #print('333333', sw_data)
             if('County' in sw_data):
                 sw_split = sw_data.split(' ')
                 #print('11111111',sw_split)
                 name.append(sw_split[0])
-                num.append(sw_split[2])
+                num.append(sw_split[2].replace(',', ''))
+                ssss= (sw_split[2]).replace(',', '')
+                total_confirmed += int(sw_split[2].replace(',', ''))
         sw_dates3 = c_tree.xpath('//li/text()')
 
         death= []
+        total_death =0
         for sw_data in sw_dates3:
             #print('333333', sw_data)
-            if('deaths' in sw_data):
-                print('555555', sw_data)
+            if('death' in sw_data):
+                #print('..........', sw_data)
                 if len(sw_data)<= 7: continue
-                print('dddddddddd', sw_data)
+                #print('dddddddddd', sw_data)
+                sw_s = sw_data.split(' ')
+                #print(',,,,,,,,,', sw_s)
                 if '(' in sw_data:
-                    sw_data.split(' ')
-                    print('6666666666', sw_data)
-                    death.append(sw_data[4])
-                else:
-                    sw_data.split(' ')
-                    print('7777777', sw_data)
-                    death.append(sw_data[2])
-        print('8888888', death)
-                
+                    if sw_s[0] == '':
+                        death.append(sw_s[5].replace(',', ''))
+                        total_death += int(sw_s[5].replace(',', ''))
+                    else: 
+                        death.append(sw_s[4].replace(',', ''))
+                        total_death += int(sw_s[4].replace(',', ''))
+                else: 
+                    death.append(sw_s[2].replace(',', ''))
+                    total_death += int(sw_s[2].replace(',', ''))
 
+
+
+        #print('8888888', name)
+        #print('8888888', num)
+        #print('8888888', death)
+        l_data = np.vstack((name, num, death)).T 
+        print('ppppppp', l_data)        
         # calculate total------------------------------------------------
-        
-        lst_data_sw.append(['Total', total_confirmed, total_death])
-        return lst_data_sw
+        total = (['Total', total_confirmed, total_death])
+        l_data= np.append(l_data, total)
+
+        return l_data
 
 
     # southeast counties
