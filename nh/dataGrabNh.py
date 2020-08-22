@@ -27,6 +27,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 import time
 import PyPDF2
+from pdfminer.high_level import extract_text
 
 # ==============================================================================
 # -- codes -------------------------------------------------------------------

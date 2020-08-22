@@ -56,14 +56,28 @@ class dataGrabNj(object):
         with open(fRaw, 'w') as f:
             f.write(siteOpen.page_source.encode('utf8'))
             f.close()
+<<<<<<< HEAD
         # read cases and numbers
+=======
+        firstsDate = str(siteOpen.find_elements_by_xpath('//strong')[2].get_attribute('innerHTML').encode('utf8'))
+        date = firstsDate[9:]
+        dt_obj = datetime.datetime.strptime(date, '%m/%d/%Y')
+        self.name_file = dt_obj.strftime('%Y%m%d')
+        self.now_date = dt_obj.strftime('%m/%d/%Y')
+>>>>>>> e975df9690bfe63c65fe0ff02bd83421dbcb2fcf
         caseNumbers = siteOpen.find_elements_by_xpath('//div[@class="external-html"]')
         allList = []
         allList.append(['County','Cases','Deaths'])
         totalPositives = 0
         totalDeaths = 0
+<<<<<<< HEAD
         for case_num in caseNumbers[2:]:
             dStringList = case_num.text.split()
+=======
+        for dbutton in caseNumbers[2:]:
+            countyString = ''
+            dStringList = dbutton.text.split()
+>>>>>>> e975df9690bfe63c65fe0ff02bd83421dbcb2fcf
             countyList = ''
             bFound = False
             for w in dStringList:
@@ -71,12 +85,19 @@ class dataGrabNj(object):
                     bFound = True
                     break
                 else:
+<<<<<<< HEAD
                     countyList = str(countyList + str(w))
+=======
+                    countyString = str(countyString + " " + str(w))
+                    countyList = str(countyList + " " + str(w))
+>>>>>>> e975df9690bfe63c65fe0ff02bd83421dbcb2fcf
             if(not bFound): continue
             del dStringList[0:(dStringList.index('County')+1)]
             allList.append([countyList,int(str(dStringList[3]).replace(',','')),int(str(dStringList[6]).replace(',',''))])
             totalPositives = totalPositives + int(str(dStringList[3]).replace(',',''))
             totalDeaths = totalDeaths + int(str(dStringList[6]).replace(',', ''))
+        dates = siteOpen.find_element_by_css_selector('strong')
+        print(dates)
         allList.append(['Total',totalPositives,totalDeaths])
         print('  downloadAndParseLink', len(allList), len(allList[0]))
         siteOpen.close()
