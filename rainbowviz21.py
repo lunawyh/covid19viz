@@ -103,6 +103,9 @@ class rainbowViz(object):
         # sort list
         l_d_sort = sorted(l_d_clean, key=lambda k: int(k[col]))
         len_data = len(l_d_sort)
+        if(len_data < 1): 
+            print('  Check names, the clean list is ', len_data)
+            return
         l_max_v = int(l_d_sort[len_data-1][col])
         l_mid_v = int(l_d_sort[min(len_data/2+1, len_data-1)][col])
         l_q1_v = int(l_d_sort[max(len_data/4, 0)][col])

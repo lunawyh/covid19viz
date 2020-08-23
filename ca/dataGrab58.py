@@ -98,7 +98,7 @@ class dataGrab(object):
         self.save2File( lst_data, f_name )
         return (lst_data, dt_name, dt_now)
     ## paser data CA
-    def parseDataCa(self, name_file):
+    def parseDataCa(self, dt_name, dt_now, type_download):
         url = self.l_state_config[5][1]
         print('  grab data from', url)
         response = urllib2.urlopen(url)

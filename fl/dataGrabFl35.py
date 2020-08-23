@@ -21,6 +21,8 @@ import PyPDF2
 import re
 import requests
 from lxml import html
+import numpy as np
+
 # ==============================================================================
 # -- codes -------------------------------------------------------------------
 # ==============================================================================
@@ -141,17 +143,16 @@ class dataGrabFl(object):
                     print('  already exiting', f_nameb)
 
             return f_namea, f_nameb
-    ## paser data FL
-    def dataReadConfirmed(self, f_name):
-            print('  B.dataReadConfirmed on page 5', f_name)
-            # step B: parse and open
-            #print('    nnn', f_name)
-            pdfFileObj = open(f_name, 'rb')
-            pdfReader = PyPDF2.PdfFileReader(pdfFileObj)
-
-            pageObj = pdfReader.getPage(4)
+    ## look for page containing confirmed data
+    def lookForConfirmedPage(self, pdfReader):
+        for page in range(4, 9):
+            pageObj = pdfReader.getPage(page)
             pageTxt = pageObj.extractText()
-            #print('  pageTxt 5:', pageTxt)
+            # locate page
+            n_start = pageTxt.find('Florida counties have')
+            if(n_start >= 0): print('  found at page ', page) 
+            else: continue
+            # get time
             n_start = pageTxt.find('Data through')
             if(n_start >= 0):
                 n_end = pageTxt.find('verified')
@@ -162,34 +163,62 @@ class dataGrabFl(object):
                 #nums = int(n_start)
                 self.name_file = dt_obj.strftime('%Y%m%d')
                 self.now_date = dt_obj.strftime('%m/%d/%Y')
+                return pageTxt
+        return ''
+    ## paser data FL
+    def dataReadConfirmed(self, f_name):
+            print('  B.dataReadConfirmed on page 5-10', f_name)
+            # step B: parse and open
+            #print('    nnn', f_name)
+            pdfFileObj = open(f_name, 'rb')
+            pdfReader = PyPDF2.PdfFileReader(pdfFileObj)
+
+            # look for page containing confirmed data
+            pageTxt = self.lookForConfirmedPage(pdfReader)
+            if(pageTxt == ''): return ([], pdfReader)
 
             # get text in the table list
-            n_start = pageTxt.find('counties have cases')
+            n_start = pageTxt.find('All 67 Florida counties have cases')
             if(n_start < 0):
-                n_start = pageTxt.find('confirmed cases')
+                n_start = pageTxt.find('All 67 Florida counties have cases')
                 if(n_start < 0):
                     return ([], pdfReader)
                 #return ([], pdfReader)
             pageTxt = pageTxt[n_start + 17:]
-            n_start = pageTxt.find('Total')
-            if(n_start < 0):
-                return ([], pdfReader)
-            pageTxt = pageTxt[n_start + 6:]
-            n_start = pageTxt.find('Total')
-            if(n_start < 0):
-                return ([], pdfReader)
-            pageTxt = pageTxt[n_start + 6:]
 
-            tableTxt = ''
-            pre_char = '\n'
-            for a_char in pageTxt:
-                if( a_char.isalpha() ):
-                    if( pre_char.isdigit() ): tableTxt += '\n'
-                pre_char = a_char
-                tableTxt += a_char
-            print('  tableTxt on 5:', len(tableTxt))
-            l_d_sort = self.parseTableConfirmed(tableTxt)
-            return (l_d_sort, pdfReader)
+            n_start = pageTxt.find('rate')
+            if(n_start < 0):
+                return ([], pdfReader)
+            pageTxt = pageTxt[n_start + 6:]
+            n_start = pageTxt.find('rate')
+            if(n_start < 0):
+                return ([], pdfReader)
+            n_end = pageTxt.find('FL resident cases')
+            pageTxt = pageTxt[n_start + 5: n_end-1]
+            pageTxt2 = pageTxt.split('\n')
+            nam_num_case = []
+            for a_ccc in pageTxt2:
+                if '%' in a_ccc: pass
+                else: nam_num_case.append(a_ccc)
+            #print('lllllllllllll', (nam_num_case))  
+            #print('................', len(nam_num_case))  
+
+
+            l_cases2 = np.reshape(nam_num_case, (len(nam_num_case)/5, 5)).T
+            l_data = np.vstack((l_cases2[0], l_cases2[3], l_cases2[4])).T 
+            #print('--------------', l_data)
+            #l_data[-2], l_data[-1] = l_data[-1], l_data[-2]
+            l_data2= l_data[:-2]
+            l_data2= np.append(l_data2, l_data[-1])
+            l_data2= np.append(l_data2, l_data[-2])
+            #print(';;;;;;;;;', l_data2)
+
+            l_cases3 = np.reshape(l_data2, (len(l_data2)/3, 3)).T
+            l_data = np.vstack((l_cases3[0], l_cases3[1], l_cases3[2])).T 
+            l_datas = np.core.defchararray.replace(l_data, ',', '')
+
+            print(';;;;;;;;;;;', l_datas)
+            return (l_datas)
     ## paser data FL
     def getNumberConfirmed(self, l_numbers, a_name=''):
         #print('    getNumberConfirmed', l_numbers)
@@ -424,11 +453,10 @@ class dataGrabFl(object):
             f_targeta, f_targetb = self.dataDownload(name_target)
             if(f_targeta == ''): return ([], name_target, '')
             #Step B read confirmed cases
-            l_d_sort, pdfReader = self.dataReadConfirmed(f_targeta)
+            l_d_sort = self.dataReadConfirmed(f_targeta)
             #Step C read death cases
-            if(len(l_d_sort) > 0): l_d_all = self.dataReadDeath4Pages(l_d_sort, f_targetb)
-            else: l_d_all = []
+        
 
-            return(l_d_all, self.name_file, self.now_date)  
+            return(l_d_sort, self.name_file, self.now_date)  
 
 ## end of file

@@ -100,6 +100,7 @@ class dataGrabGa(object):
     ## paser data CA
     def parseData(self, name_file, date_target, type_download):
         self.name_file = name_file
+        self.now_date = date_target
         f_name = self.state_dir + 'data_raw/'+self.state_name.lower()+'_covid19_'+self.name_file+'.zip'
         if(not os.path.isdir(self.state_dir + 'data_raw/') ): os.mkdir(self.state_dir + 'data_raw/')
         # step 1, download zipped file
@@ -111,6 +112,6 @@ class dataGrabGa(object):
         # step 3, save as stanard data file
         l_data_raw = self.open4Buffer(content)
         l_overall = self.saveLatestDateGa(l_data_raw, self.name_file)
-        return True, l_overall
+        return l_overall, self.name_file, self.now_date
 
 ## end of file
