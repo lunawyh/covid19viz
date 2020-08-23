@@ -139,8 +139,6 @@ class dataGrabMe(object):
             # step B: parse and open
             lst_raw_data = self.open4File(f_name)
             # step C: convert to standard file and save
-            if( type_download == 5):
-                lst_data = self.saveLatestDateNy(lst_raw_data)
             if( type_download == 325):
                 lst_data = self.saveLatestDateCt(lst_raw_data)
 
