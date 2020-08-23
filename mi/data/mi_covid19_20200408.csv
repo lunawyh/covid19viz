@@ -1,0 +1,78 @@
+County,Cases,Deaths
+Allegan,18,0
+Antrim,6,0
+Arenac,4,0
+Barry,7,0
+Bay,39,0
+Berrien,72,2.0
+Branch,18,1.0
+Calhoun,51,1.0
+Cass,9,1.0
+Charlevoix,8,0
+Cheboygan,10,1.0
+Chippewa,1,0
+Clare,2,0
+Clinton,82,1.0
+Crawford,5,1.0
+Delta,8,0
+Detroit City,5824,251.0
+Dickinson,2,1.0
+Eaton,67,3.0
+Emmet,15,2.0
+Genesee,713,39.0
+Gladwin,4,0
+Gogebic,3,1.0
+Grand Traverse,15,3.0
+Gratiot,5,0
+Hillsdale,62,4.0
+Houghton,1,0
+Huron,4,0
+Ingham,205,2.0
+Ionia,11,1.0
+Iosco,4,1.0
+Isabella,22,2.0
+Jackson,126,4.0
+Kalamazoo,67,6.0
+Kalkaska,10,2.0
+Kent,207,8.0
+Lapeer,64,5.0
+Leelanau,4,0
+Lenawee,36,0
+Livingston,174,2.0
+Luce,1,0
+Mackinac,3,0
+Macomb,2626,141.0
+Manistee,9,0
+Marquette,18,2.0
+Mason,1,0
+Mecosta,8,1.0
+Midland,24,1.0
+Missaukee,1,1.0
+Monroe,152,0
+Montcalm,18,1.0
+Muskegon,42,4.0
+Newaygo,3,0
+Oakland,4007,234.0
+Oceana,3,1.0
+Ogemaw,3,0
+Osceola,3,0
+Oscoda,2,0
+Otsego,29,2.0
+Ottawa,55,0
+Presque Isle,1,0
+Roscommon,6,0
+Saginaw,186,6.0
+Sanilac,22,2.0
+Schoolcraft,1,0
+Shiawassee,27,0
+St Clair,140,3.0
+St Joseph,16,0
+Tuscola,27,2.0
+Van Buren,18,1.0
+Washtenaw,610,13.0
+Wayne,3802,195.0
+Wexford,7,0
+Other*,287,2.0
+Unknown,77,1.0
+Out of State,126,1.0
+Totals,20346,959.0
