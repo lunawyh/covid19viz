@@ -69,14 +69,20 @@ class runCoViz(object):
         #configuration parameters
         state_cfg = self.state_dir +'state_config.csv'
         if(not isfile(state_cfg)):
-            copyfile('./doc/state_config.csv', state_cfg)  # src, dst)	
+            nxt_type = self.getMaxDownloadType()
+            print('  next type_download', nxt_type)
+            #copyfile('./doc/state_config.csv', state_cfg)  # src, dst)	
+            self.l_state_config = self.open4File('./doc/state_config.csv')
+            self.l_state_config[4][1] = '%d'%(nxt_type)
+            self.save2CfgFile(self.l_state_config, state_cfg)
+            # data grabbing file
             data_grab_file = self.state_dir +'dataGrab' + self.state_name + '.py'
             with open('./doc/dataGrabXyz.py', 'r') as file:
                 data = file.read().replace('Xyz', self.state_name)
             with open(data_grab_file, 'w') as file:
                 file.write(data)
-            
-        self.l_state_config= self.open4File (state_cfg)	
+            self.updateDownloadType(nxt_type)	
+        else: self.l_state_config= self.open4File (state_cfg)	
         			
         VIZ_W = int( self.l_state_config[0][1] )
         VIZ_H = int( self.l_state_config[1][1] )   
@@ -88,6 +94,7 @@ class runCoViz(object):
         self.map_data_updated = 1	                        # being updated
         self.now_exit = False
         # Only the coordinates are used by code
+        #print(' l_state_config', self.l_state_config)
         self.l_mi_county_coord= self.open4File (self.state_dir +self.l_state_config[3][1])				
         #data of coordination
 
@@ -310,6 +317,16 @@ class runCoViz(object):
         self.save2File(l_overall, self.state_dir + 'data/'+self.state_name.lower()+'_covid19_'+self.name_file+'.csv')
         return l_overall
 
+    ## save to csv 
+    def save2CfgFile(self, l_data, csv_name):
+        csv_data_f = open(csv_name, 'w')
+        # create the csv writer 
+        csvwriter = csv.writer(csv_data_f)
+        # make sure the 1st row is colum names
+        csvwriter.writerow(['name', 'value', 'lon', 'quantity', 'offset'])
+        for a_row in l_data:
+            csvwriter.writerow(a_row)
+        csv_data_f.close()
     ## save to csv 
     def save2File(self, l_data, csv_name):
         csv_data_f = open(csv_name, 'w')
@@ -598,35 +615,35 @@ class runCoViz(object):
         elif (type_download == 50):  # download only
             sys.path.insert(0, "./ct")
             from dataGrabCt15 import *
-            # step A: downlowd and save
+            # step A: create new class
             data_grab = dataGrabCt(self.l_state_config, self.state_name)
             # step B: parse to standard file
             lst_data, self.name_file, self.now_date = data_grab.parseData(self.name_file, self.now_date, type_download)
         elif (type_download == 14):  # download only
             sys.path.insert(0, "./vt")
             from dataGrabVt import *
-            # step A: downlowd and save
+            # step A: create new class
             data_grab = dataGrabVt(self.l_state_config, self.state_name)
             # step B: parse to standard file
             lst_data, self.name_file, self.now_date = data_grab.parseData(self.name_file, self.now_date, type_download)
         elif (type_download == 22):  # download only
             sys.path.insert(0, "./ma")
             from dataGrabMa import *
-            # step A: downlowd and save
+            # step A: create new class
             data_grab = dataGrabMa(self.l_state_config, self.state_name)
             # step B: parse to standard file
             lst_data, self.name_file, self.now_date = data_grab.parseData(self.name_file, self.now_date, type_download)
         elif (type_download == 325):  # download only
             sys.path.insert(0, "./me")
             from dataGrabMe import *
-            # step A: downlowd and save
+            # step A: create new class
             data_grab = dataGrabMe(self.l_state_config, self.state_name)
             # step B: parse to standard file
             lst_data, self.name_file, self.now_date = data_grab.parseData(self.name_file, self.now_date, type_download)
         elif (type_download == 97):  # download only
             sys.path.insert(0, "./nj")
             from dataGrabNj import *
-            # step A: downlowd and save
+            # step A: create new class
             data_grab = dataGrabNj(self.l_state_config, self.state_name)
             # step B: parse to standard file
             lst_data, self.name_file, self.now_date = data_grab.parseData(self.name_file, self.now_date, type_download)
@@ -640,11 +657,12 @@ class runCoViz(object):
             #len(the number of characters is a string/object)
             if(len(lst_data) > 0): 
                 self.name_file, self.now_date = name_file, now_date
-        '''  # This is a template entry into one state, to COPY and MODIFY, do NOT REMOVE or CHANGE
+        ### This is a template entry into one state, to COPY and MODIFY, do NOT REMOVE or CHANGE
+        '''  
         elif (type_download == 1):  # download only
             sys.path.insert(0, "./Xyz")
             from dataGrabXyz import *
-            # step A: downlowd and save
+            # step A: create new class
             data_grab = dataGrabXyz(self.l_state_config, self.state_name)
             # step B: parse to standard file
             lst_data, self.name_file, self.now_date = data_grab.parseData(self.name_file, self.now_date, type_download)
@@ -829,7 +847,51 @@ class runCoViz(object):
 		    0.3,
 		    (255,64,0),
 		    1) 
-            
+    # check and return maximum type_download
+    def getMaxDownloadType(self):
+        l_types = []
+        with open('./coviz.py') as f:
+                a_content = f.readlines()  
+        for a_line in a_content:  
+                n_start = a_line.find('type_download ==')
+                if(n_start >= 0): 
+                    #print('  getMaxDownloadType', a_line)
+                    n_end = a_line.find(')', n_start+16)
+                    if(n_end >= 0): 
+                        b_line = a_line[n_start+16+1:n_end].replace(' ', '')
+                        if(b_line.isdigit()): l_types.append(int(b_line))
+        if(len(l_types) > 0):
+            max_type = sorted(l_types)[-1] + 1
+            return max_type	
+        return 1
+
+    # insert and update
+    def updateDownloadType(self, n_type):
+        # coviz.py this file
+        s_target = '        elif (type_download == 8): \n\
+            sys.path.insert(0, \"./Xyz\") \n\
+            from dataGrabXyz import * \n\
+            # step A: create new class \n\
+            data_grab = dataGrabXyz(self.l_state_config, self.state_name) \n\
+            # step B: parse to standard file \n\
+            lst_data, self.name_file, self.now_date = data_grab.parseData(self.name_file, self.now_date, type_download) \n'
+        s_target = s_target.replace('8', '%d'%(n_type)).replace('Xyz', self.state_name)
+        with open('./coviz.py') as f:
+            a_content = f.readlines()  
+        n_line = 0
+        b_lines = []
+        for a_line in a_content:  
+            n_start = a_line.find('### This is a template entry into one state, to COPY and MODIFY, do NOT REMOVE or CHANGE')
+            if(n_start >= 0): 
+                b_lines = a_content[:n_line]
+                b_lines.append(s_target)
+                b_lines += a_content[n_line:]
+                break
+            n_line += 1
+        if(len(b_lines) > 500): 
+            with open('./coviz.py', 'w') as f:
+                f.writelines(b_lines)	
+
     ## exit node
     def exit_hook(self):
         print("bye bye, node virusviz")
