@@ -21,6 +21,8 @@ import PyPDF2
 import re
 import requests
 from lxml import html
+import numpy as np
+
 # ==============================================================================
 # -- codes -------------------------------------------------------------------
 # ==============================================================================
@@ -88,84 +90,135 @@ class dataGrabFl(object):
         # save html file
         c_page = requests.get(csv_url)
         c_tree = html.fromstring(c_page.content)
-        l_dates = c_tree.xpath('//a')  # ('//div[@class="col-xs-12 button--wrap"]')
-        a_address = ''
+        l_dates = c_tree.xpath('//div//div//div//a')  # ('//div[@class="col-xs-12 button--wrap"]')
+        #print('   dddd', l_dates)
+        a_address, b_address = '', ''
         for l_date in l_dates:
             #print(l_date.text_content())
-            if('See state report' in l_date.text_content()):
+            if('See State Report' in l_date.text_content() or 'See state report' in l_date.text_content()):
+                #print('   sss', l_date)
                 a_address = l_date.get('href')
                 print('  find pdf at', l_date.get('href'))
-                break
-        return a_address
+            if('See State Linelist' in l_date.text_content() or 'See state linelist' in l_date.text_content()):
+                #print('   sss', l_date)
+                b_address = l_date.get('href')
+                print('  find pdf at', l_date.get('href'))
+                #break
+        return a_address, b_address
     ## paser data FL
     def dataDownload(self, name_target):
             print('  A.dataDownload', name_target)
-            f_name = self.state_dir + 'data_raw/'+self.state_name.lower()+'_covid19_'+name_target+'.pdf'
+            f_namea = self.state_dir + 'data_raw/'+self.state_name.lower()+'_covid19_'+name_target+'.pdf'
+            f_nameb = self.state_dir + 'data_raw/'+self.state_name.lower()+'_covid19_'+name_target+'_death.pdf'
             if(not os.path.isdir(self.state_dir + 'data_raw/') ): os.mkdir(self.state_dir + 'data_raw/')
             # step A: downlowd and save
-            if( True): # not isfile(f_name) ): 
-                a_address = self.open4Website(None)
-                print ('%%%%%%%#@%%%%%%%')
-                if(a_address == ''): return ([], None, None)
+            if( True): 
+                a_address, b_address = self.open4Website(f_namea)
+                if(a_address == ''): 
+                    print ('    No address of downloading PDF is found')
+                    return ('')
                 n_start = a_address.find('reports')
                 if(n_start >= 0): 
-                    s_date = name_target 
+                    s_date = a_address[n_start+7:] 
                     n_end = s_date.find('09')
-                    #print(' *********************** ', s_date)
-                    #if(n_end < 0): n_end = s_date.find('-')
-                    #s_date = s_date[: n_end] 
-                    #print(' ^^^^^^^^^^^^^^ ', s_date)
-                    #s_date = re.sub("[^0-9]", "", s_date)
-                    #print(' &&&&&&&&&&&&&&&&&&&&&&&&& ', s_date) 00:00:00
-                    s_date = s_date.replace ('00:00:00', '')
+                    if(n_end >= 0):
+                        s_date = s_date.replace ('00:00:00', '')
 
-                    dt_obj = datetime.datetime.strptime(s_date, '%Y%m%d')
-                    print('  updated on', dt_obj)
-                    #nums = int(n_start)
-                    self.name_file = dt_obj.strftime('%Y%m%d')
-                    self.now_date = dt_obj.strftime('%m/%d/%Y')
-                    f_name = self.state_dir + 'data_raw/'+self.state_name.lower()+'_covid19_'+self.name_file+'.pdf'
-                    if(not isfile(f_name) ):
-                        result = self.download4Website(a_address, f_name)
-                        print('  downloaded', result)
-                    else:
-                        print('  already exiting')
-                else: f_name = ''
-            return f_name
+                        dt_obj = datetime.datetime.strptime(s_date, '%Y%m%d')
+                        print('  updated on', dt_obj)
+                        #nums = int(n_start)
+                        self.name_file = dt_obj.strftime('%Y%m%d')
+                        self.now_date = dt_obj.strftime('%m/%d/%Y')
+                        f_namea = self.state_dir + 'data_raw/'+self.state_name.lower()+'_covid19_'+self.name_file+'.pdf'
+                        f_nameb = self.state_dir + 'data_raw/'+self.state_name.lower()+'_covid19_'+self.name_file+'_death.pdf'
+                if(not isfile(f_namea) ):
+                    result = self.download4Website(a_address, f_namea)
+                    print('  downloaded', result, f_namea)
+                else:
+                    print('  already exiting', f_namea)
+                if(not isfile(f_nameb) ):
+                    result = self.download4Website(b_address, f_nameb)
+                    print('  downloaded', result, f_nameb)
+                else:
+                    print('  already exiting', f_nameb)
+
+            return f_namea, f_nameb
+    ## look for page containing confirmed data
+    def lookForConfirmedPage(self, pdfReader):
+        for page in range(4, 9):
+            pageObj = pdfReader.getPage(page)
+            pageTxt = pageObj.extractText()
+            # locate page
+            n_start = pageTxt.find('Florida counties have')
+            if(n_start >= 0): print('  found at page ', page) 
+            else: continue
+            # get time
+            n_start = pageTxt.find('Data through')
+            if(n_start >= 0):
+                n_end = pageTxt.find('verified')
+                s_date = pageTxt[n_start+12+1: n_end-1]
+                print('    updating date', s_date)
+                dt_obj = datetime.datetime.strptime(s_date, '%b %d, %Y')
+                print('    updated on', dt_obj)
+                #nums = int(n_start)
+                self.name_file = dt_obj.strftime('%Y%m%d')
+                self.now_date = dt_obj.strftime('%m/%d/%Y')
+                return pageTxt
+        return ''
     ## paser data FL
     def dataReadConfirmed(self, f_name):
-            print('  B.dataReadConfirmed on page 5', f_name)
+            print('  B.dataReadConfirmed on page 5-10', f_name)
             # step B: parse and open
+            #print('    nnn', f_name)
             pdfFileObj = open(f_name, 'rb')
             pdfReader = PyPDF2.PdfFileReader(pdfFileObj)
 
-            pageObj = pdfReader.getPage(4)
-            pageTxt = pageObj.extractText()
-            #print('  pageTxt 5:', pageTxt)
-            # get text in the table list
-            n_start = pageTxt.find('confirmed cases')
-            if(n_start < 0):
-                return ([], pdfReader)
-            pageTxt = pageTxt[n_start + 17:]
-            n_start = pageTxt.find('Total')
-            if(n_start < 0):
-                return ([], pdfReader)
-            pageTxt = pageTxt[n_start + 6:]
-            n_start = pageTxt.find('Total')
-            if(n_start < 0):
-                return ([], pdfReader)
-            pageTxt = pageTxt[n_start + 6:]
+            # look for page containing confirmed data
+            pageTxt = self.lookForConfirmedPage(pdfReader)
+            if(pageTxt == ''): return ([], pdfReader)
 
-            tableTxt = ''
-            pre_char = '\n'
-            for a_char in pageTxt:
-                if( a_char.isalpha() ):
-                    if( pre_char.isdigit() ): tableTxt += '\n'
-                pre_char = a_char
-                tableTxt += a_char
-            print('  tableTxt on 5:', len(tableTxt))
-            l_d_sort = self.parseTableConfirmed(tableTxt)
-            return (l_d_sort, pdfReader)
+            # get text in the table list
+            n_start = pageTxt.find('All 67 Florida counties have cases')
+            if(n_start < 0):
+                n_start = pageTxt.find('All 67 Florida counties have cases')
+                if(n_start < 0):
+                    return ([], pdfReader)
+                #return ([], pdfReader)
+            pageTxt = pageTxt[n_start + 17:]
+
+            n_start = pageTxt.find('rate')
+            if(n_start < 0):
+                return ([], pdfReader)
+            pageTxt = pageTxt[n_start + 6:]
+            n_start = pageTxt.find('rate')
+            if(n_start < 0):
+                return ([], pdfReader)
+            n_end = pageTxt.find('FL resident cases')
+            pageTxt = pageTxt[n_start + 5: n_end-1]
+            pageTxt2 = pageTxt.split('\n')
+            nam_num_case = []
+            for a_ccc in pageTxt2:
+                if '%' in a_ccc: pass
+                else: nam_num_case.append(a_ccc)
+            #print('lllllllllllll', (nam_num_case))  
+            #print('................', len(nam_num_case))  
+
+
+            l_cases2 = np.reshape(nam_num_case, (len(nam_num_case)/5, 5)).T
+            l_data = np.vstack((l_cases2[0], l_cases2[3], l_cases2[4])).T 
+            #print('--------------', l_data)
+            #l_data[-2], l_data[-1] = l_data[-1], l_data[-2]
+            l_data2= l_data[:-2]
+            l_data2= np.append(l_data2, l_data[-1])
+            l_data2= np.append(l_data2, l_data[-2])
+            #print(';;;;;;;;;', l_data2)
+
+            l_cases3 = np.reshape(l_data2, (len(l_data2)/3, 3)).T
+            l_data = np.vstack((l_cases3[0], l_cases3[1], l_cases3[2])).T 
+            l_datas = np.core.defchararray.replace(l_data, ',', '')
+
+            print(';;;;;;;;;;;', l_datas)
+            return (l_datas)
     ## paser data FL
     def getNumberConfirmed(self, l_numbers, a_name=''):
         #print('    getNumberConfirmed', l_numbers)
@@ -174,7 +227,7 @@ class dataGrabFl(object):
             rowTxt = l_numbers[0]
             n_start = rowTxt.find('%')
             if(n_start < 0): 
-                print('  error numbers', rowTxt)
+                print('    error 1 numbers', rowTxt)
                 return 0
             len_row = len(rowTxt)
             for ii in range(1, n_start):
@@ -194,8 +247,8 @@ class dataGrabFl(object):
             rowTxt = l_numbers[1]
             n_start = rowTxt.find('%')
             if(n_start < 0): 
-                print('  error numbers', l_numbers[0])
-                return 0
+                print('    error 2 numbers', l_numbers)
+                return int(l_numbers[1])
             len_row = len(rowTxt)
             for jj in range(n_start+1, len_row):
                     txt_resident = ( re.sub("[^0-9]", "", rowTxt[n_start:jj]) )
@@ -260,7 +313,7 @@ class dataGrabFl(object):
 		            elif( a_row.lower().islower() ):
 		                # one or two lines of numbers
 		                a_digital = self.getNumberConfirmed(l_numbers, a_name)
-		                if(a_digital <= 0): print('  a_row', a_name)
+		                if(a_digital <= 0): print('    at a_row', a_name)
 		                if('Total' in a_name): 
 		                    case_total_rd =  a_digital
 		                    print('    Total is read', a_digital)
@@ -279,8 +332,12 @@ class dataGrabFl(object):
 		                state_machine = 3
             # the last name and number
             a_digital = self.getNumberConfirmed(l_numbers)
-            l_overall.append([a_name, a_digital, 0])
-            case_total += a_digital
+            if('Total' in a_name): 
+                case_total_rd =  a_digital
+                print('    Total is read', a_digital)
+            else:
+                l_overall.append([a_name, a_digital, 0])
+                case_total += a_digital
             
             l_d_sort = sorted(l_overall, key=lambda k: k[0])
             if(case_total == case_total_rd): 
@@ -290,49 +347,116 @@ class dataGrabFl(object):
                 l_d_sort.append(['Total', case_total_rd, 0])
                 print('  Total is mismatched', case_total, case_total_rd)
             return (l_d_sort)
+   ## paser data FL
+    def dataReadDeath4Pages(self, l_d_sort, f_name):
+        print('  C.dataReadDeath4Pages from', f_name)
+        # read death in county
+        pdfFileObj = open(f_name, 'rb')
+        pdfReader = PyPDF2.PdfFileReader(pdfFileObj)
+        p_s, p_e = 1, 99
+        #p_s, p_e = 31, 43 # page number in PDF for 4/19/2020
+        #p_s, p_e = 30, 48 # page number in PDF for 4/24/2020
+        case_total = 0
+        for page in range(p_s-1, p_e+1):
+		    pageObj = pdfReader.getPage(page)
+		    pageTxt = pageObj.extractText()
+		    l_pageTxt = pageTxt.split('\n')
+		    if('line list of deaths in Florida residents' in l_pageTxt[0]): pass
+		    else: break
+
+		    #print('    pdf page is found', page)
+		    state_machine = 100
+		    for a_row in l_pageTxt:
+		        #print('    dataReadDeath4Pages:', a_row)    
+		        if(state_machine == 100):
+		            if('today' in a_row):
+		                state_machine = 200
+		            if('provisional' in a_row):
+		                state_machine = 200
+		        elif(state_machine == 200 ):
+		            if( a_row.lower().islower() ): pass
+ 		            else: continue
+ 		            #print('    dataReadDeath4Pages:', a_row) 
+ 		            #if( 'Unknown' in a_row ): continue
+ 		            if('Dade' in a_row): a_row = 'Miami-Dade'
+ 		            for a_d_row in l_d_sort:
+ 		                if a_d_row[0] in a_row:
+ 		                    a_d_row[2] += 1
+ 		                    case_total += 1
+ 		                    break
+		    print('    found PDF page on', page+1, case_total)
+		    #break
+        l_d_sort[-1][2] = case_total
+        return l_d_sort 
     ## paser data FL
     def dataReadDeath(self, l_d_sort, pdfReader):
             print('  C.dataReadDeath')
             # read death in county
-            p_s, p_e = 20, 78
-            #p_s, p_e = 31, 43 # page number in PDF for 4/19/2020
-            #p_s, p_e = 30, 48 # page number in PDF for 4/24/2020
+            lst_cases = []
+            a_name = ''
+            a_number = 0
+            case_total_append = 0
+            case_total_rd = 0
+
+            pageObj = pdfReader.getPage(3)
+            pageTxt = pageObj.extractText()
+            l_pageTxt = pageTxt.split('\n')
+            #print('   l_pageTxt ',l_pageTxt )
             case_total = 0
-            for page in range(p_s-1, p_e+1):
-		    pageObj = pdfReader.getPage(page)
-		    pageTxt = pageObj.extractText()
-		    l_pageTxt = pageTxt.split('\n')
-		    if('Coronavirus: line list of deaths in Florida residents' in l_pageTxt[0]): pass
-		    else: continue
-		    state_machine = 1
-		    for a_row in l_pageTxt:
-		        #print(a_row)    
+            if('Coronavirus: line list of deaths in Florida residents' in l_pageTxt[0]): pass
+            #else: continue
+            state_machine = 1
+            for a_row in l_pageTxt:
+		        print('dataReadDeath', a_row)    
 		        if(state_machine == 1):
-		            if('today' in a_row):
+		            if('%' in a_row):
 		                state_machine = 2
+		        
 		        elif(state_machine == 2 ):
-		            if( a_row.lower().islower() ): pass
- 		            else: continue
-		            if( 'Unknown' in a_row ): continue
- 		            if('Dade' in a_row): a_row = 'Miami-Dade'
-		            for a_d_row in l_d_sort:
-				if a_d_row[0] in a_row:
-				    a_d_row[2] += 1
-				    case_total += 1
-				    break
-		    print('    PDF page on', page+1, case_total)
-		    #break
-            l_d_sort[-1][2] = case_total
+		            if('%' in a_row):
+		                state_machine = 3
+		        elif(state_machine == 3 ):
+		            if('%' in a_row):
+		                state_machine = 4
+		        elif(state_machine == 4 ):
+		            #print('   VVVVV_________________________________' ,a_row)
+		            if 'COVID-19: ' in a_row: break
+		            if '%' in a_row:
+		            	print('    _________% :', a_row)
+		            	
+		            elif a_row.isalpha() == True :
+		            	#print('  ++++++letters :', a_row)
+		            	a_name = a_row
+		            	lst_cases.append([a_name, a_number, 0])
+		            else:
+		            	#print('----numbers :', a_row)
+		            	if ',' in a_row:
+		            		a_row = a_row.split(',')
+		            		print (' *************', a_row)
+		            		#a_row[0] = a_row[0][0:1 ]
+		            		print (' =======' ,a_row[0] + a_row[1])
+		            		a_row = a_row[0] + a_row[1]
+		            		a_number = int(a_row)
+		            		case_total_rd = a_number
+		            		lst_cases.append([a_name, a_number, 0])
+		            		break
+		            	a_number = int(a_row)
+		            	case_total_append += a_number
+		            	lst_cases.append([a_name, a_number, 0])
+            print('    dataReadDeath', lst_cases)
             return l_d_sort 
     ## paser data FL
     def parseData(self, name_target, date_target, type_download):
             self.name_file = name_target
             self.now_date = date_target
-            f_target = self.dataDownload(name_target)
-            if(f_target == ''): return ([], name_target, '')
-            l_d_sort, pdfReader = self.dataReadConfirmed(f_target)
-            if(len(l_d_sort) > 0): l_d_all = self.dataReadDeath(l_d_sort, pdfReader)
-            else: l_d_all = []
-            return(l_d_all, self.name_file, self.now_date)  
+            #Step A download and save as raw PDF files
+            f_targeta, f_targetb = self.dataDownload(name_target)
+            if(f_targeta == ''): return ([], name_target, '')
+            #Step B read confirmed cases
+            l_d_sort = self.dataReadConfirmed(f_targeta)
+            #Step C read death cases
+        
+
+            return(l_d_sort, self.name_file, self.now_date)  
 
 ## end of file

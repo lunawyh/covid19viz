@@ -1,8 +1,9 @@
+   
 #!/usr/bin/env python
 # -*- coding: utf8 -*-
-# 			dataGrabLa.py
+# 			dataGrabTx.py
 #
-#	grab data from LA state websites
+#	grab data from TX state websites
 #
 #
 
@@ -11,17 +12,17 @@
 # ==============================================================================
 from __future__ import print_function
 import os
-import shutil
 from os.path import isfile, join
 import pandas as pd
 import csv
-
-import webbrowser
-
+import urllib
+import ssl
+import datetime 
+from lxml import html
+import requests
 # ==============================================================================
 # -- codes -------------------------------------------------------------------
-# ==============================================================================
-
+# ============================================================================== ## save downloaded data to daily or overal data 
 # class for dataGrab
 class dataGrabLa(object):
     ## the start entry of this class
@@ -32,111 +33,116 @@ class dataGrabLa(object):
         self.state_name = n_state
         self.state_dir = './'+n_state.lower()+'/'
         self.l_state_config = l_config
-        self.f_download1 = None
-        self.f_download2 = None
 
-    # go to parseDfData
-    ##to shape the list that is combinded
+
     ## save to csv 
     def save2File(self, l_data, csv_name):
         csv_data_f = open(csv_name, 'w')
         # create the csv writer 
         csvwriter = csv.writer(csv_data_f)
         # make sure the 1st row is colum names
-        if('Parish' in str(l_data[0][0])): pass
+        if('County' in str(l_data[0][0])): pass
         else: csvwriter.writerow(['County', 'Cases', 'Deaths'])
         for a_row in l_data:
             csvwriter.writerow(a_row)
         csv_data_f.close()
-        print('  save to', csv_name)
-    
-    # go to open4File
+
+    ## open a website 
+    def open4Website(self, fRaw):
+        csv_url = self.l_state_config[5][1]
+        print('  open4Website', csv_url)
+        # save html file
+        #urllib.urlretrieve(csv_url, fRaw)
+        # save html file
+        c_page = requests.get(csv_url)
+        c_tree = html.fromstring(c_page.content)
+        l_links = c_tree.xpath('//p//a')
+        a_address = ''
+        for l_data in l_links:      
+            if('Data by Parish by Day' in l_data.text_content()):
+                a_address = 'https://ldh.la.gov' + l_data.get('href')
+                print('  find link at', a_address)
+		
+        return a_address
     ## parse from exel format to list 
     def parseDfData(self, df, fName=None):
         (n_rows, n_columns) = df.shape 
         # check shape
-        #print('  parseDfData', df.columns[0])
+        #print('parseDfData', df.title)
         lst_data = []
         for ii in range(n_rows):
             a_case = []
             for jj in range(n_columns):
+                #is the 'iloc(select rows and columns by number)' is ' nan(not a number)'
                 if( str(df.iloc[ii, jj]) == 'nan'  ): 
                     a_case.append( 0 )
+
                     continue
+                #a_case will have all the data from the 'data'
                 a_case.append( df.iloc[ii, jj] )
             lst_data.append( a_case )
         # save to a database file
+        #if the file do not already exist
         if(fName is not None): self.save2File( lst_data, fName )
+        #return the data that turned in to a ?? now you can use it?
         return lst_data
-    
-    ## open a csv 
-    def open4File(self, csv_name):
-        if(isfile(csv_name) ):
-            df = pd.read_csv(csv_name)
-            l_data = self.parseDfData(df)
-        else: return []
-        return l_data
     ## save downloaded data to daily or overal data 
-    def saveLatestDateLa(self, l_raw_data_1, l_raw_data_2, name_file):
+    def saveLatestDateTx(self, l_raw_data, name_file):
         l_overall = []
-        n_total = [0, 0]
-        for a_item in l_raw_data_1:
-            n_total[0] += a_item[2]                
-             
-            l_overall.append(a_item[0:2])
-        for a_item2 in l_raw_data_2:
-               
-            n_total[1] += a_item2[2]                
-            l_overall.append(a_item2[1:2])
-
-        l_overall.append(['Total', n_total[0], n_total[1]])
+        offset = 0   # after 5/5 changed from 1 to 0
+        total_cases, total_death = 0, 0
+        l_overall.append(['County', 'Cases', 'Deaths'])
+        for a_item in l_raw_data:
+            if ('Confirmed' in a_item[1]): pass
+            else: continue
+            total_cases += a_item[2]
+            total_death += a_item[3]
+                
+            l_overall.append([a_item[0], a_item[2], a_item[3]])  
+        l_overall.append(['Total', total_cases, total_death])  
+        print ('  Total', total_cases, total_death)
         self.save2File(l_overall, self.state_dir + 'data/'+self.state_name.lower()+'_covid19_'+name_file+'.csv')
         return l_overall
-    def get_download_path(self):
-	    """Returns the default downloads path for linux or windows"""
-	    if os.name == 'nt':
-		import winreg
-		sub_key = r'SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders'
-		downloads_guid = '{374DE290-123F-4565-9164-39C4925E467B}'
-		with winreg.OpenKey(winreg.HKEY_CURRENT_USER, sub_key) as key:
-		    location = winreg.QueryValueEx(key, downloads_guid)[0]
-		return location
-	    else:
-		return os.path.join(os.path.expanduser('~'), 'Downloads')
+    ## open a xlsx 
+    def open4Xlsx(self, xlsx_name):
+        l_data = []
+        if(isfile(xlsx_name) ):
+            xl_file = pd.ExcelFile(xlsx_name)
+            print('  sheet_names', xl_file.sheet_names)
+            nfx = ''
+            for sheet in xl_file.sheet_names:  # try to find known name of sheet
+                if ('TESTING' in (sheet)):
+                    print('  select sheet', sheet)
+                    nfx = sheet
+                    break
+            if nfx == '': # if not found, use the 1st sheet
+                if(len(xl_file.sheet_names) > 0): nfx = xl_file.sheet_names[0]
+                else: return []
+            df = xl_file.parse( nfx )
+            
+            l_data = self.parseDfData(df)
+            #print('  l_data', l_data)
+
+        return l_data
+
+
     ## paser data CA
-    def browseData(self, name_file):
+    def parseData(self, name_file, date_target, type_download):
             self.name_file = name_file
-            # step A: downlowd and save
-            webbrowser.open(self.l_state_config[5][1], new=2)
-            self.f_download1 = self.get_download_path() + "/Case Counts by Parish.csv"
-            self.f_download2 = self.get_download_path() + "/Deaths by Parish.csv"
+            # step A: read date
+            urlData = self.open4Website(name_file)
+            #self.open4excel(name_file)
+            # step B: save raw
+            f_name = self.state_dir + 'data_raw/'+self.state_name.lower()+'_covid19_'+self.name_file+'.html'
+            f_n_total = self.state_dir + 'data_raw/'+self.state_name.lower()+'_covid19_'+self.name_file+'.xlsx'
+            if(not os.path.isdir(self.state_dir + 'data_raw/') ): os.mkdir(self.state_dir + 'data_raw/')
+            # 
+            urllib.urlretrieve(urlData, f_n_total)
+            urllib.urlretrieve(self.l_state_config[5][1], f_name)
+            # step C: read data file and convert to standard file and save
+            lst_raw_data = self.open4Xlsx(f_n_total)
 
-            return ([], name_file, '')
+            lst_data = self.saveLatestDateTx(lst_raw_data, self.name_file)
+            return(lst_data, self.name_file, self.now_date)  
 
 
-    ## paser data CA
-    def parseData(self):
-            if( (self.f_download1 is not None) and isfile(self.f_download1) ):
-                f_name = self.state_dir + 'data_raw/'+self.state_name.lower()+'_covid19_'+self.name_file+'.csv'
-                if(not os.path.isdir(self.state_dir + 'data_raw/') ): os.mkdir(self.state_dir + 'data_raw/')
-                print('  save raw file to', f_name)
-                shutil.move(self.f_download1, f_name)
-                self.f_download1 = None
-            if( (self.f_download2 is not None) and isfile(self.f_download2) ):
-                f_name = self.state_dir + 'data_raw/'+self.state_name.lower()+'_covid19_'+self.name_file+'_2.csv'
-                if(not os.path.isdir(self.state_dir + 'data_raw/') ): os.mkdir(self.state_dir + 'data_raw/')
-                print('  save raw file to', f_name)
-                shutil.move(self.f_download2, f_name)
-                self.f_download2 = None
-            if( (self.f_download1 is None) and (self.f_download2 is None) ):
-                # open and save as the standard file
-                f_name = self.state_dir + 'data_raw/'+self.state_name.lower()+'_covid19_'+self.name_file+'.csv'
-                l_data_raw_1 = self.open4File(f_name)
-                f_name = self.state_dir + 'data_raw/'+self.state_name.lower()+'_covid19_'+self.name_file+'_2.csv'
-                l_data_raw_2 = self.open4File(f_name)
-                l_overall = self.saveLatestDateLa(l_data_raw_1, l_data_raw_2, self.name_file)
-                return True, l_overall
-
-            return False, []
-
-## end of file

@@ -97,12 +97,10 @@ class dataGrabwa(object):
         driver.get(csv_url)
         time.sleep(5)
         page_text = driver.page_source
-        with open(fRaw, "w") as fp:
-	    fp.write(page_text.encode('utf8'))
-        #
-        #print('  open4Website', page_text)
-        c_tree = html.fromstring(page_text)
 
+        # get updated time
+        c_tree = html.fromstring(page_text)
+        #print('  ooooooooooopen4Website', page_text)
         l_text_data = c_tree.xpath('//div//div//p//strong/text()')
         #print('  open4Website date:', l_text_data)
         statemachine = 100
@@ -111,53 +109,43 @@ class dataGrabwa(object):
                 if('Website Last Updated' in a_data): statemachine = 200
             elif(statemachine == 200):
                 print('    found date:', a_data)
+                dt_obj = datetime.datetime.strptime(a_data.split(' ')[-1], '%m/%d/%Y')
+                self.name_file = dt_obj.strftime('%Y%m%d')
+                self.now_date = dt_obj.strftime('%m/%d/%Y')
                 break
-
+        # save raw
+        fRaw = self.state_dir + 'data_raw/'+self.state_name.lower()+'_covid19_'+self.name_file+'.html'
+        with open(fRaw, "w") as fp:
+	        fp.write(page_text.encode('utf8'))
+        print('  raw data are saved to:', fRaw)
+        # get case data
         l_text_data_nam = c_tree.xpath('//div//div//div//table//tbody//tr//td//a/text()')
         #print('  open4Website county:', l_text_data)
         l_text_data_num = c_tree.xpath('//div//div//div//table//tbody//tr//td/text()')
         #l_ending = 'Negative'
         #l_text_data_num = l_text_data_num.split(',')
+        #print('  l_text_data_num:', l_text_data_num)
         l_cases1 = []
-        for l_rrr in l_text_data_num:
-            if l_rrr == 'Negative':
-                break
-            elif l_rrr == 'Unassigned': continue
+        for l_qqq in l_text_data_num:
+            l_rrr = l_qqq.replace(',', '')
+            if l_rrr == 'Unassigned': continue
+            elif (not l_rrr.isdigit()): break
             else:
                 l_cases1.append(l_rrr)
-        #print('  open4Website data:', l_data1)
-        l_cases2 = np.reshape( l_cases1, (len( l_cases1)/3, 3)).T
-        l_cases3 = np.vstack((l_text_data_nam, l_cases2[0], l_cases2[2])).T 
-
-        print('mmmmmmmmm, l_cases3')
+        # delete , and convert to int
+        # change shape        
+        l_cases3 = np.reshape( l_cases1, (len( l_cases1)/3, 3)).T
+        print('  l_text_data_num:', len(l_cases3), len(l_cases3[0]))
+        l_text_data_nam.append('Unassigned')
+        l_text_data_nam.append('Total')
+        print('  l_text_data_nam:', len(l_text_data_nam))
+        # put together        
+        l_cases3 = np.vstack((l_text_data_nam, l_cases3[0], l_cases3[2])).T 
+        print('  list name+number:', len(l_cases3), len(l_cases3[0]))
+        driver.quit()  # close the window
         return l_cases3
 
 
-
-    '''
-    ## paser data FL    
-    def dataDownload(self, name_target):
-            print('  A.dataDownload', name_target)
-            f_name = self.state_dir + 'data_raw/'+self.state_name.lower()+'_covid19_'+name_target+'.html'
-            if(not os.path.isdir(self.state_dir + 'data_raw/') ): os.mkdir(self.state_dir + 'data_raw/')
-            # step A: downlowd and save
-            if( True): # not isfile(f_name) ): 
-                a_address = self.open4Website(f_name)
-                print('******************', a_address)
-                if(a_address == ''): return ''
-                #rg_a_address = requests.get(a_address)
-                #dt_obj = datetime.datetime.strptime(s_date, '%Y%m%d')
-                #print('  updated on', dt_obj)
-                #nums = int(n_start)
-                #f_name = self.state_dir + 'data_raw/'+self.state_name.lower()+'_covid19_'+self.name_file+'.pdf'
-                if(not isfile(f_name) ):
-                        result = self.download4Website(a_address, f_name)
-                        print('  downloaded', result)
-                else:
-                        print('  already exiting')
-            else: f_name = ''
-            return f_name
-    '''
     ## paser data FL
     def readList4Page(self, pdfReader, page):
         pageObj = pdfReader.getPage(page)
@@ -247,16 +235,12 @@ class dataGrabwa(object):
     def parseData(self, name_target, date_target, type_download):
             self.name_file = name_target
             self.now_date = date_target
+            f_name_raw = self.state_dir + 'data_raw/'+self.state_name.lower()+'_covid19_'+name_target+'.html'
+            if(not os.path.isdir(self.state_dir + 'data_raw/') ): os.mkdir(self.state_dir + 'data_raw/')
             #step A, download raw data
-            f_target = self.open4Website(name_target)
-            if(f_target == ''): return ([], name_target, date_target)
+            l_target = self.open4Website(f_name_raw)
+            if(len(l_target) <= 0): return ([], name_target, date_target)
             #step B, read data
-            l_d_sort = self.dataReadConfirmed(f_target)
-            #if(len(l_d_sort) > 0): l_d_all = self.dataReadDeath(l_d_sort, pdfReader)
-            #else: l_d_all = []
-            # Step C: filter data
-            l_data_all = self.dataFilter(l_d_sort)
-            #l_data_find = self.gotTheData(l_data_all)
-            return(l_data_all, self.name_file, self.now_date)  
+            return(l_target, self.name_file, self.now_date)  
 
 ## end of file

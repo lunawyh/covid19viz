@@ -137,7 +137,13 @@ class dataGrabWY(object):
                 if(':' in se_data): 
 
                     l_data1 = se_data.split (':')
-                    l_data2 = l_data1[1].split(' ')
+                    if ' (' in l_data1[1]:
+                    	l_data2 = l_data1[1].split(' ')
+                    else:
+                    	l_data2 = l_data1[1]
+                    	print('  )))))))))))))))))))', l_data1[1])
+                    	l_data3 = l_data2.split('(')
+                    	print('  )))))))))))))))))))', l_data3)
                     print ('  $$$$', l_data1[0], l_data2[1])
                     l_data.append([l_data1[0], int(l_data2[1]), 0])
                     print('      county', se_data)
