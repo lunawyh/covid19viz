@@ -849,6 +849,9 @@ class runCoViz(object):
 		    1) 
     # check and return maximum type_download
     def getMaxDownloadType(self):
+        # calculate from self.state_name
+        return (ord(self.state_name[0])*100 + ord(self.state_name[1]))
+        # otherwise, choose a unique number
         l_types = []
         with open('./coviz.py') as f:
                 a_content = f.readlines()  
@@ -869,13 +872,13 @@ class runCoViz(object):
     def updateDownloadType(self, n_type):
         # coviz.py this file
         s_target = '        elif (type_download == 8): \n\
-            sys.path.insert(0, \"./Xyz\") \n\
+            sys.path.insert(0, \"./abc\") \n\
             from dataGrabXyz import * \n\
             # step A: create new class \n\
             data_grab = dataGrabXyz(self.l_state_config, self.state_name) \n\
             # step B: parse to standard file \n\
             lst_data, self.name_file, self.now_date = data_grab.parseData(self.name_file, self.now_date, type_download) \n'
-        s_target = s_target.replace('8', '%d'%(n_type)).replace('Xyz', self.state_name)
+        s_target = s_target.replace('8', '%d'%(n_type)).replace('Xyz', self.state_name).replace('abc', self.state_name.lower())
         with open('./coviz.py') as f:
             a_content = f.readlines()  
         n_line = 0
