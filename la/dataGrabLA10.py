@@ -129,6 +129,7 @@ class dataGrabLa(object):
     ## paser data CA
     def parseData(self, name_file, date_target, type_download):
             self.name_file = name_file
+            self.now_date = date_target
             # step A: read date
             urlData = self.open4Website(name_file)
             #self.open4excel(name_file)
