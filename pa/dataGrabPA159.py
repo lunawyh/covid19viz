@@ -28,6 +28,7 @@ from selenium.webdriver.common.action_chains import ActionChains
 import time
 import numpy as np
 import os, subprocess
+import itertools
 from pdfminer.high_level import extract_text  # pip install pdfminer.six
  
 # ==============================================================================
@@ -151,22 +152,22 @@ class dataGrabPA(object):
             for l_sub1 in l_cases1:
                 print('  l_sub1', l_sub1[0])
             #return []
-            print('/////////////', l_cases1)
+            #print('/////////////', l_cases1)
             small_name2_list = []
             #print('........', l_cases1[9])
-            for case in l_cases1[8]:
+            for case in l_cases1[7]:
                 case.split(' ')
                 if len(case) <= 2: pass
                 else:
                     small_name2_list.append(case.replace('\x0c', ''))
             small_name3_list= []
-            for case2 in l_cases1[2]:
+            for case2 in l_cases1[13]:
                 if len(case2) <= 2: pass
                 else:
                     small_name3_list.append(case2)
-            nam_list = small_name3_list[2:] +small_name2_list[1:]
+            nam_list = l_cases1[0][1:] +small_name2_list+ small_name3_list
             print('full name list ..........', nam_list)      
-            num_list = l_cases1[4]+ l_cases1[9]
+            num_list = l_cases1[4]+ l_cases1[8] +l_cases1[15]
             list_of_0s = [0]*len(nam_list)
             print('num list  ........ ', num_list)
             NamNum_list = np.vstack((nam_list, num_list, list_of_0s)).T
@@ -194,13 +195,13 @@ class dataGrabPA(object):
             print('/////////////', l_cases1)
 
             d_case1=[]
-            for dcase in l_cases1[6]:
-                d_case1.append(dcase.replace('\x0c', ''))
+            for dcase in l_cases1[12]:
+                d_case1.append(dcase.replace('\x0c', '').replace(',', ''))
             #print(';;;;;', d_case1)
 
-            deth_nam = l_cases1[2][3:] + d_case1 
+            deth_nam = l_cases1[3][1:] + l_cases1[11][1:]
             #print('death state name;;;;', deth_nam)
-            deth_case = l_cases1[5] + l_cases1[7]
+            deth_case = l_cases1[4] + d_case1
             #print('death case num;;;;', deth_case)
             #print('death name', len(deth_nam))
             #print('death cases', len(deth_case))
@@ -210,12 +211,13 @@ class dataGrabPA(object):
             #----------------------------------------------------
             finall_list = []
             print('', type(d_NamNum_list))
-            '''
-            for death in d_NamNum_list:
-		print('death....', death)
-		for case in NamNum_list :
+            #'''
+            #for death in d_NamNum_list and for case in NamNum_list:
+            for (death, case) in zip(d_NamNum_list, NamNum_list):
+		#print('death....', death)
+		#for case in NamNum_list :
 			if case[0] == death[0]:
-				print('death"""', death)
+				print('death', death)
 				print('', death)
 				finall_list.append([case[0], case[1], death[1]])
 				case[2] += death[1]
@@ -223,7 +225,7 @@ class dataGrabPA(object):
 			else: 
 				finall_list.append([case[0], case[1], case[2]])
 				break
-            '''
+            #'''
 
 
             print(';;;;;;;;;;;;;;;;', finall_list)

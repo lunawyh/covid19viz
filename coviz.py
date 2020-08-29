@@ -595,6 +595,9 @@ class runCoViz(object):
             #len(the number of characters is a string/object)
             if(len(lst_data) > 0): 
                 self.name_file, self.now_date = name_file, now_date
+            # download as a raw file and save
+            lst_data, self.name_file, self.now_date = data_grab.parseData(self.name_file, self.now_date, type_download)	
+
 
         elif( type_download == 10):   # download only
             sys.path.insert(0, "./la")
