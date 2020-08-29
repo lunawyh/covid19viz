@@ -88,7 +88,7 @@ class dataGrabLa(object):
         state_case = []
         case = 0
         for a_lst in lst_data:
-            print('111111111', a_lst)
+            #print('111111111', a_lst)
             if a_lst[1] not in state_nam:
                 if case is not 0:
                   state_case.append(case)
@@ -100,10 +100,10 @@ class dataGrabLa(object):
             else:
                 case += int(a_lst[5])
 
-        print('22222222222', (state_nam))
-        print('33333333333', (state_case))
-        print('len 22222222222', len(state_nam))
-        print('len 33333333333', len(state_case))
+        #print('22222222222', (state_nam))
+        #print('33333333333', (state_case))
+        #print('len 22222222222', len(state_nam))
+        #print('len 33333333333', len(state_case))
 
         l_cases3 = np.vstack((state_nam, state_case)).T 
 
