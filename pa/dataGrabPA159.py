@@ -149,29 +149,24 @@ class dataGrabPA(object):
                 else:
                     l_cases1_sub.append(a_text)
             #print('  l_cases1', len(l_cases1), len(l_cases1[0]))        
-            for l_sub1 in l_cases1:
-                print('  l_sub1', l_sub1[0])
+            #for l_sub1 in l_cases1:
+            #    print('  l_sub1', l_sub1[0])
             #return []
             #print('/////////////', l_cases1)
-            small_name2_list = []
+            nam_list = l_cases1[0][1:]
             #print('........', l_cases1[9])
+            indx = 0
             for case in l_cases1[7]:
-                case.split(' ')
-                if len(case) <= 2: pass
-                else:
-                    small_name2_list.append(case.replace('\x0c', ''))
-            small_name3_list= []
-            for case2 in l_cases1[13]:
-                if len(case2) <= 2: pass
-                else:
-                    small_name3_list.append(case2)
-            nam_list = l_cases1[0][1:] +small_name2_list+ small_name3_list
-            print('full name list ..........', nam_list)      
-            num_list = l_cases1[4]+ l_cases1[8] +l_cases1[15]
-            list_of_0s = [0]*len(nam_list)
-            print('num list  ........ ', num_list)
-            NamNum_list = np.vstack((nam_list, num_list, list_of_0s)).T
-            print('case list', NamNum_list)
+                if(len(case) > 2): nam_list.append(case.replace('\x0c', ''))
+                indx += 1
+            if(len(l_cases1) > 13): nam_list += l_cases1[13]                
+            print('  full name list ..........', len(nam_list))      
+            num_list = l_cases1[3] + l_cases1[10]
+            if(len(l_cases1) > 13): num_list += l_cases1[16]                
+            print('  num list  ..........', len(num_list))
+            NamNum_list = np.vstack( (nam_list, num_list, [0]*len(nam_list) )).T
+            print('  case list ..........', len(NamNum_list))
+            return (NamNum_list)
             #---------------------------death-------------------------
             print('  B.dataReadConfirmed on page 1', f_namea)
             # step B: parse and open
