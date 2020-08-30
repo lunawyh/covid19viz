@@ -28,7 +28,7 @@ from selenium.webdriver.common.by import By
 import time
 import PyPDF2
 from pdfminer.high_level import extract_text
-
+import numpy as np
 # ==============================================================================
 # -- codes -------------------------------------------------------------------
 # ==============================================================================
@@ -45,6 +45,32 @@ class dataGrabNh(object):
         self.l_state_config = l_config
         self.name_file = ''
         self.now_date = ''
+    ## save to csv 
+    def save2File(self, l_data, csv_name):
+        csv_data_f = open(csv_name, 'w')
+        # create the csv writer 
+        csvwriter = csv.writer(csv_data_f)
+        # make sure the 1st row is colum names
+        if('County' in str(l_data[0][0])): pass
+        else: csvwriter.writerow(['County', 'Cases', 'Deaths'])
+        for a_row in l_data:
+            csvwriter.writerow(a_row)
+        csv_data_f.close()
+        print('  save2File', csv_name)
+    ## save downloaded data to daily or overal data 
+    def saveLatestDate(self, l_raw_data, fname):
+        l_overall = []
+        
+        l_overall.append(['County', 'Cases', 'Deaths'])
+        total_case = 0
+        total_death = 0
+        for a_item in l_raw_data:
+            l_overall.append(a_item)
+            total_case += int(a_item[1])
+            total_death += int(a_item[2])
+        l_overall.append(['Total', total_case, total_death])
+        self.save2File(l_overall, fname)
+        return l_overall
     ## save to csv
     def get_download_path(self):
         """Returns the default downloads path for linux or windows"""
@@ -94,22 +120,104 @@ class dataGrabNh(object):
         #    f.close()
 
         siteOpen.quit()  # close the window
+        return os.getcwd() + fRaw[1:]
+    ## read data
+    def readDataFromPdf20200829(self, f_namea):
+        print('  B.readDataFromPdf', f_namea)
+        # step B: parse and open
+        #---------------------------case-------------------------
+        text = extract_text(f_namea)
+        print('  readDataFromPdf', text)
+        l_text1 = text.split('\n')
+        l_text2 = []
+        l_text3 = []
+
+        state_machine = 100
+        for a_text in l_text1:
+            if(len(a_text) <= 0): 
+                continue
+            if(state_machine == 100):
+                if('Persons % of To' in a_text):
+                    state_machine = 200
+            elif(state_machine == 200):                      
+                if(a_text.isdigit()):
+                    l_text3.append(a_text)
+                    state_machine = 300
+                elif('Total' == a_text):
+                    pass
+                else:  # 
+                    l_text2.append(a_text.replace(' Total', '').replace('\xef\xac\x80', 'ff'))
+            elif(state_machine == 300):                      
+                if('Data as of' in a_text):
+                    state_machine = 500
+                elif('%' in a_text):
+                    pass
+                else:
+                    l_text3.append(a_text.replace(',',''))
+        #print('  l_text2', l_text2, len(l_text2))           
+        #print('  l_text3', l_text3, len(l_text3))           
+        l_text5_name = l_text2[4:9] + l_text2[1:2] + l_text2[9:14]
+        l_text6_cases = l_text3[0:5] + l_text3[8:10] + l_text3[-6:-5] + l_text3[10:13] # 5, 2, Rockingham, 3 countries
+        step = 13*2+1
+        l_text7_death = l_text3[step+0:step+5] + l_text3[step+7:step+9] + l_text3[-6+2:-5+2] + l_text3[step+9:step+12]
+        #print('  l_text5_name', l_text5_name, len(l_text5_name))           
+        #print('  l_text6_cases', l_text6_cases, len(l_text6_cases))           
+        #print('  l_text7_death', l_text7_death, len(l_text7_death))  
+        l_cases = np.vstack((l_text5_name, l_text6_cases, l_text7_death)).T          
+        print('  l_cases', l_cases, len(l_cases))  
+        return l_cases
+    ## read data
+    def readDataFromPdf20200815(self, f_namea):
+        print('  B.readDataFromPdf', f_namea)
+        # step B: parse and open
+        #---------------------------case-------------------------
+        text = extract_text(f_namea)
+        #print('  readDataFromPdf', text)
+        l_text1 = text.split('\n')
+        l_text2 = []
+        l_text3 = []
+
+        state_machine = 100
+        for a_text in l_text1:
+            if(len(a_text) <= 0): 
+                continue
+            if(state_machine == 100):
+                if('Persons % of To' in a_text):
+                    state_machine = 200
+            elif(state_machine == 200):  
+                b_text = a_text.replace(',','').replace('\xef\xac\x80', 'ff')                    
+                if(b_text.isdigit()):
+                    l_text3.append(b_text)
+                    state_machine = 300
+                #elif('Total' == a_text):
+                #    pass
+                else:  # 
+                    l_text2.append(b_text)
+            elif(state_machine == 300):                      
+                if('Data as of' in a_text):
+                    state_machine = 500
+                    break
+                #elif('%' in a_text):
+                #    pass
+                else:
+                    l_text3.append(a_text.replace(',',''))
+        print('  l_text2', l_text2, len(l_text2))           
+        print('  l_text3', l_text3, len(l_text3))           
         return []
 
     ## download a website
     def saveData(self, fRaw, sRaw, oRaw):
         page_url = self.l_state_config[5][1]
         print('  download4Website ...', page_url)
-        nj_info = self.downloadAndParseLink(page_url,fRaw, oRaw)
+        if(not isfile(fRaw) ):
+            fRaw = self.downloadAndParseLink(page_url,fRaw, oRaw)
+        #fRaw = './nh/data_raw/nh_covid19_20200815.pdf'
+        data_info = self.readDataFromPdf20200829(fRaw)	
 
-        if(len(nj_info) < 1): return []
-        with open(sRaw, 'wb') as myfile:
-            wr = csv.writer(myfile, quoting=csv.QUOTE_ALL)
-            for c in nj_info:
-                wr.writerow(c)
-            myfile.close()
-        print('  saved to', sRaw)
-        return nj_info
+        if(len(data_info) < 1): return []
+        data_csv = self.saveLatestDate(data_info, sRaw)
+        
+        return data_csv
 
     ## paser data CA
     def parseData(self, name_target, date_target, type_download):

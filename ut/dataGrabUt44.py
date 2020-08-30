@@ -209,9 +209,31 @@ class dataGrabUT(object):
 
         return l_data
 
+    def open4WebsiteSeu(self, fRaw, lst_data):
+        csv_url = self.l_state_config[5][2]
+        print('  open4WebsiteSeu', csv_url)
+        siteOpen = webdriver.Chrome()
+        siteOpen.get(csv_url)
+        time.sleep(10)
+        # county
+        countyNames = siteOpen.find_elements_by_xpath('//div[@class="ag-header-container"]')
+        for c_name in countyNames:
+            dStringList = c_name.text.split()
+            print('  countyNames', dStringList, len(dStringList))
+            break
+        # cases
+        caseNumbers = siteOpen.find_elements_by_xpath('//div[@class="ag-body-container"]')
+        for case_num in caseNumbers:
+            dStringList = case_num.text.split()
+            print('  caseNumbers', dStringList, len(dStringList))
+            break
+
+        time.sleep(3)
+        siteOpen.close()
+        return lst_data
 
     # southeast counties
-    def open4WebsiteSeu(self, fRaw, lst_data):	# https://www.seuhealth.com/covid-19
+    def open4WebsiteSeu01(self, fRaw, lst_data):	# https://www.seuhealth.com/covid-19
         #------------------------------------open website and find date------
         csv_url = self.l_state_config[5][2]
         print('  open4WebsiteSeu', csv_url)
