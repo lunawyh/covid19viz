@@ -27,8 +27,10 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 import time
 import PyPDF2
-from pdfminer.high_level import extract_text
+#from pdfminer.high_level import extract_text
 import numpy as np
+import pytesseract 
+import cv2
 # ==============================================================================
 # -- codes -------------------------------------------------------------------
 # ==============================================================================
@@ -122,50 +124,25 @@ class dataGrabNh(object):
         siteOpen.quit()  # close the window
         return os.getcwd() + fRaw[1:]
     ## read data
-    def readDataFromPdf(self, f_namea):
-        print('  B.readDataFromPdf', f_namea)
+    def readDataFromPng(self, f_namea):
+        print('  B.readDataFromPng', f_namea)
         # step B: parse and open
         #---------------------------case-------------------------
-        text = extract_text(f_namea)
-        #print('  readDataFromPdf', text)
-        l_text1 = text.split('\n')
-        l_text2 = []
-        l_text3 = []
-
-        state_machine = 100
-        for a_text in l_text1:
-            if(len(a_text) <= 0): 
-                continue
-            if(state_machine == 100):
-                if('Persons % of To' in a_text):
-                    state_machine = 200
-            elif(state_machine == 200):                      
-                if(a_text.isdigit()):
-                    l_text3.append(a_text)
-                    state_machine = 300
-                elif('Total' == a_text):
-                    pass
-                else:  # 
-                    l_text2.append(a_text.replace(' Total', '').replace('\xef\xac\x80', 'ff'))
-            elif(state_machine == 300):                      
-                if('Data as of' in a_text):
-                    state_machine = 500
-                elif('%' in a_text):
-                    pass
-                else:
-                    l_text3.append(a_text.replace(',',''))
-        #print('  l_text2', l_text2, len(l_text2))           
-        #print('  l_text3', l_text3, len(l_text3))           
-        l_text5_name = l_text2[4:9] + l_text2[1:2] + l_text2[9:14]
-        l_text6_cases = l_text3[0:5] + l_text3[8:10] + l_text3[-6:-5] + l_text3[10:13] # 5, 2, Rockingham, 3 countries
-        step = 13*2+1
-        l_text7_death = l_text3[step+0:step+5] + l_text3[step+7:step+9] + l_text3[-6+2:-5+2] + l_text3[step+9:step+12]
-        #print('  l_text5_name', l_text5_name, len(l_text5_name))           
-        #print('  l_text6_cases', l_text6_cases, len(l_text6_cases))           
-        #print('  l_text7_death', l_text7_death, len(l_text7_death))  
-        l_cases = np.vstack((l_text5_name, l_text6_cases, l_text7_death)).T          
-        print('  l_cases', l_cases, len(l_cases))  
-        return l_cases
+        img = cv2.imread(f_namea)
+        delay = 0
+        while(delay < 10):
+            crop_img = img[300:620, 0:560]  # from 1080x650
+            cv2.imshow("readDataFromPng", crop_img)
+            key = cv2.waitKeyEx(1000)
+            if(key == 27 or key == 1048603):
+                break
+            delay += 1
+ 
+        custom_config = r'--oem 3 --psm 6'
+        text = pytesseract.image_to_string(crop_img, config=custom_config)
+ 
+        print("  readDataFromPng:",text) 
+        return []
 
     ## download a website
     def saveData(self, fRaw, sRaw, oRaw):
@@ -173,7 +150,9 @@ class dataGrabNh(object):
         print('  download4Website ...', page_url)
         if(not isfile(fRaw) ):
             fRaw = self.downloadAndParseLink(page_url,fRaw, oRaw)
-        data_info = self.readDataFromPdf(fRaw)	
+        #scan and detect text	
+        fRaw = './nh/data_raw/nh_covid19_20200830.png'
+        data_info = self.readDataFromPng(fRaw)	
 
         if(len(data_info) < 1): return []
         data_csv = self.saveLatestDate(data_info, sRaw)
