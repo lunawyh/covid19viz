@@ -117,11 +117,16 @@ class dataGrabUT(object):
         j_data = json.loads(j_str.replace(' County', ''))  # is a json string
         l_raw_data = j_data['x']['data']		# fixed keys
         #print('  ############################################### ', l_raw_data)
+
         l_raw_data = l_raw_data[:2] + l_raw_data[3:]  	# remove 3rd column of Hospitalizations
+
+
         lst_data = zip(*l_raw_data)			# transpose the matrix
-        
+        print('seeeeeeeeeee', lst_data)        
         print('    counties', len(lst_data))
-        return lst_data
+        lst_dateee = lst_data[:5] + lst_data[7:]
+        print('$$$$$$$$$$44', lst_dateee)
+        return lst_dateee
 
     # southwest counties
     def open4WebsiteSwu(self, fRaw, lst_data):  	# https://swuhealth.org/covid/
@@ -156,7 +161,7 @@ class dataGrabUT(object):
         for sw_data in sw_dates:
             if('COVID-19 CASES' in sw_data):
                 l_detail1 = sw_data.split('(')
-                print('      ..............updated date', l_detail1[1])
+                #print('      ..............updated date', l_detail1[1])
         #-----------------------------------get data----------
         c_tree = html.fromstring(page_content)
         print('    look for county data')
@@ -195,7 +200,7 @@ class dataGrabUT(object):
         #print('8888888', num)
         #print('8888888', death)
         l_data = np.vstack((name, num, death)).T 
-        print('ppppppp', l_data)        
+        #print('ppppppp', l_data)        
         # calculate total------------------------------------------------
         #total = (['Total', total_confirmed, total_death])
         #l_data= np.append(l_data, total)
@@ -212,7 +217,7 @@ class dataGrabUT(object):
         countyNames = siteOpen.find_elements_by_xpath('//div[@class="ag-header-container"]')
         for c_name in countyNames:
             dStringList = c_name.text.split()
-            print('  countyNames', dStringList, len(dStringList))
+            #print('  countyNames', dStringList, len(dStringList))
             break
         # cases
         caseNumbers = siteOpen.find_elements_by_xpath('//div[@class="ag-body-container"]')
@@ -256,7 +261,7 @@ class dataGrabUT(object):
     def open4WebsiteSeu01(self, fRaw, lst_data):	# https://www.seuhealth.com/covid-19
         #------------------------------------open website and find date------
         csv_url = self.l_state_config[5][2]
-        print('  open4WebsiteSeu', csv_url)
+        #print('  open4WebsiteSeu', csv_url)
         # save html file
         fRaw = fRaw.replace('.html', 'seu.html')
         if(not isfile(fRaw) ): 
@@ -337,11 +342,24 @@ class dataGrabUT(object):
 
             # step A: downlowd and save
             lst_raw_data = self.open4WebsiteMain(f_name)
-            lst_raw_data = self.open4WebsiteSeu(f_name, lst_raw_data)
-            lst_raw_data = self.open4WebsiteSwu(f_name, lst_raw_data)
+            lst_raw_data2 = self.open4WebsiteSeu(f_name, lst_raw_data)
+            lst_raw_data3 = self.open4WebsiteSwu(f_name, lst_raw_data)
+            lst_raw_data4 = np.concatenate((lst_raw_data2, lst_raw_data3), axis=0)
+            lst_raw_data5 = np.concatenate((lst_raw_data, lst_raw_data4), axis=0)
+
+            anum = 0
+            adeath = 0
+            for lst in lst_raw_data5:
+                anum += int(lst[1])
+                print('1111111111111111', lst[1])
+                adeath += int(lst[2])
+                
+            raw_total_data = (['Total', anum, adeath])
+            print('llllllllll', raw_total_data)
+            lst_raw_data6 = np.append(lst_raw_data5, [['Total', anum, adeath]], axis=0)
 
             # step B: parse and open
-            lst_data = self.saveLatestDateUt(lst_raw_data)
+            lst_data = self.saveLatestDateUt(lst_raw_data6)
             return(lst_data, self.name_file, self.now_date)  #add in l_d_all
 
 
