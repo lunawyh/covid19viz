@@ -161,40 +161,33 @@ class dataGrabUT(object):
         c_tree = html.fromstring(page_content)
         print('    look for county data')
         sw_dates2 = c_tree.xpath('//ul//li/text()')
-        num = []
-        name = []
-        total_confirmed = 0
-        for sw_data in sw_dates:
-            #print('333333', sw_data)
-            if('County' in sw_data):
-                sw_split = sw_data.split(' ')
-                #print('11111111',sw_split)
-                name.append(sw_split[0])
-                num.append(sw_split[2].replace(',', ''))
-                ssss= (sw_split[2]).replace(',', '')
-                total_confirmed += int(sw_split[2].replace(',', ''))
-        sw_dates3 = c_tree.xpath('//li/text()')
 
         death= []
         total_death =0
+        for sw_data in sw_dates2:
+            
+            if('recovered,' in sw_data):
+                start = sw_data.find('recovered,')
+                data = sw_data[start: ]
+                
+                dea = data.split(' ')
+                death.append(int(dea[1]))
+                total_death += int(dea[1])
+                #print('333333', death)
+
+        
+        sw_dates3 = c_tree.xpath('//ul//li//strong/text()')
+        num = []
+        name = []
+        total_confirmed = 0
         for sw_data in sw_dates3:
             #print('333333', sw_data)
-            if('death' in sw_data):
-                #print('..........', sw_data)
-                if len(sw_data)<= 7: continue
-                #print('dddddddddd', sw_data)
+            if(' County:' in sw_data):
+                print('..........', sw_data)
                 sw_s = sw_data.split(' ')
                 #print(',,,,,,,,,', sw_s)
-                if '(' in sw_data:
-                    if sw_s[0] == '':
-                        death.append(sw_s[5].replace(',', ''))
-                        total_death += int(sw_s[5].replace(',', ''))
-                    else: 
-                        death.append(sw_s[4].replace(',', ''))
-                        total_death += int(sw_s[4].replace(',', ''))
-                else: 
-                    death.append(sw_s[2].replace(',', ''))
-                    total_death += int(sw_s[2].replace(',', ''))
+                name.append(sw_s[0])
+                num.append(int(sw_s[2].replace(',', '')))
 
 
 
@@ -204,8 +197,8 @@ class dataGrabUT(object):
         l_data = np.vstack((name, num, death)).T 
         print('ppppppp', l_data)        
         # calculate total------------------------------------------------
-        total = (['Total', total_confirmed, total_death])
-        l_data= np.append(l_data, total)
+        #total = (['Total', total_confirmed, total_death])
+        #l_data= np.append(l_data, total)
 
         return l_data
 
@@ -224,13 +217,40 @@ class dataGrabUT(object):
         # cases
         caseNumbers = siteOpen.find_elements_by_xpath('//div[@class="ag-body-container"]')
         for case_num in caseNumbers:
-            dStringList = case_num.text.split()
-            print('  caseNumbers', dStringList, len(dStringList))
+            dStringList_num = case_num.text.split()
+            print('  caseNumbers', dStringList_num, len(dStringList))
             break
 
         time.sleep(3)
         siteOpen.close()
-        return lst_data
+
+        name= []
+        for dS in dStringList:
+            if dS == 'Cases': continue
+            if dS == 'County': continue
+            if dS == 'Totals': continue
+            else:
+                name.append(dS)
+        #print('5555555............', name)
+
+        case = []
+        for i in range(0, 10):
+            if dStringList_num[i] == 'Total':
+                case.append(int(dStringList_num[i+1]))
+                case.append(int(dStringList_num[i+2]))
+                case.append(int(dStringList_num[i+3]))
+        #print('666666666', case)
+
+        death = []
+        for i in range(0, 40):
+            if dStringList_num[i] == 'Deaths':
+                death.append(int(dStringList_num[i+1]))
+                death.append(int(dStringList_num[i+2]))
+                death.append(int(dStringList_num[i+3]))
+        #print('777777777', death)
+
+        l_data = np.vstack((name, case, death)).T 
+        return l_data
 
     # southeast counties
     def open4WebsiteSeu01(self, fRaw, lst_data):	# https://www.seuhealth.com/covid-19
@@ -257,17 +277,10 @@ class dataGrabUT(object):
             else:
                 lst_data_se.append(a_item)
 
-        c_tree = html.fromstring(page_content)
-        #print('    look for updated date')
-        se_dates = c_tree.xpath('//span/text()')
-        for se_data in se_dates:
-            if('2020' in se_data):
-                print('      updated date', se_data)
-                break
-        #print('    look for county data')
-
+    
         #----------------------------------------find data ---------------------
         #print('  download4Website', csv_url)
+        '''
         driver = webdriver.Chrome()
         driver.get(csv_url)
         time.sleep(2)
@@ -313,6 +326,7 @@ class dataGrabUT(object):
         lst_data_se = np.reshape(lst_data_se, (len(lst_data_se)/3, 3)).T
         l_data = np.vstack((lst_data_se[0], lst_data_se[1], lst_data_se[2])).T 
         #print('*******', l_data)
+        '''
         return l_data
     
     ## paser data Ut
