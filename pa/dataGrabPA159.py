@@ -137,8 +137,9 @@ class dataGrabPA(object):
             # step B: parse and open
             #---------------------------case-------------------------
             text = extract_text(f_namea)
-            #print('  dataReadConfirmed', text)
+            #print('  ...................dataReadConfirmed', text)
             l_text = text.split('\n')
+            #print('  ...................222222', l_text)
             l_cases1 = []
             l_cases1_sub = []
             #print(';;;;;;;;;;;;', l_text)
@@ -149,23 +150,23 @@ class dataGrabPA(object):
                 else:
                     l_cases1_sub.append(a_text)
             #print('  l_cases1', len(l_cases1), len(l_cases1[0]))        
-            #for l_sub1 in l_cases1:
-            #    print('  l_sub1', l_sub1[0])
+            for l_sub1 in l_cases1:
+                pass #print('  l_sub1', l_sub1[0])
             #return []
             #print('/////////////', l_cases1)
-            nam_list = l_cases1[0][1:]
-            #print('........', l_cases1[9])
-            indx = 0
-            for case in l_cases1[7]:
-                if(len(case) > 2): nam_list.append(case.replace('\x0c', ''))
-                indx += 1
-            if(len(l_cases1) > 13): nam_list += l_cases1[13]                
-            print('  full name list ..........', len(nam_list))      
-            num_list = l_cases1[3] + l_cases1[10]
-            if(len(l_cases1) > 13): num_list += l_cases1[16]                
+            listch= []
+
+            for case in l_cases1[9]:
+                sss= case.replace('\x0c', '')
+                if(len(sss) > 2): listch.append(sss)
+            nam_list = l_cases1[0][1:]+ listch
+           
+     
+            num_list = l_cases1[5] + l_cases1[10]             
             print('  num list  ..........', len(num_list))
+            print('  name list ..........', len(nam_list))
             NamNum_list = np.vstack( (nam_list, num_list, [0]*len(nam_list) )).T
-            print('  case list ..........', len(NamNum_list))
+
             return (NamNum_list)
             #---------------------------death-------------------------
             print('  B.dataReadConfirmed on page 1', f_namea)
@@ -175,7 +176,7 @@ class dataGrabPA(object):
             l_text = text.split('\n')
             l_cases1 = []
             l_cases1_sub = []
-            #print(';;;;;;;;;;;;', l_text)
+            print(';;;;;;;;;;;;', l_text)
 
 
             for a_text in l_text:
@@ -206,7 +207,7 @@ class dataGrabPA(object):
             #----------------------------------------------------
             finall_list = []
             print('', type(d_NamNum_list))
-            #'''
+
             #for death in d_NamNum_list and for case in NamNum_list:
             for (death, case) in zip(d_NamNum_list, NamNum_list):
 		#print('death....', death)
@@ -220,7 +221,14 @@ class dataGrabPA(object):
 			else: 
 				finall_list.append([case[0], case[1], case[2]])
 				break
-            #'''
+
+
+            total_death = 0
+            total_case = 0
+            for a_line in finall_list:
+                total_case += int(a_line[1])
+                total_death += int(a_line[2])
+            finall_list.append(['Total', total_case, total_death])  
 
 
             print(';;;;;;;;;;;;;;;;', finall_list)
@@ -274,9 +282,11 @@ class dataGrabPA(object):
             if(f_targeta == ''): return ([], name_target, '')
             #Step B read confirmed cases
             l_d_sort = self.dataReadConfirmed(f_targeta, f_targetb)
+            #print('666666666666666', l_d_sort)
             #Step C read death cases
             if(len(l_d_sort) > 0): l_d_all = self.dataReadDeath4Pages(l_d_sort, f_targetb)
             else: l_d_all = []
+            #print('7777777777', l_d_all)
 
             return(l_d_all, self.name_file, self.now_date)  
 
