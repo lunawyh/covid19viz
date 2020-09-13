@@ -647,6 +647,15 @@ class runCoViz(object):
             data_grab = dataGrabNj(self.l_state_config, self.state_name)
             # step B: parse to standard file
             lst_data, self.name_file, self.now_date = data_grab.parseData(self.name_file, self.now_date, type_download)
+
+        elif (type_download == 111):  # download only
+            sys.path.insert(0, "./ok")
+            from dataGrabOK111 import *
+            # step A: create new class
+            data_grab = dataGrabOk(self.l_state_config, self.state_name)
+            # step B: parse to standard file
+            lst_data, self.name_file, self.now_date = data_grab.parseData(self.name_file, self.now_date, type_download)
+
         elif( type_download == 194):   # download only
             sys.path.insert(0, "./nh")
             from dataGrabNh import *
@@ -706,12 +715,12 @@ class runCoViz(object):
         Total_wish = [0, 0]
         Total_plus = [0, 0]
         for a_case_today in l_all_today:
-            if("Total" in a_case_today[0]): a_case_today[0] = 'Total'  # use the same name
+            if("Total" in str(a_case_today[0])): a_case_today[0] = 'Total'  # use the same name
             bFound, a_case_last = self.lookupMapData(a_case_today[0], l_all_last)
             if(bFound):
                 num2 = int(a_case_today[1]) - int(a_case_last[1])
                 num3 = int(a_case_today[2]) - int(a_case_last[2])
-                if("Total" in a_case_today[0]): 
+                if("Total" in str(a_case_today[0])): 
                     Total_wish = [num2, num3] 
                     continue
                 if(num2 > 0 or num3 > 0): 

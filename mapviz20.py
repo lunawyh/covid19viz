@@ -90,7 +90,7 @@ class mapViz(object):
     def lookupMapData(self, c_name, lst_data):
         c_name_clean = c_name.replace('*', '').replace('.', '')
         for cov in lst_data:
-            if c_name_clean in cov[0]:
+            if c_name_clean in str(cov[0]):
                 return True, cov
         #print ('Not found', c_name)
         return False, [' ', 0, 10, 30, (0,0,255)]
@@ -156,8 +156,8 @@ class mapViz(object):
     def setCountyInfo(self, l_counties, l_cases):
         case_max, case_col, case_total = 0, 0.0, 0
         for a_item in l_cases:
-            if('Total' in a_item[0]): continue
-            if('County' in a_item[0]): continue
+            if('Total' in str(a_item[0])): continue
+            if('County' in str(a_item[0])): continue
             n_item = int(a_item[1])
             if(n_item > case_max): case_max = n_item
             case_total += n_item
