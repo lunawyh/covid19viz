@@ -27,8 +27,10 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 import time
 import PyPDF2
-from pdfminer.high_level import extract_text
-
+#from pdfminer.high_level import extract_text
+import numpy as np
+import pytesseract 
+import cv2
 # ==============================================================================
 # -- codes -------------------------------------------------------------------
 # ==============================================================================
@@ -45,6 +47,32 @@ class dataGrabNh(object):
         self.l_state_config = l_config
         self.name_file = ''
         self.now_date = ''
+    ## save to csv 
+    def save2File(self, l_data, csv_name):
+        csv_data_f = open(csv_name, 'w')
+        # create the csv writer 
+        csvwriter = csv.writer(csv_data_f)
+        # make sure the 1st row is colum names
+        if('County' in str(l_data[0][0])): pass
+        else: csvwriter.writerow(['County', 'Cases', 'Deaths'])
+        for a_row in l_data:
+            csvwriter.writerow(a_row)
+        csv_data_f.close()
+        print('  save2File', csv_name)
+    ## save downloaded data to daily or overal data 
+    def saveLatestDate(self, l_raw_data, fname):
+        l_overall = []
+        
+        l_overall.append(['County', 'Cases', 'Deaths'])
+        total_case = 0
+        total_death = 0
+        for a_item in l_raw_data:
+            l_overall.append(a_item)
+            total_case += int(a_item[1])
+            total_death += int(a_item[2])
+        l_overall.append(['Total', total_case, total_death])
+        self.save2File(l_overall, fname)
+        return l_overall
     ## save to csv
     def get_download_path(self):
         """Returns the default downloads path for linux or windows"""
@@ -94,22 +122,42 @@ class dataGrabNh(object):
         #    f.close()
 
         siteOpen.quit()  # close the window
+        return os.getcwd() + fRaw[1:]
+    ## read data
+    def readDataFromPng(self, f_namea):
+        print('  B.readDataFromPng', f_namea)
+        # step B: parse and open
+        #---------------------------case-------------------------
+        img = cv2.imread(f_namea)
+        delay = 0
+        while(delay < 10):
+            crop_img = img[300:620, 0:560]  # from 1080x650
+            cv2.imshow("readDataFromPng", crop_img)
+            key = cv2.waitKeyEx(1000)
+            if(key == 27 or key == 1048603):
+                break
+            delay += 1
+ 
+        custom_config = r'--oem 3 --psm 6'
+        text = pytesseract.image_to_string(crop_img, config=custom_config)
+ 
+        print("  readDataFromPng:",text) 
         return []
 
     ## download a website
     def saveData(self, fRaw, sRaw, oRaw):
         page_url = self.l_state_config[5][1]
         print('  download4Website ...', page_url)
-        nj_info = self.downloadAndParseLink(page_url,fRaw, oRaw)
+        if(not isfile(fRaw) ):
+            fRaw = self.downloadAndParseLink(page_url,fRaw, oRaw)
+        #scan and detect text	
+        fRaw = './nh/data_raw/nh_covid19_20200830.png'
+        data_info = self.readDataFromPng(fRaw)	
 
-        if(len(nj_info) < 1): return []
-        with open(sRaw, 'wb') as myfile:
-            wr = csv.writer(myfile, quoting=csv.QUOTE_ALL)
-            for c in nj_info:
-                wr.writerow(c)
-            myfile.close()
-        print('  saved to', sRaw)
-        return nj_info
+        if(len(data_info) < 1): return []
+        data_csv = self.saveLatestDate(data_info, sRaw)
+        
+        return data_csv
 
     ## paser data CA
     def parseData(self, name_target, date_target, type_download):

@@ -20,6 +20,7 @@ import ssl
 import datetime 
 from lxml import html
 import requests
+import numpy as np
 # ==============================================================================
 # -- codes -------------------------------------------------------------------
 # ============================================================================== ## save downloaded data to daily or overal data 
@@ -82,27 +83,54 @@ class dataGrabLa(object):
                 a_case.append( df.iloc[ii, jj] )
             lst_data.append( a_case )
         # save to a database file
+        #print('......', lst_data)
+
+        state_nam = []
+        state_case = [0, ]
+        case = 0
+        for a_lst in lst_data:
+            #print('111111111', a_lst)
+            if a_lst[1] not in state_nam:
+                if case is not 0:
+                  state_case.append(case)
+                  case = 0
+
+                else:
+                    state_nam.append(a_lst[1])
+                    case +=(int(a_lst[5]))
+            else:
+                case += int(a_lst[5])
+
+        #print('22222222222', (state_nam))
+        #print('33333333333', (state_case))
+        #print('len 22222222222', len(state_nam))
+        #print('len 33333333333', len(state_case))
+
+        l_cases3 = np.vstack((state_nam, state_case, [0]*len(state_case))).T 
+
+
+        total_death = 0
+        total_case = 0
+        for a_line in l_cases3:
+                total_case += int(a_line[1])
+                total_death += int(a_line[2])
+
+        l_cases3 = np.append(l_cases3, [['Total', total_case, total_death]], axis=0)
+
         #if the file do not already exist
-        if(fName is not None): self.save2File( lst_data, fName )
+        if(fName is not None): self.save2File( l_cases3, fName )
         #return the data that turned in to a ?? now you can use it?
-        return lst_data
+        print('555555555', l_cases3)
+        return l_cases3
     ## save downloaded data to daily or overal data 
     def saveLatestDateTx(self, l_raw_data, name_file):
         l_overall = []
-        offset = 0   # after 5/5 changed from 1 to 0
-        total_cases, total_death = 0, 0
+
         l_overall.append(['County', 'Cases', 'Deaths'])
-        for a_item in l_raw_data:
-            if ('Confirmed' in a_item[1]): pass
-            else: continue
-            total_cases += a_item[2]
-            total_death += a_item[3]
-                
-            l_overall.append([a_item[0], a_item[2], a_item[3]])  
-        l_overall.append(['Total', total_cases, total_death])  
-        print ('  Total', total_cases, total_death)
-        self.save2File(l_overall, self.state_dir + 'data/'+self.state_name.lower()+'_covid19_'+name_file+'.csv')
-        return l_overall
+        lst_raw_data6 = np.append(l_overall, l_raw_data, axis=0)
+
+        self.save2File(lst_raw_data6, self.state_dir + 'data/'+self.state_name.lower()+'_covid19_'+name_file+'.csv')
+        return lst_raw_data6
     ## open a xlsx 
     def open4Xlsx(self, xlsx_name):
         l_data = []
@@ -121,7 +149,7 @@ class dataGrabLa(object):
             df = xl_file.parse( nfx )
             
             l_data = self.parseDfData(df)
-            #print('  l_data', l_data)
+            print('  88888888888888888 l_data', l_data)
 
         return l_data
 

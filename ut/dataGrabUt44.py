@@ -117,11 +117,16 @@ class dataGrabUT(object):
         j_data = json.loads(j_str.replace(' County', ''))  # is a json string
         l_raw_data = j_data['x']['data']		# fixed keys
         #print('  ############################################### ', l_raw_data)
+
         l_raw_data = l_raw_data[:2] + l_raw_data[3:]  	# remove 3rd column of Hospitalizations
+
+
         lst_data = zip(*l_raw_data)			# transpose the matrix
-        
+        print('seeeeeeeeeee', lst_data)        
         print('    counties', len(lst_data))
-        return lst_data
+        lst_dateee = lst_data[:5] + lst_data[7:]
+        print('$$$$$$$$$$44', lst_dateee)
+        return lst_dateee
 
     # southwest counties
     def open4WebsiteSwu(self, fRaw, lst_data):  	# https://swuhealth.org/covid/
@@ -156,45 +161,38 @@ class dataGrabUT(object):
         for sw_data in sw_dates:
             if('COVID-19 CASES' in sw_data):
                 l_detail1 = sw_data.split('(')
-                print('      ..............updated date', l_detail1[1])
+                #print('      ..............updated date', l_detail1[1])
         #-----------------------------------get data----------
         c_tree = html.fromstring(page_content)
         print('    look for county data')
         sw_dates2 = c_tree.xpath('//ul//li/text()')
-        num = []
-        name = []
-        total_confirmed = 0
-        for sw_data in sw_dates:
-            #print('333333', sw_data)
-            if('County' in sw_data):
-                sw_split = sw_data.split(' ')
-                #print('11111111',sw_split)
-                name.append(sw_split[0])
-                num.append(sw_split[2].replace(',', ''))
-                ssss= (sw_split[2]).replace(',', '')
-                total_confirmed += int(sw_split[2].replace(',', ''))
-        sw_dates3 = c_tree.xpath('//li/text()')
 
         death= []
         total_death =0
+        for sw_data in sw_dates2:
+            
+            if('recovered,' in sw_data):
+                start = sw_data.find('recovered,')
+                data = sw_data[start: ]
+                
+                dea = data.split(' ')
+                death.append(int(dea[1]))
+                total_death += int(dea[1])
+                #print('333333', death)
+
+        
+        sw_dates3 = c_tree.xpath('//ul//li//strong/text()')
+        num = []
+        name = []
+        total_confirmed = 0
         for sw_data in sw_dates3:
             #print('333333', sw_data)
-            if('death' in sw_data):
-                #print('..........', sw_data)
-                if len(sw_data)<= 7: continue
-                #print('dddddddddd', sw_data)
+            if(' County:' in sw_data):
+                print('..........', sw_data)
                 sw_s = sw_data.split(' ')
                 #print(',,,,,,,,,', sw_s)
-                if '(' in sw_data:
-                    if sw_s[0] == '':
-                        death.append(sw_s[5].replace(',', ''))
-                        total_death += int(sw_s[5].replace(',', ''))
-                    else: 
-                        death.append(sw_s[4].replace(',', ''))
-                        total_death += int(sw_s[4].replace(',', ''))
-                else: 
-                    death.append(sw_s[2].replace(',', ''))
-                    total_death += int(sw_s[2].replace(',', ''))
+                name.append(sw_s[0])
+                num.append(int(sw_s[2].replace(',', '')))
 
 
 
@@ -202,19 +200,68 @@ class dataGrabUT(object):
         #print('8888888', num)
         #print('8888888', death)
         l_data = np.vstack((name, num, death)).T 
-        print('ppppppp', l_data)        
+        #print('ppppppp', l_data)        
         # calculate total------------------------------------------------
-        total = (['Total', total_confirmed, total_death])
-        l_data= np.append(l_data, total)
+        #total = (['Total', total_confirmed, total_death])
+        #l_data= np.append(l_data, total)
 
         return l_data
 
-
-    # southeast counties
-    def open4WebsiteSeu(self, fRaw, lst_data):	# https://www.seuhealth.com/covid-19
-        #------------------------------------open website and find date------
+    def open4WebsiteSeu(self, fRaw, lst_data):
         csv_url = self.l_state_config[5][2]
         print('  open4WebsiteSeu', csv_url)
+        siteOpen = webdriver.Chrome()
+        siteOpen.get(csv_url)
+        time.sleep(10)
+        # county
+        countyNames = siteOpen.find_elements_by_xpath('//div[@class="ag-header-container"]')
+        for c_name in countyNames:
+            dStringList = c_name.text.split()
+            #print('  countyNames', dStringList, len(dStringList))
+            break
+        # cases
+        caseNumbers = siteOpen.find_elements_by_xpath('//div[@class="ag-body-container"]')
+        for case_num in caseNumbers:
+            dStringList_num = case_num.text.split()
+            print('  caseNumbers', dStringList_num, len(dStringList))
+            break
+
+        time.sleep(3)
+        siteOpen.close()
+
+        name= []
+        for dS in dStringList:
+            if dS == 'Cases': continue
+            if dS == 'County': continue
+            if dS == 'Totals': continue
+            else:
+                name.append(dS)
+        #print('5555555............', name)
+
+        case = []
+        for i in range(0, 10):
+            if dStringList_num[i] == 'Total':
+                case.append(int(dStringList_num[i+1]))
+                case.append(int(dStringList_num[i+2]))
+                case.append(int(dStringList_num[i+3]))
+        #print('666666666', case)
+
+        death = []
+        for i in range(0, 40):
+            if dStringList_num[i] == 'Deaths':
+                death.append(int(dStringList_num[i+1]))
+                death.append(int(dStringList_num[i+2]))
+                death.append(int(dStringList_num[i+3]))
+        #print('777777777', death)
+
+        l_data = np.vstack((name, case, death)).T 
+        return l_data
+
+    # southeast counties
+    def open4WebsiteSeu01(self, fRaw, lst_data):	# https://www.seuhealth.com/covid-19
+        #------------------------------------open website and find date------
+        csv_url = self.l_state_config[5][2]
+        #print('  open4WebsiteSeu', csv_url)
         # save html file
         fRaw = fRaw.replace('.html', 'seu.html')
         if(not isfile(fRaw) ): 
@@ -235,17 +282,10 @@ class dataGrabUT(object):
             else:
                 lst_data_se.append(a_item)
 
-        c_tree = html.fromstring(page_content)
-        #print('    look for updated date')
-        se_dates = c_tree.xpath('//span/text()')
-        for se_data in se_dates:
-            if('2020' in se_data):
-                print('      updated date', se_data)
-                break
-        #print('    look for county data')
-
+    
         #----------------------------------------find data ---------------------
         #print('  download4Website', csv_url)
+        '''
         driver = webdriver.Chrome()
         driver.get(csv_url)
         time.sleep(2)
@@ -291,6 +331,7 @@ class dataGrabUT(object):
         lst_data_se = np.reshape(lst_data_se, (len(lst_data_se)/3, 3)).T
         l_data = np.vstack((lst_data_se[0], lst_data_se[1], lst_data_se[2])).T 
         #print('*******', l_data)
+        '''
         return l_data
     
     ## paser data Ut
@@ -301,11 +342,24 @@ class dataGrabUT(object):
 
             # step A: downlowd and save
             lst_raw_data = self.open4WebsiteMain(f_name)
-            lst_raw_data = self.open4WebsiteSeu(f_name, lst_raw_data)
-            lst_raw_data = self.open4WebsiteSwu(f_name, lst_raw_data)
+            lst_raw_data2 = self.open4WebsiteSeu(f_name, lst_raw_data)
+            lst_raw_data3 = self.open4WebsiteSwu(f_name, lst_raw_data)
+            lst_raw_data4 = np.concatenate((lst_raw_data2, lst_raw_data3), axis=0)
+            lst_raw_data5 = np.concatenate((lst_raw_data, lst_raw_data4), axis=0)
+
+            anum = 0
+            adeath = 0
+            for lst in lst_raw_data5:
+                anum += int(lst[1])
+                print('1111111111111111', lst[1])
+                adeath += int(lst[2])
+                
+            raw_total_data = (['Total', anum, adeath])
+            print('llllllllll', raw_total_data)
+            lst_raw_data6 = np.append(lst_raw_data5, [['Total', anum, adeath]], axis=0)
 
             # step B: parse and open
-            lst_data = self.saveLatestDateUt(lst_raw_data)
+            lst_data = self.saveLatestDateUt(lst_raw_data6)
             return(lst_data, self.name_file, self.now_date)  #add in l_d_all
 
 
