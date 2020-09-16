@@ -96,7 +96,7 @@ class dataGrabWY(object):
         driver.get(csv_url)
         time.sleep(2)
         page_text = driver.page_source
-	fRaw, se_dates = self.getUpdatedDate(page_text, fRaw)
+        fRaw, se_dates = self.getUpdatedDate(page_text, fRaw)
         if( not isfile(fRaw)): 
             with open(fRaw, "w") as fp:
                 fp.write(page_text.encode('utf8'))
