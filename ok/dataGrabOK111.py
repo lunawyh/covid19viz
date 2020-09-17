@@ -23,6 +23,10 @@ import json
 import numpy as np
 from selenium import webdriver  # https://selenium-python.readthedocs.io/installation.html
 import time
+from selenium.webdriver.common.keys import Keys 
+import bs4
+from urllib2 import urlopen as uReq
+from bs4 import BeautifulSoup as soup
 # ==============================================================================
 # -- codes -------------------------------------------------------------------
 # ==============================================================================
@@ -92,11 +96,44 @@ class dataGrabOk(object):
     def saveWebsite(self, fRaw):
         csv_url = self.l_state_config[5][1]
         print('  download4Website', csv_url)
+
+        
+        driver = webdriver.Chrome()
+        driver.get(csv_url)
+        #h1 = driver.find_element_by_name('span')
+        #h1 = driver.find_element_by_class_name('drillable-item-content')
+        #h1 = driver.find_element_by_xpath('//span')
+        #h1 = driver.find_element_by_id('greatID')
+        #all_links = driver.find_element_by_class_name('drillable-item-content')
+        all_links = driver.find_element_by_xpath('//span/text()')
+        if all_links == None:
+            all_links = driver.find_element_by_xpath('//span')
+        print('999999999999999', all_links)
+
+        '''
         driver = webdriver.Chrome()
         driver.get(csv_url)
         time.sleep(2)
         page_text = driver.page_source
-	fRaw, se_dates = self.getUpdatedDate(page_text, fRaw)
+
+        #opening up conection, grabbing the page
+        uClient = uReq(csv_url)
+        page_html = uClient.read()
+        uClient.close()
+        page_soup = soup(page_html, "html.parser")
+
+	    #print('llllllllllllllllllllllllll', page_soup)
+        page_soup.div
+	    containers= page_soup.find(id = "drillable-item-content")
+        print('!!!!!!!!!!!!!!!!', containers)
+
+	    browser = webdriver.Safari()
+        browser.get(csv_url)       # 1 
+        time.sleep(2)  
+        search = browser.find_elements_by_id('subjectInput')[1] 
+
+
+	    fRaw, se_dates = self.getUpdatedDate(page_text, fRaw)
         if( not isfile(fRaw)): 
             with open(fRaw, "w") as fp:
                 fp.write(page_text.encode('utf8'))
@@ -104,7 +141,9 @@ class dataGrabOk(object):
         #driver.quit()  # close the window
         #f = file('test', 'r')
         #print f.read().decode('utf8')
-
+	    '''
+        page_text = []
+        se_dates = []
         return page_text, se_dates
     ## open a website 
     def open4WebsiteMain(self, fRaw):
