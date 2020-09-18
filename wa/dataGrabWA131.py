@@ -106,7 +106,7 @@ class dataGrabwa(object):
         statemachine = 100
         for a_data in l_text_data:
             if(statemachine == 100):
-                if('Website Last Updated' in a_data): statemachine = 200
+                if('Website Last Updated 2:20&nbsp;PM' in a_data): statemachine = 200
             elif(statemachine == 200):
                 print('    found date:', a_data)
                 dt_obj = datetime.datetime.strptime(a_data.split(' ')[-1], '%m/%d/%Y')
@@ -118,10 +118,15 @@ class dataGrabwa(object):
         with open(fRaw, "w") as fp:
 	        fp.write(page_text.encode('utf8'))
         print('  raw data are saved to:', fRaw)
-        # get case data
-        l_text_data_nam = c_tree.xpath('//div//div//div//table//tbody//tr//td//a/text()')
-        #print('  open4Website county:', l_text_data)
-        l_text_data_num = c_tree.xpath('//div//div//div//table//tbody//tr//td/text()')
+
+        l_text_data_num = c_tree.xpath('//ul//a//li/text()')
+
+        for a_ccc in l_text_data_num:
+          if 'Cases and Deaths by Week of Illness Onset' in a_ccc:
+             ccc = a_ccc.get('href')
+             print('cccccccccc', ccc)
+          else: print('Hiiiiiiiiiiiii')
+
         #l_ending = 'Negative'
         #l_text_data_num = l_text_data_num.split(',')
         #print('  l_text_data_num:', l_text_data_num)

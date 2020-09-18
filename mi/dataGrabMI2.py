@@ -62,8 +62,10 @@ class dataGrabMI(object):
             if('Updated ' in l_date):
                 a_date = l_date.replace('Updated ', '')
                 #a_date = a_date[2:]
-                print('  a_date', a_date)
-                dt_obj = datetime.datetime.strptime(a_date, '%m/%d/%Y')
+                print('  a_date', a_date[1:10])
+                #ccc= a_date.replace('\xa0', '')
+                #print('  111111111', a_date)
+                dt_obj = datetime.datetime.strptime(a_date[1:10], '%m/%d/%Y')
                 self.name_file = dt_obj.strftime('%Y%m%d')
                 self.now_date = dt_obj.strftime('%m/%d/%Y')
                 break

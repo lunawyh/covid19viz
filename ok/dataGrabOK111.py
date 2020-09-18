@@ -47,9 +47,6 @@ class dataGrabOk(object):
     ## save downloaded data to daily or overal data 
     def saveLatestDateUt(self, l_raw_data):
         #l_overall = []
-        
- 
-
         self.save2File(l_raw_data, self.state_dir + 'data/'+self.state_name.lower()+'_covid19_'+self.name_file+'.csv')
         print ('GHJJ')
         return l_raw_data
@@ -104,65 +101,34 @@ class dataGrabOk(object):
         
         for case_num in caseNumbers:
             dStringList = case_num.text.split()
-            print('  case_num', dStringList )
+            #print('  case_num', dStringList )
+        #print('list---', (dStringList))
+        #print('len---------', len(dStringList))
+        l_cases2 = np.reshape(dStringList, (len(dStringList)/4, 4)).T
 
-        page_text = []
-        se_dates = []
+        case_s = []
+        for a_ll in l_cases2[1]:
+            ss= a_ll.replace(',', '')
+            case_s.append(ss)
+
+        death_s = []
+        for a_ll in l_cases2[2]:
+            ss= a_ll.replace(',', '')
+            death_s.append(ss)
+
+        l_data = np.vstack((l_cases2[0], case_s, death_s)).T 
+        print('11111111111111',l_data)
+
+        case = 0
+        death = 0
+        for a_da in l_data:
+            case += int(a_da[1])
+            death += int(a_da[2])
+        l_cases3 = np.append(l_data, [['Total', case, death]], axis=0)
+
         siteOpen.close()
-        return page_text, se_dates
-    ## open a website 
-    def open4WebsiteMain(self, fRaw):
-        
-        # read updated date
-        print( '  open4WebsiteMain: read date')
-        page_content, se_dates = self.saveWebsite(fRaw)
+        return l_cases3
 
-        # updated date
-        l_data = []
-        n_total = 0
-        l_data.append(['County', 'Cases', 'Deaths'])
-        print('    look for county data')
-        state_machine = 100
-        for se_data in se_dates:
-            if(state_machine == 100):
-                if('Cases by County' in se_data): state_machine = 200
-            elif(state_machine == 200):
-                if(':' in se_data): 
-                    print('      county', se_data)
-                    state_machine = 300
-
-                    l_data1 = se_data.split (':')
-                    l_data2 = l_data1[1].split(' ')
-                    print ('  $$$$', l_data1[0], l_data2[1])
-                    l_data.append([l_data1[0], int(l_data2[1]), 0])
-                    n_total+= int(l_data2[1])
-                    
-            elif(state_machine == 300):
-                if(':' in se_data): 
-
-                    l_data1 = se_data.split (':')
-                    if ' (' in l_data1[1]:
-                    	l_data2 = l_data1[1].split(' ')
-                    else:
-                    	l_data2 = l_data1[1]
-                    	print('  )))))))))))))))))))', l_data1[1])
-                    	l_data3 = l_data2.split('(')
-                    	print('  )))))))))))))))))))', l_data3)
-                    print ('  $$$$', l_data1[0], l_data2[1])
-                    l_data.append([l_data1[0], int(l_data2[1]), 0])
-                    print('      county', se_data)
-                    n_total+= int(l_data2[1])
-                    
-                else: 
-                    print("&%", se_data)
-                    break
-        
-        l_data.append(['Total', n_total, 0])
-        #l_data = se_data
-        print('HIHIHIHI',n_total )
-
-
-        return (l_data)
     
     ## paser data Ut
     def parseData(self, name_file, date_target, type_download):
@@ -171,8 +137,8 @@ class dataGrabOk(object):
             if(not os.path.isdir(self.state_dir + 'data_html/') ): os.mkdir(self.state_dir + 'data_html/')
 
             # step A: downlowd and save
-            lst_raw_data = self.open4WebsiteMain(f_name)
-
+            lst_raw_data = self.saveWebsite(f_name)
+            print('2222222222', lst_raw_data)
 
             # step B: parse and open
             lst_data = self.saveLatestDateUt(lst_raw_data)

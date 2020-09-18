@@ -4,7 +4,7 @@ VIZ_H,660,,,1
 state_map,wa-service-area-map-2020.jpg,,,2
 cordinate,None,,,3
 weblink_num,131,,,4
-weblink_state,https://www.doh.wa.gov/Emergencies/Coronavirus#CovidDataTables,https://www.doh.wa.gov/Emergencies/Coronavirus#CovidDataTables,,5
+weblink_state,https://www.doh.wa.gov/Emergencies/COVID19/DataDashboard,https://www.doh.wa.gov/Emergencies/COVID19/DataDashboard,,5
 state_name,Washington,,,6
 basemap_type,1,,,7
 basemap_center,46.960896,-120.490178,,8
