@@ -47,25 +47,52 @@ class dataGrabMI(object):
             csvwriter.writerow(a_row)
         csv_data_f.close()
 
+
+    def saveWebsite(self, fRaw):
+        csv_url = self.l_state_config[5][1]
+        print('  download4Website', csv_url)
+        driver = webdriver.Chrome()
+        driver.get(csv_url)
+        time.sleep(5)
+        driver.find_elements_by_link_text('By County')[0].click()
+        '''do we need to add 
+        driver.find_elements_by_link_text('All')[0].click() 
+        ? '''
+        #time.sleep(1)
+        #driver.find_element_by_id("input-filter").send_keys("Alexander")
+        time.sleep(1)
+        #driver.find_element_by_id("myDiv").click()
+        #ActionChains(driver).double_click(qqq).perform()
+        driver.execute_script('createTableRows(99);')
+        time.sleep(1)
+        page_text = driver.page_source
+        with open(fRaw, "w") as fp:
+            fp.write(page_text.encode('utf8'))
+        time.sleep(1)
+        driver.quit()  # close the window
+        #f = file('test', 'r')
+        #print f.read().decode('utf8')
+
     ## open a website 
     def open4Website(self, fRaw):
         #csv_url = "https://www.michigan.gov/coronavirus/0,9753,7-406-98163-520743--,00.html"
         #csv_url = 'https://www.michigan.gov/coronavirus/0,9753,7-406-98163_98173---,00.html'
-        csv_url = self.l_state_config[5][1]
+        csv_url = 'https://www.michigan.gov/coronavirus/0,9753,7-406-98163_98173---,00.html'
         # save html file
         #urllib.urlretrieve(csv_url, fRaw)
         # save html file
         c_page = requests.get(csv_url)
         c_tree = html.fromstring(c_page.content)
-        l_dates = c_tree.xpath('//p/text()')
+        l_dates = c_tree.xpath('//h5/text()')
+        print('----------', l_dates)
         for l_date in l_dates:
-            if('Updated ' in l_date):
-                a_date = l_date.replace('Updated ', '')
+            if('Datasets ' in l_date):
+                a_date = l_date.replace('Public Use Datasets ', '')
                 #a_date = a_date[2:]
-                print('  a_date', a_date[1:10])
+                print('  a_date', a_date)
                 #ccc= a_date.replace('\xa0', '')
                 #print('  111111111', a_date)
-                dt_obj = datetime.datetime.strptime(a_date[1:10], '%m/%d/%Y')
+                dt_obj = datetime.datetime.strptime(a_date, '%m/%d/%Y')
                 self.name_file = dt_obj.strftime('%Y%m%d')
                 self.now_date = dt_obj.strftime('%m/%d/%Y')
                 break

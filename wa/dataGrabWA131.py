@@ -101,52 +101,65 @@ class dataGrabwa(object):
         # get updated time
         c_tree = html.fromstring(page_text)
         #print('  ooooooooooopen4Website', page_text)
-        l_text_data = c_tree.xpath('//div//div//p//strong/text()')
-        #print('  open4Website date:', l_text_data)
-        statemachine = 100
-        for a_data in l_text_data:
-            if(statemachine == 100):
-                if('Website Last Updated 2:20&nbsp;PM' in a_data): statemachine = 200
-            elif(statemachine == 200):
-                print('    found date:', a_data)
-                dt_obj = datetime.datetime.strptime(a_data.split(' ')[-1], '%m/%d/%Y')
-                self.name_file = dt_obj.strftime('%Y%m%d')
-                self.now_date = dt_obj.strftime('%m/%d/%Y')
-                break
-        # save raw
-        fRaw = self.state_dir + 'data_raw/'+self.state_name.lower()+'_covid19_'+self.name_file+'.html'
-        with open(fRaw, "w") as fp:
-	        fp.write(page_text.encode('utf8'))
-        print('  raw data are saved to:', fRaw)
+        l_text_data = c_tree.xpath('//tbody//tr//td//a/text()')
+        #print(' 1111111111111 open4Website date:',l_text_data)
+        # then l_text_data is the state names-------------------
+        l_num_data = c_tree.xpath('//tbody//tr//td/text()')
+        cc = len(l_text_data) *3 
+        l_num = l_num_data[ : cc]
+        #print('2222222222222222222222',l_num)
+        un_sigh = l_num_data[cc : cc+4]
+        total = l_num_data[cc+4 : cc+7]
+        tootal= ['Total',]
+        for a_ll in total:
+            tootal.append(a_ll)
+        #print('2222222222222222222222',un_sigh)
+        #print('2222222222222222222222',total)
 
-        l_text_data_num = c_tree.xpath('//ul//a//li/text()')
+        number_data= []
+        for a_un in l_num:
+            aa= a_un.replace(',', '')
+            number_data.append(aa)
 
-        for a_ccc in l_text_data_num:
-          if 'Cases and Deaths by Week of Illness Onset' in a_ccc:
-             ccc = a_ccc.get('href')
-             print('cccccccccc', ccc)
-          else: print('Hiiiiiiiiiiiii')
+        un_sigh= []
+        for a_un in un_sigh:
+            aa= a_un.replace(',', '')
+            un_sigh.append(aa)
 
-        #l_ending = 'Negative'
-        #l_text_data_num = l_text_data_num.split(',')
-        #print('  l_text_data_num:', l_text_data_num)
-        l_cases1 = []
-        for l_qqq in l_text_data_num:
-            l_rrr = l_qqq.replace(',', '')
-            if l_rrr == 'Unassigned': continue
-            elif (not l_rrr.isdigit()): break
-            else:
-                l_cases1.append(l_rrr)
-        # delete , and convert to int
-        # change shape        
-        l_cases3 = np.reshape( l_cases1, (len( l_cases1)/3, 3)).T
-        print('  l_text_data_num:', len(l_cases3), len(l_cases3[0]))
-        l_text_data_nam.append('Unassigned')
-        l_text_data_nam.append('Total')
-        print('  l_text_data_nam:', len(l_text_data_nam))
+        tootal= []
+        for a_un in tootal:
+            aa= a_un.replace(',', '')
+            tootal.append(aa)
+
+
+        un_sigh = np.reshape( un_sigh, (len( un_sigh)/4, 4)).T  
+        un_sigh = np.vstack((un_sigh[0], un_sigh[1], un_sigh[3])).T      
+
+        tootal = np.reshape( tootal, (len( tootal)/4, 4)).T  
+        tootal = np.vstack((tootal[0], tootal[1], tootal[3])).T  
+
+        l_cases3 = np.reshape( number_data, (len( number_data)/3, 3)).T
+        print(' ------ l_text_data:', len(l_text_data))
+        print('  ------l_text_data_num:', l_cases3)
+
         # put together        
-        l_cases3 = np.vstack((l_text_data_nam, l_cases3[0], l_cases3[2])).T 
-        print('  list name+number:', len(l_cases3), len(l_cases3[0]))
+        l_cases3 = np.vstack((l_text_data, l_cases3[0], l_cases3[2])).T 
+        l_data2= np.append(l_cases3, un_sigh)
+        l_data2= np.append(l_data2, tootal)
+        print('3333333333333', len(l_data2))
+        print('3333333333333', l_data2)
+
+        l_dd = []
+        for a_cc in l_data2:
+            if a_cc == '\n' : pass
+            else: l_dd.append(a_cc)
+        print('444444444', l_dd)
+
+        l_data2 = np.reshape( l_dd, (len( l_dd)/3, 3)).T
+        print('3333333333333', l_data2)
+
+        l_cases3 = np.vstack((l_data2[0], l_data2[1], l_data2[2])).T 
+        print('3333333333333', l_cases3)
         driver.quit()  # close the window
         return l_cases3
 
