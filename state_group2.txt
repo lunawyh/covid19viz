@@ -12,4 +12,18 @@ TX
 ##
 ## Group 2
 ##
+still need to do states:
+ND - each number in here is by a diffrent class.
+SD - can not get the table.
+NE - the government website has no data, but maybe by 'https://www.nytimes.com/interactive/2020/us/nebraska-coronavirus-cases.html' ? but not sure if it will updata
+MN
+MO
+WI
+AL
+SC
+WV
+VA
+DC
+CE
 
+#https://www.nytimes.com/interactive/2020/us/states-reopen-map-coronavirus.html

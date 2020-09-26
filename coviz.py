@@ -428,6 +428,21 @@ class runCoViz(object):
                 f_name = self.state_dir + 'data/'+self.state_name.lower()+'_covid19_'+self.name_file+'.csv'
                 self.save2File( lst_data, f_name )
 
+
+        elif( type_download == 926):   # download only
+            sys.path.insert(0, "./mn")
+            from dataGrabMN926 import *
+            # create new class
+            data_grab = dataGrabMN(self.l_state_config, self.state_name)	
+            # download as a raw file 
+            lst_data, name_file, now_date = data_grab.parseData(self.name_file, self.now_date, type_download)		
+            # save
+            if(len(lst_data) > 0): 
+                self.name_file, self.now_date = name_file, now_date
+                f_name = self.state_dir + 'data/'+self.state_name.lower()+'_covid19_'+self.name_file+'.csv'
+                self.save2File( lst_data, f_name )
+
+
         elif( type_download == 333):   # download only
             sys.path.insert(0, "./or")
             from dataGrabOr333 import *
@@ -656,6 +671,14 @@ class runCoViz(object):
             # step B: parse to standard file
             lst_data, self.name_file, self.now_date = data_grab.parseData(self.name_file, self.now_date, type_download)
 
+        elif (type_download == 922):  # download only
+            sys.path.insert(0, "./nd")
+            from dataGrabND922 import *
+            # step A: create new class
+            data_grab = dataGrabND(self.l_state_config, self.state_name)
+            # step B: parse to standard file
+            lst_data, self.name_file, self.now_date = data_grab.parseData(self.name_file, self.now_date, type_download)
+
         elif( type_download == 194):   # download only
             sys.path.insert(0, "./nh")
             from dataGrabNh import *
@@ -719,7 +742,7 @@ class runCoViz(object):
             bFound, a_case_last = self.lookupMapData(a_case_today[0], l_all_last)
             if(bFound):
                 num2 = int(a_case_today[1]) - int(a_case_last[1])
-                num3 = int(a_case_today[2]) - int(a_case_last[2])
+                num3 = int(a_case_today[2].replace(',', '')) - int(a_case_last[2].replace(',', ''))
                 if("Total" in str(a_case_today[0])): 
                     Total_wish = [num2, num3] 
                     continue
