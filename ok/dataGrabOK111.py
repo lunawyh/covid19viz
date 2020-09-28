@@ -100,30 +100,21 @@ class dataGrabOk(object):
         caseNumbers = siteOpen.find_elements_by_xpath('//div[@class="ag-center-cols-container"]')
         
         for case_num in caseNumbers:
-            dStringList = case_num.text.split()
+            dStringList = case_num.text.replace(',', '').split()
             #print('  case_num', dStringList )
         #print('list---', (dStringList))
-        #print('len---------', len(dStringList))
+
+
+        print('len---------', len(dStringList))
         l_cases2 = np.reshape(dStringList, (len(dStringList)/4, 4)).T
 
-        case_s = []
-        for a_ll in l_cases2[1]:
-            ss= a_ll.replace(',', '')
-            case_s.append(ss)
+        #l_data = np.vstack((l_cases2[0], case_s, death_s)).T 
+        l_data = np.vstack((l_cases2[0], l_cases2[1], l_cases2[2]))
+        print('11111111111111',l_data[1])
 
-        death_s = []
-        for a_ll in l_cases2[2]:
-            ss= a_ll.replace(',', '')
-            death_s.append(ss)
-
-        l_data = np.vstack((l_cases2[0], case_s, death_s)).T 
-        print('11111111111111',l_data)
-
-        case = 0
-        death = 0
-        for a_da in l_data:
-            case += int(a_da[1])
-            death += int(a_da[2])
+        case = (sum(map(int, l_data[1])))
+        death = (sum(map(int, l_data[2])))
+        l_data= l_data.T
         l_cases3 = np.append(l_data, [['Total', case, death]], axis=0)
 
         siteOpen.close()

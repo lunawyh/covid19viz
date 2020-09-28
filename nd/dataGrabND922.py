@@ -93,38 +93,56 @@ class dataGrabND(object):
     def saveWebsite(self, fRaw):
         csv_url = self.l_state_config[5][1]
         print('  download4Website', csv_url)
-        
+
         siteOpen = webdriver.Chrome()
         siteOpen.get(csv_url)
         time.sleep(5)
-        caseNumbers = siteOpen.find_elements_by_xpath('//div[@class="type-text svelte-fugjkr first-mobile first-desktop"]')
+
+        # save html file
+        c_page = requests.get(csv_url)
+        c_tree = html.fromstring(c_page.content)
+        with open(fRaw, 'wb') as f:
+            f.write(c_page.content)
+
+
+        caseNumbers = siteOpen.find_elements_by_xpath('//div[@class="bc-bar-inner dw-rect"]')
         #stateNames = siteOpen.find_elements_by_xpath('//div[@class="bc-row-label row-label chart-text label"]')
-        print('++++++++++', caseNumbers)
-        
+
+
+        #print('++++++++++', caseNumbers)
+        case_num_list = []
         for case_num in caseNumbers:  # this is cases------------------------------------bc-bar-inner dw-rect
-            print('  ------------case_num', case_num )
             dStringList = case_num.text.split()
+            #print('  ------------case_num', dStringList )
+            case_num_list.append(dStringList)
 
-        print('list---', (dStringList))
-        print('len---------', len(dStringList))
-        l_cases1 = np.reshape(dStringList, (len(dStringList)/6, 6)).T
+        #print('list---', (case_num_list))
+        #print('len---------', len(case_num_list))
+        l_cases1 = np.reshape(case_num_list, (len(case_num_list)/6, 6)).T
 
 
+        state_name_list = []
+        caseNames = siteOpen.find_elements_by_xpath('//div[@class="bc-row-label row-label chart-text label"]')
+        for state_nam in caseNames:  # this is names------------------------------------
+            dStateName = state_nam.text.split()
+            #print('  222222222222222', dStateName )
+            state_name_list.append(str(dStateName))
 
-        for state_nam in stateNames:  # this is names------------------------------------
-            print('  ------------case_num', state_nam )
-            dStateName = case_num.text.split()
+        state_name_list3 = []
+        for state_nam in state_name_list[1: ]:
+            state_name_list3.append(state_nam)
 
-        l_data_case = np.vstack((dStateName, l_cases1[0], l_cases1[4])).T 
+        #state_name_list2 = state_name_list[1: ]
+        l_data_case = np.vstack((state_name_list3, l_cases1[0], l_cases1[4])).T 
 
         print('11111111111111111', l_data_case)
 
         case = 0
         death = 0
-        for a_da in l_data:
+        for a_da in l_data_case:
             case += int(a_da[1])
             death += int(a_da[2])
-        l_cases3 = np.append(l_data, [['Total', case, death]], axis=0)
+        l_cases3 = np.append(l_data_case, [['Total', case, death]], axis=0)
 
         siteOpen.close()
         return l_cases3
