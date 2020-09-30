@@ -77,7 +77,7 @@ class dataGrabMI(object):
     def open4Website(self, fRaw):
         #csv_url = "https://www.michigan.gov/coronavirus/0,9753,7-406-98163-520743--,00.html"
         #csv_url = 'https://www.michigan.gov/coronavirus/0,9753,7-406-98163_98173---,00.html'
-        csv_url = 'https://www.michigan.gov/coronavirus/0,9753,7-406-98163_98173---,00.html'
+        csv_url = self.l_state_config[5][2]
         # save html file
         #urllib.urlretrieve(csv_url, fRaw)
         # save html file
@@ -174,7 +174,7 @@ class dataGrabMI(object):
             if('Cases and Deaths by County' in l_date.text_content()):
                 a_address = 'https://www.michigan.gov' + l_date.get('href')
                 #https://www.michigan.gov/documents/coronavirus/Cases_and_Deaths_by_County_693160_7.xlsx
-                print(' $$$$$$$$$ find pdf at', a_address)
+                print(' $$$$$$$$$ find .xls at', a_address)
                 break
         return a_address
     ## paser data CA

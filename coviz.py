@@ -760,7 +760,8 @@ class runCoViz(object):
             bFound, a_case_last = self.lookupMapData(a_case_today[0], l_all_last)
             if(bFound):
                 num2 = int(a_case_today[1]) - int(a_case_last[1])
-                num3 = int(a_case_today[2].replace(',', '')) - int(a_case_last[2].replace(',', ''))
+                #num3 = int(a_case_today[2].replace(',', '')) - int(a_case_last[2].replace(',', ''))
+                num3 = int(str(a_case_today[2]).replace(',', '')) - int(str(a_case_last[2]).replace(',', ''))
                 if("Total" in str(a_case_today[0])): 
                     Total_wish = [num2, num3] 
                     continue
