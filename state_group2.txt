@@ -26,4 +26,4 @@ VA
 DC
 CE
 
-#https://www.nytimes.com/interactive/2020/us/states-reopen-map-coronavirus.html
+#finnished

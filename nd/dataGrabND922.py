@@ -105,7 +105,7 @@ class dataGrabND(object):
             f.write(c_page.content)
 
 
-        caseNumbers = siteOpen.find_elements_by_xpath('//div[@class="bc-bar-inner dw-rect"]')
+        caseNumbers = siteOpen.find_elements_by_xpath('//div[@class="bc-bars"]')
         #stateNames = siteOpen.find_elements_by_xpath('//div[@class="bc-row-label row-label chart-text label"]')
 
 
@@ -116,24 +116,36 @@ class dataGrabND(object):
             #print('  ------------case_num', dStringList )
             case_num_list.append(dStringList)
 
+        case_li = []
+        death_li = []
+        for a_line in case_num_list:
+            if len(a_line) == 5:
+                case_li.append(a_line[0])
+                death_li.append(a_line[3])
+
         #print('list---', (case_num_list))
         #print('len---------', len(case_num_list))
-        l_cases1 = np.reshape(case_num_list, (len(case_num_list)/6, 6)).T
+        #l_cases1 = np.reshape(case_num_list, (len(case_num_list)/6, 6)).T
 
 
         state_name_list = []
         caseNames = siteOpen.find_elements_by_xpath('//div[@class="bc-row-label row-label chart-text label"]')
         for state_nam in caseNames:  # this is names------------------------------------
             dStateName = state_nam.text.split()
-            #print('  222222222222222', dStateName )
+            print('  -----------', dStateName )
+            #print(type(dStateName))
             state_name_list.append(str(dStateName))
+        name_li= []
+        for a_nam in state_name_list[1:]:
+            print('@@@@@@@@',a_nam[1:-1] )
+            name_li.append(a_nam[1:-1])
 
         state_name_list3 = []
         for state_nam in state_name_list[1: ]:
             state_name_list3.append(state_nam)
 
         #state_name_list2 = state_name_list[1: ]
-        l_data_case = np.vstack((state_name_list3, l_cases1[0], l_cases1[4])).T 
+        l_data_case = np.vstack((name_li, case_li, death_li)).T 
 
         print('11111111111111111', l_data_case)
 
