@@ -60,7 +60,7 @@ class dataGrabUT(object):
         for a_row in l_data:
             csvwriter.writerow(a_row)
         csv_data_f.close()
-        print('  save2File', csv_name)
+        #print('  save2File', csv_name)
     ## open a csv 
     def open4File(self, csv_name):
         if(isfile(csv_name) ):
@@ -88,17 +88,17 @@ class dataGrabUT(object):
         u_dates = c_tree.xpath('//p/text()')
         for l_date in u_dates:
             if('Report Date: ' in l_date):
-                print('    data is updated,', l_date)
+                #print('    data is updated,', l_date)
                 n_start = l_date.find(l_date)
                 s_date = l_date[n_start:].split(':')
-                print ('    date:', s_date[1]) # an example,  May 24, 2020
+                #print ('    date:', s_date[1]) # an example,  May 24, 2020
                 mdy_date = s_date[1].split(',')
                 md_date = mdy_date[0].split(' ')
                 # Only use first 3 letters of month name
                 dt_obj = datetime.datetime.strptime(md_date[1][:3]+md_date[2]+mdy_date[1], "%b%d %Y")
                 self.name_file = dt_obj.strftime('%Y%m%d')
                 self.now_date = dt_obj.strftime('%m/%d/%Y')
-                print('    name_file is updated:', self.name_file)
+                #print('    name_file is updated:', self.name_file)
                 break
         # read tables
         print ('  read data table of counties')
@@ -122,16 +122,16 @@ class dataGrabUT(object):
 
 
         lst_data = zip(*l_raw_data)			# transpose the matrix
-        print('seeeeeeeeeee', lst_data)        
-        print('    counties', len(lst_data))
+        #print('seeeeeeeeeee', lst_data)        
+        #print('    counties', len(lst_data))
         lst_dateee = lst_data[:5] + lst_data[7:]
-        print('$$$$$$$$$$44', lst_dateee)
+        #print('$$$$$$$$$$44', lst_dateee)
         return lst_dateee
 
     # southwest counties
     def open4WebsiteSwu(self, fRaw, lst_data):  	# https://swuhealth.org/covid/
         csv_url = self.l_state_config[5][3]
-        print('  open4WebsiteSwu', csv_url)
+        #print('  open4WebsiteSwu', csv_url)
         
         # save html file, can not use urllib.urlretrieve
         r = requests.get(csv_url)
@@ -158,15 +158,17 @@ class dataGrabUT(object):
         c_tree = html.fromstring(page_content)
         print('    look for updated date and county data')
         sw_dates = c_tree.xpath('//ul//li//strong/text()')   # ('//div[@class="col-xs-12 button--wrap"]')
+        #sw_dates = c_tree.xpath('//ul//li/text()')  
+        print('11111111111', sw_dates)
         for sw_data in sw_dates:
             if('COVID-19 CASES' in sw_data):
                 l_detail1 = sw_data.split('(')
-                #print('      ..............updated date', l_detail1[1])
+                print('      ..............updated date', l_detail1)
         #-----------------------------------get data----------
         c_tree = html.fromstring(page_content)
         print('    look for county data')
         sw_dates2 = c_tree.xpath('//ul//li/text()')
-
+        print('222222222222222', sw_dates2)
         death= []
         total_death =0
         for sw_data in sw_dates2:
@@ -174,11 +176,13 @@ class dataGrabUT(object):
             if('recovered,' in sw_data):
                 start = sw_data.find('recovered,')
                 data = sw_data[start: ]
-                
+
                 dea = data.split(' ')
-                death.append(int(dea[1]))
-                total_death += int(dea[1])
-                #print('333333', death)
+                print('33333333333333', dea)
+                if len(dea) >= 3:
+                    death.append(int(dea[1]))
+                    total_death += int(dea[1])
+                    print('333333', death)
 
         
         sw_dates3 = c_tree.xpath('//ul//li//strong/text()')
@@ -186,11 +190,11 @@ class dataGrabUT(object):
         name = []
         total_confirmed = 0
         for sw_data in sw_dates3:
-            #print('333333', sw_data)
+            print('4444444444444444', sw_data)
             if(' County:' in sw_data):
                 print('..........', sw_data)
                 sw_s = sw_data.split(' ')
-                #print(',,,,,,,,,', sw_s)
+                print(',,,,,,,,,', sw_s)
                 name.append(sw_s[0])
                 num.append(int(sw_s[2].replace(',', '')))
 
@@ -223,7 +227,7 @@ class dataGrabUT(object):
         caseNumbers = siteOpen.find_elements_by_xpath('//div[@class="ag-body-container"]')
         for case_num in caseNumbers:
             dStringList_num = case_num.text.split()
-            print('  caseNumbers', dStringList_num, len(dStringList))
+            #print('  caseNumbers', dStringList_num, len(dStringList))
             break
 
         time.sleep(3)

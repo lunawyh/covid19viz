@@ -156,15 +156,15 @@ class dataGrabPA(object):
             #print('/////////////', l_cases1)
             listch= []
             lisss= []
-            for case in l_cases1[7]:
+            for case in l_cases1[0]:
                 sss= case.replace('\x0c', '')
                 if(len(sss) > 2): listch.append(sss)
 
-            for case in l_cases1[14]:
+            for case in l_cases1[9]:
                 sss= case.replace('\x0c', '')
                 if(len(sss) > 2): lisss.append(sss)
 
-            nam_list = l_cases1[0][1:]+ listch + lisss
+            nam_list = listch[1:] + lisss
 
             name_l = []
             for ccc in nam_list:
@@ -174,7 +174,7 @@ class dataGrabPA(object):
                 name_l .append(ttt)
            
      
-            num_list = l_cases1[4] + l_cases1[11] + l_cases1[16]               
+            num_list = l_cases1[5] + l_cases1[10]            
             print('  num list  ..........', len(num_list))
             print('  name list ..........', len(nam_list))
             NamNum_list = np.vstack( (nam_list, num_list, [0]*len(nam_list) )).T
