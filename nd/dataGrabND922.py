@@ -96,18 +96,17 @@ class dataGrabND(object):
 
         siteOpen = webdriver.Chrome()
         siteOpen.get(csv_url)
-        time.sleep(5)
+        time.sleep(7)
 
         # save html file
         c_page = requests.get(csv_url)
         c_tree = html.fromstring(c_page.content)
         with open(fRaw, 'wb') as f:
             f.write(c_page.content)
-
+        print('  saved to ', fRaw)
 
         caseNumbers = siteOpen.find_elements_by_xpath('//div[@class="bc-bars"]')
         #stateNames = siteOpen.find_elements_by_xpath('//div[@class="bc-row-label row-label chart-text label"]')
-
 
         #print('++++++++++', caseNumbers)
         case_num_list = []
@@ -123,31 +122,19 @@ class dataGrabND(object):
                 case_li.append(a_line[0])
                 death_li.append(a_line[3])
 
-        #print('list---', (case_num_list))
-        #print('len---------', len(case_num_list))
-        #l_cases1 = np.reshape(case_num_list, (len(case_num_list)/6, 6)).T
-
-
         state_name_list = []
         caseNames = siteOpen.find_elements_by_xpath('//div[@class="bc-row-label row-label chart-text label"]')
         for state_nam in caseNames:  # this is names------------------------------------
-            dStateName = state_nam.text.split()
-            print('  -----------', dStateName )
+            dStateName = state_nam.text # .split()
+            #print('  -----------', dStateName )
+            #unicodedata.normalize('NFKD', dStateName).encode('ascii', 'ignore')  # from unicode to ansi string
             #print(type(dStateName))
-            state_name_list.append(str(dStateName))
-        name_li= []
-        for a_nam in state_name_list[1:]:
-            print('@@@@@@@@',a_nam[1:-1] )
-            name_li.append(a_nam[1:-1])
-
-        state_name_list3 = []
-        for state_nam in state_name_list[1: ]:
-            state_name_list3.append(state_nam)
+            state_name_list.append(dStateName)
 
         #state_name_list2 = state_name_list[1: ]
-        l_data_case = np.vstack((name_li, case_li, death_li)).T 
+        l_data_case = np.vstack((state_name_list[1:], case_li, death_li)).T 
 
-        print('11111111111111111', l_data_case)
+        print('  saveWebsite: read data ', len(l_data_case) )
 
         case = 0
         death = 0
@@ -168,7 +155,7 @@ class dataGrabND(object):
 
             # step A: downlowd and save
             lst_raw_data = self.saveWebsite(f_name)
-            print('2222222222', lst_raw_data)
+            #print('2222222222', lst_raw_data)
 
             # step B: parse and open
             lst_data = self.saveLatestDateUt(lst_raw_data)
