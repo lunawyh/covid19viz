@@ -5,7 +5,7 @@ state_map,new_hampshire_map.jpg,,,2
 cordinate,None,,,3
 type_download,194,,,4
 weblink_state,https://www.nh.gov/covid19/dashboard/cumulative-cases.htm,,,5
-state_name,Must input,,,6
+state_name,New Hampshire,,,6
 basemap_type,1,,,7
 basemap_center,0,0,,8
 basemap_size,0,0,,9
