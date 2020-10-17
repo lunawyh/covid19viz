@@ -137,6 +137,7 @@ class dataGrabNh(object):
             for d2 in d1:
                 #common replacement
                 d2 = d2.replace(',','')
+                d2 = d2.replace('s','')
                 d1[j] = d2
                 j = j + 1
                 print(d2)
