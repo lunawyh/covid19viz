@@ -10,9 +10,9 @@ cordinate,None,0,0,3
 ,,,,
 type_download,8273,0,0,4
 ,,,,
-weblink_state,Must input,0,0,5
+weblink_state,https://covid.cdc.gov/covid-data-tracker/#county-map,0,0,5
 ,,,,
-state_name,Must input,0,0,6
+state_name,Rhode Island,0,0,6
 ,,,,
 basemap_type,1,0,0,7
 ,,,,

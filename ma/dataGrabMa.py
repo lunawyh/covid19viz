@@ -134,12 +134,12 @@ class dataGrabMa(object):
                 pass
             else:
                 continue
-            if('' == a_item[2]): a_item[2] = 0
             if('' == a_item[3]): a_item[3] = 0
-            total_overral += int(a_item[2])
-            total_overral_deaths += int(a_item[3])
+            if('' == a_item[5]): a_item[5] = 0
+            total_overral += int(a_item[3])
+            total_overral_deaths += int(a_item[5])
             #
-            l_overral.append([a_item[1], a_item[2], a_item[3]])
+            l_overral.append([a_item[1], a_item[3], a_item[5]])
         l_overral.sort(key=lambda county: county[0])
         #
         l_overral.append(['Total', total_overral, total_overral_deaths])

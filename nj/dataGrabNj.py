@@ -79,9 +79,9 @@ class dataGrabNj(object):
                     countyList = str(countyList + str(w))
             if(not bFound): continue
             del dStringList[0:(dStringList.index('County')+1)]
-            allList.append([countyList,int(str(dStringList[3]).replace(',','')),int(str(dStringList[6]).replace(',',''))])
-            totalPositives = totalPositives + int(str(dStringList[3]).replace(',',''))
-            totalDeaths = totalDeaths + int(str(dStringList[6]).replace(',', ''))
+            allList.append([countyList,int(str(dStringList[6]).replace(',','')),int(str(dStringList[3]).replace(',',''))])
+            totalPositives = totalPositives + int(str(dStringList[6]).replace(',',''))
+            totalDeaths = totalDeaths + int(str(dStringList[3]).replace(',', ''))
         #dates = siteOpen.find_element_by_css_selector('strong')
         #print(dates)
         allList.append(['Total',totalPositives,totalDeaths])
