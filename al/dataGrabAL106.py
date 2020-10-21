@@ -26,6 +26,7 @@ import time
 from selenium.webdriver.common.keys import Keys 
 import bs4
 from urllib2 import urlopen as uReq
+import itertools
 
 # ==============================================================================
 # -- codes -------------------------------------------------------------------
@@ -112,40 +113,66 @@ class dataGrabAL(object):
         case_nam_list = []
         for case_num in caseNumbers:  # this is cases------------------------------------bc-bar-inner dw-rect
             dStringList = case_num.text.split()
-            #print('  ------------case_num', dStringList )
+            print('  ------------case_num', dStringList )
             case_nam_list.append(dStringList)
+            
 
         state_case_list = []
         caseNum = siteOpen.find_elements_by_xpath('//td[@data-field="CONFIRMED"]')
         for case_num in caseNum:  # this is names------------------------------------
             dStringList = case_num.text.split()
-            #print('  ------------case_num', dStringList )
+            print('  2222222222222222', dStringList )
             state_case_list.append(dStringList)
 
         state_death_list = []
         caseDea = siteOpen.find_elements_by_xpath('//td[@data-field="DIED"]')
         for case_num in caseDea:  # this is names------------------------------------
             dStringList = case_num.text.split()
-            print('  ------------case_num', dStringList )
+            print('  33333333333333333333333', dStringList )
             state_death_list.append(dStringList)
 
-        print('11111', len(case_nam_list))
+
+
+        #state_name_list2 = state_name_list[1: ]
+        case_nam_list= list(itertools.chain.from_iterable(case_nam_list))
+        case_n= []
+
+        for aa in case_nam_list:
+            if aa == 'St.': pass
+            elif aa == 'Clair':
+                aa= 'St. Clair'
+                case_n.append(aa)
+            else:
+                case_n.append(aa)
+
+        state_case_list= list(itertools.chain.from_iterable(state_case_list))
+        state_death_list= list(itertools.chain.from_iterable(state_death_list))
+        print('11111', len(case_n))
         print('22222', len(state_case_list))
         print('33333', len(state_death_list))
-        #state_name_list2 = state_name_list[1: ]
-        l_data_case = np.vstack((case_nam_list, state_case_list, state_death_list)).T 
-
-        print('  saveWebsite: read data ', len(l_data_case) )
+        print('11111111111111',case_n )
+        print('11111111111111',state_case_list )
+        print('11111111111111',state_death_list )
+        l_data = np.vstack((case_n, state_case_list, state_death_list)).T 
+        #l_data2_case = np.vstack((l_data_case[0], l_data_case[1], l_data_case[2])).T 
+        print('  saveWebsite: read data ', (l_data) )
 
         case = 0
         death = 0
-        for a_da in l_data_case:
+        for a_da in l_data:
             case += int(a_da[1])
             death += int(a_da[2])
-        l_cases3 = np.append(l_data_case, [['Total', case, death]], axis=0)
+        l_cases3 = np.append(l_data, [['Total', case, death]], axis=0)
 
         siteOpen.close()
         return l_cases3
+
+
+    def flatten(self, l):
+        try:
+            return flatten(l[0]) + (flatten(l[1:]) if len(l) > 1 else []) if type(l) is list else [l]
+        except IndexError:
+            return []
 
     
     ## paser data Ut

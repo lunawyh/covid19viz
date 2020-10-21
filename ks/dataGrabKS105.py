@@ -96,7 +96,7 @@ class dataGrabks(object):
         #code
         tree = html.fromstring(c_page.content)
         division = tree.xpath('//div//p//a/@href')
-        link = division[1]
+        link = 'https://www.coronavirus.kdheks.gov/'+ division[1]
         #link = "https://www.mass.gov" + link
         print("  get link: " + link)
         return link

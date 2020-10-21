@@ -15,7 +15,7 @@ from os.path import isfile, join
 import pandas as pd
 import csv
 import datetime 
-import urllibus
+import urllib
 import ssl
 import PyPDF2
 import re
@@ -97,7 +97,7 @@ class dataGrabMN(object):
             #print(l_date.text_content())
             if('Weekly COVID-19 Report') in l_date.text_content(): 
                 print('   sss', l_date)
-                a_address = 'www.health.state.mn.us' + l_date.get('href')
+                a_address = 'https://www.health.state.mn.us' + l_date.get('href')
                 print('  find pdf at', a_address)
 
         l_2dates = c_tree.xpath('//ul//li//strong//a/text()')
@@ -110,7 +110,7 @@ class dataGrabMN(object):
                     s_date = l_date[n_start+7:] 
                     n_end = s_date.find('(PDF)')
                 if(n_end >= 0):
-                        s_date = s_date[1: 10].replace ('00:00:00', '')
+                        s_date = s_date[1: 11].replace ('00:00:00', '')
 
                         dt_obj = datetime.datetime.strptime(s_date, '%m/%d/%Y')
                         print('  updated on', dt_obj)

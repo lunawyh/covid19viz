@@ -19,7 +19,6 @@ NE - the government website has no data, but maybe by 'https://www.nytimes.com/i
 MN - only have half or less of the state can be get
 MO - no data source
 WI
-AL
 SC
 WV
 VA
@@ -27,3 +26,4 @@ DC
 CE
 
 #finnished
+AL

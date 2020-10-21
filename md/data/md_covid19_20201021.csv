@@ -1,0 +1,27 @@
+County,Cases,Deaths
+Allegany  ,594,23
+Anne Arundel  ,11433,253
+Baltimore City  ,17000,480
+Baltimore County  ,19799,633
+Calvert  ,1141,27
+Caroline  ,713,8
+Carroll  ,2159,125
+Cecil  ,1291,35
+Charles  ,3050,99
+Dorchester  ,715,10
+Frederick  ,4559,130
+Garrett  ,108,1
+Harford  ,3448,76
+Howard  ,5647,118
+Kent  ,334,22
+Montgomery  ,24664,822
+Prince George's  ,31695,824
+Queen Anne's  ,742,25
+St. Mary's  ,1416,59
+Somerset  ,398,5
+Talbot  ,627,6
+Washington  ,2137,42
+Wicomico  ,2385,49
+Worcester  ,1181,29
+Data not available  ,1181,11
+Total,138417,3912
