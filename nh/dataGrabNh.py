@@ -15,29 +15,22 @@ from os.path import isfile, join
 import pandas as pd
 import csv
 import datetime
-import urllib
-import ssl
 import requests
 from lxml import html
-import zipfile
-import StringIO
+
 from selenium import webdriver
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 import time
-import PyPDF2
-
 import pytesseract
-from PIL import Image, ImageEnhance
 import cv2
 from pdfminer.high_level import extract_text
 
 
 #from pdfminer.high_level import extract_text
 import numpy as np
-import pytesseract 
-import cv2
+
 
 # ==============================================================================
 # -- codes -------------------------------------------------------------------
@@ -59,11 +52,11 @@ class dataGrabNh(object):
     ###def get_download_path(self):
         """Returns the default downloads path for linux or windows"""
 
-
-    def downloadAndParseLink(self,link_address,fRaw,o_Raw,d_path):
-        print(d_path)
+    # page_url,f_data_raw, f_dl_name, s_dl_path
+    def downloadAndParseLink(self,link_address,f_data_raw,f_dl_name,s_dl_path):
+        print('  download to', s_dl_path, f_dl_name)
         chrome_options1 = webdriver.ChromeOptions()
-        prefs = {'download.default_directory': d_path}
+        prefs = {'download.default_directory': s_dl_path}
         chrome_options1.add_experimental_option('prefs', prefs)
         siteOpen = webdriver.Chrome(chrome_options=chrome_options1)
 
@@ -77,17 +70,18 @@ class dataGrabNh(object):
         buttons2 = siteOpen.find_elements_by_css_selector("button")
         buttons2[len(buttons2) - 6].click()
         time.sleep(4)
-        linkclick = siteOpen.find_element_by_css_selector(".suppressClickBusting")
-        linkclick.click()
-        time.sleep(5)
-        try:
-            os.rename(o_Raw, fRaw)
-        except WindowsError:
-            os.remove(fRaw)
-            os.rename(o_Raw, fRaw)
+        #linkclick = siteOpen.find_element_by_css_selector(".suppressClickBusting")
+        #linkclick.click()
+        #time.sleep(5)
+        #try:
+        os.rename(f_dl_name, f_data_raw)
+        #except WindowsError:
+        #    os.remove(f_data_raw)
+        #    os.rename(f_dl_name, f_data_raw)
+        print('  saved to ', f_data_raw)
         siteOpen.close()
 
-        datas = self.readDataFromPng(fRaw)
+        datas = self.readDataFromPng(f_data_raw)
 
         siteOpen.quit()  # close the window
         return datas
@@ -106,32 +100,34 @@ class dataGrabNh(object):
         #filename = 'C:/Dennis/Covid19/covid19viz/nh/data_raw/savedImage.jpg'
         #cv2.imwrite(filename, crop_img)
         cv2.imshow("readDataFromPng", crop_img)
-        key = cv2.waitKeyEx(1000)
+        key = cv2.waitKeyEx(3000)
         text = pytesseract.image_to_string(crop_img, config=custom_config).encode('utf8')
-        #print("  readDataFromPng:",text)
+        #print("  readDataFromPng:",text.splitlines())
         return text.splitlines()
 
-    ## download a website
-    def saveData(self, fRaw, sRaw, oRaw, dRaw):
-        print(dRaw)
+    ## download a website 
+    def saveData(self, f_data_raw, f_data_name, f_dl_name, s_dl_path):
+        print('  will saveData to ', f_data_raw)
         page_url = self.l_state_config[5][1]
         print('  download4Website ...', page_url)
-        alldata = self.downloadAndParseLink(page_url,fRaw, oRaw, dRaw)
-        del alldata[5:8]
+        alldata = self.downloadAndParseLink(page_url,f_data_raw, f_dl_name, s_dl_path)
+        del alldata[5:7]
 
         allList = []
         countyList = ['Belknap','Carroll','Cheshire','Coos','Grafton','Hillsborough','Merrimack','Rockingham','Strafford','Sullivan','Unknown','Total']
         allList.append(['County','Cases', 'Deaths'])
         i=0
         for d in alldata:
+            #print('  saveData 0', d)
             d1 = d.split(' ')
 
             try:
                 while d1.index("|") != -1:
                     d1.remove("|")
             except:
-                print("1")
-            print(d1)
+                pass
+                #print('  saveData 1', "1")
+            #print('  saveData 2', d1)
 
             j = 0
             for d2 in d1:
@@ -140,19 +136,19 @@ class dataGrabNh(object):
                 d2 = d2.replace('s','')
                 d1[j] = d2
                 j = j + 1
-                print(d2)
+                #print('  saveData 3', d2)
 
             dLength = len(d1)
-            print(dLength)
+            #print('  saveData 6'dLength)
             try:
-                allList.append([countyList[i],d1[dLength-6],d1[dLength-2]])
+                allList.append([countyList[i],d1[0],d1[dLength-2]])
             except:
-                print("1")
+                print('  saveData 4', "1")
             i = i + 1
 
-            print(d1)
+            print('  saveData 5', d1)
 
-        with open(sRaw, 'wb') as myfile:
+        with open(f_data_name, 'wb') as myfile:
             wr = csv.writer(myfile, quoting=csv.QUOTE_ALL)
             for c in allList:
                 wr.writerow(c)
@@ -161,19 +157,34 @@ class dataGrabNh(object):
 
         return allList
 
+    ## save to csv
+    def get_download_path(self):
+        """Returns the default downloads path for linux or windows"""
+        if os.name == 'nt':
+            import winreg
+            sub_key = r'SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders'
+            downloads_guid = '{374DE290-123F-4565-9164-39C4925E467B}'
+            with winreg.OpenKey(winreg.HKEY_CURRENT_USER, sub_key) as key:
+                location = winreg.QueryValueEx(key, downloads_guid)[0]
+            return location
+        else:
+            return os.path.join(os.path.expanduser('~'), 'Downloads')
 
-    
 
     ## paser data CA
     def parseData(self, name_target, date_target, type_download):
             self.name_file = name_target
-            f_name = self.state_dir + 'data_raw/' + self.state_name.lower() + '_covid19_' + self.name_file + '.png'
-            d_path = os.path.abspath("nh\\data_raw\\")
-            o_name = d_path + "\Map of Cumulative Positive Cases.png"
-            s_name = self.state_dir + 'data/' + self.state_name.lower() + '_covid19_' + self.name_file + '.csv'
+            f_name_raw = self.state_dir + 'data_raw/' + self.state_name.lower() + '_covid19_' + self.name_file + '.png'
+            if os.name == 'nt':
+                dl_path = os.path.abspath("nh\\data_raw\\")
+                dl_name = dl_path + "\Map of Cumulative Positive Cases.png"
+            else:
+                dl_path = self.get_download_path()
+                dl_name = dl_path + "/Map of Cumulative Positive Cases.png"
+            data_name = self.state_dir + 'data/' + self.state_name.lower() + '_covid19_' + self.name_file + '.csv'
             if(not os.path.isdir(self.state_dir + 'data_raw/') ): os.mkdir(self.state_dir + 'data_raw/')
             # step A: downlowd and save
-            data_csv = self.saveData(f_name, s_name, o_name, d_path)
+            data_csv = self.saveData(f_name_raw, data_name, dl_name, dl_path)
             print('  total list of cases', len(data_csv))
             return(data_csv, self.name_file, self.now_date)
 
