@@ -218,16 +218,19 @@ class dataGrabUT(object):
         siteOpen.get(csv_url)
         time.sleep(10)
         # county
-        countyNames = siteOpen.find_elements_by_xpath('//div[@class="ag-header-container"]')
+        countyNames = siteOpen.find_elements_by_xpath('//tr//th//div[@class="_3-_lH"]')
+        print('==================', countyNames)
         for c_name in countyNames:
-            dStringList = c_name.text.split()
-            #print('  countyNames', dStringList, len(dStringList))
+            dStringList = c_name.text  #.split()
+            print('4444444444444444444444444', dStringList)
+            print('  countyNames', dStringList, len(dStringList))
             break
         # cases
-        caseNumbers = siteOpen.find_elements_by_xpath('//div[@class="ag-body-container"]')
+        caseNumbers = siteOpen.find_elements_by_xpath('//div[@class="_3-_lH"]')
         for case_num in caseNumbers:
             dStringList_num = case_num.text.split()
-            #print('  caseNumbers', dStringList_num, len(dStringList))
+            print('77777777777777', dStringList_num)
+            print('  caseNumbers', dStringList_num, len(dStringList))
             break
 
         time.sleep(3)

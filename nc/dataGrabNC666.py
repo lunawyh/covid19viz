@@ -114,11 +114,11 @@ class dataGrabnc(object):
                 break
 
         l_text_data_nam = c_tree.xpath('//div//div//div//table//tbody//tr//td//a/text()')
-        #print('  open4Website county:', l_text_data)
+        print('  open4Website county:', l_text_data)
         l_text_data_num = c_tree.xpath('//div//div//div//table//tbody//tr//td/text()')
         #l_ending = 'Negative'
         #l_text_data_num = l_text_data_num.split(',')
-        #print('  vvvvvvvvvv county:', l_text_data_num)
+        print('  vvvvvvvvvv county:', l_text_data_num)
         l_cases1 = []
         for l_rrr in l_text_data_num:
             if l_rrr == 'Negative': break
@@ -135,7 +135,11 @@ class dataGrabnc(object):
         l_text_data_nam.append('Unassigned')
         l_text_data_nam.append('Total')
         print('  l_text_data_nam:', len(l_text_data_nam))
-        # put together        
+        # put together   
+
+        print(len(l_text_data_nam))
+        print(len(l_cases3[0]))
+        print(len(l_cases3[2]))
         l_cases3 = np.vstack((l_text_data_nam, l_cases3[0], l_cases3[2])).T 
         print('  list name+number:', len(l_cases3), len(l_cases3[0]))
         driver.quit()  # close the window

@@ -643,6 +643,13 @@ class runCoViz(object):
             from dataGrabGA33 import *
             # create new class
             self.data_grab = dataGrabGa(self.l_state_config, self.state_name)	
+            lst_data, self.name_file, self.now_date = self.data_grab.parseData(self.name_file, self.now_date, type_download)	
+
+        elif( type_download == 123):   # download only
+            sys.path.insert(0, "./gs")
+            from dataGrabGS123 import *
+            # create new class
+            self.data_grab = dataGrabGS(self.l_state_config, self.state_name)	
             lst_data, self.name_file, self.now_date = self.data_grab.parseData(self.name_file, self.now_date, type_download)		
             
         elif (type_download == 50):  # download only
@@ -696,6 +703,9 @@ class runCoViz(object):
             data_grab = dataGrabND(self.l_state_config, self.state_name)
             # step B: parse to standard file
             lst_data, self.name_file, self.now_date = data_grab.parseData(self.name_file, self.now_date, type_download)
+
+
+
 
         elif (type_download == 106):  # download only
             sys.path.insert(0, "./al")

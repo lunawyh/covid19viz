@@ -143,7 +143,7 @@ class dataGrabFl(object):
             n2_end = pageTxt.find(' Data are provisional')
             s2_date = pageTxt[n2_start+10 : n2_end]
             s2_date = s2_date.replace('\n', '')
-            #print('33333333333', s2_date)
+            print('33333333333', s2_date)
             # get time
             if(s2_date >= 0):
                 dt_obj = datetime.datetime.strptime(s2_date, '%B %d, %Y')
@@ -202,7 +202,7 @@ class dataGrabFl(object):
 
     ## paser data FL
     def dataReadConfirmed(self, f_name):
-            print('  B.dataReadConfirmed on page 5-10', f_name)
+            print('  B.dataReadConfirmed on page 12-13', f_name)
             # step B: parse and open
             #print('    nnn', f_name)
             pdfFileObj = open(f_name, 'rb')

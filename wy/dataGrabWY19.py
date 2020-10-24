@@ -130,8 +130,8 @@ class dataGrabWY(object):
                     l_data1 = se_data.split (':')
                     l_data2 = l_data1[1].split(' ')
                     print ('  $$$$', l_data1[0], l_data2[1])
-                    l_data.append([l_data1[0], int(l_data2[1]), 0])
-                    n_total+= int(l_data2[1])
+                    l_data.append([l_data1[0], int(l_data2[1].replace(',', '')), 0])
+                    n_total+= int(l_data2[1].replace(',', ''))
                     
             elif(state_machine == 300):
                 if(':' in se_data): 
@@ -145,9 +145,9 @@ class dataGrabWY(object):
                     	l_data3 = l_data2.split('(')
                     	print('  )))))))))))))))))))', l_data3)
                     print ('  $$$$', l_data1[0], l_data2[1])
-                    l_data.append([l_data1[0], int(l_data2[1]), 0])
+                    l_data.append([l_data1[0], int(l_data2[1].replace(',', '')), 0])
                     print('      county', se_data)
-                    n_total+= int(l_data2[1])
+                    n_total+= int(l_data2[1].replace(',', ''))
                     
                 else: 
                     print("&%", se_data)
