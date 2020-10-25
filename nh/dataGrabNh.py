@@ -23,6 +23,8 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 import time
+# $ sudo apt install tesseract-ocr
+# $ sudo apt install libtesseract-dev
 import pytesseract
 import cv2
 from pdfminer.high_level import extract_text
