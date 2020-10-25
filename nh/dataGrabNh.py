@@ -73,11 +73,15 @@ class dataGrabNh(object):
         #linkclick = siteOpen.find_element_by_css_selector(".suppressClickBusting")
         #linkclick.click()
         #time.sleep(5)
-        #try:
-        os.rename(f_dl_name, f_data_raw)
-        #except WindowsError:
-        #    os.remove(f_data_raw)
-        #    os.rename(f_dl_name, f_data_raw)
+
+        if os.name == 'nt':
+            try:
+                os.rename(f_dl_name, f_data_raw)
+            except WindowsError:
+                os.remove(f_data_raw)
+                os.rename(f_dl_name, f_data_raw)
+        else:
+            os.rename(f_dl_name, f_data_raw)
         print('  saved to ', f_data_raw)
         siteOpen.close()
 
