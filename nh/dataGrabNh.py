@@ -107,6 +107,7 @@ class dataGrabNh(object):
         #cv2.imwrite(filename, crop_img)
         cv2.imshow("readDataFromPng", crop_img)
         key = cv2.waitKeyEx(3000)
+        #return the extracted line
         text = pytesseract.image_to_string(crop_img, config=custom_config).encode('utf8')
         #print("  readDataFromPng:",text.splitlines())
         return text.splitlines()
