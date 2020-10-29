@@ -704,6 +704,13 @@ class runCoViz(object):
             # step B: parse to standard file
             lst_data, self.name_file, self.now_date = data_grab.parseData(self.name_file, self.now_date, type_download)
 
+        elif (type_download == 129):  # download only
+            sys.path.insert(0, "./wv")
+            from dataGrabWV129 import *
+            # step A: create new class
+            data_grab = dataGrabWV(self.l_state_config, self.state_name)
+            # step B: parse to standard file
+            lst_data, self.name_file, self.now_date = data_grab.parseData(self.name_file, self.now_date, type_download)
 
 
 
