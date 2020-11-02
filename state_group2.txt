@@ -20,10 +20,11 @@ MN - only have half or less of the state can be get
 MO - no data source
 WI
 SC
-WV
+
 VA
 DC
 CE
 
 #finnished
 AL
+WV
