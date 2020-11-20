@@ -4,7 +4,7 @@
 #
 #	grab data from FL state websites
 #
-#
+#inspect
 
 # ==============================================================================
 # -- imports -------------------------------------------------------------------
@@ -23,6 +23,10 @@ import json
 import numpy as np
 from selenium import webdriver  # https://selenium-python.readthedocs.io/installation.html
 import time
+from selenium.webdriver.common.keys import Keys 
+import bs4
+from urllib2 import urlopen as uReq
+
 # ==============================================================================
 # -- codes -------------------------------------------------------------------
 # ==============================================================================
@@ -43,9 +47,6 @@ class dataGrabWY(object):
     ## save downloaded data to daily or overal data 
     def saveLatestDateUt(self, l_raw_data):
         #l_overall = []
-        
- 
-
         self.save2File(l_raw_data, self.state_dir + 'data/'+self.state_name.lower()+'_covid19_'+self.name_file+'.csv')
         print ('GHJJ')
         return l_raw_data
@@ -92,73 +93,86 @@ class dataGrabWY(object):
     def saveWebsite(self, fRaw):
         csv_url = self.l_state_config[5][1]
         print('  download4Website', csv_url)
-        driver = webdriver.Chrome()
-        driver.get(csv_url)
-        time.sleep(2)
-        page_text = driver.page_source
-	fRaw, se_dates = self.getUpdatedDate(page_text, fRaw)
-        if( not isfile(fRaw)): 
-            with open(fRaw, "w") as fp:
-                fp.write(page_text.encode('utf8'))
-        time.sleep(1)
-        driver.quit()  # close the window
-        #f = file('test', 'r')
-        #print f.read().decode('utf8')
 
-        return page_text, se_dates
-    ## open a website 
-    def open4WebsiteMain(self, fRaw):
+        siteOpen = webdriver.Chrome()
+        siteOpen.get(csv_url)
+        time.sleep(7)
+
+        # save html file
+        c_page = requests.get(csv_url)
+        c_tree = html.fromstring(c_page.content)
+        with open(fRaw, 'wb') as f:
+            f.write(c_page.content)
+        print('  saved to ', fRaw)
+
+        caseNumbers = siteOpen.find_elements_by_xpath('//div[@class="et_pb_text_inner"]')
+        #stateNames = siteOpen.find_elements_by_xpath('//div[@class="bc-row-label row-label chart-text label"]')
+
+        print('++++++++++', caseNumbers)
+        case_num_list = []
+        for case_num in caseNumbers:  # this is cases------------------------------------bc-bar-inner dw-rect
+            dStringList = case_num.text.split()
+            print('  ------------case_num', dStringList )
+            if 'Cumulative' in dStringList:
+                case_num_list.append(dStringList)
+        print('================', case_num_list)
+        strs= ''.join(str(e) for e in case_num_list)
+        print('***********', strs)
+        n_start = strs.find('Albany')
+        a_list = strs[n_start:]
+        print('###############', a_list)
+        c_list= a_list.split('u')
+        print('###############', c_list)
+
+        d_list =[]
+        for a_cc in c_list:
+            cccc= a_cc.replace(",",'').replace("'", "").replace("(", "").replace(")", "").replace("]", "").replace(" ", "")
+            d_list.append(cccc)
+        print('////////////////', d_list)
+        e_list =[]
+        for a_l in d_list:
+            if a_l =='Big': 
+                e_list.append('Big Horn')
+                continue
+            if a_l == "Horn" : continue
+            if a_l =="Hot": 
+                e_list.append('Hot Springs')
+                continue
+            if a_l == "Springs" : continue
+            if a_l =="S": 
+                e_list.append('Sublette')
+                continue
+            if a_l == "blette" : continue
+            else: e_list.append(a_l)
+        #e_list.remove('Big')   
+        #e_list.remove('Horn') 
+        #e_list.remove('Hot') 
+        #e_list.remove('Springs') 
+        #e_list.remove('S') 
+        #e_list.remove('blette')         
         
-        # read updated date
-        print( '  open4WebsiteMain: read date')
-        page_content, se_dates = self.saveWebsite(fRaw)
+        print('@@@@@@@@@@@@@@', e_list)
+        print('###############', len(e_list))
+        l_cases2 = np.reshape(e_list, (len(e_list)/3, 3)).T
+        print('------------', l_cases2)
+        zeros= [0]*len(l_cases2[0])
 
-        # updated date
-        l_data = []
-        n_total = 0
-        l_data.append(['County', 'Cases', 'Deaths'])
-        print('    look for county data')
-        state_machine = 100
-        for se_data in se_dates:
-            if(state_machine == 100):
-                if('Cases by County' in se_data): state_machine = 200
-            elif(state_machine == 200):
-                if(':' in se_data): 
-                    print('      county', se_data)
-                    state_machine = 300
+        print('&&&&&&&', l_cases2[0])
+        print('&&&&&&&', l_cases2[1])
+        print('&&&&&&&', zeros)
+        l_data = np.vstack((l_cases2[0], l_cases2[1], zeros)).T 
+        print('------------', l_data)
 
-                    l_data1 = se_data.split (':')
-                    l_data2 = l_data1[1].split(' ')
-                    print ('  $$$$', l_data1[0], l_data2[1])
-                    l_data.append([l_data1[0], int(l_data2[1]), 0])
-                    n_total+= int(l_data2[1])
-                    
-            elif(state_machine == 300):
-                if(':' in se_data): 
+        case = 0
+        death = 0
+        for a_da in l_data:
+            case += int(a_da[1])
+            death += int(a_da[2])
+        l_cases3 = np.append(l_data, [['Total', case, death]], axis=0)
+        print('[[[[[[[[[[[[[', l_cases3)
+        siteOpen.close()
+        return l_cases3
 
-                    l_data1 = se_data.split (':')
-                    if ' (' in l_data1[1]:
-                    	l_data2 = l_data1[1].split(' ')
-                    else:
-                    	l_data2 = l_data1[1]
-                    	print('  )))))))))))))))))))', l_data1[1])
-                    	l_data3 = l_data2.split('(')
-                    	print('  )))))))))))))))))))', l_data3)
-                    print ('  $$$$', l_data1[0], l_data2[1])
-                    l_data.append([l_data1[0], int(l_data2[1]), 0])
-                    print('      county', se_data)
-                    n_total+= int(l_data2[1])
-                    
-                else: 
-                    print("&%", se_data)
-                    break
-        
-        l_data.append(['Total', n_total, 0])
-        #l_data = se_data
-        print('HIHIHIHI',n_total )
-
-
-        return (l_data)
     
     ## paser data Ut
     def parseData(self, name_file, date_target, type_download):
@@ -167,8 +181,8 @@ class dataGrabWY(object):
             if(not os.path.isdir(self.state_dir + 'data_html/') ): os.mkdir(self.state_dir + 'data_html/')
 
             # step A: downlowd and save
-            lst_raw_data = self.open4WebsiteMain(f_name)
-
+            lst_raw_data = self.saveWebsite(f_name)
+            #print('2222222222', lst_raw_data)
 
             # step B: parse and open
             lst_data = self.saveLatestDateUt(lst_raw_data)

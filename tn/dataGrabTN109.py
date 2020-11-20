@@ -186,15 +186,27 @@ class dataGrabtn(object):
         l_data_all = []
         l_cas_total = 0
         state_case = ''
-        print ('dataFilter', l_data_in[-1][0])
-        c_time = l_data_in[-1][0]
-        #c_time = int(c_time).replace('00:00:00', '')
+        number= 0
+        name=''
         state_machine = 100
+        #print('______________', l_data_in)
         for a_row in l_data_in:
-            if a_row[0] != c_time: continue
+            if a_row [2] != 'Pending': continue
+            #l_data_a = set(l_data_all) 
+            if a_row[0] in l_data_all : 
+                number += int(a_row[3])
+
+            else:
+                l_data_all.append([name, number, 0])
+                name= ''
+                number = 0
+                name = (a_row[0])
+                number = int(a_row[3])
+        print('4444444444444444444444', l_data_all)
                 
-        
+        '''
             #print(' HIHI')
+
             bFound = False
             for a_ll in l_data_all:
                 if a_row[1] == a_ll[0]:
@@ -208,6 +220,8 @@ class dataGrabtn(object):
         l_data_all.append(['Total', int(l_cas_total), 0])
         print('++++++++++++++++++++ l_data_all_no2', l_data_all)
         print('total::::::::', l_cas_total)
+        '''
+        l_data_all.pop(0) 
         return l_data_all   
 
     ## paser data FL

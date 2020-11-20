@@ -1,0 +1,30 @@
+IL	# MIDWEST on 9/1/2020
+KS
+MI
+OH
+FL	# South on 9/1/2020
+GA
+LA
+MD
+MS
+TN
+TX
+##
+## Group 2
+##
+still need to do states:
+ND - each number in here is by a diffrent class.
+SD - can not get the table.
+NE - the government website has no data, but maybe by 'https://www.nytimes.com/interactive/2020/us/nebraska-coronavirus-cases.html' ? but not sure if it will updata
+MN - only have half or less of the state can be get
+MO - no data source
+WI - no data found
+SC- no constant data
+
+VA-data not found
+DC--no county data 'https://coronavirus.dc.gov/page/reopening-metrics'
+CE--no county data
+
+#finnished
+AL
+WV

@@ -143,7 +143,7 @@ class dataGrabFl(object):
             n2_end = pageTxt.find(' Data are provisional')
             s2_date = pageTxt[n2_start+10 : n2_end]
             s2_date = s2_date.replace('\n', '')
-            #print('33333333333', s2_date)
+            print('33333333333', s2_date)
             # get time
             if(s2_date >= 0):
                 dt_obj = datetime.datetime.strptime(s2_date, '%B %d, %Y')
@@ -202,7 +202,7 @@ class dataGrabFl(object):
 
     ## paser data FL
     def dataReadConfirmed(self, f_name):
-            print('  B.dataReadConfirmed on page 5-10', f_name)
+            print('  B.dataReadConfirmed on page 12-13', f_name)
             # step B: parse and open
             #print('    nnn', f_name)
             pdfFileObj = open(f_name, 'rb')
@@ -212,6 +212,12 @@ class dataGrabFl(object):
             pageTxt = self.lookForConfirmedPage(pdfReader)
             #print('4444444', pageTxt)
             if(pageTxt == ''): return ([], pdfReader)
+
+
+            n_start = pageTxt.find('Miramont Pointe Assisted Living Clackamas')
+            pageTxt = pageTxt[n_start:]
+            #print('4444444444', pageTxt)
+
             page_tehTxt = pageTxt.split('\n')
 
             state_nam= []
@@ -219,8 +225,26 @@ class dataGrabFl(object):
             case_num = 0
             death_num = 0
             death= []
+            alpa= ['a', 'b', 'c', 'd', 'e', 'f', 'g']
+            print('^^^^^^^^^^', page_tehTxt)
             for d_li in page_tehTxt[9: ]:
                 print('ffffffffffff ==', d_li)
+                if '/' in d_li:
+                    d_cd = d_li.split(' ')
+                    if len(d_cd) >= 3:
+                            #print('gggggggggggggggggg', d_cd)
+                            if len(d_cd) <= 3:
+                                state_nam.append(d_cd[0])
+                            else: 
+                                #print('cccccccccccccccc', d_cd)
+                                state_nam.append(d_cd[-3])
+
+
+
+
+
+
+                '''
                 d_lisss= d_li.split(' ')
                 if '/' in d_li:
                     if d_lisss[-1].isnumeric()  and d_lisss[-2].isnumeric():
@@ -259,6 +283,7 @@ class dataGrabFl(object):
                     elif len(d_lisss)== 1:
                         if d_lisss[0].isnumeric():
                             death.append(d_lisss[0])
+                '''
 
             print('111111111111', state_nam)
             print('22222222222', case)

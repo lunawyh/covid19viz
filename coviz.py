@@ -415,6 +415,9 @@ class runCoViz(object):
             lst_data, name_file, now_date = data_grab.parseData(self.name_file, self.now_date, type_download)		
             if(len(lst_data) > 0): 
                 self.name_file, self.now_date = name_file, now_date
+
+
+
         elif( type_download == 35):   # download only
             sys.path.insert(0, "./fl")
             from dataGrabFl35 import *
@@ -427,6 +430,21 @@ class runCoViz(object):
                 self.name_file, self.now_date = name_file, now_date
                 f_name = self.state_dir + 'data/'+self.state_name.lower()+'_covid19_'+self.name_file+'.csv'
                 self.save2File( lst_data, f_name )
+
+
+        elif( type_download == 926):   # download only
+            sys.path.insert(0, "./mn")
+            from dataGrabMN926 import *
+            # create new class
+            data_grab = dataGrabMN(self.l_state_config, self.state_name)	
+            # download as a raw file 
+            lst_data, name_file, now_date = data_grab.parseData(self.name_file, self.now_date, type_download)		
+            # save
+            if(len(lst_data) > 0): 
+                self.name_file, self.now_date = name_file, now_date
+                f_name = self.state_dir + 'data/'+self.state_name.lower()+'_covid19_'+self.name_file+'.csv'
+                self.save2File( lst_data, f_name )
+
 
         elif( type_download == 333):   # download only
             sys.path.insert(0, "./or")
@@ -480,6 +498,21 @@ class runCoViz(object):
                 self.name_file, self.now_date = name_file, now_date
                 f_name = self.state_dir + 'data/'+self.state_name.lower()+'_covid19_'+self.name_file+'.csv'
                 self.save2File( lst_data, f_name )
+
+
+        elif( type_download == 928):   # download only
+            sys.path.insert(0, "./ne")
+            from dataGrabNe928 import *
+            # create new class
+            data_grab = dataGrabNe(self.l_state_config, self.state_name)	
+            # download as a raw file and save
+            lst_data, name_file, now_date = data_grab.parseData(self.name_file, self.now_date, type_download)	
+            #len(the number of characters is a string/object)
+            if(len(lst_data) > 0): 
+                self.name_file, self.now_date = name_file, now_date
+                f_name = self.state_dir + 'data/'+self.state_name.lower()+'_covid19_'+self.name_file+'.csv'
+                self.save2File( lst_data, f_name )
+
 
         elif( type_download == 666):   # download only
             sys.path.insert(0, "./nc")
@@ -610,6 +643,13 @@ class runCoViz(object):
             from dataGrabGA33 import *
             # create new class
             self.data_grab = dataGrabGa(self.l_state_config, self.state_name)	
+            lst_data, self.name_file, self.now_date = self.data_grab.parseData(self.name_file, self.now_date, type_download)	
+
+        elif( type_download == 123):   # download only
+            sys.path.insert(0, "./gs")
+            from dataGrabGS123 import *
+            # create new class
+            self.data_grab = dataGrabGS(self.l_state_config, self.state_name)	
             lst_data, self.name_file, self.now_date = self.data_grab.parseData(self.name_file, self.now_date, type_download)		
             
         elif (type_download == 50):  # download only
@@ -647,6 +687,41 @@ class runCoViz(object):
             data_grab = dataGrabNj(self.l_state_config, self.state_name)
             # step B: parse to standard file
             lst_data, self.name_file, self.now_date = data_grab.parseData(self.name_file, self.now_date, type_download)
+
+        elif (type_download == 111):  # download only
+            sys.path.insert(0, "./ok")
+            from dataGrabOK111 import *
+            # step A: create new class
+            data_grab = dataGrabOk(self.l_state_config, self.state_name)
+            # step B: parse to standard file
+            lst_data, self.name_file, self.now_date = data_grab.parseData(self.name_file, self.now_date, type_download)
+
+        elif (type_download == 922):  # download only
+            sys.path.insert(0, "./nd")
+            from dataGrabND922 import *
+            # step A: create new class
+            data_grab = dataGrabND(self.l_state_config, self.state_name)
+            # step B: parse to standard file
+            lst_data, self.name_file, self.now_date = data_grab.parseData(self.name_file, self.now_date, type_download)
+
+        elif (type_download == 129):  # download only
+            sys.path.insert(0, "./wv")
+            from dataGrabWV129 import *
+            # step A: create new class
+            data_grab = dataGrabWV(self.l_state_config, self.state_name)
+            # step B: parse to standard file
+            lst_data, self.name_file, self.now_date = data_grab.parseData(self.name_file, self.now_date, type_download)
+
+
+
+        elif (type_download == 106):  # download only
+            sys.path.insert(0, "./al")
+            from dataGrabAL106 import *
+            # step A: create new class
+            data_grab = dataGrabAL(self.l_state_config, self.state_name)
+            # step B: parse to standard file
+            lst_data, self.name_file, self.now_date = data_grab.parseData(self.name_file, self.now_date, type_download)
+
         elif( type_download == 194):   # download only
             sys.path.insert(0, "./nh")
             from dataGrabNh import *
@@ -706,12 +781,13 @@ class runCoViz(object):
         Total_wish = [0, 0]
         Total_plus = [0, 0]
         for a_case_today in l_all_today:
-            if("Total" in a_case_today[0]): a_case_today[0] = 'Total'  # use the same name
+            if("Total" in str(a_case_today[0])): a_case_today[0] = 'Total'  # use the same name
             bFound, a_case_last = self.lookupMapData(a_case_today[0], l_all_last)
             if(bFound):
                 num2 = int(a_case_today[1]) - int(a_case_last[1])
-                num3 = int(a_case_today[2]) - int(a_case_last[2])
-                if("Total" in a_case_today[0]): 
+                #num3 = int(a_case_today[2].replace(',', '')) - int(a_case_last[2].replace(',', ''))
+                num3 = int(str(a_case_today[2]).replace(',', '')) - int(str(a_case_last[2]).replace(',', ''))
+                if("Total" in str(a_case_today[0])): 
                     Total_wish = [num2, num3] 
                     continue
                 if(num2 > 0 or num3 > 0): 

@@ -96,7 +96,7 @@ class dataGrabks(object):
         #code
         tree = html.fromstring(c_page.content)
         division = tree.xpath('//div//p//a/@href')
-        link = division[1]
+        link = 'https://www.coronavirus.kdheks.gov/'+ division[1]
         #link = "https://www.mass.gov" + link
         print("  get link: " + link)
         return link
@@ -273,6 +273,7 @@ class dataGrabks(object):
         pageObj = pdfReader.getPage(page)
         print ('  ------readList4Page', page)
         pageTxt = pageObj.extractText().split('\n')
+        print ('  ------readList4Page,,,,,,,,,,,,,,,,', pageTxt)
         lst_cases = []
         a_name = ''
         a_number = 0
@@ -354,7 +355,7 @@ class dataGrabks(object):
             # read data of confirmed
             l_cases_all = []
             n_cases_total = 0
-            for page in range(0,3):
+            for page in range(6,7):
                 lst_cases_page, case_total_page, case_total_rd = self.readList4Page(pdfReader, page)
                 l_cases_all += lst_cases_page
                 n_cases_total += case_total_page
@@ -367,7 +368,7 @@ class dataGrabks(object):
                     break
                 #break
             #l_d_sort = self.parseTableConfirmed(tableTxt)
-            l_cases_all[-1][0] = 'Total'
+            #l_cases_all[-1][0] = 'Total'
             return (l_cases_all)
 
 

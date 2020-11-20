@@ -86,17 +86,19 @@ class dataGrabLa(object):
         #print('......', lst_data)
 
         state_nam = []
-        state_case = [0, ]
+        state_case = [ ]
         case = 0
         for a_lst in lst_data:
             #print('111111111', a_lst)
             if a_lst[1] not in state_nam:
                 if case is not 0:
+                  state_case = state_case[: -1]
                   state_case.append(case)
                   case = 0
 
                 else:
                     state_nam.append(a_lst[1])
+                    state_case.append((a_lst[5]))
                     case +=(int(a_lst[5]))
             else:
                 case += int(a_lst[5])

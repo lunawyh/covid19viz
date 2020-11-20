@@ -155,14 +155,26 @@ class dataGrabPA(object):
             #return []
             #print('/////////////', l_cases1)
             listch= []
+            lisss= []
+            for case in l_cases1[0]:
+                sss= case.replace('\x0c', '')
+                if(len(sss) > 2): listch.append(sss)
 
             for case in l_cases1[9]:
                 sss= case.replace('\x0c', '')
-                if(len(sss) > 2): listch.append(sss)
-            nam_list = l_cases1[0][1:]+ listch
+                if(len(sss) > 2): lisss.append(sss)
+
+            nam_list = listch[1:] + lisss
+
+            name_l = []
+            for ccc in nam_list:
+                sss = ccc.lower()
+                ttt= sss[0].upper() + sss[1:]
+                print(ttt)
+                name_l .append(ttt)
            
      
-            num_list = l_cases1[5] + l_cases1[10]             
+            num_list = l_cases1[5] + l_cases1[10]            
             print('  num list  ..........', len(num_list))
             print('  name list ..........', len(nam_list))
             NamNum_list = np.vstack( (nam_list, num_list, [0]*len(nam_list) )).T
@@ -287,6 +299,13 @@ class dataGrabPA(object):
             if(len(l_d_sort) > 0): l_d_all = self.dataReadDeath4Pages(l_d_sort, f_targetb)
             else: l_d_all = []
             #print('7777777777', l_d_all)
+            anum = 0
+            adeath = 0
+            for a_ll in l_d_all:
+                anum += int(a_ll[1])
+                adeath += int(a_ll[2])
+
+            l_d_all = np.append(l_d_all, [['Total', anum, adeath]], axis=0)
 
             return(l_d_all, self.name_file, self.now_date)  
 

@@ -18,6 +18,7 @@ import csv
 import io
 import zipfile
 import urllib
+import numpy as np
 # ==============================================================================
 # -- codes -------------------------------------------------------------------
 # ==============================================================================
@@ -48,8 +49,10 @@ class dataGrabGa(object):
     ## parse from exel format to list 
     def parseDfData(self, df, fName=None):
         (n_rows, n_columns) = df.shape 
+        print('555555555555555', n_columns)
         # check shape
         #print('  parseDfData', df.columns[0])
+        
         lst_data = []
         for ii in range(n_rows):
             a_case = []
@@ -59,9 +62,28 @@ class dataGrabGa(object):
                     continue
                 a_case.append( df.iloc[ii, jj] )
             lst_data.append( a_case )
+            '''
+            l_cases2 = np.reshape(lst_data, (len(lst_data)/12, 12)).T
+
+            '''
+            #print('55555555555555', lst_data)
         # save to a database file
         if(fName is not None): self.save2File( lst_data, fName )
-        return lst_data
+        #print('888888888888', lst_data)
+        #================
+        state_nam = []
+        state_case = []
+        state_death = []
+        for a_line in lst_data:
+            state_nam.append(a_line[0])
+            state_case.append(a_line[1])
+            state_death.append(a_line[7])
+        print('=============', state_nam)
+        print('=============', state_case)
+        print('=============', state_death)
+        l_data = np.vstack((state_nam, state_case, state_death)).T 
+        print('lllllllllll', l_data)
+        return l_data
 
 
 
@@ -69,7 +91,28 @@ class dataGrabGa(object):
     def open4Buffer(self, csv_buffer):
         if( True):
             df = pd.read_csv(io.BytesIO(csv_buffer))
+            print('111111111', df)
             l_data = self.parseDfData(df)
+            '''
+            # open csv file
+            with open(csv_buffer, 'rb') as csvfile:
+
+                # get number of columns
+                for line in csvfile.readlines():
+                    array = line.split(',')
+                    first_item = array[0]
+
+                num_columns = len(array)
+                csvfile.seek(0)
+
+                reader = csv.reader(csvfile, delimiter=' ')
+                included_cols = [0, 1, 7]
+
+                for row in reader:
+                        content = list(row[i] for i in included_cols)
+                        print ('77777777777777777', content)
+            '''
+
         else: return []
         return l_data
     ## save downloaded data to daily or overal data 
@@ -77,8 +120,8 @@ class dataGrabGa(object):
         l_overall = []
         n_total = [0, 0]
         for a_item in l_raw_data:
-            n_total[0] += a_item[1]                
-            n_total[1] += a_item[2]                
+            n_total[0] += int(a_item[1])              
+            n_total[1] += int(a_item[2])                
             l_overall.append(a_item[0:3])
 
         l_overall.append(['Total', n_total[0], n_total[1]])
@@ -90,7 +133,7 @@ class dataGrabGa(object):
         # open and unzip
         #filehandle, _ = urllib.urlretrieve(self.l_state_config[5][1])
         zip_file_object = zipfile.ZipFile(f_name, 'r')
-        first_file = zip_file_object.namelist()[0]
+        first_file = zip_file_object.namelist()[3]
         print('  data file', first_file)
         csv_file = zip_file_object.open(first_file)
         content = csv_file.read()
