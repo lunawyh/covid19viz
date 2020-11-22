@@ -249,6 +249,7 @@ class mapViz(object):
         # 55. draw list of counties
         if(self.state_name == 'CT'): pos_zoom = 2.0
         elif(self.state_name == 'MA'): pos_zoom = 2.0
+        elif (self.state_name == 'RI'): pos_zoom = 2.0
         else: pos_zoom = 1.0
         ii = 0
         for a_case in l_cases_today:
