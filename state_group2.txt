@@ -18,12 +18,12 @@ SD - can not get the table.
 NE - the government website has no data, but maybe by 'https://www.nytimes.com/interactive/2020/us/nebraska-coronavirus-cases.html' ? but not sure if it will updata
 MN - only have half or less of the state can be get
 MO - no data source
-WI
-SC
+WI - no data found
+SC- no constant data
 
-VA
-DC
-CE
+VA-data not found
+DC--no county data 'https://coronavirus.dc.gov/page/reopening-metrics'
+CE--no county data
 
 #finnished
 AL

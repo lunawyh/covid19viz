@@ -39,7 +39,8 @@ import webbrowser as vb
 
 import tempfile
 import urlparse
-
+from datetime import date 
+from datetime import timedelta 
 #from gi.repository import Poppler, Gtk
 
 
@@ -113,13 +114,31 @@ class dataGrabWV(object):
         c_tree = html.fromstring(c_page.content)
         l_dates = c_tree.xpath('//a')  # ('//div[@class="col-xs-12 button--wrap"]')
         print('   dddd', l_dates)
+
+
+        today = date.today()
+        print("Today is: ", today) 
+        datall = ''
+        # Yesterday date 
+        yesterday = today - timedelta(days = 1) 
+        print("Yesterday was: ", yesterday) 
+
+        dt_obj = str(yesterday) 
+        print("++++++++++++++ ", dt_obj) 
+        print("++++++++++++++ ", type(dt_obj))
+
+        dt_obj = datetime.datetime.strptime(dt_obj, '%Y-%m-%d')
+        datall = dt_obj.strftime('%m-%d-%Y')
+
+        print('ddddddddddddddd', datall)
         a_address = ''
         for l_date in l_dates:
             #print(l_date.text_content())
-            if('COVID-19 Daily Update') in l_date.text_content(): 
+            if('COVID-19 Daily Update ' + datall[:2]) in l_date.text_content(): 
                 print('   sss', l_date)
                 a_address =l_date.get('href')
-                print('  find pdf at', a_address)
+                break
+                
 
         print('11111111111111', a_address)
 
@@ -143,17 +162,7 @@ class dataGrabWV(object):
 
   
             return a_address
-    ## look for page containing confirmed data
-    def lookForConfirmedPage(self, pdfReader):
-        for page in range(12, 13):
-            pageObj = pdfReader.getPage(page)
-            pageTxt = pageObj.extractText()
-            # locate page
-            n_start = pageTxt.find('Cases no longer')
-            if(n_start >= 0): print('  found at page ', page) 
-            else: continue
-            return pageTxt
-        return ''
+
     ## paser data FL
     def dataReadConfirmed(self, f_name):
         # save html file
@@ -172,19 +181,19 @@ class dataGrabWV(object):
             dStringList = case_num.text.split()
             print('  ------------case_num', dStringList )
             case_num_list.append(dStringList)
-        #print('1111111111111', case_num_list[10])
 
-        l_cases2 = np.reshape(case_num_list[7][1:], (len(case_num_list[7][1:])/2, 2)).T
-        print('22222222222222222', l_cases2)
+
+        l_cases2 = np.reshape(case_num_list[16][3:], (len(case_num_list[16][3:])/2, 2)).T
+        #print('22222222222222222', l_cases2)
         cases= []
         for c_c in l_cases2[1]:
-            print('555555555555555555', (c_c))
+            #print('555555555555555555', (c_c))
 
             c_d = c_c.replace('(', '').replace(')', '').replace(',', '').replace('.', '')
 
-            print('^^^^^^^^^^^^^^^^^^^^^6', c_d)
+            #print('^^^^^^^^^^^^^^^^^^^^^6', c_d)
             cases.append(c_d)
-        print('333333333333', cases)
+        #print('333333333333', cases)
         zeros = [0] * len(l_cases2[0])
         l_data = np.vstack((l_cases2[0], cases, zeros)).T 
 
@@ -199,13 +208,13 @@ class dataGrabWV(object):
 
 
         l_datas= []
-        return (l_datas)
+        return (l_cases3)
 
     ## paser data FL
     def parseData(self, name_target, date_target, type_download):
             self.name_file = name_target
             self.now_date = date_target
-            #Step A download and save as raw PDF files
+            #Step A download and save as raw html files
             f_targeta = self.dataDownload(name_target)
             if(f_targeta == ''): return ([], name_target, '')
             #Step B read confirmed cases

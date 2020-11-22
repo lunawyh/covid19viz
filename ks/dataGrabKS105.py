@@ -21,6 +21,7 @@ import PyPDF2
 import re
 import requests
 from lxml import html
+import numpy as np
 # ==============================================================================
 # -- codes -------------------------------------------------------------------
 # ==============================================================================
@@ -271,57 +272,35 @@ class dataGrabks(object):
     ## paser data FL
     def readList4Page(self, pdfReader, page):
         pageObj = pdfReader.getPage(page)
-        print ('  ------readList4Page', page)
-        pageTxt = pageObj.extractText().split('\n')
-        lst_cases = []
-        a_name = ''
-        a_number = 0
+        #print ('  ------readList4Page', page)
+        pagetttt = pageObj.extractText()
+        n_start = pagetttt.find('Allen')
+        pagesss = pagetttt[n_start: ]
+        pageTxt = pagesss.split(' ')
+        print ('  ------readList4Page,,,,,,,,,,,,,,,,', pageTxt)
 
-        case_total_append = 0
-        case_total_rd = 0
-        
-        state_machine = 100
-        for a_line in pageTxt:                     
-            if(state_machine == 100): 
-                if(page == 0):
-                    if('Case' in a_line):
-                        state_machine = 150  
-                else:
-                    if ('Change' in a_line):
-                        state_machine = 150  
-            elif(state_machine == 150): 
-                if (page == 0):
-                    if('Count' in a_line):
-                        state_machine = 200   
-                    elif('ount' in a_line):
-                        state_machine = 200  
-                else:
-                    if ('2020' in a_line):
-                        state_machine = 200     
+        datas_t = []
+        for a_dd in pageTxt:
+            if a_dd =='County\n': continue
+            if a_dd == '': continue
+            else: datas_t.append(a_dd.replace('\n', '').replace(',', ''))
+        print('////////////', datas_t)
+        l_cases2 = np.reshape(datas_t, (len(datas_t)/2, 2)).T
+        zero= [0]*len(l_cases2[0])
+        l_data = np.vstack((l_cases2[0], l_cases2[1], zero)).T 
 
-            elif(state_machine == 200): 
-                a_line2 = a_line.split(' ')  
-                a_line1 = []   
-                if a_line2[0] != '':
-                    print('lllllllllll  ', a_line)  
-                    pass
-                if 'County' in a_line2 :
-                    a_name= a_line2[0]
-                    #print('cccccccc  ', a_name)
-                   
-                elif a_line2[0].isdigit() == True:
-                    if len(a_line2) == 5:
-                        case_total_rd = a_line2[0]
-                        break
-                    else:
-                        a_number = a_line2[0]
-                        case_total_append += int(a_number)
-                        #print('lllllllllll  ', a_number)
-                        lst_cases.append([a_name, a_number, 0])
-        #print('lllllllll', lst_cases)
+       
+        print('$$$$$$$$$$$$$$$$$$', l_data)
+        case = 0
+        death = 0
+        for a_da in l_data:
+            case += int(a_da[1])
+            death += int(a_da[2])
+        l_cases3 = np.append(l_data, [['Total', case, death]], axis=0)
+        print(l_cases3)
     
 
-        return lst_cases, case_total_append, case_total_rd
+        return l_cases3
 
     ## paser data FL
     def dataReadConfirmed(self, f_name):
@@ -354,21 +333,10 @@ class dataGrabks(object):
             # read data of confirmed
             l_cases_all = []
             n_cases_total = 0
-            for page in range(0,3):
-                lst_cases_page, case_total_page, case_total_rd = self.readList4Page(pdfReader, page)
-                l_cases_all += lst_cases_page
-                n_cases_total += case_total_page
-                if(case_total_rd > 0):
-                    if(n_cases_total == case_total_rd):
-                        print('  total is matched in', len(l_cases_all), n_cases_total, case_total_rd)
-                        l_cases_all.append(['Total', n_cases_total, 0])
-                    else:
-                        print('  total is not matched in', len(l_cases_all), n_cases_total, case_total_rd)
-                    break
-                #break
-            #l_d_sort = self.parseTableConfirmed(tableTxt)
-            l_cases_all[-1][0] = 'Total'
-            return (l_cases_all)
+            for page in range(6,7):
+                lst_cases_page= self.readList4Page(pdfReader, page)
+            
+            return (lst_cases_page)
 
 
     ## paser data FL

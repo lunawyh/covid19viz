@@ -76,12 +76,13 @@ class dataGrabGS(object):
         state_death = []
         for a_line in lst_data:
             if a_line[0] != 'Non-GA Resident/Unknown State' or 'Unknown':
-                state_nam.append(a_line[0])
+                state_nam.append(a_line[0].replace(' ', ''))
                 state_case.append(a_line[1])
                 state_death.append(a_line[7])
         print('=============', state_nam)
         print('=============', state_case)
         print('=============', state_death)
+
         l_data = np.vstack((state_nam, state_case, state_death)).T 
         n_total = [0, 0]
         for a_item in l_data:

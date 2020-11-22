@@ -159,16 +159,16 @@ class dataGrabUT(object):
         print('    look for updated date and county data')
         sw_dates = c_tree.xpath('//ul//li//strong/text()')   # ('//div[@class="col-xs-12 button--wrap"]')
         #sw_dates = c_tree.xpath('//ul//li/text()')  
-        print('11111111111', sw_dates)
+        #print('11111111111', sw_dates)
         for sw_data in sw_dates:
             if('COVID-19 CASES' in sw_data):
                 l_detail1 = sw_data.split('(')
-                print('      ..............updated date', l_detail1)
+                #print('      ..............updated date', l_detail1)
         #-----------------------------------get data----------
         c_tree = html.fromstring(page_content)
-        print('    look for county data')
+        #print('    look for county data')
         sw_dates2 = c_tree.xpath('//ul//li/text()')
-        print('222222222222222', sw_dates2)
+        #print('222222222222222', sw_dates2)
         death= []
         total_death =0
         for sw_data in sw_dates2:
@@ -178,11 +178,11 @@ class dataGrabUT(object):
                 data = sw_data[start: ]
 
                 dea = data.split(' ')
-                print('33333333333333', dea)
+                #print('33333333333333', dea)
                 if len(dea) >= 3:
                     death.append(int(dea[1]))
                     total_death += int(dea[1])
-                    print('333333', death)
+                    #print('333333', death)
 
         
         sw_dates3 = c_tree.xpath('//ul//li//strong/text()')
@@ -212,18 +212,61 @@ class dataGrabUT(object):
         return l_data
 
     def open4WebsiteSeu(self, fRaw, lst_data):
+
+        csv_url = self.l_state_config[5][2]
+        print('  search website==========', csv_url)
+        # save html file
+        #urllib.urlretrieve(csv_url, fRaw)
+        # save html file
+        c_page = requests.get(csv_url)
+        c_tree = html.fromstring(c_page.content)
+        l_dates = c_tree.xpath('//th//div/text()')
+        print('...............', l_dates)
+        #============================state name
+        county_name=[]
+        for a_li in l_dates:
+            if 'County' in a_li:
+                lic= a_li.replace('County', '').replace(' ', '')
+                if lic != '':
+                    county_name.append(lic)
+        print('cccccccc', county_name)
+
+
+        l_case = c_tree.xpath('//div//div[@class="_12zZG"]/text()')
+        print('case==================', l_case)
+        cases = []
+        for a_ca in l_case[:30]:
+            cases.append(a_ca)
+        print('ccccccccccccccccccccccc', cases)
+        l_cases2 = np.reshape(cases, (len(cases)/5, 5))
+        print('===========', l_cases2)
+        Deaths = []
+        total = []
+        for a_line in l_cases2:
+            if 'Total' in a_line:
+                total.append(a_line[1:4])
+            elif 'Deaths' in a_line:
+                Deaths.append(a_line[1:4])
+
+        print('=============', Deaths)
+        print('=============', total)
+        l_data = np.vstack((county_name, total, Deaths)).T 
+        print('++++++++++++++++', l_data)
+        '''
         csv_url = self.l_state_config[5][2]
         print('  open4WebsiteSeu', csv_url)
         siteOpen = webdriver.Chrome()
         siteOpen.get(csv_url)
         time.sleep(10)
         # county
-        countyNames = siteOpen.find_elements_by_xpath('//tr//th//div[@class="_3-_lH"]')
-        print('==================', countyNames)
+        countyNames = siteOpen.find_elements_by_xpath('//div[@class="_3-_lH"]')
+        #print('==================', countyNames)
         for c_name in countyNames:
             dStringList = c_name.text  #.split()
-            print('4444444444444444444444444', dStringList)
-            print('  countyNames', dStringList, len(dStringList))
+            print('555555555555', dStringList)
+            if 'County' in dStringList: 
+                print('4444444444444444444444444', dStringList)
+                print('  countyNames', dStringList, len(dStringList))
             break
         # cases
         caseNumbers = siteOpen.find_elements_by_xpath('//div[@class="_3-_lH"]')
@@ -235,111 +278,11 @@ class dataGrabUT(object):
 
         time.sleep(3)
         siteOpen.close()
+        '''
 
-        name= []
-        for dS in dStringList:
-            if dS == 'Cases': continue
-            if dS == 'County': continue
-            if dS == 'Totals': continue
-            else:
-                name.append(dS)
-        #print('5555555............', name)
-
-        case = []
-        for i in range(0, 10):
-            if dStringList_num[i] == 'Total':
-                case.append(int(dStringList_num[i+1]))
-                case.append(int(dStringList_num[i+2]))
-                case.append(int(dStringList_num[i+3]))
-        #print('666666666', case)
-
-        death = []
-        for i in range(0, 40):
-            if dStringList_num[i] == 'Deaths':
-                death.append(int(dStringList_num[i+1]))
-                death.append(int(dStringList_num[i+2]))
-                death.append(int(dStringList_num[i+3]))
-        #print('777777777', death)
-
-        l_data = np.vstack((name, case, death)).T 
         return l_data
 
-    # southeast counties
-    def open4WebsiteSeu01(self, fRaw, lst_data):	# https://www.seuhealth.com/covid-19
-        #------------------------------------open website and find date------
-        csv_url = self.l_state_config[5][2]
-        #print('  open4WebsiteSeu', csv_url)
-        # save html file
-        fRaw = fRaw.replace('.html', 'seu.html')
-        if(not isfile(fRaw) ): 
-            urllib.urlretrieve(csv_url, fRaw)
-
-        # read updated date
-        #print('  read date')
-        if( isfile(fRaw) ): 
-            with open(fRaw, 'r') as file:
-                page_content = file.read()
-        else: return []
-        lst_data = lst_data[0:-1]  # remove total row
-        lst_data_se = []
-        # reset subtotal of SE
-        for a_item in lst_data:
-            if('Southeast Utah' in a_item[0]):
-                lst_data_se.append(['Southeast Utah', 0, a_item[2]])
-            else:
-                lst_data_se.append(a_item)
-
-    
-        #----------------------------------------find data ---------------------
-        #print('  download4Website', csv_url)
-        '''
-        driver = webdriver.Chrome()
-        driver.get(csv_url)
-        time.sleep(2)
-        page_text = driver.page_source
-
-        c_tree = html.fromstring(page_text)
-        l_text_data = c_tree.xpath('//div//div//div//p//span/text()')
-        a_data = []
-        #print('ddddddddd', l_text_data[0])
-        for a_not in l_text_data:
-              if 'County'  in a_not:
-                  #print('111111111', a_not)
-                  if 'death' in a_not:
-                      #print('22222222', a_not)
-                      a_data.append(a_not)
-        a_data = a_data[:3]
-        carbon_c = a_data[0].split(' ')
-        emery_c = a_data[1].split(' ')
-        grand_c = a_data[2].split(' ')
-        #print('ggggggggg', grand_c)
-        ccc= carbon_c[2].replace(u'\xa0', ' ').encode('utf-8')
-        eee= emery_c[2].replace(u'\xa0', ' ').encode('utf-8')
-        ggg= grand_c[2].replace(u'\xa0', ' ').encode('utf-8')
-
-        ccc= ccc.split(' ')
-        eee= eee.split(' ')
-        ggg= ggg.split(' ')
-        l_data1 = np.vstack((carbon_c[0], ccc[0], carbon_c[6])).T 
-        l_data2 = np.vstack((emery_c[0], eee[0], emery_c[6])).T 
-        l_data3 = np.vstack((grand_c[0], ggg[0], grand_c[8])).T 
-        #print('11111111111', l_data1)
-        #print('2222222222', l_data2)
-        #print('3333333333', l_data3)
-        total_confirmed = int(ccc[0])+int(eee[0])+int(ggg[0])
-        total_death= int(carbon_c[6]) + int(emery_c[6]) + int(grand_c[8])
-        #------------------------------------------------------------
-        lst_data_se= []
-        lst_data_se= np.append(lst_data_se, l_data1)
-        lst_data_se= np.append(lst_data_se, l_data2)
-        lst_data_se= np.append(lst_data_se, l_data3)
-        yoyal= (['Total', total_confirmed, total_death])
-        lst_data_se= np.append(lst_data_se, yoyal)
-        lst_data_se = np.reshape(lst_data_se, (len(lst_data_se)/3, 3)).T
-        l_data = np.vstack((lst_data_se[0], lst_data_se[1], lst_data_se[2])).T 
-        #print('*******', l_data)
-        '''
-        return l_data
+ 
     
     ## paser data Ut
     def parseData(self, name_file, date_target, type_download):
@@ -351,6 +294,7 @@ class dataGrabUT(object):
             lst_raw_data = self.open4WebsiteMain(f_name)
             lst_raw_data2 = self.open4WebsiteSeu(f_name, lst_raw_data)
             lst_raw_data3 = self.open4WebsiteSwu(f_name, lst_raw_data)
+
             lst_raw_data4 = np.concatenate((lst_raw_data2, lst_raw_data3), axis=0)
             lst_raw_data5 = np.concatenate((lst_raw_data, lst_raw_data4), axis=0)
 
@@ -367,6 +311,8 @@ class dataGrabUT(object):
 
             # step B: parse and open
             lst_data = self.saveLatestDateUt(lst_raw_data6)
+
+            lst_data= []
             return(lst_data, self.name_file, self.now_date)  #add in l_d_all
 
 

@@ -22,7 +22,7 @@ import re
 import requests
 from lxml import html
 import numpy as np
-
+import cv2
 # ==============================================================================
 # -- codes -------------------------------------------------------------------
 # ==============================================================================
@@ -109,7 +109,7 @@ class dataGrabFl(object):
     def dataDownload(self, name_target):
             print('  A.dataDownload', name_target)
             f_namea = self.state_dir + 'data_raw/'+self.state_name.lower()+'_covid19_'+name_target+'.pdf'
-            f_nameb = self.state_dir + 'data_raw/'+self.state_name.lower()+'_covid19_'+name_target+'_death.pdf'
+       
             if(not os.path.isdir(self.state_dir + 'data_raw/') ): os.mkdir(self.state_dir + 'data_raw/')
             # step A: downlowd and save
             if( True): 
@@ -130,25 +130,21 @@ class dataGrabFl(object):
                         self.name_file = dt_obj.strftime('%Y%m%d')
                         self.now_date = dt_obj.strftime('%m/%d/%Y')
                         f_namea = self.state_dir + 'data_raw/'+self.state_name.lower()+'_covid19_'+self.name_file+'.pdf'
-                        f_nameb = self.state_dir + 'data_raw/'+self.state_name.lower()+'_covid19_'+self.name_file+'_death.pdf'
+                       
                 if(not isfile(f_namea) ):
                     result = self.download4Website(a_address, f_namea)
                     print('  downloaded', result, f_namea)
                 else:
                     print('  already exiting', f_namea)
-                if(not isfile(f_nameb) ):
-                    result = self.download4Website(b_address, f_nameb)
-                    print('  downloaded', result, f_nameb)
-                else:
-                    print('  already exiting', f_nameb)
-
-            return f_namea, f_nameb
+                
+            return f_namea
     ## look for page containing confirmed data
     def lookForConfirmedPage(self, pdfReader):
-        for page in range(4, 9):
+        for page in range(5, 6):
             pageObj = pdfReader.getPage(page)
             pageTxt = pageObj.extractText()
             # locate page
+            #print('[[[[[[[[[[[[[[[[[[', pageTxt)
             n_start = pageTxt.find('Florida counties have')
             if(n_start >= 0): print('  found at page ', page) 
             else: continue
@@ -173,6 +169,22 @@ class dataGrabFl(object):
             pdfFileObj = open(f_name, 'rb')
             pdfReader = PyPDF2.PdfFileReader(pdfFileObj)
 
+            something = pdfReader.getPage(5)
+            
+            #print(something.extractText())^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+            # change the pdf to image 
+            pdfFileObj = open(f_name, 'rb')
+            pdfReader = PyPDF2.PdfFileReader(pdfFileObj)
+
+            print('....................', pdfReader.numPages)
+
+            pageObj = pdfReader.getPage(5)
+            print('...................', pageObj.extractText())
+
+            pdfFileObj.close()
+
+            #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
             # look for page containing confirmed data
             pageTxt = self.lookForConfirmedPage(pdfReader)
             if(pageTxt == ''): return ([], pdfReader)
@@ -194,8 +206,15 @@ class dataGrabFl(object):
             if(n_start < 0):
                 return ([], pdfReader)
             n_end = pageTxt.find('FL resident cases')
-            pageTxt = pageTxt[n_start + 5: n_end-1]
+            pageTxt = pageTxt[n_start + 5: n_end-1].replace('%', '\n')
+
+            for a_var in pageTxt:
+            	a_var.replace('%', '\n')
+            	
+
             pageTxt2 = pageTxt.split('\n')
+
+            print('=====================', pageTxt2)
             nam_num_case = []
             for a_ccc in pageTxt2:
                 if '%' in a_ccc: pass
@@ -450,7 +469,7 @@ class dataGrabFl(object):
             self.name_file = name_target
             self.now_date = date_target
             #Step A download and save as raw PDF files
-            f_targeta, f_targetb = self.dataDownload(name_target)
+            f_targeta  = self.dataDownload(name_target)
             if(f_targeta == ''): return ([], name_target, '')
             #Step B read confirmed cases
             l_d_sort = self.dataReadConfirmed(f_targeta)
