@@ -17,95 +17,87 @@ import urllib
 import datetime 
 from lxml import html
 import requests
+from selenium import webdriver
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.common.by import By
+import time
 # ==============================================================================
 # -- codes -------------------------------------------------------------------
 # ============================================================================== 
-# save downloaded data to daily or overal data 
-# class for dataGrabRI
+# save downloaded data to daily or overal data
+# class for dataGrfirstsDate = str(siteOpen.find_elements_by_xpath('//strong')[2].get_attribute('innerHTML').encode('utf8'))abRI
 class dataGrabRI(object):
-    ## the start entry of this class
+
     def __init__(self, l_config, n_state):
+
         # create a node
-        print("welcome to dataGrabRI")
+        print("welcome to dataGrab")
         self.state_name = n_state
         self.state_dir = './'+n_state.lower()+'/'
         self.l_state_config = l_config
+        self.name_file = ''
+        self.now_date = ''
+    ## save to csv
 
-    ## save to csv 
-    def save2File(self, l_data, csv_name):
-        csv_data_f = open(csv_name, 'w')
-        # create the csv writer 
-        csvwriter = csv.writer(csv_data_f)
-        # make sure the 1st row is colum names
-        if('County' in str(l_data[0][0])): pass
-        else: csvwriter.writerow(['County', 'Cases', 'Deaths'])
-        for a_row in l_data:
-            csvwriter.writerow(a_row)
-        csv_data_f.close()
+    def openSite(self, f_name, s_name,page_url):
+        siteOpen = webdriver.Chrome()
+        siteOpen.get(page_url)
+        time.sleep(5)
+        iframe = siteOpen.find_element_by_xpath("//iframe[@id='countyCasesIframe']")
+        siteOpen.switch_to.frame(iframe)
+        time.sleep(5)
+        siteOpen.find_element_by_xpath("//select[@id='state-select']/option[@value='RI']").click()
+        time.sleep(5)
+        cases = siteOpen.find_element_by_xpath('//tbody["_ngcontent-qmx-c0"]')
+        num_list = []
+        for c in cases.find_elements_by_xpath("//tr"):
+            num_sub = []
+            for col in c.find_elements_by_xpath("//td"):
+                num_list.append(str(col.get_attribute("innerHTML").encode('utf8')))
+            break
 
-    ## open a website 
-    def open4Website(self, name_file, date_target):
-        print("  open4Website")
-        data_url = self.l_state_config[5][1]
-        if('http' not in data_url): return '', None
-        # get html file
-        c_page = requests.get(data_url)
-        c_tree = html.fromstring(c_page.content)
+        i = num_list.__len__()-1
+        badchars = ['&lt;',',']
+        while i>=0:
+            for b in badchars:
+                num_list[i] = num_list[i].replace(b, '')
+            if i%5 ==0:
+                num_list.pop(i)
+            i = i - 1
 
-        # after get updated time from this html page, replace given file name and targeting date
-        l_dates = c_tree.xpath('//div//p//em/text()')  
-        #self.name_file = new_name_file
-        #self.now_date = new_date_target
-        # the file format may be .html, .pdf, .csv, .xlsx
-        f_raw_name = self.state_dir + 'data_raw/'+self.state_name.lower()+'_covid19_'+self.name_file+'.html'
-        if(not os.path.isdir(self.state_dir + 'data_raw/') ): os.mkdir(self.state_dir + 'data_raw/')
+        allList = []
+        allList.append(['County', 'Cases', 'Deaths'])
+        countyList = enumerate(['Providence','Kent','Washington','Newport','Bristol'])
+        for n,c in countyList:
+            allList.append([c,num_list[n*4],num_list[n*4 + 3]])
 
-        # download the html file
-	urllib.urlretrieve(data_url, f_raw_name)
-        return f_raw_name, c_page.content
+        return allList, siteOpen.page_source.encode('utf8')
 
-    ## read a html string and filter the data, then put into a list 
-    def grabData4Content(self, f_raw_name, page_content):
-        print("  filterData4Content")
-        # open the raw data file or directly use page_content
-        if(isfile(f_raw_name)): 
-            with open(f_raw_name, "r") as fp:
-                page_content = fp.read()
+    def save_data(self, f_name, s_name, data_csv, code):
+        with open(f_name, 'w') as f:
+            f.write(code)
+            f.close()
 
-        l_raw_data = []
-        if(page_content is not None):
-            c_tree = html.fromstring(page_content)
-            l_data_raw = c_tree.xpath('//div//div//div//table//tbody//tr//td//a/text()')
-        return l_raw_data
+        with open(s_name, 'wb') as myfile:
+            wr = csv.writer(myfile, quoting=csv.QUOTE_ALL)
+            for c in data_csv:
+                wr.writerow(c)
+            myfile.close()
 
-    ## save downloaded data to daily data file
-    def saveData4Raw(self, l_raw_data, name_file):
-        print("  saveData4Raw")
-        l_overall = []
-        total_cases, total_death = 0, 0
-
-        l_overall.append(['County', 'Cases', 'Deaths'])
-
-        for a_item in l_raw_data:
-            l_overall.append([a_item[0], a_item[1], a_item[2]])  
-
-        l_overall.append(['Total', total_cases, total_death])  
-        print ('  Total', total_cases, total_death)
-
-        self.save2File(l_overall, self.state_dir + 'data/'+self.state_name.lower()+'_covid19_'+name_file+'.csv')
-        return l_overall
+        return data_csv
 
     ## paser data RI
-    def parseData(self, name_file, date_target, type_download):
-        print("  parseData")
-        self.name_file = name_file
-        self.now_date = date_target
-        # step A: read date and save the raw data into a file
-        f_raw_name, contents = self.open4Website(name_file, date_target)
-        # step B: filter data and convert to a raw list
-        l_raw_data = self.grabData4Content(f_raw_name, contents)
-        # step C:  convert to a standard list and save
-        lst_data = self.saveData4Raw(l_raw_data, self.name_file)       
-        return(lst_data, self.name_file, self.now_date)  
+    def parseData(self, name_target, date_target, type_download):
+        self.name_file = name_target
+        f_name = self.state_dir + 'data_raw/' + self.state_name.lower() + '_covid19_' + self.name_file + '.html'
+        s_name = self.state_dir + 'data/' + self.state_name.lower() + '_covid19_' + self.name_file + '.csv'
+        page_url = self.l_state_config[5][1]
+        if (not os.path.isdir(self.state_dir + 'data_raw/')): os.mkdir(self.state_dir + 'data_raw/')
+        # step A: downlowd and save
+        data_csv, save = self.openSite(f_name, s_name, page_url)
+        data_csv = self.save_data(f_name, s_name, data_csv, save)
+        print('  total list of cases', len(data_csv))
+        return (data_csv, self.name_file, self.now_date)
 ## end of file
 

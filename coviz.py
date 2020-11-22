@@ -319,7 +319,7 @@ class runCoViz(object):
 
     ## save to csv 
     def save2CfgFile(self, l_data, csv_name):
-        csv_data_f = open(csv_name, 'w')
+        csv_data_f = open(csv_name, 'wb')
         # create the csv writer 
         csvwriter = csv.writer(csv_data_f)
         # make sure the 1st row is colum names
