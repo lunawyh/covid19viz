@@ -229,7 +229,7 @@ class dataGrabIl(object):
             print('      cases', len(se_dates))
             for se_data in se_dates:
                 #print('      ', se_data)
-                l_cases.append(int(se_data))
+                l_cases.append(int(se_data.replace(',', '')))
             l_cases2 = np.reshape(l_cases, (len(l_cases)/3, 3)).T
             print('      cases reshaped', len(l_cases2))
             total_cases = (sum(map(int, l_cases2[1])))

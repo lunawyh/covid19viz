@@ -180,8 +180,8 @@ class dataGrabUT(object):
                 dea = data.split(' ')
                 #print('33333333333333', dea)
                 if len(dea) >= 3:
-                    death.append(int(dea[1]))
-                    total_death += int(dea[1])
+                    death.append(int(dea[1].replace('*', '')))
+                    total_death += int(dea[1].replace('*', ''))
                     #print('333333', death)
 
         

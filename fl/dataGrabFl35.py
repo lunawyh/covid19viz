@@ -159,6 +159,7 @@ class dataGrabFl(object):
                 #nums = int(n_start)
                 self.name_file = dt_obj.strftime('%Y%m%d')
                 self.now_date = dt_obj.strftime('%m/%d/%Y')
+                #print('++++++++++', pageTxt)
                 return pageTxt
         return ''
     ## paser data FL
@@ -198,9 +199,9 @@ class dataGrabFl(object):
                 return ([])
             n_end = pageTxt.find('FL resident cases')
             pageTxt = pageTxt[n_start + 5: n_end-1]
-
+            print('??????????', pageTxt)
             pageTxt2 = pageTxt.encode('ascii','ignore').split('\n')
-
+            print('++++++++++++++++', pageTxt2)
             print('===================== extractText', len(pageTxt2), pageTxt2[:7])
             l_data_all = []
             l_data_county = []
@@ -257,6 +258,7 @@ class dataGrabFl(object):
 
             print('===================== listing counties', len(l_data_all), l_data_all[0], l_data_all[-1])
             arr_data_all = np.array(l_data_all)
+            print('0000000000000', arr_data_all)
             l_cases2 = arr_data_all.T
             l_data = np.vstack((l_cases2[0], l_cases2[4], l_cases2[5])).T 
             return (l_data)
