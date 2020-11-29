@@ -206,8 +206,9 @@ class dataGrabPA(object):
 
             case_name = c_county_names+ d_county_names2
             case_number = a_cases + b_cases2
-
-
+            zeros = [0]*len(case_name)
+            e_NamNum_list = np.vstack((case_name, case_number, zeros)).T
+            print('***********', e_NamNum_list)
             #---------------------------death-------------------------
             print('  B.dataReadConfirmed on page 1', f_namea)
             # step B: parse and open
@@ -249,7 +250,7 @@ class dataGrabPA(object):
                 else: 
                     not_1 = a_not.lower()
                     not_2 = not_1[0].upper() + not_1[1:]
-                    c_county_names.append(not_2)
+                    c_county_names.append(not_2.replace('\xef', ''))
             print('333333333333333', c_county_names)
 
             #find the first case list ===========================================================
@@ -268,16 +269,16 @@ class dataGrabPA(object):
                 else:
                     b_cc_1 = b_cc.lower()
                     b_cct_2 = b_cc_1[0].upper() + b_cc_1[1:]
-                    d_county_names2.append(b_cct_2)
+                    d_county_names2.append(b_cct_2.replace('\xef', ''))
             print('5555555555', d_county_names2)
 
             #find the second case list ===========================================================
             b_cases2= []
             for a_li in l_cases2:
               
-                if len(a_li) == len(d_county_names2):
+                if len(a_li) == len(d_county_names2)+1:
                     b_cases2 = a_li
-                    
+                    break
             print('666666666666', b_cases2)
 
 
@@ -286,22 +287,20 @@ class dataGrabPA(object):
 
 
 
-            deth_nam = l_cases1[3][1:] + l_cases1[11][1:]
-            #print('death state name;;;;', deth_nam)
-            deth_case = l_cases1[4] + d_case1
-            #print('death case num;;;;', deth_case)
-            #print('death name', len(deth_nam))
-            #print('death cases', len(deth_case))
+            deth_nam = c_county_names + d_county_names2
+
+            deth_case = a_cases + b_cases2[:-1]
+
             d_NamNum_list = np.vstack((deth_nam, deth_case)).T
             print('death list', d_NamNum_list)
 
             #----------------------------------------------------
-            '''
+
             finall_list = []
             print('', type(d_NamNum_list))
-
+            '''
             #for death in d_NamNum_list and for case in NamNum_list:
-            for (death, case) in zip(d_NamNum_list, NamNum_list):
+            for (death, case) in zip(d_NamNum_list, e_NamNum_list):
 		#print('death....', death)
 		#for case in NamNum_list :
 			if case[0] == death[0]:
@@ -313,8 +312,18 @@ class dataGrabPA(object):
 			else: 
 				finall_list.append([case[0], case[1], case[2]])
 				break
+            '''
 
 
+            res_list = [] 
+            for (i) in range(0, len(d_NamNum_list), len(e_NamNum_list)) : 
+                if d_NamNum_list[i][0] == e_NamNum_list[i][0] : 
+                    res_list.append([e_NamNum_list[i][0], e_NamNum_list[i][1], d_NamNum_list[i][1]]) 
+            print(';;;;;;;;;;;;;;;;', res_list)
+
+                    
+                    
+            '''
             total_death = 0
             total_case = 0
             for a_line in finall_list:
