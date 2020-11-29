@@ -4,7 +4,7 @@ VIZ_H,1055,,,1
 state_map,state_county2020.jpg,,,2
 cordinate,none,,,3
 weblink_num,15,,,4
-weblink_state,https://coronavirus.ohio.gov/static/COVIDSummaryData.csv,,,5
+weblink_state,https://coronavirus.ohio.gov/wps/portal/gov/covid-19/dashboards/overview/,,,5
 state_name,Ohio,,,6
 basemap_type,1,,,7
 basemap_center,40.293566,-82.849382,,8

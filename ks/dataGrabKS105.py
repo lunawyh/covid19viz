@@ -283,6 +283,7 @@ class dataGrabks(object):
         for a_dd in pageTxt:
             if a_dd =='County\n': continue
             if a_dd == '': continue
+            if len(a_dd) <= 1: continue
             else: datas_t.append(a_dd.replace('\n', '').replace(',', ''))
         print('////////////', datas_t)
         l_cases2 = np.reshape(datas_t, (len(datas_t)/2, 2)).T

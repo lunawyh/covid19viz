@@ -450,7 +450,7 @@ class runCoViz(object):
             sys.path.insert(0, "./or")
             from dataGrabOr333 import *
             # create new class
-            data_grab = dataGrabFl(self.l_state_config, self.state_name)	
+            data_grab = dataGrabOR(self.l_state_config, self.state_name)	
             # download as a raw file 
             lst_data, name_file, now_date = data_grab.parseData(self.name_file, self.now_date, type_download)		
             # save
