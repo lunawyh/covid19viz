@@ -68,8 +68,11 @@ New visualization and prediction of COVID-19 in USA, such as Michigan, CA, OH, N
          sudo cp  ~/Downloads/chromedriver /usr/local/bin/
 
 10. another way to install basemap on ubantu, run these coads in ubantu:
+
     sudo apt-get install libgeos-3.X.X
+    
     sudo apt-get install libgeos-dev
+    
     pip install --user https://github.com/matplotlib/basemap/archive/master.zip
 
 # How to run in Ubuntu
