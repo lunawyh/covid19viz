@@ -17,6 +17,8 @@ import csv
 import datetime 
 import urllib
 import ssl
+from selenium import webdriver
+import datetime 
 # ==============================================================================
 # -- codes -------------------------------------------------------------------
 # ==============================================================================
@@ -214,10 +216,23 @@ class dataGrabOh(object):
     ## download a website 
     def download4Website(self, fRaw):
         csv_url = self.l_state_config[5][1]
-        print("  download4Website", csv_url)
-        # save csv file
-        urllib.urlretrieve(csv_url, fRaw)
+        print('  download4Website', csv_url)
+
+        siteOpen = webdriver.Chrome()
+        siteOpen.get(csv_url)
+        time.sleep(7)
+
+        # save html file
+        c_page = requests.get(csv_url)
+        c_tree = html.fromstring(c_page.content)
+        with open(fRaw, 'wb') as f:
+            f.write(c_page.content)
+        print('  saved to ', fRaw)
+
+        caseNumbers = siteOpen.find_elements_by_xpath('//a[@title="Download the summary data (CSV)"]')
+        print('1111111111111', caseNumbers)
         return True
+
     ## paser data CA
     def parseData(self, name_target, date_target, type_download):
             self.name_file = name_target

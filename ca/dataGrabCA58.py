@@ -24,6 +24,9 @@ from selenium import webdriver
 from selenium.webdriver.common.keys import Keys 
 import numpy as np
 import datetime 
+import openpyxl
+from openpyxl import load_workbook
+from itertools import islice
 # ==============================
 #================================================
 # -- codes -------------------------------------------------------------------
@@ -54,72 +57,38 @@ class dataGrabCA(object):
             csvwriter.writerow(a_row)
         csv_data_f.close()
 
+    ## open a xlsx 
+    def open4Xlsx(self, xlsx_name):
 
-    def saveWebsite(self, fRaw):
-        csv_url = self.l_state_config[5][1]
-        print('  download4Website', csv_url)
-        driver = webdriver.Chrome()
-        driver.get(csv_url)
-        time.sleep(5)
-        driver.find_elements_by_link_text('By County')[0].click()
-        '''do we need to add 
-        driver.find_elements_by_link_text('All')[0].click() 
-        ? '''
-        #time.sleep(1)
-        #driver.find_element_by_id("input-filter").send_keys("Alexander")
-        time.sleep(1)
-        #driver.find_element_by_id("myDiv").click()
-        #ActionChains(driver).double_click(qqq).perform()
-        driver.execute_script('createTableRows(99);')
-        time.sleep(1)
-        page_text = driver.page_source
-        with open(fRaw, "w") as fp:
-            fp.write(page_text.encode('utf8'))
-        time.sleep(1)
-        driver.quit()  # close the window
-        #f = file('test', 'r')
-        #print f.read().decode('utf8')
+        xl = pd.ExcelFile(xlsx_name)
+        print('55555555555', xl.sheet_names)
+        df1 = xl.parse('County Tiers and Metrics')
 
+        f_nanm = self.state_dir + 'data_raw/'+self.state_name.lower()+'_covid19_'+self.name_file+'.csv'
 
-    ## parse from exel format to list 
-    def parseDfData(self, df, fName=None):
-        (n_rows, n_columns) = df.shape 
-        # check shape
-        #print('parseDfData', df.title)
-        lst_data = []
-        for ii in range(n_rows):
-            a_case = []
-            for jj in range(n_columns):
-                #is the 'iloc(select rows and columns by number)' is ' nan(not a number)'
-                if( str(df.iloc[ii, jj]) == 'nan'  ): 
-                    a_case.append( 0 )
+        df1.to_csv(f_nanm)
 
-                    continue
-                #a_case will have all the data from the 'data'
-                a_case.append( df.iloc[ii, jj] )
-            lst_data.append( a_case )
-        # save to a database file
-        #if the file do not already exist
-        if(fName is not None): self.save2File( lst_data, fName )
-        #return the data that turned in to a ?? now you can use it?
-        print(';;;;;;;;;;;', lst_data)
-        return lst_data
-    ## save downloaded data to daily or overal data 
-    def saveLatestDateTx(self, l_raw_data, name_file):
-        l_overall = []
-        state_name =[]
-        state_case = []
-        for a_raw in l_raw_data:
-            if '*' in a_raw[0]: continue
-            if '^' in a_raw[0]: continue
-            if 'County' in a_raw[0]: continue
-            else: 
-                state_name.append(a_raw[0])
-                state_case.append(a_raw[7])
-        print('111111111', state_name)
-        print('111111111', state_case)
-        zeros= [0]*len(state_name)
-        l_data = np.vstack((state_name, state_case, zeros)).T 
+        import csv
+        f_data =[]
+        with open(f_nanm, 'r') as file:
+            reader = csv.reader(file)
+            for row in reader:
+                #print('rrrrrrrrrrrrrrrrrrr', row)
+                f_data.append(row)
+        names= []
+        cases= []
+        for ff in f_data:
+            if len(ff[0]) >= 20: continue
+            if str(ff[0])== 'County': continue
+            if str(ff[0])== '': continue
+            elif len(ff) ==13 :
+                names.append(ff[0])
+                cases.append(ff[7])
+        zeros= [0]*len(names)
+
+        l_data = np.vstack((names, cases, zeros)).T
+        print('777777777777', l_data)
+
 
         total_num = 0
         total_death = 0
@@ -128,31 +97,9 @@ class dataGrabCA(object):
 
         l_cases3 = np.append(l_data, [['Total', total_num, total_death]], axis=0)
         print(';;;;;;;;;;;;;;;;', l_cases3)
-        self.save2File(l_cases3, self.state_dir + 'data/'+self.state_name.lower()+'_covid19_'+name_file+'.csv')
 
 
         return l_cases3
-    ## open a xlsx 
-    def open4Xlsx(self, xlsx_name):
-        l_data = []
-        if(isfile(xlsx_name) ):
-            xl_file = pd.ExcelFile(xlsx_name)
-            print('  sheet_names', xl_file.sheet_names)
-            nfx = ''
-            for sheet in xl_file.sheet_names:  # try to find known name of sheet
-                if ('County Tiers and Metrics' in (sheet)):
-                    print(' --------------- select sheet', sheet)
-                    nfx = sheet
-                    break
-            if nfx == '': # if not found, use the 1st sheet
-                if(len(xl_file.sheet_names) > 0): nfx = xl_file.sheet_names[0]
-                else: return []
-            df = xl_file.parse( nfx )
-            
-            l_data = self.parseDfData(df)
-            #print('  l_data', l_data)
-
-        return l_data
 
     ## $^&&
     def open4excel(self, name_file):
@@ -205,8 +152,7 @@ class dataGrabCA(object):
         # step C: read data file and convert to standard file and save
         lst_raw_data = self.open4Xlsx(f_n_total)
 
-        lst_data = self.saveLatestDateTx(lst_raw_data, self.name_file)
-
+        self.save2File(lst_raw_data, self.state_dir + 'data/'+self.state_name.lower()+'_covid19_'+name_file+'.csv')
 
 
 
@@ -228,6 +174,6 @@ class dataGrabCA(object):
                 self.now_date = dt_obj.strftime('%m/%d/%Y')
                 break
 
-        return(lst_data, self.name_file, self.now_date)  
+        return(lst_raw_data, self.name_file, self.now_date)  
 
 
