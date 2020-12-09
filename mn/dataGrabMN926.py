@@ -25,20 +25,20 @@ import numpy as np
 from PIL import Image
 import webbrowser
 import cv2
-import imgkit
+#import imgkit
 import os
 from selenium import webdriver
 from time import sleep
 from selenium.webdriver.chrome.options import Options
 import time
 from PIL import Image
-import autopy
-import pyautogui
-import subprocess
+#import autopy
+#import pyautogui
+#import subprocess
 import webbrowser as vb
 
-import tempfile
-import urlparse
+#import tempfile
+#import urlparse
 import re
 
 #from gi.repository import Poppler, Gtk
@@ -209,11 +209,11 @@ class dataGrabMN(object):
             
 
             #take the screenshot
-            x=1
-            while x<2:
-                pyautogui.screenshot('mn/screenshot/name.png')
-                x+=1
-                time.sleep(2)
+            #x=1
+            #while x<2:
+            #    pyautogui.screenshot('mn/screenshot/name.png')
+            #    x+=1
+            #    time.sleep(2)
             return f_namea
     ## look for page containing confirmed data
     def lookForConfirmedPage(self, pdfReader):
