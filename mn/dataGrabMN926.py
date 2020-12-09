@@ -167,6 +167,8 @@ class dataGrabMN(object):
             else: continue
             return pageTxt
         return ''
+    def hasNumbers(inputString):
+        return any(char.isdigit() for char in inputString)
     ## paser data FL
     def dataReadConfirmed(self, f_name):
             print('  B.dataReadConfirmed on page 5-10', f_name)
@@ -194,7 +196,7 @@ class dataGrabMN(object):
                 if s_a =='': continue
 
 
-                if (s_b.replace(',', '')).isdigit() == True: 
+                if (s_b.replace(',', '')).isdigit() == True:  # only numbers
                     print('!!!!!!!!!!!!!!!!', s_b)
                     s_g = s_b.replace(',', '')
 
@@ -221,8 +223,9 @@ class dataGrabMN(object):
                             if s_x != '': number_l.append(s_x)
                             if s_w != '': number_l.append(s_w)
 
-
-                if (s_b.replace(' ', '').lower()).islower() == True: 
+                elif (hasNumbers(s_b) == True): # has numbers
+                    pass
+                elif (s_b.replace(' ', '').lower()).islower() == True:  
                     print('@@@@@@@@@@@', s_b)
                     s_d = ''
                     s_e = ''
