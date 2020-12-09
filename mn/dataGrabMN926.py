@@ -121,38 +121,6 @@ class dataGrabMN(object):
                 print('   sss', l_date)
                 a_address = 'https://www.health.state.mn.us' + l_date.get('href')
                 print('  find pdf at', a_address)
-                '''
-                n_start = l_date.find('Report:')
-                s_date = l_date[n_start+7:] 
-                n_end = s_date.find('(PDF)')
-                if(n_end >= 0):
-                        s_date = s_date[1: 11].replace ('00:00:00', '')
-
-                        dt_obj = datetime.datetime.strptime(s_date, '%m/%d/%Y')
-                        print('  updated on', dt_obj)
-                        #nums = int(n_start)
-                        self.name_file = dt_obj.strftime('%Y%m%d')
-                        self.now_date = dt_obj.strftime('%m/%d/%Y')
-                '''
-        '''
-        l_2dates = c_tree.xpath('//ul//li//strong//a/text()')
-        for l_date in l_2dates:
-            #print(l_date.text_content())
-            if('Weekly COVID-19 Report') in l_date: 
-                print('ccccccccccccccc', l_date)
-                n_start = l_date.find('Report:')
-                if(n_start >= 0): 
-                    s_date = l_date[n_start+7:] 
-                    n_end = s_date.find('(PDF)')
-                if(n_end >= 0):
-                        s_date = s_date[1: 11].replace ('00:00:00', '')
-
-                        dt_obj = datetime.datetime.strptime(s_date, '%m/%d/%Y')
-                        print('  updated on', dt_obj)
-                        #nums = int(n_start)
-                        self.name_file = dt_obj.strftime('%Y%m%d')
-                        self.now_date = dt_obj.strftime('%m/%d/%Y')
-        '''
         print('11111111111111', a_address)
 
 
@@ -184,36 +152,9 @@ class dataGrabMN(object):
                     print('  already exiting', f_namea)
                     print('__________________')
 
-            '''
-            bitmap= autopy.bitmap.capture_screen()
-            bitmap.save(self.state_dir + 'screenshot/.png')
-            '''
-            #webbrowser.open_new(f_namea)
-            #subprocess.Popen([f_namea],shell=True)
-            #vb.open_new('mn/screenshot/mn_covid19_20201023.pdf')            
-            '''
-            pdf = requests.get("mn/screenshot/mn_covid19_20201023.pdf")
 
-            with tempfile.NamedTemporaryFile() as pdf_contents:
-                pdf_contents.file.write(pdf)
-                file_url = urlparse.urljoin(
-                    'file:', urllib.pathname2url(pdf_contents.name))
-                document = Poppler.Document.new_from_file(file_url, None)
-            '''
-            #import subprocess
-            #process = subprocess.Popen(['<here path to acrobat.exe>', '/A', 'page=1', '<here path to pdf>'], shell=False, stdout=subprocess.PIPE)
-            #process.wait()
-
-            #import os
             os.system('mn/screenshot/mn_covid19_20201023.pdf')
             
-
-            #take the screenshot
-            #x=1
-            #while x<2:
-            #    pyautogui.screenshot('mn/screenshot/name.png')
-            #    x+=1
-            #    time.sleep(2)
             return f_namea
     ## look for page containing confirmed data
     def lookForConfirmedPage(self, pdfReader):
@@ -241,15 +182,15 @@ class dataGrabMN(object):
             n_end = pageTxt.find(' No Longer Needing Isolation')
             s_date = pageTxt[n_start+17: n_end]
             s_aate = s_date.split('\n')
-            print('2222222222222',s_aate)
+            #print('2222222222222',s_aate)
 
             number_l= []
             state_l = []
 
             for s_a in s_aate:
                 s_b = s_a.encode('ascii','ignore')
-                print('333333333', s_b)
-                print('666666666666', type(s_b))
+                #print('333333333', s_b)
+                #print('666666666666', type(s_b))
                 if s_a =='': continue
 
 
@@ -281,13 +222,6 @@ class dataGrabMN(object):
                             if s_w != '': number_l.append(s_w)
 
 
-
-
-                        #if s_y != '': number_l.append(s_y)
-                        #print('a_zzzzzzzzzzzzzzzzzzzzzz', s_z)
-                        #print('a_yyyyyyyyyyyyyyyyyyyyyy', s_y)
-
-
                 if (s_b.replace(' ', '').lower()).islower() == True: 
                     print('@@@@@@@@@@@', s_b)
                     s_d = ''
@@ -302,7 +236,7 @@ class dataGrabMN(object):
                     print('-------------------------', (s_d))
                     
                     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~state_name~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                    print('^^^^^^^^^^^^^^^^^^^^^^^^^^', s_e)
+                    #print('^^^^^^^^^^^^^^^^^^^^^^^^^^', s_e)
 
                     if ' ' in s_e: 
                         state_l.append(s_e)
@@ -330,8 +264,8 @@ class dataGrabMN(object):
                                     if name_b == '':
                                         name_a += a_g
                                     else: name_b += a_g
-                    print(';;;;;;;;;;;;;;;;;;;;;;;', name_a)
-                    print('`````````````````````````', name_b)
+                    #print(';;;;;;;;;;;;;;;;;;;;;;;', name_a)
+                    #print('`````````````````````````', name_b)
                     state_l.append(name_a)
                     state_l.append(name_b)
                     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~state cases~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
