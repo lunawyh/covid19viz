@@ -746,6 +746,13 @@ class runCoViz(object):
             #len(the number of characters is a string/object)
             if(len(lst_data) > 0): 
                 self.name_file, self.now_date = name_file, now_date
+        elif (type_download == 11577): 
+            sys.path.insert(0, "./sm") 
+            from dataGrabsM import * 
+            # step A: create new class 
+            data_grab = dataGrabsM(self.l_state_config, self.state_name) 
+            # step B: parse to standard file 
+            lst_data, self.name_file, self.now_date = data_grab.parseData(self.name_file, self.now_date, type_download) 
         ### This is a template entry into one state, to COPY and MODIFY, do NOT REMOVE or CHANGE
         '''  
         elif (type_download == 1):  # download only
