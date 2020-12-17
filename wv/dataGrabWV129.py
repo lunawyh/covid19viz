@@ -16,29 +16,14 @@ import pandas as pd
 import csv
 import datetime 
 import urllib
-import ssl
-import PyPDF2
 import re
 import requests
 from lxml import html
 import numpy as np
-from PIL import Image
-import webbrowser
-import cv2
-import imgkit
 import os
 from selenium import webdriver
 from time import sleep
-from selenium.webdriver.chrome.options import Options
 import time
-from PIL import Image
-import autopy
-import pyautogui
-import subprocess
-import webbrowser as vb
-
-import tempfile
-import urlparse
 from datetime import date 
 from datetime import timedelta 
 #from gi.repository import Poppler, Gtk
@@ -73,36 +58,7 @@ class dataGrabWV(object):
             csvwriter.writerow(a_row)
         csv_data_f.close()
     ## parse from exel format to list 
-    def parseDfData(self, df, fName=None):
-        (n_rows, n_columns) = df.shape 
-        # check shape
-        #print('parseDfData', df.title)
-        lst_data = []
-        for ii in range(n_rows):
-            a_case = []
-            for jj in range(n_columns):
-                if( str(df.iloc[ii, jj]) == 'nan'  ): 
-                    a_case.append( 0 )
-                    continue
-                a_case.append( df.iloc[ii, jj] )
-            lst_data.append( a_case )
-        # save to a database file
-        if(fName is not None): self.save2File( lst_data, fName )
-        return lst_data
-    ## open a csv 
-    def open4File(self, csv_name):
-        if(isfile(csv_name) ):
-            df = pd.read_csv(csv_name)
-            l_data = self.parseDfData(df)
-        else: return []
-        return l_data
 
-    ## download a website 
-    def download4Website(self, csv_url, fRaw):
-        #csv_url = self.l_state_config[5][1]
-        # save csv file
-        urllib.urlretrieve(csv_url, fRaw)
-        return True
     ## open a website 
     def open4Website(self, fRaw):
         csv_url = self.l_state_config[5][1]
@@ -113,7 +69,7 @@ class dataGrabWV(object):
         c_page = requests.get(csv_url)
         c_tree = html.fromstring(c_page.content)
         l_dates = c_tree.xpath('//a')  # ('//div[@class="col-xs-12 button--wrap"]')
-        print('   dddd', l_dates)
+        #print('   dddd', l_dates)
 
 
         today = date.today()
@@ -138,14 +94,8 @@ class dataGrabWV(object):
                 print('   sss', l_date)
                 a_address =l_date.get('href')
                 break
-                
-
-        print('11111111111111', a_address)
-
-
+        #print('11111111111111', a_address)
         return a_address
-
-
 
     ## paser data FL
     def dataDownload(self, name_target):
@@ -173,25 +123,22 @@ class dataGrabWV(object):
         c_page = requests.get(f_name)
         c_tree = html.fromstring(c_page.content)
       
-
         caseNumbers = siteOpen.find_elements_by_xpath('//font[@size="3"]')
 
         case_num_list = []
         for case_num in caseNumbers:  # this is cases------------------------------------bc-bar-inner dw-rect
             dStringList = case_num.text.split()
-            print('  ------------case_num', dStringList )
-            case_num_list.append(dStringList)
+            #print('  ------------case_num', dStringList )
+            if 'Barbour' in dStringList:
+                print('  ------------case_num', dStringList )
+                case_num_list=(dStringList)
 
 
-        l_cases2 = np.reshape(case_num_list[16][3:], (len(case_num_list[16][3:])/2, 2)).T
-        #print('22222222222222222', l_cases2)
+        l_cases2 = np.reshape(case_num_list[1:], (len(case_num_list[1:])/2, 2)).T
+        print('ccccccccccccccc', l_cases2)
         cases= []
         for c_c in l_cases2[1]:
-            #print('555555555555555555', (c_c))
-
             c_d = c_c.replace('(', '').replace(')', '').replace(',', '').replace('.', '')
-
-            #print('^^^^^^^^^^^^^^^^^^^^^6', c_d)
             cases.append(c_d)
         #print('333333333333', cases)
         zeros = [0] * len(l_cases2[0])
@@ -204,10 +151,9 @@ class dataGrabWV(object):
             case += int(a_da[1])
             death += int(a_da[2])
         l_cases3 = np.append(l_data, [['Total', case, death]], axis=0)
-        print('dddddddddddddddddd', l_cases3)
-
-
         l_datas= []
+        self.save2File(l_cases3, self.state_dir + 'data/'+self.state_name.lower()+'_covid19_'+self.name_file+'.csv')
+        print('dddddddddddddddddd', l_cases3)
         return (l_cases3)
 
     ## paser data FL

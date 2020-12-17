@@ -95,7 +95,11 @@ class dataGrabAL(object):
         csv_url = self.l_state_config[5][1]
         print('  download4Website', csv_url)
 
-        siteOpen = webdriver.Chrome()
+        #chrome_options = Options()
+        #chrome_options.add_argument('--no-sandbox')
+        #chrome_options.add_argument('--headless')
+
+        siteOpen = webdriver.Chrome() #chrome_options=chrome_options)
         siteOpen.get(csv_url)
         time.sleep(7)
 

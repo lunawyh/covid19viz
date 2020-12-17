@@ -22,6 +22,7 @@ import datetime
 import time
 from lxml import html
 import requests
+from datetime import date
 # ==============================================================================
 # -- codes -------------------------------------------------------------------
 # ==============================================================================
@@ -65,6 +66,7 @@ class dataGrabOh(object):
             lst_data.append( a_case )
         # save to a database file
         if(fName is not None): self.save2File( lst_data, fName )
+        #print('.>>>>>>>>>>>>>>>>.', lst_data)
         return lst_data
     ## open a csv 
     def open4File(self, csv_name):
@@ -102,7 +104,10 @@ class dataGrabOh(object):
         l_overral = []
         total_daily = 0
         total_overral = 0
+
+
         for a_item in l_data:
+            '''
             #if (a_test_date is None):
             if (a_test_date is not initial_test_date):
                 initial_test_date = a_test_date
@@ -113,6 +118,7 @@ class dataGrabOh(object):
                 pass
             else:
                 continue
+            '''
             total_daily += int(a_item[2])
             total_overral += int(a_item[3])
             l_daily.append([a_item[1], a_item[2], 0])
@@ -123,8 +129,18 @@ class dataGrabOh(object):
         if (not os.path.isdir(self.state_dir + 'data/')): os.mkdir(self.state_dir + 'data/')
         #self.save2File(l_daily,
         #               self.state_dir + 'daily/' + self.state_name.lower() + '_covid19_' + self.name_file + '.csv')
+
+        #time
+        today = date.today()
+        # dd/mm/YY
+        dt_obj = today.strftime("%d/%m/%Y")
+        print("d1 =", d1)
+        self.name_file = dt_obj.strftime('%Y%m%d')
+        self.now_date = dt_obj.strftime('%m/%d/%Y')
+        
         self.save2File(l_overral,
                        self.state_dir + 'data/' + self.state_name.lower() + '_covid19_' + self.name_file + '.csv')
+        print('ooooooooooooooooooooo', l_overral)
         return l_overral
 
     def saveLatestDateOh(self, l_data):
@@ -220,11 +236,11 @@ class dataGrabOh(object):
     def download4Website(self, fRaw):
         csv_url = self.l_state_config[5][1]
         print('  download4Website', csv_url)
-
+        
         siteOpen = webdriver.Chrome()
         siteOpen.get(csv_url)
         time.sleep(7)
-
+        #<a href="https://coronavirus.ohio.gov/static/dashboards/COVIDSummaryData.csv" title="Download&nbsp;the&nbsp;summary&nbsp;data&nbsp;(CSV)" target="_blank" data-auth="NotApplicable" rel="noopener noreferrer">Download&nbsp;the&nbsp;summary&nbsp;data&nbsp;(CSV)</a>
         # save html file
         c_page = requests.get(csv_url)
         c_tree = html.fromstring(c_page.content)
@@ -232,9 +248,18 @@ class dataGrabOh(object):
             f.write(c_page.content)
         print('  saved to ', fRaw)
 
-        caseNumbers = siteOpen.find_elements_by_xpath('//a[@title="Download the summary data (CSV)"]')
-        print('1111111111111', caseNumbers)
+        #caseNumbers = siteOpen.find_elements_by_xpath('//a[@title="Download&nbsp;the&nbsp;summary&nbsp;data&nbsp;(CSV)"]')
+        '''      
+        driver = webdriver.Chrome()
+        driver.get(csv_url)
+        button = driver.find_element_by_id('title="Download the summary data (CSV)"')
+        button.click()
+        '''
+        #print('1111111111111', c_tree)
+        print('///////////////////')
+        
         return True
+
 
     ## paser data CA
     def parseData(self, name_target, date_target, type_download):

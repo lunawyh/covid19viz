@@ -68,6 +68,8 @@ class dataGrabPA(object):
                 #print('   sss', l_date) 
                 a_address = 'https://www.health.pa.gov' + l_date.get('href')
                 print('  find pdf 1 at', a_address)
+                f_n_total = self.state_dir + 'data_raw/'+self.state_name.lower()+'_covid19_'+self.name_file+'.pdf'
+                urllib.urlretrieve(a_address, f_n_total)
             if('Death by county of residence' in l_date.text_content() or 'See state linelist' in l_date.text_content()):
                 #print('   sss', l_date)
                 b_address = 'https://www.health.pa.gov' + l_date.get('href')
@@ -209,6 +211,10 @@ class dataGrabPA(object):
             zeros = [0]*len(case_name)
             e_NamNum_list = np.vstack((case_name, case_number, zeros)).T
             print('***********', e_NamNum_list)
+
+
+            return e_NamNum_list
+            '''
             #---------------------------death-------------------------
             print('  B.dataReadConfirmed on page 1', f_namea)
             # step B: parse and open
@@ -298,7 +304,7 @@ class dataGrabPA(object):
 
             finall_list = []
             print('', type(d_NamNum_list))
-            '''
+        
             #for death in d_NamNum_list and for case in NamNum_list:
             for (death, case) in zip(d_NamNum_list, e_NamNum_list):
 		#print('death....', death)
@@ -312,7 +318,7 @@ class dataGrabPA(object):
 			else: 
 				finall_list.append([case[0], case[1], case[2]])
 				break
-            '''
+            
 
 
             res_list = [] 
@@ -323,7 +329,7 @@ class dataGrabPA(object):
 
                     
                     
-            '''
+            
             total_death = 0
             total_case = 0
             for a_line in finall_list:

@@ -598,6 +598,17 @@ class runCoViz(object):
             if(len(lst_data) > 0): 
                 self.name_file, self.now_date = name_file, now_date
             ########
+
+        elif( type_download == 215):   # download only
+            sys.path.insert(0, "./mo")
+            from dataGrabMO215 import *
+            # create new class
+            data_grab = dataGrabMO(self.l_state_config, self.state_name)	
+            # download as a raw file and save
+            lst_data, name_file, now_date = data_grab.parseData(self.name_file, self.now_date, type_download)		
+            if(len(lst_data) > 0): 
+                self.name_file, self.now_date = name_file, now_date
+
  
         elif( type_download == 2):   # download only
             sys.path.insert(0, "./mi")
@@ -751,6 +762,13 @@ class runCoViz(object):
             from dataGrabsM import * 
             # step A: create new class 
             data_grab = dataGrabsM(self.l_state_config, self.state_name) 
+            # step B: parse to standard file 
+            lst_data, self.name_file, self.now_date = data_grab.parseData(self.name_file, self.now_date, type_download) 
+        elif (type_download == 8368): 
+            sys.path.insert(0, "./sd") 
+            from dataGrabSD import * 
+            # step A: create new class 
+            data_grab = dataGrabSD(self.l_state_config, self.state_name) 
             # step B: parse to standard file 
             lst_data, self.name_file, self.now_date = data_grab.parseData(self.name_file, self.now_date, type_download) 
         ### This is a template entry into one state, to COPY and MODIFY, do NOT REMOVE or CHANGE

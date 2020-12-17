@@ -120,7 +120,11 @@ class dataGrabKY(object):
         print('//////////////', data_txt)
         l_cases2 = np.reshape(data_txt, (len(data_txt)/3, 3)).T
         zero= [0]*len(l_cases2[0])
-        l_data = np.vstack((l_cases2[0], l_cases2[1], zero)).T 
+        l_numbers = l_cases2[1]
+        l_numbers = l_numbers[:-1]
+        l_numbers = np.append(l_numbers, [0])
+
+        l_data = np.vstack((l_cases2[0], l_numbers, zero)).T 
 
        
         print('$$$$$$$$$$$$$$$$$$', l_data)

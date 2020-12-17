@@ -17,7 +17,6 @@ import pandas as pd
 import csv
 import urllib
 import ssl
-import datetime 
 from lxml import html
 import requests
 from selenium import webdriver 
