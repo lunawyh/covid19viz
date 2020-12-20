@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf8 -*-
-# 			dataGrabTx.py
+# 			dataGrabOh.py
 #
-#	grab data from TX state websites
+#	grab data from OH state websites
 #
 #
 
@@ -14,17 +14,28 @@ import os
 from os.path import isfile, join
 import pandas as pd
 import csv
-import urllib
-import ssl
-import datetime 
-from lxml import html
+import datetime
 import requests
-import PyPDF2
-from datetime import date
+from lxml import html
+
+from selenium import webdriver
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.common.by import By
+import time
+import pytesseract
+import cv2
+from pdfminer.high_level import extract_text
+
+
+#from pdfminer.high_level import extract_text
 import numpy as np
+
+
 # ==============================================================================
 # -- codes -------------------------------------------------------------------
-# ============================================================================== ## save downloaded data to daily or overal data 
+# ==============================================================================
+
 # class for dataGrab
 class dataGrabNh(object):
     ## the start entry of this class
@@ -35,150 +46,150 @@ class dataGrabNh(object):
         self.state_name = n_state
         self.state_dir = './'+n_state.lower()+'/'
         self.l_state_config = l_config
+        self.name_file = ''
+        self.now_date = ''
+    ## save to csv
+    ###def get_download_path(self):
+        """Returns the default downloads path for linux or windows"""
 
+    # page_url,f_data_raw, f_dl_name, s_dl_path
+    def downloadAndParseLink(self,link_address,f_data_raw,f_dl_name,s_dl_path):
+        print('  download to', s_dl_path, f_dl_name)
+        chrome_options1 = webdriver.ChromeOptions()
+        prefs = {'download.default_directory': s_dl_path}
+        chrome_options1.add_experimental_option('prefs', prefs)
+        siteOpen = webdriver.Chrome(chrome_options=chrome_options1)
 
-    ## save to csv 
-    def save2File(self, l_data, csv_name):
-        csv_data_f = open(csv_name, 'w')
-        # create the csv writer 
-        csvwriter = csv.writer(csv_data_f)
-        # make sure the 1st row is colum names
-        if('County' in str(l_data[0][0])): pass
-        else: csvwriter.writerow(['County', 'Cases', 'Deaths'])
-        for a_row in l_data:
-            csvwriter.writerow(a_row)
-        csv_data_f.close()
-
-
-    def saveWebsite(self, fRaw):
-        csv_url = self.l_state_config[5][1]
-        print('  download4Website', csv_url)
-        driver = webdriver.Chrome()
-        driver.get(csv_url)
+        siteOpen.get(link_address)
         time.sleep(5)
-        driver.find_elements_by_link_text('By County')[0].click()
-        '''do we need to add 
-        driver.find_elements_by_link_text('All')[0].click() 
-        ? '''
-        #time.sleep(1)
-        #driver.find_element_by_id("input-filter").send_keys("Alexander")
+        iframe = siteOpen.find_element_by_xpath("//iframe[@id='cases']")
+        siteOpen.switch_to.frame(iframe)
+        buttons = siteOpen.find_elements_by_css_selector("[role=button]")
+        buttons[len(buttons) - 2].click()
         time.sleep(1)
-        #driver.find_element_by_id("myDiv").click()
-        #ActionChains(driver).double_click(qqq).perform()
-        driver.execute_script('createTableRows(99);')
-        time.sleep(1)
-        page_text = driver.page_source
-        with open(fRaw, "w") as fp:
-            fp.write(page_text.encode('utf8'))
-        time.sleep(1)
-        driver.quit()  # close the window
-        #f = file('test', 'r')
-        #print f.read().decode('utf8')
+        buttons2 = siteOpen.find_elements_by_css_selector("button")
+        buttons2[len(buttons2) - 6].click()
+        time.sleep(4)
+        #linkclick = siteOpen.find_element_by_css_selector(".suppressClickBusting")
+        #linkclick.click()
+        #time.sleep(5)
 
-    ## parse from exel format to list 
-    def parseDfData(self, df, fName=None):
-        (n_rows, n_columns) = df.shape 
-        # check shape
-        #print('parseDfData', df.title)
-        lst_data = []
-        for ii in range(n_rows):
-            a_case = []
-            for jj in range(n_columns):
-                #is the 'iloc(select rows and columns by number)' is ' nan(not a number)'
-                if( str(df.iloc[ii, jj]) == 'nan'  ): 
-                    a_case.append( 0 )
+        if os.name == 'nt':
+            try:
+                os.rename(f_dl_name, f_data_raw)
+            except WindowsError:
+                os.remove(f_data_raw)
+                os.rename(f_dl_name, f_data_raw)
+        else:
+            os.rename(f_dl_name, f_data_raw)
+        print('  saved to ', f_data_raw)
+        siteOpen.close()
 
-                    continue
-                #a_case will have all the data from the 'data'
-                a_case.append( df.iloc[ii, jj] )
-            lst_data.append( a_case )
-        # save to a database file
-        #if the file do not already exist
-        if(fName is not None): self.save2File( lst_data, fName )
-        #return the data that turned in to a ?? now you can use it?
-        return lst_data
-        
+        datas = self.readDataFromPng(f_data_raw)
 
-    ## open a pdf 
-    def open4ppdf(self, pdf_name):
-        pdfFileObj = open(pdf_name, 'rb')
-        pdfReader = PyPDF2.PdfFileReader(pdfFileObj)
-        pageObj = pdfReader.getPage(0)
-        # get date
-        pageTxt = pageObj.extractText()
-        print('...................', pageTxt)
+        siteOpen.quit()  # close the window
+        return datas
+    ## read data
+    def readDataFromPng(self, f_namea):
+        print('  B.readDataFromPng', f_namea)
+        # step B: parse and open
+        #---------------------------case-------------------------
+        img = cv2.imread(f_namea)
+        custom_config = r'--oem 3 --psm 6'
+        if os.name == 'nt':
+            pytesseract.pytesseract.tesseract_cmd = 'C:\Program Files\Tesseract-OCR\\tesseract.exe'
+        text = ''
+        crop_img = img[300:620, 260:560]
+        crop_img = cv2.resize(crop_img, (0, 0), fx=5, fy=5)
+        #filename = 'C:/Dennis/Covid19/covid19viz/nh/data_raw/savedImage.jpg'
+        #cv2.imwrite(filename, crop_img)
+        cv2.imshow("readDataFromPng", crop_img)
+        key = cv2.waitKeyEx(3000)
+        text = pytesseract.image_to_string(crop_img, config=custom_config).encode('utf8')
+        #print("  readDataFromPng:",text.splitlines())
+        return text.splitlines()
 
-        n_start = pageTxt.find('Jefferson')
-        n_end = pageTxt.find('COVID-19 New Cases')
-        pagesss = pageTxt[n_start: n_end ]
-        pageTxt = pagesss.split('\n')
-        data_txt= []
-        for a_ll in pageTxt:
-            if a_ll =='': continue
-            else: data_txt.append(a_ll.replace(',', ''))
-        print('//////////////', data_txt)
-        l_cases2 = np.reshape(data_txt, (len(data_txt)/3, 3)).T
-        zero= [0]*len(l_cases2[0])
-        l_numbers = l_cases2[1]
-        l_numbers = l_numbers[:-1]
-        l_numbers = np.append(l_numbers, [0])
+    ## download a website 
+    def saveData(self, f_data_raw, f_data_name, f_dl_name, s_dl_path):
+        print('  will saveData to ', f_data_raw)
+        page_url = self.l_state_config[5][1]
+        print('  download4Website ...', page_url)
+        alldata = self.downloadAndParseLink(page_url,f_data_raw, f_dl_name, s_dl_path)
+        del alldata[5:7]
 
-        l_data = np.vstack((l_cases2[0], l_numbers, zero)).T 
+        allList = []
+        countyList = ['Belknap','Carroll','Cheshire','Coos','Grafton','Hillsborough','Merrimack','Rockingham','Strafford','Sullivan','Unknown','Total']
+        allList.append(['County','Cases', 'Deaths'])
+        i=0
+        for d in alldata:
+            #print('  saveData 0', d)
+            d1 = d.split(' ')
 
-       
-        print('$$$$$$$$$$$$$$$$$$', l_data)
-        case = 0
-        death = 0
-        for a_da in l_data:
-            case += int(a_da[1])
-            death += int(a_da[2])
-        l_cases3 = np.append(l_data, [['Total', case, death]], axis=0)
-        print(l_cases3)
-    
+            try:
+                while d1.index("|") != -1:
+                    d1.remove("|")
+            except:
+                pass
+                #print('  saveData 1', "1")
+            #print('  saveData 2', d1)
 
-        return l_cases3
+            j = 0
+            for d2 in d1:
+                #common replacement
+                d2 = d2.replace(',','')
+                d2 = d2.replace('s','')
+                d1[j] = d2
+                j = j + 1
+                #print('  saveData 3', d2)
+
+            dLength = len(d1)
+            #print('  saveData 6'dLength)
+            try:
+                allList.append([countyList[i],d1[0],d1[dLength-2]])
+            except:
+                print('  saveData 4', "1")
+            i = i + 1
+
+            print('  saveData 5', d1)
+
+        with open(f_data_name, 'wb') as myfile:
+            wr = csv.writer(myfile, quoting=csv.QUOTE_ALL)
+            for c in allList:
+                wr.writerow(c)
+            myfile.close()
 
 
-    ## $^&&
-    def open4pdf(self, name_file):
-        csv_url = self.l_state_config[5][1]
-        print('  #$$search website', csv_url)
-        # save html file
-        #urllib.urlretrieve(csv_url, fRaw)
-        # save html file
-        c_page = requests.get(csv_url)
-        print('1111111111111')
-        c_tree = html.fromstring(c_page.content)
-        print('222222222222')
-        l_dates = c_tree.xpath('//ul//li//a')  # ('//div[@class="col-xs-12 button--wrap"]')
-        print('333333333333', l_dates)
-        a_address = ''
-        for l_date in l_dates:
-            print('============', l_date.text_content())
-            if('Case Summary' in l_date.text_content()):
-                print('///////////////', l_date.get('href'))
-                a_address = 'https://www.nh.gov/covid19/' + l_date.get('href')
-                #https://www.michigan.gov/documents/coronavirus/Cases_and_Deaths_by_County_693160_7.xlsx
-                print(' $$$$$$$$$ find .xls at', a_address)
-                break
-        return a_address
+        return allList
+
+    ## save to csv
+    def get_download_path(self):
+        """Returns the default downloads path for linux or windows"""
+        if os.name == 'nt':
+            import winreg
+            sub_key = r'SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders'
+            downloads_guid = '{374DE290-123F-4565-9164-39C4925E467B}'
+            with winreg.OpenKey(winreg.HKEY_CURRENT_USER, sub_key) as key:
+                location = winreg.QueryValueEx(key, downloads_guid)[0]
+            return location
+        else:
+            return os.path.join(os.path.expanduser('~'), 'Downloads')
+
+
     ## paser data CA
-    def parseData(self, name_file, date_target, type_download):
-            self.name_file = name_file
-            # step A: read date
-            urlData = self.open4pdf(name_file, )
-            #self.open4pdf(name_file)
-            # step B: save raw
-            f_name = self.state_dir + 'data_raw/'+self.state_name.lower()+'_covid19_'+self.name_file+'.pdf'
-            f_n_total = self.state_dir + 'data_raw/'+self.state_name.lower()+'_covid19_'+self.name_file+'.pdf'
+    def parseData(self, name_target, date_target, type_download):
+            self.name_file = name_target
+            f_name_raw = self.state_dir + 'data_raw/' + self.state_name.lower() + '_covid19_' + self.name_file + '.png'
+            if os.name == 'nt':
+                dl_path = os.path.abspath("nh\\data_raw\\")
+                dl_name = dl_path + "\Map of Cumulative Positive Cases.png"
+            else:
+                dl_path = self.get_download_path()
+                dl_name = dl_path + "/Map of Cumulative Positive Cases.png"
+            data_name = self.state_dir + 'data/' + self.state_name.lower() + '_covid19_' + self.name_file + '.csv'
             if(not os.path.isdir(self.state_dir + 'data_raw/') ): os.mkdir(self.state_dir + 'data_raw/')
-            # 
-            urllib.urlretrieve(urlData, f_n_total)
-            #urllib.urlretrieve(self.l_state_config[5][1], f_name)
-            # step C: read data file and convert to standard file and save
-            lst_raw_data = self.open4ppdf(f_n_total)
-            self.save2File(lst_raw_data, self.state_dir + 'data/'+self.state_name.lower()+'_covid19_'+name_file+'.csv')
-            today = date.today()
+            # step A: downlowd and save
+            data_csv = self.saveData(f_name_raw, data_name, dl_name, dl_path)
+            print('  total list of cases', len(data_csv))
+            return(data_csv, self.name_file, self.now_date)
 
-            return(lst_raw_data, self.name_file, str(today))  
-
+## end of file
