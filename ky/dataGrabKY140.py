@@ -22,6 +22,7 @@ from lxml import html
 import requests
 import PyPDF2
 from datetime import date
+import re 
 import numpy as np
 # ==============================================================================
 # -- codes -------------------------------------------------------------------
@@ -104,7 +105,7 @@ class dataGrabKY(object):
     def open4ppdf(self, pdf_name):
         pdfFileObj = open(pdf_name, 'rb')
         pdfReader = PyPDF2.PdfFileReader(pdfFileObj)
-        for page in range(2, 5):
+        for page in range(2,3):
             pageObj = pdfReader.getPage(page)
             pageTxt = pageObj.extractText()
         #print('...................', pageTxt)
@@ -112,30 +113,101 @@ class dataGrabKY(object):
         n_start = pageTxt.find('Jefferson')
         n_end = pageTxt.find('COVID-19 New Cases')
         pagesss = pageTxt[n_start: n_end ]
-        pageTxt = pagesss.split('\n')
+        pageTxt = pagesss.split('%')
         data_txt= []
         for a_ll in pageTxt:
             if a_ll =='': continue
             else: data_txt.append(a_ll.replace(',', ''))
-        print('//////////////', data_txt)
-        l_cases2 = np.reshape(data_txt, (len(data_txt)/3, 3)).T
-        zero= [0]*len(l_cases2[0])
-        l_numbers = l_cases2[1]
-        l_numbers = l_numbers[:-1]
-        l_numbers = np.append(l_numbers, [0])
+        #print('//////////////', data_txt)
 
-        l_data = np.vstack((l_cases2[0], l_numbers, zero)).T 
+        f_cases = []
+        for a_dt in data_txt:
+            if 'Jefferson' in a_dt:
+                f_cases.append(a_dt[: -4 ])
+            else:
+                f_cases.append(a_dt[:-3])
 
-       
-        print('$$$$$$$$$$$$$$$$$$', l_data)
+        g_cases=f_cases[:-1]
+        #print('aaaaaaaaaaaaaa', g_cases)
+
+        c_cases= []
+        for ff in g_cases:
+            #print('**********', ff)
+            temp = re.compile("([a-zA-Z]+)([0-9]+)") 
+            res = temp.match(ff).groups() 
+            #print('~~~~~~~~~~~~~~~`' , (res))
+            c_cases.append(res)
+        #print('::::::::::::::::::', c_cases)
+
+        a_cases= []
+        for aa in c_cases:
+            print('^^^', aa)
+
+            for bb in aa:
+                #print('&&', bb)
+                a_cases.append(bb.replace('CountyCasesPercent', ''))
+
+        #print('@@@@@@@@@@@@@222', a_cases)
+        #-----------------------got the case list-----------now find the death list-------------
+        for page in range(4,5):
+            pageObj = pdfReader.getPage(page)
+            pageTxt2 = pageObj.extractText()
+        #print('...................', pageTxt2)
+
+        n_start = pageTxt2.find('Jefferson')
+        n_end = pageTxt2.find('COVID-19 New Cases')
+        pagesss = pageTxt2[n_start: n_end ]
+        pageTxt2 = pagesss.split('%')
+        a_data_txt= []
+        for a_ll in pageTxt2:
+            if a_ll =='': continue
+            else: a_data_txt.append(a_ll.replace(',', ''))
+        #print('//////////////', a_data_txt)
+
+        x_cases = []
+        for a_dt in a_data_txt:
+            if 'Jefferson' in a_dt:
+                x_cases.append(a_dt[: -4 ])
+            else:
+                x_cases.append(a_dt[:-3])
+
+        z_cases=x_cases[:-1]
+        #print('aaaaaaaaaaaaaa', z_cases)
+
+        w_cases= []
+        for ff in z_cases:
+            #print('**********', ff)
+            temp = re.compile("([a-zA-Z]+)([0-9]+)") 
+            res = temp.match(ff).groups() 
+            #print('~~~~~~~~~~~~~~~`' , (res))
+            w_cases.append(res)
+        #print('::::::::::::::::::', w_cases)
+
+        q_cases= []
+        for aa in w_cases:
+            print('^^^', aa)
+            for bb in aa:
+                #print('&&', bb)
+                q_cases.append(bb)
+
+        #print('!!!!!!!!!!!!!!!!!!!!!!!!111111', q_cases)
+
+
+        #finished death list, now group them-------------------------------------------------
+        a_l_cases = np.reshape(a_cases, (len(a_cases)/2, 2)).T
+        b_l_cases = np.reshape(q_cases, (len(q_cases)/2, 2)).T
+
+        l_data = np.vstack((a_l_cases[0], a_l_cases[1], b_l_cases[1])).T
+        #print('+++++++++++++',  l_data)
+
+
         case = 0
         death = 0
         for a_da in l_data:
             case += int(a_da[1])
             death += int(a_da[2])
         l_cases3 = np.append(l_data, [['Total', case, death]], axis=0)
-        print(l_cases3)
-    
+        #print(l_cases3)   
 
         return l_cases3
 

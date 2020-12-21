@@ -24,6 +24,10 @@ import numpy as np
 from selenium import webdriver  # https://selenium-python.readthedocs.io/installation.html
 import time
 from selenium.webdriver.chrome.options import Options
+import shutil
+import os
+from pathlib import Path
+
 # ==============================================================================
 # -- codes -------------------------------------------------------------------
 # ==============================================================================
@@ -49,9 +53,12 @@ class dataGrabMO(object):
         return l_raw_data
     ## save to csv 
     def save2File(self, l_data, csv_name):
+        print('$$$$$$$$$$$$$$$$$$$$$$', l_data)
+
         csv_data_f = open(csv_name, 'w')
         # create the csv writer 
         csvwriter = csv.writer(csv_data_f)
+
         # make sure the 1st row is colum names
         if('County' in str(l_data[0][0])): pass
         else: csvwriter.writerow(['County', 'Cases', 'Deaths'])
@@ -59,13 +66,6 @@ class dataGrabMO(object):
             csvwriter.writerow(a_row)
         csv_data_f.close()
         print('  save2File', csv_name)
-    ## open a csv 
-    def open4File(self, csv_name):
-        if(isfile(csv_name) ):
-            df = pd.read_csv(csv_name)
-            l_data = self.parseDfData(df)
-        else: return []
-        return l_data
 
     ## download a website 
     def getUpdatedDate(self, page_content, fRaw):
@@ -94,28 +94,71 @@ class dataGrabMO(object):
         driver = webdriver.Chrome()
         driver.get(csv_url)
         time.sleep(5)
-        driver.find_elements_by_link_text('Download Data').click()
+        driver.find_element_by_id("btnUSTableExport").click()
+        print(os.getcwd())
 
-        '''
-        chrome_options = Options()
-        chrome_options.add_argument('--headless')
-        chrome_options.add_argument('--no-sandbox')
-        chrome_options.add_argument('--disable-dev-shm-usage')
-        driver = webdriver.Chrome(executable_path=os.path.abspath("chromedriver.exe"))
-        driver.get(csv_url)
+        #os.chdir("../covid19viz")
+        #os.chdir("../luna2020")
+        #os.chdir("../Documents")
+        #os.chdir("../home")
+        os.chdir('..')
+        os.chdir('..')
+        os.chdir('..')
+        os.chdir('..')
+        os.chdir('..')
+        print('no in is in the home file')
+        print(os.getcwd())
 
-        #driver = webdriver.Chrome()
-        #driver.get(csv_url)
-        time.sleep(5)
-        driver.find_elements_by_link_text('Download Data')[0].click()
-        Download Data
-        '''
+        my_file = Path('/home/lunawang/Documents/luna2020/covid19viz/mo/data_raw/' + self.state_name.lower() + '_covid19_'+self.name_file+ '.csv')
+        if my_file.is_file() == True:
+            print('!!!!!! file already exsist')
+        else:
+            shutil.move('/home/lunawang/Downloads/united_states_covid19_cases_and_deaths_by_state.csv', '/home/lunawang/Documents/luna2020/covid19viz/mo/data_raw/' + self.state_name.lower() + '_covid19_'+self.name_file+ '.csv')
+
+        print(os.getcwd())
+
+        os.chdir('/home/lunawang/Documents/luna2020/covid19viz')
+        print(os.getcwd())
+
         print('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
+        f_name = self.state_dir + 'data_raw/'+self.state_name.lower()+'_covid19_'+self.name_file+'.csv'
+        l_data = self.open4File(f_name)
+        print('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
+        #l_cases3 = []
+        return l_data
 
-        l_cases3 = ['',0,0]
+    ## open a csv
+    def open4File(self, csv_name):
+        l_datas = []
+        if(isfile(csv_name) ):
+            with open(csv_name,'rt')as f:
+                  data = csv.reader(f)
+                  for row in data:
+                      #print(row)
+                      l_datas.append(row)
+        else: return []
+        #prase data
+        l_name=[]
+        l_cases=[]
+        l_deaths=[]
+        for a_row in l_datas[4:-1]:
+            l_name.append(a_row[0])
+            l_cases.append(a_row[1])
+            if a_row[7] == 'null':
+                l_deaths.append(0)
+            else: l_deaths.append(a_row[7])
+        l_data = np.vstack((l_name, l_cases, l_deaths)).T 
+
+        case = 0
+        death = 0
+        for a_da in l_data:
+            case += int(a_da[1])
+            death += int(a_da[2])
+        l_cases3 = np.append(l_data, [['Total', case, death]], axis=0)
+
+        print('2222222222222', l_cases3)
         return l_cases3
-
-    
+   
     ## paser data Ut
     def parseData(self, name_file, date_target, type_download):
             self.name_file = name_file

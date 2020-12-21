@@ -277,16 +277,25 @@ class dataGrabks(object):
         n_start = pagetttt.find('Allen')
         pagesss = pagetttt[n_start: ]
         pageTxt = pagesss.split(' ')
-        print ('  ------readList4Page,,,,,,,,,,,,,,,,', pageTxt)
+        #print ('  ------readList4Page,,,,,,,,,,,,,,,,', pageTxt)
 
         datas_t = []
         for a_dd in pageTxt:
+            #print('0))))))))))))))))))', a_dd)
             if a_dd =='County\n': continue
+            if a_dd == 'County' : continue
             if a_dd == '': continue
             if len(a_dd) <= 1: continue
             else: datas_t.append(a_dd.replace('\n', '').replace(',', ''))
-        print('////////////', datas_t)
-        l_cases2 = np.reshape(datas_t, (len(datas_t)/2, 2)).T
+
+        d_data = []
+        for a_dd in datas_t:
+            print('0))))))))))))))))))', a_dd)
+            if a_dd == 'County' : continue
+            else: d_data.append(a_dd)
+
+        print('////////////', d_data)
+        l_cases2 = np.reshape(d_data, (len(d_data)/2, 2)).T
         zero= [0]*len(l_cases2[0])
         l_data = np.vstack((l_cases2[0], l_cases2[1], zero)).T 
 
