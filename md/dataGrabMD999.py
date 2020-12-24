@@ -120,10 +120,12 @@ class dataGrabmd(object):
             #print('8888888888888888888888888888888')
             if '*' in a_ls: continue
             elif '(' in a_ls: 
-                a_death = int(a_ls.replace('(', '').replace(')', ''))
+                a_death = (a_ls.replace('(', '').replace(')', '').replace(',', ''))
+                a_death = int(a_death)
                 print('  a_death', a_death)          
             elif(a_ls.replace(',', '').isdigit()):                
-                a_case = int(a_ls.replace(',', ''))
+                a_case = (a_ls.replace(',', ''))
+                a_case = int(a_case)
                 print('  a_case', a_case)
                 
             else:
