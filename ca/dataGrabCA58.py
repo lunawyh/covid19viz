@@ -23,9 +23,15 @@ from selenium import webdriver
 from selenium.webdriver.common.keys import Keys 
 import numpy as np
 import datetime 
+import time
 import openpyxl
 from openpyxl import load_workbook
 from itertools import islice
+import webbrowser
+from pathlib import Path
+import shutil
+from PIL import Image
+import matplotlib.pyplot as plt
 # ==============================
 #================================================
 # -- codes -------------------------------------------------------------------
@@ -102,36 +108,75 @@ class dataGrabCA(object):
 
     ## $^&&
     def open4excel(self, name_file):
-        csv_url = self.l_state_config[5][1]
+        #csv_url = self.l_state_config[5][1]
+        csv_url ='https://public.tableau.com/views/COVID-19CasesDashboard_15931020425010/Cases?:embed=y&:showVizHome=no'
         print('  #$$search website', csv_url)
-        # save html file
-        #urllib.urlretrieve(csv_url, fRaw)
-        # save html file
-        c_page = requests.get(csv_url)
-        c_tree = html.fromstring(c_page.content)
-        l_dates = c_tree.xpath('//li//p//a')  # ('//div[@class="col-xs-12 button--wrap"]')
-        a_address = ''
-        for l_date in l_dates:
-            print(l_date.get('href'))
-            if('California Blueprint Data Chart' in l_date.text_content()):
-                a_address = 'https://www.cdph.ca.gov' + l_date.get('href')
-                #https://www.michigan.gov/documents/coronavirus/Cases_and_Deaths_by_County_693160_7.xlsx
-                print(' $$$$$$$$$ find .xls at', a_address)
-                break
+        #webbrowser.open(csv_url, new=1)
+        time.sleep(120)
+        print('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa')
+        print(os.getcwd())
+        os.chdir('..')
+        os.chdir('..')
+        os.chdir('..')
+        os.chdir('..')
+        os.chdir('..')
+        print('no in is in the home file')
+        print(os.getcwd())
+        #move the files from download to data_raw
+        my_file = Path('/home/lunawang/Documents/luna2020/covid19viz/ca/data_raw/' + self.state_name.lower() + '_covid19_start_'+self.name_file+ '.png')
+        if my_file.is_file() == True:
+            print('!!!!!! file already exsist')
+        else:
+            shutil.move('/home/lunawang/Downloads/Cases.png', '/home/lunawang/Documents/luna2020/covid19viz/ca/data_raw/' + self.state_name.lower() + '_covid19_start_'+self.name_file+ '.png')
+        
+        my_file_2 = Path('/home/lunawang/Documents/luna2020/covid19viz/ca/data_raw/' + self.state_name.lower() + '_covid19_start_'+self.name_file+ '2nd.png')
+        if my_file_2.is_file() == True:
+            print('!!!!!! file already exsist')
+        else:
+            shutil.move('/home/lunawang/Downloads/Cases (1).png', '/home/lunawang/Documents/luna2020/covid19viz/ca/data_raw/' + self.state_name.lower() + '_covid19_start_'+self.name_file+ '2nd.png')
+        
+        #get back to start file
+        print(os.getcwd())
+        os.chdir('/home/lunawang/Documents/luna2020/covid19viz/ca/data_raw')
+        print(os.getcwd())
 
-        l_day = c_tree.xpath('//hs/text()')
-        print('----------', l_day)
-        for l_date in l_day:
-            print('*******************', l_date)
-            if('Updates as of' in l_date):
-                a_date = l_date.replace('Updates as of ', '').replace(' ', '').replace(',', '')
-                print('  ....................a_date', a_date)
-                dt_obj = datetime.datetime.strptime(a_date, '%m/%d/%Y')
-                self.name_file = dt_obj.strftime('%Y%m%d')
-                self.now_date = dt_obj.strftime('%m/%d/%Y')
-                break
+        #craft the photo =============================================
+        image1 = Image.open(self.state_name.lower() + '_covid19_start_'+self.name_file+ '.png')
+        print(image1.size)
+        print('11111111111111111')
+        width, height = image1.size
+        numberOfSplits = 5
+        splitDist = width / numberOfSplits
 
-        return a_address
+        x = 0
+        y = 0
+        w = splitDist+x
+        h = height+y
+        print(x, y, w, h)
+
+        croppedImg = image1.crop((x,y,w,h))
+        croppedImg.save(self.state_name.lower() + '_covid19_'+self.name_file+ '.png') #save to file
+
+        #craft the photo #2=============================================
+        image1 = Image.open(self.state_name.lower() + '_covid19_start_'+self.name_file+ '2nd.png')
+        print(image1.size)
+        print('11111111111111111')
+        width, height = image1.size
+        numberOfSplits = 5
+        splitDist = width / numberOfSplits
+
+        x = 0
+        y = 0
+        w = splitDist+x
+        h = height+y
+        print(x, y, w, h)
+
+        croppedImg = image1.crop((x,y,w,h))
+        croppedImg.save(self.state_name.lower() + '_covid19_'+self.name_file+ '2nd.png') #save to file
+
+        print('////////////////////////////////////////////')
+        l_data= ''
+        return l_data
 
 
 
