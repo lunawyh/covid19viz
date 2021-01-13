@@ -32,6 +32,13 @@ from pathlib import Path
 import shutil
 from PIL import Image
 import matplotlib.pyplot as plt
+import cv2
+
+
+import pytesseract
+print('????????????????????????//')
+
+
 # ==============================
 #================================================
 # -- codes -------------------------------------------------------------------
@@ -173,7 +180,12 @@ class dataGrabCA(object):
 
         croppedImg = image1.crop((x,y,w,h))
         croppedImg.save(self.state_name.lower() + '_covid19_'+self.name_file+ '2nd.png') #save to file
-
+        
+        #read words from picture
+        #import pytesseract
+        img = cv2.imread(self.state_name.lower() + '_covid19_'+self.name_file+ '.png')
+        text = pytesseract.image_to_string(img)
+        print('3333333333333333333333333333', text)
         print('////////////////////////////////////////////')
         l_data= ''
         return l_data
