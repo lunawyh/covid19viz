@@ -88,5 +88,8 @@ New visualization and prediction of COVID-19 in USA, such as Michigan, CA, OH, N
 
 #
 1. to be rooted on ubantu, if you have a password, run 'su'. if there is no password, run 'sudo -i'
+2. when using pythn 2, to download pytesseract, you need to run this coad in the terminal: 
+    sudo pip install pytesseract==0.3.0
+
 
 
