@@ -33,7 +33,8 @@ import shutil
 from PIL import Image
 import matplotlib.pyplot as plt
 import cv2
-
+import re
+from datetime import date
 
 import pytesseract
 print('????????????????????????//')
@@ -120,8 +121,7 @@ class dataGrabCA(object):
         print('  #$$search website', csv_url)
         #webbrowser.open(csv_url, new=1)
         time.sleep(120)
-        print('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa')
-        print(os.getcwd())
+        #print(os.getcwd())
         os.chdir('..')
         os.chdir('..')
         os.chdir('..')
@@ -143,14 +143,13 @@ class dataGrabCA(object):
             shutil.move('/home/lunawang/Downloads/Cases (1).png', '/home/lunawang/Documents/luna2020/covid19viz/ca/data_raw/' + self.state_name.lower() + '_covid19_start_'+self.name_file+ '2nd.png')
         
         #get back to start file
-        print(os.getcwd())
+        #print(os.getcwd())
         os.chdir('/home/lunawang/Documents/luna2020/covid19viz/ca/data_raw')
-        print(os.getcwd())
+        #print(os.getcwd())
 
         #craft the photo =============================================
         image1 = Image.open(self.state_name.lower() + '_covid19_start_'+self.name_file+ '.png')
-        print(image1.size)
-        print('11111111111111111')
+        #print(image1.size)
         width, height = image1.size
         numberOfSplits = 5
         splitDist = width / numberOfSplits
@@ -159,15 +158,14 @@ class dataGrabCA(object):
         y = 0
         w = splitDist+x
         h = height+y
-        print(x, y, w, h)
+        #print(x, y, w, h)
 
         croppedImg = image1.crop((x,y,w,h))
         croppedImg.save(self.state_name.lower() + '_covid19_'+self.name_file+ '.png') #save to file
 
         #craft the photo #2=============================================
         image1 = Image.open(self.state_name.lower() + '_covid19_start_'+self.name_file+ '2nd.png')
-        print(image1.size)
-        print('11111111111111111')
+        #print(image1.size)
         width, height = image1.size
         numberOfSplits = 5
         splitDist = width / numberOfSplits
@@ -176,7 +174,7 @@ class dataGrabCA(object):
         y = 0
         w = splitDist+x
         h = height+y
-        print(x, y, w, h)
+        #print(x, y, w, h)
 
         croppedImg = image1.crop((x,y,w,h))
         croppedImg.save(self.state_name.lower() + '_covid19_'+self.name_file+ '2nd.png') #save to file
@@ -185,10 +183,55 @@ class dataGrabCA(object):
         #import pytesseract
         img = cv2.imread(self.state_name.lower() + '_covid19_'+self.name_file+ '.png')
         text = pytesseract.image_to_string(img)
-        print('3333333333333333333333333333', text)
-        print('////////////////////////////////////////////')
+        #print('3333333333333333333333333333', text)
+        img2 = cv2.imread(self.state_name.lower() + '_covid19_'+self.name_file+ '2nd.png')
+        text_2nd = pytesseract.image_to_string(img2)
+        #print('4444444444444444444444444444444', text_2nd)
+
+        #now make data to list --------------------
+        #find start word #1
+        n_start_1st = text.find('Los Angeles')
+        date_1st = text[n_start_1st:]
+        l_pageTxt_1st = date_1st.split('\n')
+        #print('333333333333333333333', l_pageTxt_1st)
+        #find start word #2
+        n_start_2st = text_2nd.find('Shasta')
+        date_2st = text_2nd[n_start_2st:]
+        l_pageTxt_2st = date_2st.split('\n')
+        #print('44444444444444444444444', l_pageTxt_2st)
+        l_pageTxt_together = l_pageTxt_1st+ l_pageTxt_2st
+        #loop #1
+        datas= []
+        for stst in l_pageTxt_together:
+            if stst == '': continue
+            else:
+                sdsd= stst.replace(' ', '').replace('\u2014', '').replace('#', '').replace('=', '').replace('+', '').replace('.', '').replace('|', '').replace('\u2018', '')
+                sasa = [re.split('(\d.*)', pcode) for pcode in sdsd.split(' ')]
+                #print('55555555555555555', sasa)
+                datas.append(sasa)
+        #print('&&&&&&&&&&&&&&', datas)
+        list_data = datas[:2] +datas[3:41]+ datas[42:-1]
+        #print('###############33', list_data)
+        name_and_number = []
+        for a_aa in list_data:
+            if a_aa[0][0] =="Alpinemn" : continue
+            elif a_aa[0][0] == 'DelNorteez': continue
+            else:
+                a_name = a_aa[0][0]
+                a_number = a_aa[0][1].replace(',', '')
+                name_and_number.append([a_name, a_number, 0])
+        #print('(((((((((((((((((((', name_and_number)
+        case = 0
+        for a_da in name_and_number:
+            case += int(a_da[1].replace(',', ''))
+        l_cases3 = np.append(name_and_number, [['Total', case, 0]], axis=0)
+        l_cases4 = np.append(l_cases3, [['County', 'Cases', 'Deaths']], axis=0)
+        print('00000000000000000000000', l_cases4)
         l_data= ''
-        return l_data
+        os.chdir('..')
+        os.chdir('..')
+        print(os.getcwd())
+        return l_cases4
 
 
 
@@ -203,33 +246,14 @@ class dataGrabCA(object):
         f_n_total = self.state_dir + 'data_raw/'+self.state_name.lower()+'_covid19_'+self.name_file+'.xlsx'
         if(not os.path.isdir(self.state_dir + 'data_raw/') ): os.mkdir(self.state_dir + 'data_raw/')
         # 
-        urllib.urlretrieve(urlData, f_n_total)
-        urllib.urlretrieve(self.l_state_config[5][1], f_name)
-        # step C: read data file and convert to standard file and save
-        lst_raw_data = self.open4Xlsx(f_n_total)
+        datassss= urlData.tolist()
+        print('>>>>>>>>>>>>>>>>>>>>>.', datassss)
+        self.save2File(datassss, self.state_dir + 'data/'+self.state_name.lower()+'_covid19_'+name_file+'.csv')
+        print('save the data ------------------------------')
+        today = (date.today())
+        self.name_file = today.strftime('%Y%m%d')
+        self.now_date = today.strftime('%m/%d/%Y')
 
-        self.save2File(lst_raw_data, self.state_dir + 'data/'+self.state_name.lower()+'_covid19_'+name_file+'.csv')
-
-
-
-        csv_url = self.l_state_config[5][1]
-        # save html file
-        #urllib.urlretrieve(csv_url, fRaw)
-        # save html file
-        c_page = requests.get(csv_url)
-        c_tree = html.fromstring(c_page.content)
-        l_day = c_tree.xpath('//hs/text()')
-        print('----------', l_day)
-        for l_date in l_day:
-            print('*******************', l_date)
-            if('Updates as of' in l_date):
-                a_date = l_date.replace('Updates as of ', '').replace(' ', '').replace(',', '')
-                print('  ....................a_date', a_date)
-                dt_obj = datetime.datetime.strptime(a_date, '%m/%d/%Y')
-                self.name_file = dt_obj.strftime('%Y%m%d')
-                self.now_date = dt_obj.strftime('%m/%d/%Y')
-                break
-
-        return(lst_raw_data, self.name_file, self.now_date)  
+        return(datassss, self.name_file, self.now_date)  
 
 

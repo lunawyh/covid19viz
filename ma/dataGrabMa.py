@@ -65,25 +65,11 @@ class dataGrabMa(object):
                     continue
                 a_case.append(df.iloc[ii, jj])
             lst_data.append(a_case)
+        print('lst_data;;;;;;;;;;;;;;;;;;;;;;;', lst_data)
         # save to a database file
         if (fName is not None): self.save2File(lst_data, fName)
         return lst_data
 
-    ## open a csv
-    def open4File(self, csv_name):
-        if (isfile(csv_name)):
-            df = pd.read_csv(csv_name)
-            l_data = self.parseDfData(df)
-        else:
-            return []
-        return l_data
-    ## open a csv
-    def open4FileBuffer(self, csv_data):
-        lst_data = []
-        reader = csv.reader(csv_data)
-        for row in reader:
-            lst_data.append(row)
-        return lst_data
 
     ## save to csv
     def saveLatestDateMa(self, l_data):
@@ -151,6 +137,31 @@ class dataGrabMa(object):
 
         return l_overral, n_name_file
 
+    ## open a xlsx 
+    def open4Xlsx(self, xlsx_name):
+        print('open4Xlsx')
+        l_data = []
+        if(isfile(xlsx_name) ):
+            xl_file = pd.ExcelFile(xlsx_name)
+            print('  sheet_names', xl_file.sheet_names)
+            nfx = ''
+            for sheet in xl_file.sheet_names:  # try to find known name of sheet
+                if ('County_Weekly' in (sheet)):
+                    print('  select sheet', sheet)
+                    nfx = sheet
+                    break
+                else: 
+                    print('sheet name not found')
+                    return []
+            df = xl_file.parse( nfx )
+            
+            l_data = self.parseDfData(df)
+            #print('  l_data', l_data)
+
+        return l_data
+
+
+
     def downloadAndParseLink(self,fRaw):
         htmlPage = requests.get(fRaw)
         tree = html.fromstring(htmlPage.content)
@@ -162,39 +173,29 @@ class dataGrabMa(object):
         print("  get date: ", l_date[4:])
         return link
 
-
     ## download a website
     def download4Website(self, fRaw):
-        zip_url = self.l_state_config[5][1]
-        #print(self.downloadAndParseLink(zip_url))
-        #print('  download4Website from', zip_url)
+        xlsx_url = self.l_state_config[5][1]
         # get the updated date from the website
         # update self.name_file and self.now_date
         print('  download4Website ...')
-        #c_page = requests.get(self.l_state_config[5][1])
-        #c_page = requests.get(self.l_state_config[5][2])
         # save csv file
-        link_zip = self.downloadAndParseLink(zip_url)
-        r = requests.get(link_zip)
-        with open(fRaw, 'wb') as f:
-            f.write(r.content)
-        print('  saved to', fRaw)
-        #r_zip = zipfile.ZipFile(StringIO.StringIO(r.content))
-        #r_zip.extract('County.csv',l_name)
-        r_zip = zipfile.ZipFile(fRaw, 'r')
-        data_csv = r_zip.open('County.csv')
-        #l_data = self.parseDfData(df_data_county)
-        return data_csv
+        data_xlsx = self.downloadAndParseLink(xlsx_url)
+        return data_xlsx
+
     ## paser data CA
     def parseData(self, name_target, date_target, type_download):
             self.name_file = name_target
-            f_name = self.state_dir + 'data_raw/'+self.state_name.lower()+'_covid19_'+self.name_file+'.zip'
+            f_name = self.state_dir + 'data_raw/'+self.state_name.lower()+'_covid19_'+self.name_file+'.xlsx'
             #l_name = self.state_dir + 'data_raw/'
             if(not os.path.isdir(self.state_dir + 'data_raw/') ): os.mkdir(self.state_dir + 'data_raw/')
             # step A: downlowd and save
-            data_csv = self.download4Website(f_name)
+            data_xlsx = self.download4Website(f_name)
+            f_n_total = self.state_dir + 'data_raw/'+self.state_name.lower()+'_covid19_'+self.name_file+'.xlsx'
+            if(not os.path.isdir(self.state_dir + 'data_raw/') ): os.mkdir(self.state_dir + 'data_raw/')
+            urllib.urlretrieve(data_xlsx, f_n_total)
             # step B: parse and open
-            lst_raw_data = self.open4FileBuffer(data_csv)
+            lst_raw_data = self.open4Xlsx(data_xlsx)
             # step C: convert to standard file and save
             lst_data = self.saveLatestDateMa(lst_raw_data)
             print(lst_data)

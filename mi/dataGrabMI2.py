@@ -134,6 +134,7 @@ class dataGrabMI(object):
             l_overall.append([a_item[0], a_item[2], a_item[3]])  
         l_overall.append(['Total', total_cases, total_death])  
         print ('  Total', total_cases, total_death)
+        print('333333333333333333333333333333333', l_overall)
         self.save2File(l_overall, self.state_dir + 'data/'+self.state_name.lower()+'_covid19_'+name_file+'.csv')
         return l_overall
     ## open a xlsx 
