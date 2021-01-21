@@ -130,23 +130,17 @@ class dataGrabCA(object):
         print('no in is in the home file')
         print(os.getcwd())
         #move the files from download to data_raw
-        my_file = Path('/home/lunawang/Documents/luna2020/covid19viz/ca/data_raw/' + self.state_name.lower() + '_covid19_start_'+self.name_file+ '1st.png')
+        my_file = Path('/home/lunawang/Documents/luna2020/covid19viz/ca/data_raw/' + self.state_name.lower() + '_covid19_start_'+self.name_file+ '.png')
         if my_file.is_file() == True:
             print('!!!!!! file already exsist')
         else:
-            shutil.move('/home/lunawang/Downloads/Cases.png', '/home/lunawang/Documents/luna2020/covid19viz/ca/data_raw/' + self.state_name.lower() + '_covid19_start_'+self.name_file+ '1st.png')
+            shutil.move('/home/lunawang/Downloads/Cases.png', '/home/lunawang/Documents/luna2020/covid19viz/ca/data_raw/' + self.state_name.lower() + '_covid19_start_'+self.name_file+ '.png')
         
         my_file_2 = Path('/home/lunawang/Documents/luna2020/covid19viz/ca/data_raw/' + self.state_name.lower() + '_covid19_start_'+self.name_file+ '2nd.png')
         if my_file_2.is_file() == True:
             print('!!!!!! file already exsist')
         else:
             shutil.move('/home/lunawang/Downloads/Cases (1).png', '/home/lunawang/Documents/luna2020/covid19viz/ca/data_raw/' + self.state_name.lower() + '_covid19_start_'+self.name_file+ '2nd.png')
-
-        my_file_2 = Path('/home/lunawang/Documents/luna2020/covid19viz/ca/data_raw/' + self.state_name.lower() + '_covid19_start_'+self.name_file+ '3rd.png')
-        if my_file_2.is_file() == True:
-            print('!!!!!! file already exsist')
-        else:
-            shutil.move('/home/lunawang/Downloads/Cases (2).png', '/home/lunawang/Documents/luna2020/covid19viz/ca/data_raw/' + self.state_name.lower() + '_covid19_start_'+self.name_file+ '3rd.png')
         
         #get back to start file
         #print(os.getcwd())
@@ -154,9 +148,8 @@ class dataGrabCA(object):
         #print(os.getcwd())
 
         #craft the photo =============================================
-        image1 = Image.open(self.state_name.lower() + '_covid19_start_'+self.name_file+ '1st.png')
-        print(')))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))')
-        print(image1.size)
+        image1 = Image.open(self.state_name.lower() + '_covid19_start_'+self.name_file+ '.png')
+        #print(image1.size)
         width, height = image1.size
         numberOfSplits = 5
         splitDist = width / numberOfSplits
@@ -167,8 +160,8 @@ class dataGrabCA(object):
         h = height+y
         #print(x, y, w, h)
 
-        croppedImg = image1.crop((x,276,w-80,h))
-        croppedImg.save(self.state_name.lower() + '_covid19_'+self.name_file+ '1st.png') #save to file
+        croppedImg = image1.crop((x,y,w-80,h))
+        croppedImg.save(self.state_name.lower() + '_covid19_'+self.name_file+ '.png') #save to file
 
         #craft the photo #2=============================================
         image1 = Image.open(self.state_name.lower() + '_covid19_start_'+self.name_file+ '2nd.png')
@@ -185,77 +178,56 @@ class dataGrabCA(object):
 
         croppedImg = image1.crop((x,y,w-80,h))
         croppedImg.save(self.state_name.lower() + '_covid19_'+self.name_file+ '2nd.png') #save to file
-
-        #craft the photo #3=============================================
-        image1 = Image.open(self.state_name.lower() + '_covid19_start_'+self.name_file+ '3rd.png')
-        #print(image1.size)
-        width, height = image1.size
-        numberOfSplits = 5
-        splitDist = width / numberOfSplits
-
-        x = 0
-        y = 0
-        w = splitDist+x
-        h = height+y
-        #print(x, y, w, h)
-
-        croppedImg = image1.crop((x,y,w-80,h))
-        croppedImg.save(self.state_name.lower() + '_covid19_'+self.name_file+ '3rd.png') #save to file
-        print('photo 3 done--------------------------------------------------')
         
-        #read words from picture--------------------------------------------------------------------------
+        #read words from picture
         #import pytesseract
-        img = cv2.imread(self.state_name.lower() + '_covid19_'+self.name_file+ '1st.png')
+        img = cv2.imread(self.state_name.lower() + '_covid19_'+self.name_file+ '.png')
         text = pytesseract.image_to_string(img)
-        print('111____________', text)
+        #print('3333333333333333333333333333', text)
         img2 = cv2.imread(self.state_name.lower() + '_covid19_'+self.name_file+ '2nd.png')
         text_2nd = pytesseract.image_to_string(img2)
-        print('222__________', text_2nd)
-        img3 = cv2.imread(self.state_name.lower() + '_covid19_'+self.name_file+ '3rd.png')
-        text_3nd = pytesseract.image_to_string(img3)
-        print('333__________', text_3nd)
+        #print('4444444444444444444444444444444', text_2nd)
 
         #now make data to list --------------------
+        #find start word #1
         n_start_1st = text.find('Los Angeles')
         date_1st = text[n_start_1st:]
         l_pageTxt_1st = date_1st.split('\n')
-        print('11111111111111111111', l_pageTxt_1st)
+        #print('333333333333333333333', l_pageTxt_1st)
         #find start word #2
-        n_start_2st = text_2nd.find('Madera')
+        n_start_2st = text_2nd.find('Shasta')
         date_2st = text_2nd[n_start_2st:]
         l_pageTxt_2st = date_2st.split('\n')
-        print('22222222222222222222222', l_pageTxt_2st)
-        #find start word #3
-        n_start_3st = text_3nd.find('Napa')
-        date_3st = text_3nd[n_start_2st:]
-        l_pageTxt_3st = date_3st.split('\n')
-        print('33333333333333333', l_pageTxt_3st)
-        l_pageTxt_together = l_pageTxt_1st+ l_pageTxt_2st 
-        print('44444444444444444444444', l_pageTxt_together) 
-
+        #print('44444444444444444444444', l_pageTxt_2st)
+        l_pageTxt_together = l_pageTxt_1st+ l_pageTxt_2st
+        #loop #1
         datas= []
         for stst in l_pageTxt_together:
             if stst == '': continue
-            elif stst == ' ': continue
             else:
-                sdsd = stst.replace(',', '').replace(' ', '')
-                #if sdsd == Alpine n
+                sdsd= stst.replace(' ', '').replace('\u2014', '').replace('#', '').replace('=', '').replace('+', '').replace('.', '').replace('|', '').replace('\u2018', '')
                 sasa = [re.split('(\d.*)', pcode) for pcode in sdsd.split(' ')]
-                print('55555555555-----------', sasa)
+                #print('55555555555555555', sasa)
                 datas.append(sasa)
-        l_cases = []
-        for dada in datas :
-            if 'Amador' in dada[0][0]: l_cases.append(['Amador', dada[0][1], 0])
+        #print('&&&&&&&&&&&&&&', datas)
+        list_data = datas[:2] +datas[3:41]+ datas[42:-1]
+        #print('###############33', list_data)
+        name_and_number = []
+        for a_aa in list_data:
+            if a_aa[0][0] =="Alpinemn" : continue
+            elif a_aa[0][0] == 'DelNorteez': continue
             else:
-                l_cases.append([dada[0][0], dada[0][1].replace('.', '').replace(',', ''), 0])
-
+                a_name = a_aa[0][0]
+                a_number = a_aa[0][1].replace(',', '')
+                name_and_number.append([a_name, a_number, 0])
+        #print('(((((((((((((((((((', name_and_number)
         case = 0
-        for a_da in l_cases:
-            case += int(a_da[1])
-        l_cases3 = np.append(l_cases, [['Total', case, 0]], axis=0)
+        for a_da in name_and_number:
+            case += int(a_da[1].replace(',', ''))
+        l_cases3 = np.append(name_and_number, [['Total', case, 0]], axis=0)
         l_cases4 = np.append(l_cases3, [['County', 'Cases', 'Deaths']], axis=0)
         print('00000000000000000000000', l_cases4)
-
+        l_data= ''
         os.chdir('..')
         os.chdir('..')
         print(os.getcwd())
@@ -283,5 +255,4 @@ class dataGrabCA(object):
         self.now_date = today.strftime('%m/%d/%Y')
 
         return(datassss, self.name_file, self.now_date)  
-
 
