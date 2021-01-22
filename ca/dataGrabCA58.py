@@ -51,6 +51,7 @@ class dataGrabCA(object):
 
         # create a node
         print("welcome to dataGrab")
+        print("need to use your hand click on 'Case and Mortality Summaries', then 'Download', then 'image' ")
         self.state_name = n_state
         self.state_dir = './'+n_state.lower()+'/'
         self.l_state_config = l_config
@@ -120,7 +121,7 @@ class dataGrabCA(object):
         csv_url ='https://public.tableau.com/views/COVID-19CasesDashboard_15931020425010/Cases?:embed=y&:showVizHome=no'
         print('  #$$search website', csv_url)
         #webbrowser.open(csv_url, new=1)
-        time.sleep(120)
+        time.sleep(20)
         #print(os.getcwd())
         os.chdir('..')
         os.chdir('..')
