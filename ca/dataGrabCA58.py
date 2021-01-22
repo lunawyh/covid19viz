@@ -226,7 +226,7 @@ class dataGrabCA(object):
         l_pageTxt_2st = date_2st.split('\n')
         print('22222222222222222222222', l_pageTxt_2st)
         #find start word #3
-        n_start_3st = text_3nd.find('Napa')
+        n_start_3st = text_3nd.find('Plumas')
         date_3st = text_3nd[n_start_2st:]
         l_pageTxt_3st = date_3st.split('\n')
         print('33333333333333333', l_pageTxt_3st)
@@ -253,13 +253,12 @@ class dataGrabCA(object):
         for a_da in l_cases:
             case += int(a_da[1])
         l_cases3 = np.append(l_cases, [['Total', case, 0]], axis=0)
-        l_cases4 = np.append(l_cases3, [['County', 'Cases', 'Deaths']], axis=0)
-        print('00000000000000000000000', l_cases4)
+        print('00000000000000000000000', l_cases3)
 
         os.chdir('..')
         os.chdir('..')
         print(os.getcwd())
-        return l_cases4
+        return l_cases3
 
 
 

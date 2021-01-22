@@ -1,10 +1,10 @@
 County,Cases,Deaths
 Adams,1,0
+Ashland,1,0
 Champaign,1,0
 Clark,1,0
 Clermont,1,0
 Columbiana,1,0
-Cuyahoga,2,0
 Delaware,1,0
 Erie,1,0
 Fairfield,1,0
@@ -13,16 +13,14 @@ Huron,1,0
 Licking,1,0
 Lucas,2,0
 Mahoning,2,0
-Monroe,1,0
-Montgomery,2,0
+Montgomery,1,0
 Muskingum,1,0
 Putnam,1,0
-Richland,1,0
 Scioto,1,0
 Stark,1,0
 Summit,1,0
 Trumbull,1,0
 Van Wert,1,0
-Warren,1,0
+Warren,2,0
 Washington,1,0
-Total,30,0
+Total,27,0
