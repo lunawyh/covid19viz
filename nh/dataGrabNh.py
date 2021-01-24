@@ -99,8 +99,6 @@ class dataGrabNh(object):
         if os.name == 'nt':
             pytesseract.pytesseract.tesseract_cmd = 'C:\Program Files\Tesseract-OCR\\tesseract.exe'
         text = ''
-        crop_img = img[300:620, 260:560]
-        crop_img = cv2.resize(crop_img, (0, 0), fx=5, fy=5)
         #filename = 'C:/Dennis/Covid19/covid19viz/nh/data_raw/savedImage.jpg'
         #cv2.imwrite(filename, crop_img)
         cv2.imshow("readDataFromPng", crop_img)
