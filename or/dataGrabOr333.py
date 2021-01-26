@@ -17,12 +17,26 @@ import pandas as pd
 import csv
 import urllib
 import ssl
-import datetime 
 from lxml import html
 import requests
-import PyPDF2
-from datetime import date
+from selenium import webdriver 
+from selenium.webdriver.common.keys import Keys 
 import numpy as np
+import datetime 
+import time
+import openpyxl
+from openpyxl import load_workbook
+from itertools import islice
+import webbrowser
+from pathlib import Path
+import shutil
+from PIL import Image
+import matplotlib.pyplot as plt
+import cv2
+import re
+from datetime import date
+
+import pytesseract
 # ==============================================================================
 # -- codes -------------------------------------------------------------------
 # ============================================================================== ## save downloaded data to daily or overal data 
@@ -54,44 +68,39 @@ class dataGrabOR(object):
     ## $^&&
     def open4pdf(self, name_file):
         csv_url = self.l_state_config[5][1]
-        print('  #$$search website', csv_url)
-        # save html file
-        #urllib.urlretrieve(csv_url, fRaw)
+        print(os.getcwd())
+        #
+        '''
+        siteOpen = webdriver.Chrome() #chrome_options=chrome_options)
+        siteOpen.get(csv_url)
+        time.sleep(7)
+
         # save html file
         c_page = requests.get(csv_url)
         c_tree = html.fromstring(c_page.content)
-        l_dates = c_tree.xpath('//div//tbody//tr//td//span/text()')  # ('//div[@class="col-xs-12 button--wrap"]')
-        #print('/////////////', l_dates)
-        f_name = []
-        for l_d in l_dates:
-            if '/' in l_d: continue
-            else: f_name.append(l_d)
-        print('11111111111', f_name)
 
-        cases = c_tree.xpath('//td[@style="text-align: center; width: 20%;"]/text()')  # ('//div[@class="col-xs-12 button--wrap"]')
-        #print('22222222222222222', cases)
-        f_cases = cases[ : len(f_name)]
-        print('2222222222222', f_cases)
+        f_name ="C:\Dennis\Covid19\covid19viz\id\data_raw"
 
-        death = c_tree.xpath('//td[@style="width: 20%;"]/text()')  # ('//div[@class="col-xs-12 button--wrap"]')
-        #print('22222222222222222', cases)
-        l_death = death[ : len(f_name)*2]
-        l_cases2 = np.reshape(l_death, (len(l_death)/2, 2)).T
-        f_death = l_cases2[0]
-        print('333333333333333', f_death)
+        chrome_options1 = webdriver.ChromeOptions()
+        prefs = {'download.default_directory': f_name}
+        chrome_options1.add_experimental_option('prefs', prefs)
+        siteOpen = webdriver.Chrome(chrome_options=chrome_options1)
+        siteOpen.get(csv_url)
 
-        #l_cases2 = np.reshape(l_dates, (len(l_dates)/4, 4)).T
-        f_data = np.vstack((f_name, f_cases, f_death)).T
+        buttonslist2 = siteOpen.find_elements_by_xpath('//div[@role="button"]')
+        print('bbbbbbbbbbbbbbbbbb', buttonslist2)
+        down_button = buttonslist2[len(buttonslist2) - 5]
+        siteOpen.execute_script("document.getElementsByClassName('tabToolbarButton tab-widget download').click()")
+        #class="tabToolbarButton tab-widget download"
+        time.sleep(5)
+        '''
 
-
-        case = 0
-        death = 0
-        for a_da in f_data:
-            case += int(a_da[1])
-            death += int(a_da[2])
-        l_cases3 = np.append(f_data, [['Total', case, death]], axis=0)
-
-        a_address=[]
+        driver = webdriver.Chrome()
+        driver.get(csv_url)
+        button= driver.find_element_by_xpath("//div[@role='button']") 
+        print('111111111111111111111', button)
+        button = driver.find_element_by_id('class="tabToolbarButtonImg tab-icon-download"')
+        button.click()
         return l_cases3
 
         ## save to csv 

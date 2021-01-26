@@ -107,7 +107,7 @@ class dataGrabNj(object):
         #import pytesseract
         img = cv2.imread(self.state_name.lower() + '_covid19_'+self.name_file+ '1st.png')
         text = pytesseract.image_to_string(img)
-        #print('111____________', text)
+        print('111____________', text)
         
         #now make data to list --------------------
         n_start_1st = text.find('BERGEN')
@@ -153,6 +153,7 @@ class dataGrabNj(object):
         for a_da in final_list:
             case += int(a_da[1])
         l_cases3 = np.append(final_list, [['Total', case, 0]], axis=0)
+        #l_cases4 = l_cases3.tolist()
         print('00000000000000000000000', l_cases3)
 
         os.chdir('..')
@@ -160,26 +161,17 @@ class dataGrabNj(object):
         print(os.getcwd())
         return l_cases3
 
-
-    ## paser data CA
-    def parseData(self, name_file, date_target, type_download):
-        self.name_file = name_file
-        urlData = self.open4excel(name_file)
-        #self.open4excel(name_file)
-        # step B: save raw
-        f_name = self.state_dir + 'data_raw/'+self.state_name.lower()+'_covid19_'+self.name_file+'.html'
-        f_n_total = self.state_dir + 'data_raw/'+self.state_name.lower()+'_covid19_'+self.name_file+'.xlsx'
-        if(not os.path.isdir(self.state_dir + 'data_raw/') ): os.mkdir(self.state_dir + 'data_raw/')
-        # 
-        datassss= urlData.tolist()
-        print('>>>>>>>>>>>>>>>>>>>>>.', datassss)
-        self.save2File(datassss, self.state_dir + 'data/'+self.state_name.lower()+'_covid19_'+name_file+'.csv')
-        print('save the data ------------------------------')
-        today = (date.today())
-        self.name_file = today.strftime('%Y%m%d')
-        self.now_date = today.strftime('%m/%d/%Y')
-
-        return(datassss, self.name_file, self.now_date) 
+    def save2File(self, l_data, csv_name):
+        csv_data_f = open(csv_name, 'w')
+        # create the csv writer 
+        csvwriter = csv.writer(csv_data_f)
+        # make sure the 1st row is colum names
+        if('County' in str(l_data[0][0])): pass
+        else: csvwriter.writerow(['County', 'Cases', 'Deaths'])
+        for a_row in l_data:
+            csvwriter.writerow(a_row)
+        csv_data_f.close()
+        print('  save2File', csv_name)
 
     ## paser data CA
     def parseData(self, name_file, date_target, type_download):
@@ -189,18 +181,16 @@ class dataGrabNj(object):
         #self.open4excel(name_file)
         # step B: save raw
         f_name = self.state_dir + 'data_raw/'+self.state_name.lower()+'_covid19_'+self.name_file+'.html'
-        f_n_total = self.state_dir + 'data_raw/'+self.state_name.lower()+'_covid19_'+self.name_file+'.xlsx'
+        f_n_total = self.state_dir + 'data/'+self.state_name.lower()+'_covid19_'+name_file+'.csv'
         if(not os.path.isdir(self.state_dir + 'data_raw/') ): os.mkdir(self.state_dir + 'data_raw/')
-        # 
-        datassss= urlData.tolist()
-        print('>>>>>>>>>>>>>>>>>>>>>.', datassss)
-        self.save2File(datassss, self.state_dir + 'data/'+self.state_name.lower()+'_covid19_'+name_file+'.csv')
+        #urlData = urlData.tolist()
+        self.save2File(urlData, self.state_dir + 'data/'+self.state_name.lower()+'_covid19_'+self.name_file+'.csv')
         print('save the data ------------------------------')
         today = (date.today())
         self.name_file = today.strftime('%Y%m%d')
         self.now_date = today.strftime('%m/%d/%Y')
 
-        return(datassss, self.name_file, self.now_date)  
+        return(urlData, self.name_file, self.now_date)  
 
 
 

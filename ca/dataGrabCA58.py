@@ -121,7 +121,7 @@ class dataGrabCA(object):
         csv_url ='https://public.tableau.com/views/COVID-19CasesDashboard_15931020425010/Cases?:embed=y&:showVizHome=no'
         print('  #$$search website', csv_url)
         #webbrowser.open(csv_url, new=1)
-        time.sleep(20)
+        #time.sleep(20)
         #print(os.getcwd())
         os.chdir('..')
         os.chdir('..')
@@ -143,12 +143,14 @@ class dataGrabCA(object):
         else:
             shutil.move('/home/lunawang/Downloads/Cases (1).png', '/home/lunawang/Documents/luna2020/covid19viz/ca/data_raw/' + self.state_name.lower() + '_covid19_start_'+self.name_file+ '2nd.png')
 
+        '''
         my_file_2 = Path('/home/lunawang/Documents/luna2020/covid19viz/ca/data_raw/' + self.state_name.lower() + '_covid19_start_'+self.name_file+ '3rd.png')
         if my_file_2.is_file() == True:
             print('!!!!!! file already exsist')
         else:
             shutil.move('/home/lunawang/Downloads/Cases (2).png', '/home/lunawang/Documents/luna2020/covid19viz/ca/data_raw/' + self.state_name.lower() + '_covid19_start_'+self.name_file+ '3rd.png')
-        
+        '''
+
         #get back to start file
         #print(os.getcwd())
         os.chdir('/home/lunawang/Documents/luna2020/covid19viz/ca/data_raw')
@@ -188,6 +190,7 @@ class dataGrabCA(object):
         croppedImg.save(self.state_name.lower() + '_covid19_'+self.name_file+ '2nd.png') #save to file
 
         #craft the photo #3=============================================
+        '''
         image1 = Image.open(self.state_name.lower() + '_covid19_start_'+self.name_file+ '3rd.png')
         #print(image1.size)
         width, height = image1.size
@@ -202,6 +205,7 @@ class dataGrabCA(object):
 
         croppedImg = image1.crop((x,y,w-80,h))
         croppedImg.save(self.state_name.lower() + '_covid19_'+self.name_file+ '3rd.png') #save to file
+        '''
         print('photo 3 done--------------------------------------------------')
         
         #read words from picture--------------------------------------------------------------------------
@@ -212,9 +216,12 @@ class dataGrabCA(object):
         img2 = cv2.imread(self.state_name.lower() + '_covid19_'+self.name_file+ '2nd.png')
         text_2nd = pytesseract.image_to_string(img2)
         print('222__________', text_2nd)
+        '''
         img3 = cv2.imread(self.state_name.lower() + '_covid19_'+self.name_file+ '3rd.png')
         text_3nd = pytesseract.image_to_string(img3)
         print('333__________', text_3nd)
+
+        '''
 
         #now make data to list --------------------
         n_start_1st = text.find('Los Angeles')
@@ -222,16 +229,18 @@ class dataGrabCA(object):
         l_pageTxt_1st = date_1st.split('\n')
         print('11111111111111111111', l_pageTxt_1st)
         #find start word #2
-        n_start_2st = text_2nd.find('Madera')
+        n_start_2st = text_2nd.find('Shasta')
         date_2st = text_2nd[n_start_2st:]
         l_pageTxt_2st = date_2st.split('\n')
         print('22222222222222222222222', l_pageTxt_2st)
         #find start word #3
+        '''
         n_start_3st = text_3nd.find('Plumas')
         date_3st = text_3nd[n_start_2st:]
         l_pageTxt_3st = date_3st.split('\n')
         print('33333333333333333', l_pageTxt_3st)
-        l_pageTxt_together = l_pageTxt_1st+ l_pageTxt_2st 
+        '''
+        l_pageTxt_together = l_pageTxt_1st+ l_pageTxt_2st #+ l_pageTxt_3st
         print('44444444444444444444444', l_pageTxt_together) 
 
         datas= []
@@ -242,8 +251,10 @@ class dataGrabCA(object):
                 sdsd = stst.replace(',', '').replace(' ', '')
                 #if sdsd == Alpine n
                 sasa = [re.split('(\d.*)', pcode) for pcode in sdsd.split(' ')]
-                print('55555555555-----------', sasa)
-                datas.append(sasa)
+                if sasa[0][0] == 'Butteern': continue
+                else:
+                    datas.append(sasa)
+        print('datas-------------------', sasa)
         l_cases = []
         for dada in datas :
             if 'Amador' in dada[0][0]: l_cases.append(['Amador', dada[0][1], 0])
