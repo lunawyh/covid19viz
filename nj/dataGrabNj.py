@@ -20,7 +20,11 @@ import ssl
 import requests
 from lxml import html
 import zipfile
-import StringIO
+#import StringIO
+try:
+    from StringIO import StringIO ## for Python 2
+except ImportError:
+    from io import StringIO ## for Python 3
 from selenium import webdriver
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC

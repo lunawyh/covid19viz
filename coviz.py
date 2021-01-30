@@ -137,7 +137,7 @@ class runCoViz(object):
             self.data_daily, self.l_mi_cases = self.readDataDaily(True)
             pass
         elif(key == 65472 or key == 1114048 or key == 7405569 or key == 7471104):   # F3 key gmaps
-            from mapviz20 import *
+            from mapviz20 import mapViz
             map_viz = mapViz(self.l_state_config, self.state_name)	
             save_file = None
             if self.data_daily == True: type_data=1
@@ -394,21 +394,21 @@ class runCoViz(object):
         type_download = int(self.l_state_config[4][1])
         if( type_download == 5 or type_download == 15):   # download only
             sys.path.insert(0, "./oh")
-            from dataGrabOh15 import *
+            from dataGrabOh15 import dataGrabOh
             # create new class
             data_grab = dataGrabOh(self.l_state_config, self.state_name)	
             # download as a raw file and save
             lst_data, self.name_file, self.now_date = data_grab.parseData(self.name_file, self.now_date, type_download)		
         elif( type_download == 18):   # download only
             sys.path.insert(0, "./il")
-            from dataGrabIl18 import *
+            from dataGrabIl18 import dataGrabIl
             # create new class
             data_grab = dataGrabIl(self.l_state_config, self.state_name)	
             # download as a raw file and save
             lst_data, self.name_file, self.now_date = data_grab.parseData(self.name_file, self.now_date, type_download)		
         elif( type_download == 25):   # download only
             sys.path.insert(0, "./tx")
-            from dataGrabTx25 import *
+            from dataGrabTx25 import dataGrabTx
             # create new class
             data_grab = dataGrabTx(self.l_state_config, self.state_name)	
             # download as a raw file and save
@@ -420,7 +420,7 @@ class runCoViz(object):
 
         elif( type_download == 35):   # download only
             sys.path.insert(0, "./fl")
-            from dataGrabFl35 import *
+            from dataGrabFl35 import dataGrabFl
             # create new class
             data_grab = dataGrabFl(self.l_state_config, self.state_name)	
             # download as a raw file 
@@ -434,7 +434,7 @@ class runCoViz(object):
 
         elif( type_download == 926):   # download only
             sys.path.insert(0, "./mn")
-            from dataGrabMN926 import *
+            from dataGrabMN926 import dataGrabMN
             # create new class
             data_grab = dataGrabMN(self.l_state_config, self.state_name)	
             # download as a raw file 
@@ -448,7 +448,7 @@ class runCoViz(object):
 
         elif( type_download == 333):   # download only
             sys.path.insert(0, "./or")
-            from dataGrabOr333 import *
+            from dataGrabOr333 import dataGrabOR
             # create new class
             data_grab = dataGrabOR(self.l_state_config, self.state_name)	
             # download as a raw file 
@@ -461,7 +461,7 @@ class runCoViz(object):
 
         elif( type_download == 159):   # download only
             sys.path.insert(0, "./pa")
-            from dataGrabPA159 import *
+            from dataGrabPA159 import dataGrabPA
             # create new class
             data_grab = dataGrabPA(self.l_state_config, self.state_name)	
             # download as a raw file 
@@ -475,7 +475,7 @@ class runCoViz(object):
 
         elif( type_download == 109):   # download only
             sys.path.insert(0, "./tn")
-            from dataGrabTN109 import *
+            from dataGrabTN109 import dataGrabtn
             # create new class
             data_grab = dataGrabtn(self.l_state_config, self.state_name)	
             # download as a raw file 
@@ -488,7 +488,7 @@ class runCoViz(object):
 
         elif( type_download == 131):   # download only
             sys.path.insert(0, "./wa")
-            from dataGrabWA131 import *
+            from dataGrabWA131 import dataGrabwa
             # create new class
             data_grab = dataGrabwa(self.l_state_config, self.state_name)	
             # download as a raw file and save
@@ -502,7 +502,7 @@ class runCoViz(object):
 
         elif( type_download == 928):   # download only
             sys.path.insert(0, "./ne")
-            from dataGrabNe928 import *
+            from dataGrabNe928 import dataGrabNe
             # create new class
             data_grab = dataGrabNe(self.l_state_config, self.state_name)	
             # download as a raw file and save
@@ -516,7 +516,7 @@ class runCoViz(object):
 
         elif( type_download == 666):   # download only
             sys.path.insert(0, "./nc")
-            from dataGrabNC666 import *
+            from dataGrabNC666 import dataGrabnc
             # create new class
             data_grab = dataGrabnc(self.l_state_config, self.state_name)	
             # download as a raw file and save
@@ -529,7 +529,7 @@ class runCoViz(object):
 
         elif( type_download == 999):   # download only
             sys.path.insert(0, "./md")
-            from dataGrabMD999 import *
+            from dataGrabMD999 import dataGrabmd
             # create new class
             data_grab = dataGrabmd(self.l_state_config, self.state_name)	
             # download as a raw file and save
@@ -542,7 +542,7 @@ class runCoViz(object):
 
         elif( type_download == 105):   # download only
             sys.path.insert(0, "./ks")
-            from dataGrabKS105 import *
+            from dataGrabKS105 import dataGrabks
             # create new class
             data_grab = dataGrabks(self.l_state_config, self.state_name)	
             # download as a raw file 
@@ -558,7 +558,7 @@ class runCoViz(object):
 
         elif( type_download == 58):   # download only
             sys.path.insert(0, "./ca")
-            from dataGrabCA58 import *
+            from dataGrabCA58 import dataGrabCA
             # create new class
             data_grab = dataGrabCA(self.l_state_config, self.state_name)	
             # download as a raw file and save
@@ -571,7 +571,7 @@ class runCoViz(object):
 
         elif( type_download == 23):   # download only
             sys.path.insert(0, "./ms")
-            from dataGrabMS23 import *
+            from dataGrabMS23 import dataGrabMS
             # create new class
             data_grab = dataGrabMS(self.l_state_config, self.state_name)	
             # download as a raw file and save
@@ -580,7 +580,7 @@ class runCoViz(object):
                 self.name_file, self.now_date = name_file, now_date
         elif( type_download == 44):   # download only
             sys.path.insert(0, "./ut")
-            from dataGrabUt44 import *
+            from dataGrabUt44 import dataGrabUT
             # create new class
             data_grab = dataGrabUT(self.l_state_config, self.state_name)	
             # download as a raw file and save
@@ -590,7 +590,7 @@ class runCoViz(object):
             ########
         elif( type_download == 19):   # download only
             sys.path.insert(0, "./wy")
-            from dataGrabWY19 import *
+            from dataGrabWY19 import dataGrabWY
             # create new class
             data_grab = dataGrabWY(self.l_state_config, self.state_name)	
             # download as a raw file and save
@@ -601,7 +601,7 @@ class runCoViz(object):
 
         elif( type_download == 215):   # download only
             sys.path.insert(0, "./mo")
-            from dataGrabMO215 import *
+            from dataGrabMO215 import dataGrabMO
             # create new class
             data_grab = dataGrabMO(self.l_state_config, self.state_name)	
             # download as a raw file and save
@@ -612,7 +612,7 @@ class runCoViz(object):
  
         elif( type_download == 2):   # download only
             sys.path.insert(0, "./mi")
-            from dataGrabMI2 import *
+            from dataGrabMI2 import dataGrabMI
             # create new class
             data_grab = dataGrabMI(self.l_state_config, self.state_name)	
             # download as a raw file and save
@@ -623,7 +623,7 @@ class runCoViz(object):
 
         elif( type_download == 224):   # download only
             sys.path.insert(0, "./in")
-            from dataGrabIN224 import *
+            from dataGrabIN224 import dataGrabIN
             # create new class
             data_grab = dataGrabIN(self.l_state_config, self.state_name)	
             # download as a raw file and save
@@ -634,7 +634,7 @@ class runCoViz(object):
 
         elif( type_download == 140):   # download only
             sys.path.insert(0, "./ky")
-            from dataGrabKY140 import *
+            from dataGrabKY140 import dataGrabKY
             # create new class
             data_grab = dataGrabKY(self.l_state_config, self.state_name)	
             # download as a raw file and save
@@ -645,7 +645,7 @@ class runCoViz(object):
 
         elif( type_download == 10):   # download only
             sys.path.insert(0, "./la")
-            from dataGrabLA10 import *
+            from dataGrabLA10 import dataGrabLa
             # create new class
             data_grab = dataGrabLa(self.l_state_config, self.state_name)	
             # download as a raw file and save
@@ -656,7 +656,7 @@ class runCoViz(object):
 
         elif( type_download == 102):   # download only
             sys.path.insert(0, "./ar")
-            from dataGrabAR102 import *
+            from dataGrabAR102 import dataGrabAR
             # create new class
             data_grab = dataGrabAR(self.l_state_config, self.state_name)	
             # download as a raw file and save
@@ -667,7 +667,7 @@ class runCoViz(object):
 
         elif( type_download == 10):   # download only
             sys.path.insert(0, "./la")
-            from dataGrabLA10 import *
+            from dataGrabLA10 import dataGrabLa
             # create new class
             self.data_grab = dataGrabLa(self.l_state_config, self.state_name)	
             self.data_grab.browseData(self.name_file)	
@@ -676,49 +676,49 @@ class runCoViz(object):
             return (0, [], [])
         elif( type_download == 33):   # download only
             sys.path.insert(0, "./ga")
-            from dataGrabGA33 import *
+            from dataGrabGA33 import dataGrabGa
             # create new class
             self.data_grab = dataGrabGa(self.l_state_config, self.state_name)	
             lst_data, self.name_file, self.now_date = self.data_grab.parseData(self.name_file, self.now_date, type_download)	
 
         elif( type_download == 123):   # download only
             sys.path.insert(0, "./gs")
-            from dataGrabGS123 import *
+            from dataGrabGS123 import dataGrabGS
             # create new class
             self.data_grab = dataGrabGS(self.l_state_config, self.state_name)	
             lst_data, self.name_file, self.now_date = self.data_grab.parseData(self.name_file, self.now_date, type_download)		
             
         elif (type_download == 50):  # download only
             sys.path.insert(0, "./ct")
-            from dataGrabCt15 import *
+            from dataGrabCt15 import dataGrabCt
             # step A: create new class
             data_grab = dataGrabCt(self.l_state_config, self.state_name)
             # step B: parse to standard file
             lst_data, self.name_file, self.now_date = data_grab.parseData(self.name_file, self.now_date, type_download)
         elif (type_download == 14):  # download only
             sys.path.insert(0, "./vt")
-            from dataGrabVt import *
+            from dataGrabVt import dataGrabVt
             # step A: create new class
             data_grab = dataGrabVt(self.l_state_config, self.state_name)
             # step B: parse to standard file
             lst_data, self.name_file, self.now_date = data_grab.parseData(self.name_file, self.now_date, type_download)
         elif (type_download == 22):  # download only
             sys.path.insert(0, "./ma")
-            from dataGrabMa import *
+            from dataGrabMa import dataGrabMa
             # step A: create new class
             data_grab = dataGrabMa(self.l_state_config, self.state_name)
             # step B: parse to standard file
             lst_data, self.name_file, self.now_date = data_grab.parseData(self.name_file, self.now_date, type_download)
         elif (type_download == 325):  # download only
             sys.path.insert(0, "./me")
-            from dataGrabMe import *
+            from dataGrabMe import dataGrabMe
             # step A: create new class
             data_grab = dataGrabMe(self.l_state_config, self.state_name)
             # step B: parse to standard file
             lst_data, self.name_file, self.now_date = data_grab.parseData(self.name_file, self.now_date, type_download)
         elif (type_download == 97):  # download only
             sys.path.insert(0, "./nj")
-            from dataGrabNj import *
+            from dataGrabNj import dataGrabNj
             # step A: create new class
             data_grab = dataGrabNj(self.l_state_config, self.state_name)
             # step B: parse to standard file
@@ -726,7 +726,7 @@ class runCoViz(object):
 
         elif (type_download == 111):  # download only
             sys.path.insert(0, "./ok")
-            from dataGrabOK111 import *
+            from dataGrabOK111 import dataGrabOk
             # step A: create new class
             data_grab = dataGrabOk(self.l_state_config, self.state_name)
             # step B: parse to standard file
@@ -734,7 +734,7 @@ class runCoViz(object):
 
         elif (type_download == 922):  # download only
             sys.path.insert(0, "./nd")
-            from dataGrabND922 import *
+            from dataGrabND922 import dataGrabND
             # step A: create new class
             data_grab = dataGrabND(self.l_state_config, self.state_name)
             # step B: parse to standard file
@@ -742,7 +742,7 @@ class runCoViz(object):
 
         elif (type_download == 129):  # download only
             sys.path.insert(0, "./wv")
-            from dataGrabWV129 import *
+            from dataGrabWV129 import dataGrabWV
             # step A: create new class
             data_grab = dataGrabWV(self.l_state_config, self.state_name)
             # step B: parse to standard file
@@ -752,24 +752,22 @@ class runCoViz(object):
 
         elif (type_download == 106):  # download only
             sys.path.insert(0, "./al")
-            from dataGrabAL106 import *
+            from dataGrabAL106 import dataGrabAL
             # step A: create new class
             data_grab = dataGrabAL(self.l_state_config, self.state_name)
             # step B: parse to standard file
             lst_data, self.name_file, self.now_date = data_grab.parseData(self.name_file, self.now_date, type_download)
 
-
         elif (type_download == 59):  # download only
             sys.path.insert(0, "./ny")
-            from dataGrabNy59 import *
+            from dataGrabNy59 import dataGrabNY
             # step A: create new class
             data_grab = dataGrabNY(self.l_state_config, self.state_name)
             # step B: parse to standard file
             lst_data, self.name_file, self.now_date = data_grab.parseData(self.name_file, self.now_date, type_download)
-
         elif( type_download == 194):   # download only
             sys.path.insert(0, "./nh")
-            from dataGrabNh import *
+            from dataGrabNh import dataGrabNh
             # create new class
             data_grab = dataGrabNh(self.l_state_config, self.state_name)	
             # download as a raw file and save
@@ -779,14 +777,14 @@ class runCoViz(object):
                 self.name_file, self.now_date = name_file, now_date
         elif (type_download == 11577): 
             sys.path.insert(0, "./sm") 
-            from dataGrabsM import * 
+            from dataGrabsM import dataGrabsM 
             # step A: create new class 
             data_grab = dataGrabsM(self.l_state_config, self.state_name) 
             # step B: parse to standard file 
             lst_data, self.name_file, self.now_date = data_grab.parseData(self.name_file, self.now_date, type_download) 
         elif (type_download == 8368): 
             sys.path.insert(0, "./sd") 
-            from dataGrabSD import * 
+            from dataGrabSD import dataGrabSD 
             # step A: create new class 
             data_grab = dataGrabSD(self.l_state_config, self.state_name) 
             # step B: parse to standard file 
