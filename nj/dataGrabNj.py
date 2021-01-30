@@ -176,10 +176,31 @@ class dataGrabNj(object):
             csvwriter.writerow(a_row)
         csv_data_f.close()
         print('  save2File', csv_name)
+   # page_url,f_data_raw, f_dl_name, s_dl_path
+    def downloadAndParseLink(self,link_address):
+        print('  download from', link_address)
+        siteOpen = webdriver.Chrome()
+        siteOpen.get(link_address)
+        time.sleep(7)
+        iframe = siteOpen.find_element_by_xpath('//iframe[@data-src="aHR0cHM6Ly9uamhlYWx0aC5tYXBzLmFyY2dpcy5jb20vYXBwcy9vcHNkYXNoYm9hcmQvaW5kZXguaHRtbA=="]')
+        siteOpen.switch_to.frame(iframe)
 
+        # <span style="" id="ember233" class="flex-horizontal feature-list-item ember-view">
+        caseNumbers = siteOpen.find_elements_by_xpath('//span[@class="flex-horizontal feature-list-item ember-view"]')
+        for case_num in caseNumbers:  
+            dStringList = case_num.text.split()
+            print('  ------------case_num', dStringList )
+        
+        time.sleep(4)
+        return []
     ## paser data CA
     def parseData(self, name_file, date_target, type_download):
         self.name_file = name_file
+        page_url = self.l_state_config[5][1]
+        # step A: downlowd and save
+        data_csv = self.downloadAndParseLink(page_url)
+        return(data_csv, self.name_file, self.now_date)
+        
         # step A: read date
         urlData = self.open4excel(name_file)
         #self.open4excel(name_file)
@@ -195,7 +216,6 @@ class dataGrabNj(object):
         self.now_date = today.strftime('%m/%d/%Y')
 
         return(urlData, self.name_file, self.now_date)  
-
 
 
 ## end of file
