@@ -48,6 +48,7 @@ class dataGrabMS(object):
             #print('  save data', a_item)
             a_item[2] = str(a_item[2]).replace('*', '')
             #***************************************
+            a_item[1]=  str(a_item[1]).replace('*', '')
             l_overall.append(a_item[:3])
         #for a_item in l_overall:
         #    print (a_item)
@@ -65,13 +66,7 @@ class dataGrabMS(object):
             csvwriter.writerow(a_row)
         csv_data_f.close()
 
-    ## open a csv 
-    def open4File(self, csv_name):
-        if(isfile(csv_name) ):
-            df = pd.read_csv(csv_name)
-            l_data = self.parseDfData(df)
-        else: return []
-        return l_data
+
 
     ## open a website 
     def open4Website(self, fRaw):
@@ -142,7 +137,7 @@ class dataGrabMS(object):
             lst_data.append( a_case )
         # save to a database file
         if(fName is not None): self.save2File( lst_data, fName )
-        #print('  **********************************', lst_data)
+        print('  **********************************', lst_data)
         return lst_data
 
 

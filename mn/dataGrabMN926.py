@@ -25,20 +25,21 @@ import numpy as np
 from PIL import Image
 import webbrowser
 import cv2
-import imgkit
+#import imgkit
 import os
 from selenium import webdriver
 from time import sleep
 from selenium.webdriver.chrome.options import Options
 import time
 from PIL import Image
-import autopy
-import pyautogui
-import subprocess
+#import autopy
+#import pyautogui
+#import subprocess
 import webbrowser as vb
 
-import tempfile
-import urlparse
+#import tempfile
+#import urlparse
+import re
 
 #from gi.repository import Poppler, Gtk
 
@@ -120,38 +121,6 @@ class dataGrabMN(object):
                 print('   sss', l_date)
                 a_address = 'https://www.health.state.mn.us' + l_date.get('href')
                 print('  find pdf at', a_address)
-                '''
-                n_start = l_date.find('Report:')
-                s_date = l_date[n_start+7:] 
-                n_end = s_date.find('(PDF)')
-                if(n_end >= 0):
-                        s_date = s_date[1: 11].replace ('00:00:00', '')
-
-                        dt_obj = datetime.datetime.strptime(s_date, '%m/%d/%Y')
-                        print('  updated on', dt_obj)
-                        #nums = int(n_start)
-                        self.name_file = dt_obj.strftime('%Y%m%d')
-                        self.now_date = dt_obj.strftime('%m/%d/%Y')
-                '''
-        '''
-        l_2dates = c_tree.xpath('//ul//li//strong//a/text()')
-        for l_date in l_2dates:
-            #print(l_date.text_content())
-            if('Weekly COVID-19 Report') in l_date: 
-                print('ccccccccccccccc', l_date)
-                n_start = l_date.find('Report:')
-                if(n_start >= 0): 
-                    s_date = l_date[n_start+7:] 
-                    n_end = s_date.find('(PDF)')
-                if(n_end >= 0):
-                        s_date = s_date[1: 11].replace ('00:00:00', '')
-
-                        dt_obj = datetime.datetime.strptime(s_date, '%m/%d/%Y')
-                        print('  updated on', dt_obj)
-                        #nums = int(n_start)
-                        self.name_file = dt_obj.strftime('%Y%m%d')
-                        self.now_date = dt_obj.strftime('%m/%d/%Y')
-        '''
         print('11111111111111', a_address)
 
 
@@ -183,36 +152,9 @@ class dataGrabMN(object):
                     print('  already exiting', f_namea)
                     print('__________________')
 
-            '''
-            bitmap= autopy.bitmap.capture_screen()
-            bitmap.save(self.state_dir + 'screenshot/.png')
-            '''
-            #webbrowser.open_new(f_namea)
-            #subprocess.Popen([f_namea],shell=True)
-            #vb.open_new('mn/screenshot/mn_covid19_20201023.pdf')            
-            '''
-            pdf = requests.get("mn/screenshot/mn_covid19_20201023.pdf")
 
-            with tempfile.NamedTemporaryFile() as pdf_contents:
-                pdf_contents.file.write(pdf)
-                file_url = urlparse.urljoin(
-                    'file:', urllib.pathname2url(pdf_contents.name))
-                document = Poppler.Document.new_from_file(file_url, None)
-            '''
-            #import subprocess
-            #process = subprocess.Popen(['<here path to acrobat.exe>', '/A', 'page=1', '<here path to pdf>'], shell=False, stdout=subprocess.PIPE)
-            #process.wait()
-
-            #import os
             os.system('mn/screenshot/mn_covid19_20201023.pdf')
             
-
-            #take the screenshot
-            x=1
-            while x<2:
-                pyautogui.screenshot('mn/screenshot/name.png')
-                x+=1
-                time.sleep(2)
             return f_namea
     ## look for page containing confirmed data
     def lookForConfirmedPage(self, pdfReader):
@@ -234,11 +176,148 @@ class dataGrabMN(object):
             pdfReader = PyPDF2.PdfFileReader(pdfFileObj)
             print(pdfReader.numPages)
             pageTxt = self.lookForConfirmedPage(pdfReader)
-            print('3333333333333', pageTxt)
+            #print('3333333333333', pageTxt)
+
+            n_start = pageTxt.find('needing isolationAitkin')
+            n_end = pageTxt.find(' No Longer Needing Isolation')
+            s_date = pageTxt[n_start+17: n_end]
+            s_aate = s_date.split('\n')
+            #print('2222222222222',s_aate)
+
+            number_l= []
+            state_l = []
+            kases=[]
+            cases= []
+
+            for s_a in s_aate:
+                s_b = s_a.encode('ascii','ignore')
+                #print('333333333', s_b)
+                #print('666666666666', type(s_b))
+                if s_a =='': continue
 
 
-            l_datas= []
-            return (l_datas)
+                if (s_b.replace(',', '')).isdigit() == True: 
+                    #print('!!!!!!!!!!!!!!!!', s_b)
+                    s_g = s_b.replace(',', '')
+
+
+                    if len(s_g) <=5: 
+                        if s_g != '':number_l.append(s_g)
+                        continue
+                    else:
+                        s_z= s_g[:len(s_g)/2]
+                        s_y= s_g[len(s_g)/2:]
+                        if len(s_z)<= 5:
+                            if s_z != '': number_l.append(s_z)
+                        else: 
+                            s_x= s_z[:len(s_z)/2]
+                            s_w= s_z[len(s_z)/2:]
+                            if s_x != '': number_l.append(s_x)
+                            if s_w != '': number_l.append(s_w)
+
+                        if len(s_y)<= 5:
+                            if s_y != '': number_l.append(s_y)
+                        else: 
+                            s_x= s_y[:len(s_y)/2]
+                            s_w= s_y[len(s_y)/2:]
+                            if s_x != '': number_l.append(s_x)
+                            if s_w != '': number_l.append(s_w)
+
+
+                if (s_b.replace(' ', '').lower()).islower() == True: #for plain names and name+number
+                    #print('@@@@@@@@@@@', s_b)
+                    s_d = ''
+                    s_e = ''
+                    for s_c in s_b.replace(',', ''):
+                        if s_c.isdigit():
+                            s_d+=(s_c)
+                        else: 
+                            s_e+=(s_c)
+                    #s_d = [''.join(s_d)] 
+                    #s_e = [''.join(s_e)]
+                    print('-------------------------', (s_d))
+                    #kases= []
+                    kases.append(s_d)
+                    #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~state_name~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                    #print('^^^^^^^^^^^^^^^^^^^^^^^^^^', s_e)
+
+                    if ' ' in s_e: 
+                        state_l.append(s_e)
+                        continue
+                    if '/' in s_e :
+                        state_l.append(s_e)
+                        continue
+                    if s_e == 'McLeod':
+                        state_l.append(s_e)
+                        continue
+                    else:
+                        if sum(1 for c in s_e if c.isupper()) <=1:
+                            state_l.append(s_e)
+                            continue
+                        else: 
+                            name_a = ''
+                            name_b = ''
+                            for a_g in s_e:
+                                 
+                                if a_g.isupper():
+                                    if name_a == '':
+                                        name_a += a_g
+                                    else: name_b += a_g
+                                else:
+                                    if name_b == '':
+                                        name_a += a_g
+                                    else: name_b += a_g
+                    #print(';;;;;;;;;;;;;;;;;;;;;;;', name_a)
+                    #print('`````````````````````````', name_b)
+                    state_l.append(name_a)
+                    state_l.append(name_b)
+                    cases = kases
+                    
+            #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~state cases~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+            #if len(s_d)<=5: 
+                #print('...................', s_d)
+                #if s_d != '': number_l.append(s_d)
+                #continue
+                    
+            
+            for a_cas in cases:
+                if a_cas== '': continue
+                if len(a_cas)<= 5: 
+                    print('*&*&*&*&*&*&*&*&*&*&*&*&*', a_cas)
+                    if a_cas != '': number_l.append(a_cas)  
+                    continue
+                elif len(a_cas)>=6:
+                    print('^%^%^%^%^%^%^%^%^%^%^%^%^%^%^', a_cas)
+                    s_e = a_cas[:len(a_cas)/2]
+                    s_p = a_cas[len(a_cas)/2: ]
+                    print('<<<<<<<<<<<<<<<<<<', s_e)
+                    print('>>>>>>>>>>>>>>>>>>>', s_p)
+                    if s_e != '': number_l.append(s_e)
+                    if s_p != '': number_l.append(s_p)
+            print('|||||||||||||||||||', cases)
+            print('+++++++++++++++++++======', state_l)
+            print('+++++++++++++++++++======', len(state_l))
+            print('[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[', number_l)
+            print('[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[', len(number_l))
+
+            l_cases2 = np.reshape(number_l, (len(number_l)/2, 2)).T
+            zero= [0]*len(l_cases2[0])
+            l_data = np.vstack((state_l[:-1], l_cases2[0], zero)).T
+            #l_datas= []
+            return (l_data)
+
+    ## save to csv 
+    def save2File(self, l_data, csv_name):
+        csv_data_f = open(csv_name, 'w')
+        # create the csv writer 
+        csvwriter = csv.writer(csv_data_f)
+        # make sure the 1st row is colum names
+        #if('County' in str(l_data[0][0])): pass
+        #else: csvwriter.writerow(['County', 'Cases', 'Deaths'])
+        for a_row in l_data:
+            csvwriter.writerow(a_row)
+        csv_data_f.close()
 
     ## paser data FL
     def parseData(self, name_target, date_target, type_download):
@@ -249,8 +328,9 @@ class dataGrabMN(object):
             if(f_targeta == ''): return ([], name_target, '')
             #Step B read confirmed cases
             l_d_sort = self.dataReadConfirmed(f_targeta)
-            #Step C read death cases
-        
+            #Step9 C read death cases
+            print('////////////////////', l_d_sort)
+            self.save2File(l_d_sort, self.state_dir + 'data/'+self.state_name.lower()+'_covid19_'+self.name_file+'.csv')
 
             return(l_d_sort, self.name_file, self.now_date)  
 

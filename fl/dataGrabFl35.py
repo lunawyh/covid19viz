@@ -22,7 +22,7 @@ import re
 import requests
 from lxml import html
 import numpy as np
-
+import cv2
 # ==============================================================================
 # -- codes -------------------------------------------------------------------
 # ==============================================================================
@@ -109,7 +109,7 @@ class dataGrabFl(object):
     def dataDownload(self, name_target):
             print('  A.dataDownload', name_target)
             f_namea = self.state_dir + 'data_raw/'+self.state_name.lower()+'_covid19_'+name_target+'.pdf'
-            f_nameb = self.state_dir + 'data_raw/'+self.state_name.lower()+'_covid19_'+name_target+'_death.pdf'
+       
             if(not os.path.isdir(self.state_dir + 'data_raw/') ): os.mkdir(self.state_dir + 'data_raw/')
             # step A: downlowd and save
             if( True): 
@@ -130,25 +130,21 @@ class dataGrabFl(object):
                         self.name_file = dt_obj.strftime('%Y%m%d')
                         self.now_date = dt_obj.strftime('%m/%d/%Y')
                         f_namea = self.state_dir + 'data_raw/'+self.state_name.lower()+'_covid19_'+self.name_file+'.pdf'
-                        f_nameb = self.state_dir + 'data_raw/'+self.state_name.lower()+'_covid19_'+self.name_file+'_death.pdf'
+                       
                 if(not isfile(f_namea) ):
                     result = self.download4Website(a_address, f_namea)
                     print('  downloaded', result, f_namea)
                 else:
                     print('  already exiting', f_namea)
-                if(not isfile(f_nameb) ):
-                    result = self.download4Website(b_address, f_nameb)
-                    print('  downloaded', result, f_nameb)
-                else:
-                    print('  already exiting', f_nameb)
-
-            return f_namea, f_nameb
+                
+            return f_namea
     ## look for page containing confirmed data
     def lookForConfirmedPage(self, pdfReader):
-        for page in range(4, 9):
+        for page in range(5, 6):
             pageObj = pdfReader.getPage(page)
             pageTxt = pageObj.extractText()
             # locate page
+            #print('[[[[[[[[[[[[[[[[[[', pageTxt)
             n_start = pageTxt.find('Florida counties have')
             if(n_start >= 0): print('  found at page ', page) 
             else: continue
@@ -163,6 +159,7 @@ class dataGrabFl(object):
                 #nums = int(n_start)
                 self.name_file = dt_obj.strftime('%Y%m%d')
                 self.now_date = dt_obj.strftime('%m/%d/%Y')
+                #print('++++++++++', pageTxt)
                 return pageTxt
         return ''
     ## paser data FL
@@ -173,52 +170,98 @@ class dataGrabFl(object):
             pdfFileObj = open(f_name, 'rb')
             pdfReader = PyPDF2.PdfFileReader(pdfFileObj)
 
+            something = pdfReader.getPage(5)
+            
+            #print(something.extractText())^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+            # change the pdf to image 
+            pdfFileObj = open(f_name, 'rb')
+            pdfReader = PyPDF2.PdfFileReader(pdfFileObj)
+
+            print('    pdf pages: ', pdfReader.numPages)
+
+            #pageObj = pdfReader.getPage(5)
+            #print('...................', pageObj.extractText())
+
+            #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
             # look for page containing confirmed data
             pageTxt = self.lookForConfirmedPage(pdfReader)
-            if(pageTxt == ''): return ([], pdfReader)
+            pdfFileObj.close()
+            if(pageTxt == ''): return ([])
 
-            # get text in the table list
-            n_start = pageTxt.find('All 67 Florida counties have cases')
-            if(n_start < 0):
-                n_start = pageTxt.find('All 67 Florida counties have cases')
-                if(n_start < 0):
-                    return ([], pdfReader)
-                #return ([], pdfReader)
-            pageTxt = pageTxt[n_start + 17:]
-
+            # leave valid data except header and tail
             n_start = pageTxt.find('rate')
             if(n_start < 0):
-                return ([], pdfReader)
+                return ([])
             pageTxt = pageTxt[n_start + 6:]
             n_start = pageTxt.find('rate')
             if(n_start < 0):
-                return ([], pdfReader)
+                return ([])
             n_end = pageTxt.find('FL resident cases')
             pageTxt = pageTxt[n_start + 5: n_end-1]
-            pageTxt2 = pageTxt.split('\n')
-            nam_num_case = []
-            for a_ccc in pageTxt2:
-                if '%' in a_ccc: pass
-                else: nam_num_case.append(a_ccc)
-            #print('lllllllllllll', (nam_num_case))  
-            #print('................', len(nam_num_case))  
+            print('??????????', pageTxt)
+            pageTxt2 = pageTxt.encode('ascii','ignore').split('\n')
+            print('++++++++++++++++', pageTxt2)
+            print('===================== extractText', len(pageTxt2), pageTxt2[:7])
+            l_data_all = []
+            l_data_county = []
+            
+            for a_data in pageTxt2:
+                b_data = a_data.replace(' ', '').replace('.', '').replace('-', '')
+                if b_data.isalpha():
+                    #print('a_data', a_data)
+                    if(len(l_data_county) == 7):
+                        l_data_all.append(l_data_county)
+                        l_data_county = []
+                    elif(len(l_data_county) == 4):
+                        l_data_c = [0] * 7
+                        l_data_c[0] = l_data_county[0]
+                        l_data_c[3] = l_data_county[1]
+                        l_data_c[4] = l_data_county[2]
+                        l_data_c[5] = l_data_county[3]
+                        l_data_all.append(l_data_c)
+                        l_data_county = []
+                    elif(len(l_data_county) == 6):
+                        l_data_c = [0] * 7
+                        l_data_c[0] = l_data_county[0]
+                        l_data_c[2] = l_data_county[1]
+                        l_data_c[3] = l_data_county[2]
+                        l_data_c[4] = l_data_county[3]
+                        l_data_c[5] = l_data_county[4]
+                        l_data_c[6] = l_data_county[5]
+                        l_data_all.append(l_data_c)
+                        l_data_county = []
+                    l_data_county.append(a_data)
+                else:
+                    l_data_county.append(a_data.replace(',', ''))
+            if(len(l_data_county) == 7):
+                l_data_all.append(l_data_county)
+                l_data_county = []
+            elif(len(l_data_county) == 4):
+                l_data_c = [0] * 7
+                l_data_c[0] = l_data_county[0]
+                l_data_c[3] = l_data_county[1]
+                l_data_c[4] = l_data_county[2]
+                l_data_c[5] = l_data_county[3]
+                l_data_all.append(l_data_c)
+                l_data_county = []
+            elif(len(l_data_county) == 6):
+                l_data_c = [0] * 7
+                l_data_c[0] = l_data_county[0]
+                l_data_c[2] = l_data_county[1]
+                l_data_c[3] = l_data_county[2]
+                l_data_c[4] = l_data_county[3]
+                l_data_c[5] = l_data_county[4]
+                l_data_c[6] = l_data_county[5]
+                l_data_all.append(l_data_c)
+                l_data_county = []
 
-
-            l_cases2 = np.reshape(nam_num_case, (len(nam_num_case)/5, 5)).T
-            l_data = np.vstack((l_cases2[0], l_cases2[3], l_cases2[4])).T 
-            #print('--------------', l_data)
-            #l_data[-2], l_data[-1] = l_data[-1], l_data[-2]
-            l_data2= l_data[:-2]
-            l_data2= np.append(l_data2, l_data[-1])
-            l_data2= np.append(l_data2, l_data[-2])
-            #print(';;;;;;;;;', l_data2)
-
-            l_cases3 = np.reshape(l_data2, (len(l_data2)/3, 3)).T
-            l_data = np.vstack((l_cases3[0], l_cases3[1], l_cases3[2])).T 
-            l_datas = np.core.defchararray.replace(l_data, ',', '')
-
-            print(';;;;;;;;;;;', l_datas)
-            return (l_datas)
+            print('===================== listing counties', len(l_data_all), l_data_all[0], l_data_all[-1])
+            arr_data_all = np.array(l_data_all)
+            print('0000000000000', arr_data_all)
+            l_cases2 = arr_data_all.T
+            l_data = np.vstack((l_cases2[0], l_cases2[4], l_cases2[5])).T 
+            return (l_data)
     ## paser data FL
     def getNumberConfirmed(self, l_numbers, a_name=''):
         #print('    getNumberConfirmed', l_numbers)
@@ -450,7 +493,7 @@ class dataGrabFl(object):
             self.name_file = name_target
             self.now_date = date_target
             #Step A download and save as raw PDF files
-            f_targeta, f_targetb = self.dataDownload(name_target)
+            f_targeta  = self.dataDownload(name_target)
             if(f_targeta == ''): return ([], name_target, '')
             #Step B read confirmed cases
             l_d_sort = self.dataReadConfirmed(f_targeta)

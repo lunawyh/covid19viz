@@ -109,68 +109,45 @@ class dataGrabWY(object):
         #stateNames = siteOpen.find_elements_by_xpath('//div[@class="bc-row-label row-label chart-text label"]')
 
         print('++++++++++', caseNumbers)
+        
         case_num_list = []
         for case_num in caseNumbers:  # this is cases------------------------------------bc-bar-inner dw-rect
             dStringList = case_num.text.split()
-            print('  ------------case_num', dStringList )
+            #print('  ------------case_num', dStringList )
             if 'Cumulative' in dStringList:
-                case_num_list.append(dStringList)
-        print('================', case_num_list)
-        strs= ''.join(str(e) for e in case_num_list)
-        print('***********', strs)
-        n_start = strs.find('Albany')
-        a_list = strs[n_start:]
-        print('###############', a_list)
-        c_list= a_list.split('u')
-        print('###############', c_list)
+                case_num_list=(dStringList)
+        print('2222222222222222222222',case_num_list )
+        l_cnl = case_num_list[31: ]
+        print('11111111111111111111', l_cnl)
 
-        d_list =[]
-        for a_cc in c_list:
-            cccc= a_cc.replace(",",'').replace("'", "").replace("(", "").replace(")", "").replace("]", "").replace(" ", "")
-            d_list.append(cccc)
-        print('////////////////', d_list)
-        e_list =[]
-        for a_l in d_list:
-            if a_l =='Big': 
-                e_list.append('Big Horn')
+        l_list = []
+
+        for cnl in l_cnl:
+            if cnl == "Big": continue
+            if cnl == "Horn:": 
+                l_list.append('Big Horn')
                 continue
-            if a_l == "Horn" : continue
-            if a_l =="Hot": 
-                e_list.append('Hot Springs')
+            if cnl == "Hot": continue
+            if cnl == "Springs:": 
+                l_list.append('Hot Springs')
                 continue
-            if a_l == "Springs" : continue
-            if a_l =="S": 
-                e_list.append('Sublette')
-                continue
-            if a_l == "blette" : continue
-            else: e_list.append(a_l)
-        #e_list.remove('Big')   
-        #e_list.remove('Horn') 
-        #e_list.remove('Hot') 
-        #e_list.remove('Springs') 
-        #e_list.remove('S') 
-        #e_list.remove('blette')         
-        
-        print('@@@@@@@@@@@@@@', e_list)
-        print('###############', len(e_list))
-        l_cases2 = np.reshape(e_list, (len(e_list)/3, 3)).T
-        print('------------', l_cases2)
+            else: 
+                l_list.append(cnl.replace(':', '').replace(',', ''))
+        print('333333333333333333333', l_list)
+        l_cases2 = np.reshape(l_list, (len(l_list)/3, 3)).T
         zeros= [0]*len(l_cases2[0])
-
-        print('&&&&&&&', l_cases2[0])
-        print('&&&&&&&', l_cases2[1])
-        print('&&&&&&&', zeros)
-        l_data = np.vstack((l_cases2[0], l_cases2[1], zeros)).T 
-        print('------------', l_data)
-
+        l_data = np.vstack((l_cases2[0], l_cases2[1], zeros)).T
+        print('..................', l_data)
+  
         case = 0
         death = 0
         for a_da in l_data:
             case += int(a_da[1])
             death += int(a_da[2])
         l_cases3 = np.append(l_data, [['Total', case, death]], axis=0)
-        print('[[[[[[[[[[[[[', l_cases3)
-        siteOpen.close()
+        #print('[[[[[[[[[[[[[', l_cases3)
+
+        print('//////////', l_cases3)
         return l_cases3
 
     

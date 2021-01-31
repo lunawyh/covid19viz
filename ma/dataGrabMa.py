@@ -1,8 +1,9 @@
+   
 #!/usr/bin/env python
 # -*- coding: utf8 -*-
-# 			dataGrabOh.py
+# 			dataGrabTx.py
 #
-#	grab data from OH state websites
+#	grab data from TX state websites
 #
 #
 
@@ -14,17 +15,14 @@ import os
 from os.path import isfile, join
 import pandas as pd
 import csv
-import datetime 
 import urllib
 import ssl
-import requests
+import datetime 
 from lxml import html
-import zipfile
-import StringIO
+import requests
 # ==============================================================================
 # -- codes -------------------------------------------------------------------
-# ==============================================================================
-
+# ============================================================================== ## save downloaded data to daily or overal data 
 # class for dataGrab
 class dataGrabMa(object):
     ## the start entry of this class
@@ -35,15 +33,12 @@ class dataGrabMa(object):
         self.state_name = n_state
         self.state_dir = './'+n_state.lower()+'/'
         self.l_state_config = l_config
-        self.name_file = ''
-        self.now_date = ''
-    ## save to csv
-    def downloadFileMa(self, link_name):
-        urllib.urlopen(link_nameg)
 
+
+    ## save to csv 
     def save2File(self, l_data, csv_name):
-        csv_data_f = open(csv_name, 'wb')
-        # create the csv writer
+        csv_data_f = open(csv_name, 'w')
+        # create the csv writer 
         csvwriter = csv.writer(csv_data_f)
         # make sure the 1st row is colum names
         if('County' in str(l_data[0][0])): pass
@@ -51,153 +46,154 @@ class dataGrabMa(object):
         for a_row in l_data:
             csvwriter.writerow(a_row)
         csv_data_f.close()
-    ## parse from exel format to list
+
+
+    def saveWebsite(self, fRaw):
+        csv_url = self.l_state_config[5][1]
+        print('  download4Website', csv_url)
+        driver = webdriver.Chrome()
+        driver.get(csv_url)
+        time.sleep(5)
+        driver.find_elements_by_link_text('By County')[0].click()
+        '''do we need to add 
+        driver.find_elements_by_link_text('All')[0].click() 
+        ? '''
+        #time.sleep(1)
+        #driver.find_element_by_id("input-filter").send_keys("Alexander")
+        time.sleep(1)
+        #driver.find_element_by_id("myDiv").click()
+        #ActionChains(driver).double_click(qqq).perform()
+        driver.execute_script('createTableRows(99);')
+        time.sleep(1)
+        page_text = driver.page_source
+        with open(fRaw, "w") as fp:
+            fp.write(page_text.encode('utf8'))
+        time.sleep(1)
+        driver.quit()  # close the window
+        #f = file('test', 'r')
+        #print f.read().decode('utf8')
+
+    ## open a website 
+    def open4Website(self, fRaw):
+        #csv_url = "https://www.michigan.gov/coronavirus/0,9753,7-406-98163-520743--,00.html"
+        #csv_url = 'https://www.michigan.gov/coronavirus/0,9753,7-406-98163_98173---,00.html'
+        csv_url = self.l_state_config[5][2]
+        # save html file
+        #urllib.urlretrieve(csv_url, fRaw)
+        # save html file
+        c_page = requests.get(csv_url)
+        c_tree = html.fromstring(c_page.content)
+        l_dates = c_tree.xpath('//h5/text()')
+        print('----------', l_dates)
+        for l_date in l_dates:
+            if('Datasets ' in l_date):
+                a_date = l_date.replace('Public Use Datasets ', '')
+                #a_date = a_date[2:]
+                print('  a_date', a_date)
+                #ccc= a_date.replace('\xa0', '')
+                #print('  111111111', a_date)
+                dt_obj = datetime.datetime.strptime(a_date, '%m/%d/%Y')
+                self.name_file = dt_obj.strftime('%Y%m%d')
+                self.now_date = dt_obj.strftime('%m/%d/%Y')
+                break
+        return True
+    ## parse from exel format to list 
     def parseDfData(self, df, fName=None):
-        (n_rows, n_columns) = df.shape
+        (n_rows, n_columns) = df.shape 
         # check shape
-        # print('parseDfData', df.title)
+        #print('parseDfData', df.title)
         lst_data = []
         for ii in range(n_rows):
             a_case = []
             for jj in range(n_columns):
-                if (str(df.iloc[ii, jj]) == 'nan'):
-                    a_case.append(0)
+                #is the 'iloc(select rows and columns by number)' is ' nan(not a number)'
+                if( str(df.iloc[ii, jj]) == 'nan'  ): 
+                    a_case.append( 0 )
+
                     continue
-                a_case.append(df.iloc[ii, jj])
-            lst_data.append(a_case)
+                #a_case will have all the data from the 'data'
+                a_case.append( df.iloc[ii, jj] )
+            lst_data.append( a_case )
         # save to a database file
-        if (fName is not None): self.save2File(lst_data, fName)
+        #if the file do not already exist
+        if(fName is not None): self.save2File( lst_data, fName )
+        #return the data that turned in to a ?? now you can use it?
         return lst_data
-
-    ## open a csv
-    def open4File(self, csv_name):
-        if (isfile(csv_name)):
-            df = pd.read_csv(csv_name)
-            l_data = self.parseDfData(df)
-        else:
-            return []
-        return l_data
-    ## open a csv
-    def open4FileBuffer(self, csv_data):
-        lst_data = []
-        reader = csv.reader(csv_data)
-        for row in reader:
-            lst_data.append(row)
-        return lst_data
-
-    ## save to csv
-    def saveLatestDateMa(self, l_data):
-        print('  saveLatestDateMa ...')
-        l_d_sort = sorted(l_data, key=lambda k: k[0], reverse=False)
-        # find different date time
-        l_date = []
-        for a_item in l_d_sort:
-            if('/' in a_item[0]): pass
+    ## save downloaded data to daily or overal data 
+    def saveLatestDateTx(self, l_raw_data, name_file):
+        l_overall = []
+        offset = 0   # after 5/5 changed from 1 to 0
+        total_cases, total_death = 0, 0
+        l_overall.append(['County', 'Cases', 'Deaths'])
+        for a_item in l_raw_data:
+            if ('Confirmed' in a_item[1]): pass
             else: continue
-            bFound = False
-            for a_date in l_date:
-                if(a_date in a_item[0]):
-                    bFound = True
-                    break
-            if(not bFound):
-                l_date.append(a_item[0])
-        print('  data in days', len(l_date) )
-        # generate all daily data
-        l_daily_latest = []
-        max_name_file = '20200101'
-        for a_date in l_date:
-            l_daily, n_name_file  = self.saveDataFromDlMa(l_d_sort, a_date, bDaily=False)
-            if(n_name_file > max_name_file): 
-                max_name_file = n_name_file
-                l_daily_latest = l_daily
-                dt_obj = datetime.datetime.strptime(n_name_file, '%Y%m%d')
-                self.name_file = dt_obj.strftime('%Y%m%d')
-                self.now_date = dt_obj.strftime('%m/%d/%Y')
-        return l_daily_latest
-
-    def saveDataFromDlMa(self, l_data, a_test_date, bDaily=True):
-        initial_test_date = None
-        #
-        l_overral = []
-        #
-        total_overral = 0
-        total_overral_deaths = 0
-        n_name_file = '20200101'
-        for a_item in l_data:
-            #if (a_test_date is None):
-            if (initial_test_date is None and a_test_date in a_item[0]):
-                initial_test_date = a_test_date
-                dt_obj = datetime.datetime.strptime(a_test_date, '%m/%d/%Y')
-                n_name_file = dt_obj.strftime('%Y%m%d')
+            total_cases += a_item[2]
+            total_death += a_item[3]
                 
-            elif (a_test_date in a_item[0]):
-                pass
-            else:
-                continue
-            if('' == a_item[2]): a_item[2] = 0
-            if('' == a_item[3]): a_item[3] = 0
-            total_overral += int(a_item[2])
-            total_overral_deaths += int(a_item[3])
-            #
-            l_overral.append([a_item[1], a_item[2], a_item[3]])
-        l_overral.sort(key=lambda county: county[0])
-        #
-        l_overral.append(['Total', total_overral, total_overral_deaths])
-        #
-        if (not os.path.isdir(self.state_dir + 'data/')): os.mkdir(self.state_dir + 'data/')
-        #
-        self.save2File(l_overral,
-                       self.state_dir + 'data/' + self.state_name.lower() + '_covid19_' + n_name_file + '.csv')
+            l_overall.append([a_item[0], a_item[2], a_item[3]])  
+        l_overall.append(['Total', total_cases, total_death])  
+        print ('  Total', total_cases, total_death)
+        print('333333333333333333333333333333333', l_overall)
+        self.save2File(l_overall, self.state_dir + 'data/'+self.state_name.lower()+'_covid19_'+name_file+'.csv')
+        return l_overall
+    ## open a xlsx 
+    def open4Xlsx(self, xlsx_name):
+        l_data = []
+        if(isfile(xlsx_name) ):
+            xl_file = pd.ExcelFile(xlsx_name)
+            print('  sheet_names', xl_file.sheet_names)
+            nfx = ''
+            for sheet in xl_file.sheet_names:  # try to find known name of sheet
+                if ('Sheet 1' in (sheet)) or ('Data' in (sheet)):
+                    print('  select sheet', sheet)
+                    nfx = sheet
+                    break
+            if nfx == '': # if not found, use the 1st sheet
+                if(len(xl_file.sheet_names) > 0): nfx = xl_file.sheet_names[0]
+                else: return []
+            df = xl_file.parse( nfx )
+            
+            l_data = self.parseDfData(df)
+            #print('  l_data', l_data)
 
-        return l_overral, n_name_file
+        return l_data
 
-    def downloadAndParseLink(self,fRaw):
-        htmlPage = requests.get(fRaw)
-        tree = html.fromstring(htmlPage.content)
-        division = tree.xpath('//p//a/@href')
-        link = division[0]
-        link = "https://www.mass.gov" + link
-        print("  get link: " + link)
-        l_date = link.split('/')[4].split('-')
-        print("  get date: ", l_date[4:])
-        return link
-
-
-    ## download a website
-    def download4Website(self, fRaw):
-        zip_url = self.l_state_config[5][1]
-        #print(self.downloadAndParseLink(zip_url))
-        #print('  download4Website from', zip_url)
-        # get the updated date from the website
-        # update self.name_file and self.now_date
-        print('  download4Website ...')
-        #c_page = requests.get(self.l_state_config[5][1])
-        #c_page = requests.get(self.l_state_config[5][2])
-        # save csv file
-        link_zip = self.downloadAndParseLink(zip_url)
-        r = requests.get(link_zip)
-        with open(fRaw, 'wb') as f:
-            f.write(r.content)
-        print('  saved to', fRaw)
-        #r_zip = zipfile.ZipFile(StringIO.StringIO(r.content))
-        #r_zip.extract('County.csv',l_name)
-        r_zip = zipfile.ZipFile(fRaw, 'r')
-        data_csv = r_zip.open('County.csv')
-        #l_data = self.parseDfData(df_data_county)
-        return data_csv
+    ## $^&&
+    def open4excel(self, name_file):
+        csv_url = self.l_state_config[5][1]
+        print('  #$$search website', csv_url)
+        # save html file
+        #urllib.urlretrieve(csv_url, fRaw)
+        # save html file
+        c_page = requests.get(csv_url)
+        c_tree = html.fromstring(c_page.content)
+        l_dates = c_tree.xpath('//div//div//ul//li//a')  # ('//div[@class="col-xs-12 button--wrap"]')
+        a_address = ''
+        for l_date in l_dates:
+            #print(l_date.text_content())
+            if('COVID-19 Raw Data' in l_date.text_content()):
+                a_address = 'https://www.mass.gov' + l_date.get('href')
+                print(' $$$$$$$$$ find .xls at', a_address)
+                break
+        f_n_total = self.state_dir + 'data_raw/'+self.state_name.lower()+'_covid19_'+self.name_file+'.xlsx'
+        return a_address
     ## paser data CA
-    def parseData(self, name_target, date_target, type_download):
-            self.name_file = name_target
-            f_name = self.state_dir + 'data_raw/'+self.state_name.lower()+'_covid19_'+self.name_file+'.zip'
-            #l_name = self.state_dir + 'data_raw/'
+    def parseData(self, name_file, date_target, type_download):
+            self.name_file = name_file
+            # step A: read date
+            self.open4Website(name_file)
+            urlData = self.open4excel(name_file)
+            #self.open4excel(name_file)
+            # step B: save raw
+            f_name = self.state_dir + 'data_raw/'+self.state_name.lower()+'_covid19_'+self.name_file+'.html'
+            f_n_total = self.state_dir + 'data_raw/'+self.state_name.lower()+'_covid19_'+self.name_file+'.xlsx'
             if(not os.path.isdir(self.state_dir + 'data_raw/') ): os.mkdir(self.state_dir + 'data_raw/')
-            # step A: downlowd and save
-            data_csv = self.download4Website(f_name)
-            # step B: parse and open
-            lst_raw_data = self.open4FileBuffer(data_csv)
-            # step C: convert to standard file and save
-            lst_data = self.saveLatestDateMa(lst_raw_data)
-            print(lst_data)
-            return(lst_data, self.name_file, self.now_date)
+            # 
+            urllib.urlretrieve(urlData, f_n_total)
+            urllib.urlretrieve(self.l_state_config[5][1], f_name)
+            # step C: read data file and convert to standard file and save
+            lst_raw_data = self.open4Xlsx(f_n_total)
 
-## end of file
+            lst_data = self.saveLatestDateTx(lst_raw_data, self.name_file)
+            return(lst_data, self.name_file, self.now_date)  

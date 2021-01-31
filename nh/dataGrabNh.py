@@ -23,14 +23,21 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 import time
-# $ sudo apt install tesseract-ocr
-# $ sudo apt install libtesseract-dev
+#  Refer to https://pypi.org/project/pytesseract/
+#       sudo add-apt-repository ppa:alex-p/tesseract-ocr-devel
+#       sudo apt-get update
+#
+#       sudo apt install tesseract-ocr
+#       sudo apt install libtesseract-dev
+#
+#       sudo pip install pytesseract==0.3.0
+#      
 import pytesseract
 import cv2
+#
+#       sudo pip install pdfminer==20191010
+#       sudo pip install pdfminer.six
 from pdfminer.high_level import extract_text
-
-
-#from pdfminer.high_level import extract_text
 import numpy as np
 
 
@@ -100,6 +107,9 @@ class dataGrabNh(object):
         custom_config = r'--oem 3 --psm 6'
         if os.name == 'nt':
             pytesseract.pytesseract.tesseract_cmd = 'C:\Program Files\Tesseract-OCR\\tesseract.exe'
+        #    print('in Windows, the path of tesseract_cmd is set')
+        #else: # /usr/bin/tesseract /usr/local/bin/tesseract /usr/include/tesseract /snap/bin/tesseract /usr/share/man/man1/tesseract.1.gz
+        #    pytesseract.pytesseract.tesseract_cmd = '/usr/bin/tesseract'
         text = ''
         crop_img = img[300:620, 260:560]
         crop_img = cv2.resize(crop_img, (0, 0), fx=5, fy=5)
@@ -107,7 +117,6 @@ class dataGrabNh(object):
         #cv2.imwrite(filename, crop_img)
         cv2.imshow("readDataFromPng", crop_img)
         key = cv2.waitKeyEx(3000)
-        #return the extracted line
         text = pytesseract.image_to_string(crop_img, config=custom_config).encode('utf8')
         #print("  readDataFromPng:",text.splitlines())
         return text.splitlines()

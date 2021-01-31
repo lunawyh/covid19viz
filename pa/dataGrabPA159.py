@@ -68,6 +68,8 @@ class dataGrabPA(object):
                 #print('   sss', l_date) 
                 a_address = 'https://www.health.pa.gov' + l_date.get('href')
                 print('  find pdf 1 at', a_address)
+                f_n_total = self.state_dir + 'data_raw/'+self.state_name.lower()+'_covid19_'+self.name_file+'.pdf'
+                urllib.urlretrieve(a_address, f_n_total)
             if('Death by county of residence' in l_date.text_content() or 'See state linelist' in l_date.text_content()):
                 #print('   sss', l_date)
                 b_address = 'https://www.health.pa.gov' + l_date.get('href')
@@ -139,7 +141,7 @@ class dataGrabPA(object):
             text = extract_text(f_namea)
             #print('  ...................dataReadConfirmed', text)
             l_text = text.split('\n')
-            #print('  ...................222222', l_text)
+            print('  ...................222222', l_text)
             l_cases1 = []
             l_cases1_sub = []
             #print(';;;;;;;;;;;;', l_text)
@@ -149,79 +151,162 @@ class dataGrabPA(object):
                     l_cases1_sub = []
                 else:
                     l_cases1_sub.append(a_text)
-            #print('  l_cases1', len(l_cases1), len(l_cases1[0]))        
+            print('  l_cases1', len(l_cases1), len(l_cases1[0]))        
             for l_sub1 in l_cases1:
                 pass #print('  l_sub1', l_sub1[0])
             #return []
             #print('/////////////', l_cases1)
-            listch= []
-            lisss= []
-            for case in l_cases1[0]:
-                sss= case.replace('\x0c', '')
-                if(len(sss) > 2): listch.append(sss)
 
-            for case in l_cases1[9]:
-                sss= case.replace('\x0c', '')
-                if(len(sss) > 2): lisss.append(sss)
+            # state name from orginal ======================================================
+            county_names = []
+            for a_li in l_cases1:
+                if 'ADAMS' in a_li:
+                    county_names = a_li
+            #print('1111111111111', county_names)
 
-            nam_list = listch[1:] + lisss
+            b_county_names2 = []
+            for a_li in l_cases1:
+                if 'YORK' in a_li:
+                    b_county_names2 = a_li
+            #print('222222222222222', b_county_names2)
+            # state name change ======================================================
+            c_county_names = []
+            for a_not in county_names:
+                if a_not == "County": continue
+                else: 
+                    not_1 = a_not.lower()
+                    not_2 = not_1[0].upper() + not_1[1:]
+                    c_county_names.append(not_2)
+            #print('333333333333333', c_county_names)
 
-            name_l = []
-            for ccc in nam_list:
-                sss = ccc.lower()
-                ttt= sss[0].upper() + sss[1:]
-                print(ttt)
-                name_l .append(ttt)
-           
-     
-            num_list = l_cases1[5] + l_cases1[10]            
-            print('  num list  ..........', len(num_list))
-            print('  name list ..........', len(nam_list))
-            NamNum_list = np.vstack( (nam_list, num_list, [0]*len(nam_list) )).T
+            #find the first case list ===========================================================
+            a_cases= []
+            for a_li in l_cases1:
+                if len(a_li) == len(c_county_names):
+                    a_cases = a_li
+                    break
+            #print('4444444444444444', a_cases)
 
-            return (NamNum_list)
+            #change the second name list ===========================================================
+            d_county_names2 = []
+            for a_cc in b_county_names2:
+                b_cc = a_cc.replace('\x0c', '')
+                if len(b_cc) <= 2:continue
+                else:
+                    b_cc_1 = b_cc.lower()
+                    b_cct_2 = b_cc_1[0].upper() + b_cc_1[1:]
+                    d_county_names2.append(b_cct_2)
+            #print('5555555555', d_county_names2)
+
+            #find the second case list ===========================================================
+            b_cases2= []
+            for a_li in l_cases1:
+                if len(a_li) == len(d_county_names2):
+                    b_cases2 = a_li
+                    break
+            #print('666666666666', b_cases2)
+
+            case_name = c_county_names+ d_county_names2
+            case_number = a_cases + b_cases2
+            zeros = [0]*len(case_name)
+            e_NamNum_list = np.vstack((case_name, case_number, zeros)).T
+            print('***********', e_NamNum_list)
+
+
+            return e_NamNum_list
+            '''
             #---------------------------death-------------------------
             print('  B.dataReadConfirmed on page 1', f_namea)
             # step B: parse and open
             text = extract_text(f_nameb)
             #print('  dataReadConfirmed', text)
             l_text = text.split('\n')
-            l_cases1 = []
+            l_cases2 = []
             l_cases1_sub = []
             print(';;;;;;;;;;;;', l_text)
 
 
             for a_text in l_text:
                 if(a_text == '' and len(l_cases1_sub)>0 ):
-                    l_cases1.append(l_cases1_sub)
+                    l_cases2.append(l_cases1_sub)
                     l_cases1_sub = []
                 else:
                     l_cases1_sub.append(a_text)
             #print('  l_cases1', len(l_cases1), len(l_cases1[0]))        
-            for l_sub1 in l_cases1:
+            for l_sub1 in l_cases2:
                 print('  l_sub1', l_sub1[0])
-            print('/////////////', l_cases1)
+            print('/////////////', l_cases2)
 
-            d_case1=[]
-            for dcase in l_cases1[12]:
-                d_case1.append(dcase.replace('\x0c', '').replace(',', ''))
-            #print(';;;;;', d_case1)
+            # state name from orginal ======================================================
+            county_names = []
+            for a_li in l_cases2:
+                if 'Adams' in a_li:
+                    county_names = a_li
+            print('1111111111111', county_names)
 
-            deth_nam = l_cases1[3][1:] + l_cases1[11][1:]
-            #print('death state name;;;;', deth_nam)
-            deth_case = l_cases1[4] + d_case1
-            #print('death case num;;;;', deth_case)
-            #print('death name', len(deth_nam))
-            #print('death cases', len(deth_case))
+            b_county_names2 = []
+            for a_li in l_cases2:
+                if 'York' in a_li:
+                    b_county_names2 = a_li
+            print('222222222222222', b_county_names2)
+            # state name change ======================================================
+            c_county_names = []
+            for a_not in county_names:
+                if a_not == "County": continue
+                else: 
+                    not_1 = a_not.lower()
+                    not_2 = not_1[0].upper() + not_1[1:]
+                    c_county_names.append(not_2.replace('\xef', ''))
+            print('333333333333333', c_county_names)
+
+            #find the first case list ===========================================================
+            a_cases= []
+            for a_li in l_cases2:
+                if len(a_li) == len(c_county_names):
+                    a_cases = a_li
+                    break
+            print('4444444444444444', a_cases)
+
+            #change the second name list ===========================================================
+            d_county_names2 = []
+            for a_cc in b_county_names2:
+                b_cc = a_cc.replace('\x0c', '')
+                if len(b_cc) <= 2:continue
+                else:
+                    b_cc_1 = b_cc.lower()
+                    b_cct_2 = b_cc_1[0].upper() + b_cc_1[1:]
+                    d_county_names2.append(b_cct_2.replace('\xef', ''))
+            print('5555555555', d_county_names2)
+
+            #find the second case list ===========================================================
+            b_cases2= []
+            for a_li in l_cases2:
+              
+                if len(a_li) == len(d_county_names2)+1:
+                    b_cases2 = a_li
+                    break
+            print('666666666666', b_cases2)
+
+
+
+
+
+
+
+            deth_nam = c_county_names + d_county_names2
+
+            deth_case = a_cases + b_cases2[:-1]
+
             d_NamNum_list = np.vstack((deth_nam, deth_case)).T
             print('death list', d_NamNum_list)
 
             #----------------------------------------------------
+
             finall_list = []
             print('', type(d_NamNum_list))
-
+        
             #for death in d_NamNum_list and for case in NamNum_list:
-            for (death, case) in zip(d_NamNum_list, NamNum_list):
+            for (death, case) in zip(d_NamNum_list, e_NamNum_list):
 		#print('death....', death)
 		#for case in NamNum_list :
 			if case[0] == death[0]:
@@ -233,8 +318,18 @@ class dataGrabPA(object):
 			else: 
 				finall_list.append([case[0], case[1], case[2]])
 				break
+            
 
 
+            res_list = [] 
+            for (i) in range(0, len(d_NamNum_list), len(e_NamNum_list)) : 
+                if d_NamNum_list[i][0] == e_NamNum_list[i][0] : 
+                    res_list.append([e_NamNum_list[i][0], e_NamNum_list[i][1], d_NamNum_list[i][1]]) 
+            print(';;;;;;;;;;;;;;;;', res_list)
+
+                    
+                    
+            
             total_death = 0
             total_case = 0
             for a_line in finall_list:
@@ -244,6 +339,7 @@ class dataGrabPA(object):
 
 
             print(';;;;;;;;;;;;;;;;', finall_list)
+            '''
 
             return (finall_list)
 

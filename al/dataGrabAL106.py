@@ -95,7 +95,11 @@ class dataGrabAL(object):
         csv_url = self.l_state_config[5][1]
         print('  download4Website', csv_url)
 
-        siteOpen = webdriver.Chrome()
+        #chrome_options = Options()
+        #chrome_options.add_argument('--no-sandbox')
+        #chrome_options.add_argument('--headless')
+
+        siteOpen = webdriver.Chrome() #chrome_options=chrome_options)
         siteOpen.get(csv_url)
         time.sleep(7)
 
@@ -106,7 +110,7 @@ class dataGrabAL(object):
             f.write(c_page.content)
         print('  saved to ', fRaw)
 
-        caseNumbers = siteOpen.find_elements_by_xpath('//td[@data-field="FIELD_EXP_0"]')
+        caseNumbers = siteOpen.find_elements_by_xpath('//td[@data-field="CNTYFIPS"]')
         #stateNames = siteOpen.find_elements_by_xpath('//div[@class="bc-row-label row-label chart-text label"]')
 
         #print('++++++++++', caseNumbers)
@@ -148,11 +152,11 @@ class dataGrabAL(object):
         state_case_list= list(itertools.chain.from_iterable(state_case_list))
         state_death_list= list(itertools.chain.from_iterable(state_death_list))
         print('11111', len(case_n))
-        print('22222', len(state_case_list))
+        #print('22222', len(state_case_list))
         print('33333', len(state_death_list))
         print('11111111111111',case_n )
-        print('11111111111111',state_case_list )
-        print('11111111111111',state_death_list )
+        #print('11111111111111',state_case_list )
+        #print('11111111111111',state_death_list )
         l_data = np.vstack((case_n, state_case_list, state_death_list)).T 
         #l_data2_case = np.vstack((l_data_case[0], l_data_case[1], l_data_case[2])).T 
         print('  saveWebsite: read data ', (l_data) )
