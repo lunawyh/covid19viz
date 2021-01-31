@@ -41,87 +41,125 @@ class dataGrabID(object):
 
     ## save to csv 
     def openSite(self, f_name, s_name, page_url,d_name):
-        chrome_options1 = webdriver.ChromeOptions()
-        prefs = {'download.default_directory': f_name}
-        chrome_options1.add_experimental_option('prefs', prefs)
-        siteOpen = webdriver.Chrome(chrome_options=chrome_options1)
-        siteOpen.get(page_url)
+        if os.path.exists(d_name) == False:
+            chrome_options1 = webdriver.ChromeOptions()
+            prefs = {'download.default_directory': f_name}
+            chrome_options1.add_experimental_option('prefs', prefs)
+            siteOpen = webdriver.Chrome(chrome_options=chrome_options1)
+            siteOpen.get(page_url)
 
-        while True:
-            time.sleep(1)
-            if siteOpen.find_elements_by_xpath("//iframe[@title='Data Visualization']") != []:
-                break
+            while True:
+                time.sleep(1)
+                if siteOpen.find_elements_by_xpath("//iframe[@title='Data Visualization']") != []:
+                    break
 
-        iframe = siteOpen.find_element_by_xpath("//iframe[@title='Data Visualization']")
-        siteOpen.switch_to.frame(iframe)
-        while True:
-            time.sleep(1)
-            if siteOpen.find_elements_by_xpath("//div[@role='button']") != []:
-                break
-        buttonslist = siteOpen.find_elements_by_xpath("//div[@role='button']")
-        buttonslist[len(buttonslist)-2].click()
-        while True:
-            time.sleep(1)
-            if siteOpen.find_elements_by_xpath("//button") != []:
-                break
+            iframe = siteOpen.find_element_by_xpath("//iframe[@title='Data Visualization']")
+            siteOpen.switch_to.frame(iframe)
+            while True:
+                time.sleep(1)
+                if siteOpen.find_elements_by_xpath("//div[@role='button']") != []:
+                    break
+            buttonslist = siteOpen.find_elements_by_xpath("//div[@role='button']")
+            buttonslist[len(buttonslist)-2].click()
+            while True:
+                time.sleep(1)
+                if siteOpen.find_elements_by_xpath("//button") != []:
+                    break
 
-        buttonslist2 = siteOpen.find_elements_by_xpath("//div[@role='button']")
-        down_button = buttonslist2[len(buttonslist2) - 5]
-        siteOpen.execute_script("document.getElementsByClassName('fppw03o low-density')[1].click()")
+            buttonslist2 = siteOpen.find_elements_by_xpath("//div[@role='button']")
+            down_button = buttonslist2[len(buttonslist2) - 5]
+            siteOpen.execute_script("document.getElementsByClassName('fppw03o low-density')[1].click()")
 
-        time.sleep(5)
+            time.sleep(5)
         
         
-        siteOpen.switch_to.window(siteOpen.window_handles[1])
+        #siteOpen.switch_to.window(siteOpen.window_handles[1])
 
-        time.sleep(1)
-        link = siteOpen.find_elements_by_xpath("//a[@class='csvLink_summary']")[0].get_attribute("href")
-        siteOpen.get(str(link))
+        #time.sleep(1)
+        #link = siteOpen.find_elements_by_xpath("//a[@class='csvLink_summary']")[
+        # 0].get_attribute("href")
+        #siteOpen.get(str(link))
 
-        os.rename((f_name+"\County.png"),d_name)
-        self.readDataFromPng(d_name)
+            os.rename("C:\Dennis\Covid19\covid19viz\id\data_raw\County.png",d_name)
+        cases,deaths = self.readDataFromPng(d_name)
+        return cases,deaths
 
-
-
-    def readDataFromPng(self, f_namea):
-        print('  B.readDataFromPng', f_namea)
+    def readDataFromPng(self, d_name):
+        print('  B.readDataFromPng', d_name)
         # step B: parse and open
         #---------------------------case-------------------------
-        img = cv2.imread(f_namea)
+        img = cv2.imread(d_name)
         custom_config = r'--oem 3 --psm 6'
         if os.name == 'nt':
             pytesseract.pytesseract.tesseract_cmd = 'C:\Program Files\Tesseract-OCR\\tesseract.exe'
         text = ''
-        '''crop_img = img[300:620, 260:560]
-        crop_img = cv2.resize(crop_img, (0, 0), fx=5, fy=5)'''
+        crop_img = img[722:1612, 479:580]
+        crop_img = cv2.resize(crop_img, (0, 0), fx=5, fy=5)
+        crop_img = crop_img * (70/127 + 1) - 70
+        cv2.imwrite("C:\Dennis\Covid19\covid19viz\id\data_raw\id.png",crop_img)
         cv2.imshow("readDataFromPng", crop_img)
         key = cv2.waitKeyEx(3000)
-        text = pytesseract.image_to_string(crop_img, config=custom_config).encode('utf8')
+        text1 = pytesseract.image_to_string(crop_img, config=custom_config).encode('utf8')
         print(text.splitlines())
-        return text.splitlines()
 
-    def save_data(self, f_name, s_name, data_csv):
+        crop_img = img[722:1612, 866:967]
+        crop_img = cv2.resize(crop_img, (0, 0), fx=5, fy=5)
+        crop_img = crop_img * (100 / 127 + 1) - 100
+        cv2.imwrite("C:\Dennis\Covid19\covid19viz\id\data_raw\id.png", crop_img)
+        cv2.imshow("readDataFromPng", crop_img)
+        key = cv2.waitKeyEx(3000)
+        text2 = pytesseract.image_to_string(crop_img, config=custom_config).encode('utf8')
+
+        return text1,text2
+
+    def save_data(self, f_name, s_name, c,d):
         allList = []
         allList.append(['County', 'Cases', 'Deaths'])
-        with open('C:\Dennis\Covid19\covid19viz\id\data_raw\id_covid19_20210102.csv') as f:
-            reader1 = csv.reader(f)
-            data = list(reader1)
+        countyList = enumerate(['Ada','Adams','Bannock','Bear Lake','Benewah','Bingham','Blaine',
+                            'Boise',
+                      'Bonner','Bonneville','Boundary',
+                      'Butte','Camas','Canyon','Caribou','Cassia',
+                      'Clark','Clearwater','Custer','Elmore','Franklin','Fremont',
+                      'Gem','Gooding',
+                      'Idaho','Jefferson','Jerome','Kootenai','Latah','Lemhi','Lewis','Lincoln',
+                      'Madison','Minidoka',
+                      'Nez Perce','Oneida','Owyhee',
+                      'Payette','Power',
+                      'Shoshone','Teton','Twin Falls','Valley','Washington'])
+
+        c_list = enumerate(c.splitlines())
+        d_list = enumerate(d.splitlines())
+
+        for c in c_list:
+            for c1 in c:
+                if c1 == ",":
+                    c.replace('')
+        for d,d1 in d_list:
+            if d1 == "\n":
+                d_list.pop(d)
+
+        for i,l in countyList:
+            allList.append([l,c_list[i],d_list[i]])
+
+
+        with open(s_name,"w") as f:
+            wr = csv.writer(f, quoting=csv.QUOTE_ALL)
+            for c in allList:
+                wr.writerow(c)
+            f.close()
         print(data)
-        if data[1] != "Deaths" and data[1] != "Total Cases":
+        if data[1] != "Deaths" and data[1] != "Total Cases": pass
 
-
-    ## paser data RI
     def parseData(self, name_target, date_target, type_download):
         self.name_file = name_target
-        f_name ="C:\Dennis\Covid19\covid19viz\id\data_raw"
+        f_name = "C:\Dennis\Covid19\covid19viz\id\data_raw"
         s_name = self.state_dir + 'data/' + self.state_name.lower() + '_covid19_' + self.name_file + '.csv'
-        d_name = self.state_dir + 'data_raw/' + self.state_name.lower() + '_covid19_' + self.name_file + '.csv'
+        d_name = self.state_dir + 'data_raw/' + self.state_name.lower() + '_covid19_' + \
+                 self.name_file + '.png'
         page_url = self.l_state_config[5][1]
         if (not os.path.isdir(self.state_dir + 'data_raw/')): os.mkdir(self.state_dir + 'data_raw/')
         # step A: downlowd and save
-        data_csv= self.openSite(f_name, s_name, page_url,d_name)'
-        data_csv = self.save_data(f_name, s_name, data_csv)
+        c,d = self.openSite(f_name, s_name, page_url, d_name)
+        data_csv = self.save_data(f_name, s_name, c,d)
         print('  total list of cases', len(data_csv))
         return (data_csv, self.name_file, self.now_date)
-## end of file
-
