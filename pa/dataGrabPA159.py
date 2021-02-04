@@ -59,7 +59,7 @@ class dataGrabPA(object):
         c_page = requests.get(csv_url)
         c_tree = html.fromstring(c_page.content)
         # get pdf address
-        l_dates = c_tree.xpath('//div//li//a')  # ('//div[@class="col-xs-12 button--wrap"]')
+        l_dates = c_tree.xpath('//ul//ul//li//a')  # ('//div[@class="col-xs-12 button--wrap"]')
         #print('   dddd', l_dates)
         a_address, b_address = '', ''
         for l_date in l_dates:
@@ -76,13 +76,13 @@ class dataGrabPA(object):
                 print('  find pdf 2 at', b_address)
                 #break
         # get updated time
-        l_dates = c_tree.xpath('//div//p//em/text()')  
+        l_dates = c_tree.xpath('//p/text()')  
         for l_date in l_dates:
             #
-            if('Page last updated????' in l_date):
+            if('This information has been extracted from death' in l_date):
                 print('   found ', l_date) 
                 #s_date = '20200729'
-                dt_obj = datetime.datetime.strptime(l_date.split(' ')[-1], '%m/%d/%Y')
+                dt_obj = datetime.datetime.strptime(l_date.split(' ')[-1].replace('.', ), '%m/%d/%Y')
                 #print('  updated on', dt_obj)
                 #nums = int(n_start)
                 self.name_file = dt_obj.strftime('%Y%m%d')

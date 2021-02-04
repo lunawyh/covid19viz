@@ -105,12 +105,13 @@ class rainbowViz(object):
         len_data = len(l_d_sort)
         if(len_data < 1): 
             print('  Check names, the clean list is ', len_data)
-            plt.show()
+            #plt.show()
+            print('done')
             return
         l_max_v = int(l_d_sort[len_data-1][col])
-        l_mid_v = int(l_d_sort[min(len_data/2+1, len_data-1)][col])
-        l_q1_v = int(l_d_sort[max(len_data/4, 0)][col])
-        l_q3_v = int(l_d_sort[max(len_data*3/4, 0)][col])
+        l_mid_v = int(l_d_sort[min(len_data//2+1, len_data-1)][col])
+        l_q1_v = int(l_d_sort[max(len_data//4, 0)][col])
+        l_q3_v = int(l_d_sort[max(len_data*3//4, 0)][col])
         print('  1/4 values', l_q1_v, l_mid_v, l_q3_v, l_max_v)
         center_y = -(l_max_v - l_mid_v) / 2
         center_x = -(l_q3_v - l_q1_v) / 2
@@ -162,7 +163,8 @@ class rainbowViz(object):
         ax.axis('off')  # get rid of the ticks and ticklabels
         if(timeout > 10):
             self.pl_timer.start()
-        plt.show()
+        #plt.show()
+        print('done')
         if(save_file is not None):
             fig.savefig(save_file)
   

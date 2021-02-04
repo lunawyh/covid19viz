@@ -15,7 +15,6 @@ import os
 from os.path import isfile, join
 import pandas as pd
 import csv
-import urllib
 import ssl
 from lxml import html
 import requests

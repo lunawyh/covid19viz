@@ -60,110 +60,6 @@ class dataGrabNj(object):
         self.now_date = ''
     ## save to csv
 
-    ## $^&&
-    def open4excel(self, name_file):
-        #csv_url = self.l_state_config[5][1]
-        csv_url ='https://njhealth.maps.arcgis.com/apps/MapSeries/index.html?appid=50c2c6af93364b4da9c0bf6327c04b45&amp;folderid=e5d6362c0f1f4f9684dc650f00741b24'
-        print('  #$$search website', csv_url)
-        #webbrowser.open(csv_url, new=1)
-        #open time.sleep=================================================================
-        #time.sleep(10)
-        #print(os.getcwd())
-        os.chdir('..')
-        os.chdir('..')
-        os.chdir('..')
-        os.chdir('..')
-        os.chdir('..')
-        print('now it is in the home file')
-        print(os.getcwd())
-        #move the files from download to data_raw
-        my_file = Path('/home/lunawang/Documents/luna2020/covid19viz/nj/data_raw/' + self.state_name.lower() + '_covid19_start_'+self.name_file+ '.png')
-        if my_file.is_file() == True:
-            print('!!!!!! file already exsist')
-        else:
-            shutil.move('/home/lunawang/Downloads/Confirmed Cases.png', '/home/lunawang/Documents/luna2020/covid19viz/nj/data_raw/' + self.state_name.lower() + '_covid19_start_'+self.name_file+ '.png')
-
-        
-        #get back to start file
-        #print(os.getcwd())
-        os.chdir('/home/lunawang/Documents/luna2020/covid19viz/nj/data_raw')
-        #print(os.getcwd())
-
-        #craft the photo =============================================
-        image1 = Image.open(self.state_name.lower() + '_covid19_start_'+self.name_file+ '.png')
-        print(image1.size)
-        width, height = image1.size
-        numberOfSplits = 5
-        splitDist = width / numberOfSplits
-
-        x = 0
-        y = 0
-        w = splitDist+x
-        h = height+y
-        print(x, y, w, h)
-    
-
-        croppedImg = image1.crop((x,y,400,850))
-        croppedImg.save(self.state_name.lower() + '_covid19_'+self.name_file+ '1st.png') #save to file
-
-       
-        #read words from picture--------------------------------------------------------------------------
-        #import pytesseract
-        img = cv2.imread(self.state_name.lower() + '_covid19_'+self.name_file+ '1st.png')
-        text = pytesseract.image_to_string(img)
-        print('111____________', text)
-        
-        #now make data to list --------------------
-        n_start_1st = text.find('BERGEN')
-        date_1st = text[n_start_1st:]
-        l_pageTxt_1st = date_1st.split('\n')
-
-
-        datas= []
-        for stst in l_pageTxt_1st:
-            if stst == '': continue
-            elif stst == ' ': continue
-            else:
-                sdsd = stst.replace('j', '').replace('z', '').replace(' ', '').replace('.', '').replace('[', '').replace(']', '').replace('<', '').replace('is', '').replace('see', '').replace(',', '')
-                #print('sdsd==================', sdsd)
-                sasa = [re.split('(\d.*)', pcode) for pcode in sdsd.split(' ')]
-                #print('55555555555-----------', sasa)
-                datas += sasa[0]
-
-        data_list = []
-        for dada in datas:
-            if dada == '' : continue
-            else: 
-                data_list.append(dada)
-
-        l_cases2 = np.reshape(data_list, (len(data_list)/2, 2)).T
-        zeros = [0]*len(l_cases2[0])
-        l_data = np.vstack((l_cases2[0], l_cases2[1], zeros)).T 
-        print('3333333333333333333333333333', l_data)
-
-        final_list = []
-        for adad in l_data:
-            if 'MIDDLESEX' in adad[0]:
-                final_list.append(['Middlesex', adad[1], 0])
-            elif 'MORRIS' in adad[0]:
-                final_list.append(['MORRIS', adad[1], 0])
-            else:
-                acac= adad[0][0] + adad[0][1:].lower()
-                final_list.append([acac, adad[1], 0])
-
-        print('44444444444444444444444', final_list)
-
-        case = 0
-        for a_da in final_list:
-            case += int(a_da[1])
-        l_cases3 = np.append(final_list, [['Total', case, 0]], axis=0)
-        #l_cases4 = l_cases3.tolist()
-        print('00000000000000000000000', l_cases3)
-
-        os.chdir('..')
-        os.chdir('..')
-        print(os.getcwd())
-        return l_cases3
 
     def save2File(self, l_data, csv_name):
         csv_data_f = open(csv_name, 'w')
@@ -187,9 +83,30 @@ class dataGrabNj(object):
 
         # <span style="" id="ember233" class="flex-horizontal feature-list-item ember-view">
         caseNumbers = siteOpen.find_elements_by_xpath('//span[@class="flex-horizontal feature-list-item ember-view"]')
+        nambers_state = []
         for case_num in caseNumbers:  
             dStringList = case_num.text.split()
-            print('  ------------case_num', dStringList )
+            #print('  ------------case_num', dStringList )
+            nambers_state.append(dStringList)
+
+        final_list= []
+        for nst in nambers_state[2:]:
+            #print('++++++++++', nst)
+            if nst[0] == 'Cape':
+                final_list.append([nst[0]+' '+ nst[1], nst[14].replace(',', ''), nst[7].replace(',', '')])
+            else:
+                final_list.append([nst[0], nst[13].replace(',', ''), nst[17].replace(',', '')])
+
+        #print('===============', final_list)
+        death= 0
+        case = 0
+        for a_da in final_list:
+            case += int(a_da[1])
+            death += int(a_da[2])
+        l_cases3 = np.append(final_list, [['Total', case, death]], axis=0)
+        #l_cases4 = l_cases3.tolist()
+        print('00000000000000000000000', l_cases3)
+
         
         time.sleep(4)
         return []

@@ -304,7 +304,8 @@ class mapViz(object):
         fig.tight_layout()      
         if(timeout > 10):
             self.pl_timer.start()
-        plt.show()
+        #plt.show()
+        print('done')
         if(save_file is not None):
             fig.savefig(save_file)
   

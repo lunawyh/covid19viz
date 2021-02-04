@@ -901,7 +901,7 @@ class runCoViz(object):
     def getDataListDeath(self, snd_data):
         lst_out = []
         for cov in snd_data:
-            if cov[2]>0:
+            if len(cov[2])>0:
                 lst_out.append(cov)
         return lst_out
  

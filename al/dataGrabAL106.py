@@ -25,7 +25,7 @@ from selenium import webdriver  # https://selenium-python.readthedocs.io/install
 import time
 from selenium.webdriver.common.keys import Keys 
 import bs4
-from urllib2 import urlopen as uReq
+import urllib.request as urllib2
 import itertools
 
 # ==============================================================================
