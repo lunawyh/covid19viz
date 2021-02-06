@@ -4,7 +4,7 @@ VIZ_H,750,,,1
 state_map,71nQ5EYbegL._AC_SL1331_.jpg,,,2
 cordinate,None,,,3
 weblink_num,106,,,4
-weblink_state,https://dph1.adph.state.al.us/covid-19/,https://datawrapper.dwcdn.net/sjzda/10/,https://datawrapper.dwcdn.net/Lgktn/7/,5
+weblink_state,https://alpublichealth.maps.arcgis.com/apps/opsdashboard/index.html#/c6909b3820ae4047b0317fa00abc46fc,https://datawrapper.dwcdn.net/sjzda/10/,https://datawrapper.dwcdn.net/Lgktn/7/,5
 state_name,Alabama,,,6
 basemap_type,1,,,7
 basemap_center,0,0,,8
@@ -18,3 +18,7 @@ basemap_list3,0,0,0,15
 basemap_list4,0,0,0,16
 basemap_list5,0,0,0,17
 basemap_list6,0,0,0,18
+,,,,
+,,,,
+,,,,
+,https://dph1.adph.state.al.us/covid-19/,,,

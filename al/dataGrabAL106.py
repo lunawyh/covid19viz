@@ -90,14 +90,12 @@ class dataGrabAL(object):
                 f_name = self.state_dir + 'data_html/'+self.state_name.lower()+'_covid19_'+self.name_file+'.html'
                 return f_name, se_dates
         return fRaw, se_dates
+
+
     ## download a website 
     def saveWebsite(self, fRaw):
         csv_url = self.l_state_config[5][1]
         print('  download4Website', csv_url)
-
-        #chrome_options = Options()
-        #chrome_options.add_argument('--no-sandbox')
-        #chrome_options.add_argument('--headless')
 
         siteOpen = webdriver.Chrome() #chrome_options=chrome_options)
         siteOpen.get(csv_url)
@@ -110,64 +108,59 @@ class dataGrabAL(object):
             f.write(c_page.content)
         print('  saved to ', fRaw)
 
-        caseNumbers = siteOpen.find_elements_by_xpath('//td[@data-field="CNTYFIPS"]')
-        #stateNames = siteOpen.find_elements_by_xpath('//div[@class="bc-row-label row-label chart-text label"]')
+
+
+        caseNumbers = siteOpen.find_elements_by_xpath('//span[@style="color:#ffffff"]')
 
         #print('++++++++++', caseNumbers)
         case_nam_list = []
-        for case_num in caseNumbers:  # this is cases------------------------------------bc-bar-inner dw-rect
+        case_nam_list2 = []
+        for case_num in caseNumbers[:143]:  # this is cases------------------------------------bc-bar-inner dw-rect
             dStringList = case_num.text.split()
-            print('  ------------case_num', dStringList )
-            case_nam_list.append(dStringList)
+            #print('  ------------case_num', dStringList )
+            case_nam_list.append(dStringList[0])
+            case_nam_list2.append(dStringList[1])
+        #print('==============', case_nam_list)
             
-
+        print('hi')
         state_case_list = []
-        caseNum = siteOpen.find_elements_by_xpath('//td[@data-field="CONFIRMED"]')
+        caseNum = siteOpen.find_elements_by_xpath('//span[@style="color:#ffff73"]')
         for case_num in caseNum:  # this is names------------------------------------
             dStringList = case_num.text.split()
-            print('  2222222222222222', dStringList )
-            state_case_list.append(dStringList)
+            #print('  2222222222222222', dStringList )
+            if len(dStringList)< 9:
+                if len(dStringList) > 1: 
+                        state_case_list.append('0')
+                else:
+                    #print('::::::::::::::::', dStringList[0])
+                    state_case_list.append(dStringList[0])
+            else:continue
+        #print('--------------', state_case_list)
 
-        state_death_list = []
-        caseDea = siteOpen.find_elements_by_xpath('//td[@data-field="DIED"]')
-        for case_num in caseDea:  # this is names------------------------------------
-            dStringList = case_num.text.split()
-            print('  33333333333333333333333', dStringList )
-            state_death_list.append(dStringList)
-
-
-
-        #state_name_list2 = state_name_list[1: ]
-        case_nam_list= list(itertools.chain.from_iterable(case_nam_list))
-        case_n= []
-
-        for aa in case_nam_list:
-            if aa == 'St.': pass
-            elif aa == 'Clair':
-                aa= 'St. Clair'
-                case_n.append(aa)
-            else:
-                case_n.append(aa)
-
-        state_case_list= list(itertools.chain.from_iterable(state_case_list))
-        state_death_list= list(itertools.chain.from_iterable(state_death_list))
-        print('11111', len(case_n))
-        #print('22222', len(state_case_list))
-        print('33333', len(state_death_list))
-        print('11111111111111',case_n )
-        #print('11111111111111',state_case_list )
-        #print('11111111111111',state_death_list )
-        l_data = np.vstack((case_n, state_case_list, state_death_list)).T 
+        #print('+++++++++++++++', len(case_nam_list))
+        #print('+++++++++++++++', len(case_nam_list2))
+        #print('+++++++++++++++', len(state_case_list))
+        zeros= [0]* len(state_case_list)
+        l_data = np.vstack((case_nam_list, case_nam_list2, state_case_list, zeros)).T 
         #l_data2_case = np.vstack((l_data_case[0], l_data_case[1], l_data_case[2])).T 
-        print('  saveWebsite: read data ', (l_data) )
+        #print('  saveWebsite: read data ', (l_data) )
+        l_data_2nd = []
+        for aa in l_data:
+            if aa[1] == "County":
+                if aa[0] == 'Macon':
+                    l_data_2nd.append([aa[0], 0, aa[3]])
+                else:
+                    l_data_2nd.append([aa[0], aa[2], aa[3]])
+            else: continue
+        #print('---------------', l_data_2nd)
 
         case = 0
         death = 0
-        for a_da in l_data:
+        for a_da in l_data_2nd:
             case += int(a_da[1])
             death += int(a_da[2])
-        l_cases3 = np.append(l_data, [['Total', case, death]], axis=0)
-
+        l_cases3 = np.append(l_data_2nd, [['Total', case, death]], axis=0)
+        #print('[[[[[[[[[[[[[[[[[[[[', l_cases3)
         siteOpen.close()
         return l_cases3
 

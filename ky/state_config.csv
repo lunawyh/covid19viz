@@ -4,7 +4,7 @@ VIZ_H,941,,,1
 state_map,map-of-kentucky-max.jpg,,,2
 cordinate,None,,,3
 weblink_num,140,,,4
-weblink_state,https://govstatus.egov.com/kycovid19,,,5
+weblink_state,https://kygeonet.maps.arcgis.com/apps/opsdashboard/index.html#/543ac64bc40445918cf8bc34dc40e334,,,5
 state_name,Kentucky,,,6
 basemap_type,1,,,7
 basemap_center,0,0,,8
@@ -18,3 +18,5 @@ basemap_list3,0,0,0,15
 basemap_list4,0,0,0,16
 basemap_list5,0,0,0,17
 basemap_list6,0,0,0,18
+,,,,
+,https://govstatus.egov.com/kycovid19,,,

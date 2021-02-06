@@ -337,7 +337,7 @@ class dataGrabFl(object):
             l_numbers = []
             for a_row in l_pageTxt:
 		        #print('  a_row', a_row)
-		        if(state_machine == 1):
+		        if(state_machine==1):
 		            if( a_row.lower().islower() ):
 		                # a county
 		                a_name = a_row

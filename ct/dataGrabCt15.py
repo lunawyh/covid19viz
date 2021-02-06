@@ -17,6 +17,7 @@ import csv
 import datetime 
 import urllib
 import ssl
+import numpy as np
 # ==============================================================================
 # -- codes -------------------------------------------------------------------
 # ==============================================================================
@@ -33,17 +34,8 @@ class dataGrabCt(object):
         self.l_state_config = l_config
         self.name_file = ''
         self.now_date = ''
-    ## save to csv
-    def save2File(self, l_data, csv_name):
-        csv_data_f = open(csv_name, 'wb')
-        # create the csv writer
-        csvwriter = csv.writer(csv_data_f)
-        # make sure the 1st row is colum names
-        if('County' in str(l_data[0][0])): pass
-        else: csvwriter.writerow(['County', 'Cases', 'Deaths'])
-        for a_row in l_data:
-            csvwriter.writerow(a_row)
-        csv_data_f.close()
+
+
     ## parse from exel format to list
     def parseDfData(self, df, fName=None):
         (n_rows, n_columns) = df.shape
@@ -58,69 +50,53 @@ class dataGrabCt(object):
                     continue
                 a_case.append( df.iloc[ii, jj] )
             lst_data.append( a_case )
-        # save to a database file
-        if(fName is not None): self.save2File( lst_data, fName )
-        return lst_data
+        #print('ccccccccccccc', lst_data)
+        list_data= []
+        for ccc in lst_data:
+            list_data.append([ccc[2], str(ccc[4]).replace('.0', ''), str(ccc[8])])
+
+        #print('kkkkkkkkkkkkkkkkkkk', list_data[-8:])
+
+        case = 0
+        death = 0
+        for a_da in list_data[-8:]:
+            case += int(a_da[1].replace('.0', ''))
+            death += int(a_da[2])
+        l_cases3 = np.append(list_data[-8:], [['Total', case, death]], axis=0)
+        print('[[[[[[[[[[[[[[[[[[[[', l_cases3)
+        return l_cases3
+
+
+    ## save downloaded data to daily or overal data 
+    def saveLatestDateUt(self, l_raw_data):
+        #l_overall = []
+        self.save2File(l_raw_data, self.state_dir + 'data/'+self.state_name.lower()+'_covid19_'+self.name_file+'.csv')
+        print ('GHJJ')
+        return l_raw_data
+    ## save to csv 
+    def save2File(self, l_data, csv_name):
+        csv_data_f = open(csv_name, 'w')
+        # create the csv writer 
+        csvwriter = csv.writer(csv_data_f)
+        # make sure the 1st row is colum names
+        if('County' in str(l_data[0][0])): pass
+        else: csvwriter.writerow(['County', 'Cases', 'Deaths'])
+        for a_row in l_data:
+            csvwriter.writerow(a_row)
+        csv_data_f.close()
+        print('  save2File', csv_name)
+
+
     ## open a csv
     def open4File(self, csv_name):
         if(isfile(csv_name) ):
             df = pd.read_csv(csv_name)
             l_data = self.parseDfData(df)
+            lst_data = self.saveLatestDateUt(l_data)
         else: return []
-        return l_data
+        return lst_data
     ## save to csv
 
-    def saveLatestDateCt(self, l_data):
-        l_d_sort = sorted(l_data, key=lambda k: k[0], reverse=False)
-        # find different date time
-        l_date = []
-        for a_item in l_d_sort:
-            #
-            bFound = False
-            for a_date in l_date:
-                if(a_date in a_item[0]):
-                    bFound = True
-                    break
-            if(not bFound):
-                l_date.append(a_item[0])
-        # generate all daily data
-        l_daily = []
-        for a_date in l_date:
-            l_daily = self.saveDataFromDlCt(l_d_sort, a_date, bDaily=False)
-        return l_daily
-
-    def saveDataFromDlCt(self, l_data, a_test_date, bDaily=True):
-        initial_test_date = None
-        #l_daily = []
-        l_overral = []
-        #total_daily = 0
-        total_overral = 0
-        total_overral_deaths = 0
-        for a_item in l_data:
-            #if (a_test_date is None):
-            if (initial_test_date is None and a_test_date in a_item[0]):
-                initial_test_date = a_test_date
-                dt_obj = datetime.datetime.strptime(a_test_date, '%m/%d/%Y')
-                self.name_file = dt_obj.strftime('%Y%m%d')
-                self.now_date = dt_obj.strftime('%m/%d/%Y')
-            elif (a_test_date in a_item[0]):
-                pass
-            else:
-                continue
-            #total_daily += int(a_item[2])
-            total_overral += int(a_item[3])
-            total_overral_deaths += int(a_item[8])
-            #l_daily.append([a_item[1], a_item[2], 0])
-            l_overral.append([a_item[2], a_item[3], a_item[8]])
-        #l_daily.append(['Total', total_daily, 0])
-        l_overral.append(['Total', total_overral, total_overral_deaths])
-        #if (not os.path.isdir(self.state_dir + 'daily/')): os.mkdir(self.state_dir + 'daily/')
-        if (not os.path.isdir(self.state_dir + 'data/')): os.mkdir(self.state_dir + 'data/')
-        #self.save2File(l_daily,
-        #               self.state_dir + 'daily/' + self.state_name.lower() + '_covid19_' + self.name_file + '.csv')
-        self.save2File(l_overral,
-                       self.state_dir + 'data/' + self.state_name.lower() + '_covid19_' + self.name_file + '.csv')
-        return l_overral
 
 
     ## download a website
@@ -139,11 +115,7 @@ class dataGrabCt(object):
             # step B: parse and open
             lst_raw_data = self.open4File(f_name)
             # step C: convert to standard file and save
-            if( type_download == 5):
-                lst_data = self.saveLatestDateNy(lst_raw_data)
-            if( type_download == 50):
-                lst_data = self.saveLatestDateCt(lst_raw_data)
 
-            return(lst_data, self.name_file, self.now_date)
+            return(lst_raw_data, self.name_file, self.now_date)
 
 ## end of file
