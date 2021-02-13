@@ -59,6 +59,21 @@ New visualization and prediction of COVID-19 in USA, such as Michigan, CA, OH, N
    
      pip install --user git+https://github.com/matplotlib/basemap.git or 
      pip install basemap‑1.2.1‑cp27‑cp27m‑win_amd64.whl (downloaded from https://www.lfd.uci.edu/~gohlke/pythonlibs/)
+ 9. install chrome driver
+ 
+     https://selenium-python.readthedocs.io/installation.html
+     
+     In linux: 
+     
+         sudo cp  ~/Downloads/chromedriver /usr/local/bin/
+
+10. another way to install basemap on ubantu, run these coads in ubantu:
+
+    sudo apt-get install libgeos-3.X.X
+    
+    sudo apt-get install libgeos-dev
+    
+    pip install --user https://github.com/matplotlib/basemap/archive/master.zip
 
 # How to run in Ubuntu
 1. Run python coviz.py
@@ -70,5 +85,11 @@ New visualization and prediction of COVID-19 in USA, such as Michigan, CA, OH, N
 
 # SIR model
 1. Predict with SIR model / SIRmodel, referring to Wuhan data
+
+#
+1. to be rooted on ubantu, if you have a password, run 'su'. if there is no password, run 'sudo -i'
+2. when using pythn 2, to download pytesseract, you need to run this coad in the terminal: 
+    sudo pip install pytesseract==0.3.0
+
 
 
