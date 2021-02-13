@@ -37,6 +37,7 @@ class dataGrabID(object):
         self.state_name = n_state
         self.state_dir = './'+n_state.lower()+'/'
         self.l_state_config = l_config
+        self.now_date = ''
 
 
     ## save to csv 
@@ -81,8 +82,8 @@ class dataGrabID(object):
         #siteOpen.get(str(link))
 
             os.rename("C:\Dennis\Covid19\covid19viz\id\data_raw\County.png",d_name)
-        cases,deaths = self.readDataFromPng(d_name)
-        return cases,deaths
+        cases,deaths,counties = self.readDataFromPng(d_name)
+        return cases,deaths,counties
 
     def readDataFromPng(self, d_name):
         print('  B.readDataFromPng', d_name)
@@ -96,8 +97,6 @@ class dataGrabID(object):
         crop_img = img[722:1612, 479:580]
         crop_img = cv2.resize(crop_img, (0, 0), fx=5, fy=5)
         crop_img = crop_img * (70/127 + 1) - 70
-        cv2.imwrite("C:\Dennis\Covid19\covid19viz\id\data_raw\id.png",crop_img)
-        cv2.imshow("readDataFromPng", crop_img)
         key = cv2.waitKeyEx(3000)
         text1 = pytesseract.image_to_string(crop_img, config=custom_config).encode('utf8')
         print(text.splitlines())
@@ -105,50 +104,55 @@ class dataGrabID(object):
         crop_img = img[722:1612, 866:967]
         crop_img = cv2.resize(crop_img, (0, 0), fx=5, fy=5)
         crop_img = crop_img * (100 / 127 + 1) - 100
-        cv2.imwrite("C:\Dennis\Covid19\covid19viz\id\data_raw\id.png", crop_img)
-        cv2.imshow("readDataFromPng", crop_img)
         key = cv2.waitKeyEx(3000)
         text2 = pytesseract.image_to_string(crop_img, config=custom_config).encode('utf8')
 
-        return text1,text2
+        crop_img = img[722:1612, 71:180]
+        crop_img = cv2.resize(crop_img, (0, 0), fx=5, fy=5)
+        crop_img = crop_img * (100 / 127 + 1) - 100
+        key = cv2.waitKeyEx(3000)
+        text3 = pytesseract.image_to_string(crop_img, config=custom_config).encode('utf8')
 
-    def save_data(self, f_name, s_name, c,d):
+        return text1,text2,text3
+
+    def save_data(self, f_name, s_name, c,d,e):
         allList = []
         allList.append(['County', 'Cases', 'Deaths'])
-        countyList = enumerate(['Ada','Adams','Bannock','Bear Lake','Benewah','Bingham','Blaine',
-                            'Boise',
-                      'Bonner','Bonneville','Boundary',
-                      'Butte','Camas','Canyon','Caribou','Cassia',
-                      'Clark','Clearwater','Custer','Elmore','Franklin','Fremont',
-                      'Gem','Gooding',
-                      'Idaho','Jefferson','Jerome','Kootenai','Latah','Lemhi','Lewis','Lincoln',
-                      'Madison','Minidoka',
-                      'Nez Perce','Oneida','Owyhee',
-                      'Payette','Power',
-                      'Shoshone','Teton','Twin Falls','Valley','Washington'])
+        countyList = enumerate(e.splitlines())
 
-        c_list = enumerate(c.splitlines())
-        d_list = enumerate(d.splitlines())
+        d = d.splitlines()
+        c = c.splitlines()
 
-        for c in c_list:
-            for c1 in c:
-                if c1 == ",":
-                    c.replace('')
-        for d,d1 in d_list:
-            if d1 == "\n":
-                d_list.pop(d)
+        j = 0
+        for cc in c:
+            c[j] = cc.replace(",","")
+            j = j+1
+
+        d = list(filter(None, d))
+        countyList = list(filter(None, countyList))
+        c = list(filter(None, c))
+
+        total_cases = 0
+        total_deaths = 0
 
         for i,l in countyList:
-            allList.append([l,c_list[i],d_list[i]])
+            if i<44:
+                allList.append([l,c[i],d[i]])
+                total_cases = total_cases + int(c[i])
+                total_deaths = total_deaths + int(d[i])
+            else:
+                break
+
+        allList.append(["Total",str(total_cases),str(total_deaths)])
 
 
-        with open(s_name,"w") as f:
-            wr = csv.writer(f, quoting=csv.QUOTE_ALL)
+        with open(s_name,"wb") as f:
+            wr = csv.writer(f)
             for c in allList:
                 wr.writerow(c)
             f.close()
-        print(data)
-        if data[1] != "Deaths" and data[1] != "Total Cases": pass
+
+        return allList
 
     def parseData(self, name_target, date_target, type_download):
         self.name_file = name_target
@@ -159,7 +163,7 @@ class dataGrabID(object):
         page_url = self.l_state_config[5][1]
         if (not os.path.isdir(self.state_dir + 'data_raw/')): os.mkdir(self.state_dir + 'data_raw/')
         # step A: downlowd and save
-        c,d = self.openSite(f_name, s_name, page_url, d_name)
-        data_csv = self.save_data(f_name, s_name, c,d)
+        c,d,e = self.openSite(f_name, s_name, page_url, d_name)
+        data_csv = self.save_data(f_name, s_name, c,d,e)
         print('  total list of cases', len(data_csv))
         return (data_csv, self.name_file, self.now_date)
