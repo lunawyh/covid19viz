@@ -72,11 +72,11 @@ class dataGrabKY(object):
         #print('ccccccccccccccc', caseNumbers)
         #stateNames = siteOpen.find_elements_by_xpath('//div[@class="bc-row-label row-label chart-text label"]')
         case_list = []
-        for case_num in caseNumbers:  # this is cases------------------------------------bc-bar-inner dw-rect
+        for case_num in caseNumbers: 
             dStringList = case_num.text.split()
             #print('  ------------case_num', dStringList )
             case_list.append([dStringList[0], dStringList[8].replace(',', ''), dStringList[10].replace(',', '')])
-        print('llllllllllll', case_list)      
+        #print('llllllllllll', case_list)      
 
         case = 0
         death = 0

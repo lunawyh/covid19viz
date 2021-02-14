@@ -23,6 +23,7 @@ import json
 import numpy as np
 from selenium import webdriver  # https://selenium-python.readthedocs.io/installation.html
 import time
+import urllib.request
 # ==============================================================================
 # -- codes -------------------------------------------------------------------
 # ==============================================================================
@@ -75,7 +76,7 @@ class dataGrabUT(object):
         print('  open4WebsiteMain', csv_url)
         # save html file
         if(not isfile(fRaw) ): 
-            urllib.urlretrieve(csv_url, fRaw)
+            urllib.request.urlretrieve(csv_url, fRaw)
 
         # read updated date
         print('  read date')

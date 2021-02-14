@@ -22,6 +22,7 @@ from lxml import html
 import requests
 from datetime import date
 import datetime 
+import urllib.request
 # ==============================================================================
 # -- codes -------------------------------------------------------------------
 # ============================================================================== ## save downloaded data to daily or overal data 
@@ -208,7 +209,7 @@ class dataGrabMa(object):
             f_n_total = self.state_dir + 'data_raw/'+self.state_name.lower()+'_covid19_'+self.name_file+'.xlsx'
             if(not os.path.isdir(self.state_dir + 'data_raw/') ): os.mkdir(self.state_dir + 'data_raw/')
             # 
-            urllib.urlretrieve(urlData, f_n_total)
+            urllib.request.urlretrieve(urlData, f_n_total)
             # step C: read data file and convert to standard file and save
             lst_raw_data = self.open4Xlsx(f_n_total)
 

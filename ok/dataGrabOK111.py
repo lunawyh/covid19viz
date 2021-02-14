@@ -17,7 +17,7 @@ import csv
 import datetime 
 import urllib
 import re
-import requests
+#import urllib.request
 from lxml import html
 import json
 import numpy as np
@@ -25,8 +25,11 @@ from selenium import webdriver  # https://selenium-python.readthedocs.io/install
 import time
 from selenium.webdriver.common.keys import Keys 
 import bs4
-from urllib2 import urlopen as uReq
-
+#from urllib.request import urlopen as uReq
+try:
+    from urllib.request import urlopen
+except ImportError:
+    from urllib2 import urlopen
 # ==============================================================================
 # -- codes -------------------------------------------------------------------
 # ==============================================================================

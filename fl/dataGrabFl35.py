@@ -23,6 +23,7 @@ import requests
 from lxml import html
 import numpy as np
 import cv2
+import urllib.request
 # ==============================================================================
 # -- codes -------------------------------------------------------------------
 # ==============================================================================
@@ -79,7 +80,7 @@ class dataGrabFl(object):
     def download4Website(self, csv_url, fRaw):
         #csv_url = self.l_state_config[5][1]
         # save csv file
-        urllib.urlretrieve(csv_url, fRaw)
+        urllib.request.urlretrieve(csv_url, fRaw)
         return True
     ## open a website 
     def open4Website(self, fRaw):

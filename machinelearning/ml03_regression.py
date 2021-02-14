@@ -15,6 +15,9 @@ from __future__ import print_function
 import pandas as pandas
 import quandl
 import math
+import numpy as np
+from sklearn import preprocessing, svm
+from sklearn.model_selection import cross_validate
 
 # ==============================================================================
 # -- codes -------------------------------------------------------------------
@@ -34,6 +37,17 @@ forecast_out = int(math.ceil(0.01*len(df)))
 
 df['label'] = df[forecast_col].shift(-forecast_out)
 df.dropna(inplace=True)
-print(df.head())
+#print(df.head())
+
+x= np.array(df.drop(['labe1'], 1))
+y = np.array(df['labe1'])
+
+x = preprocessing.scale(x)
+x = x[:-forecast_out+1]
+df.dropna(inplace=True)
+
+y = np.array(df['label1'])
+print(len(x), len(y))
+
 ''' '''
 ## end of file

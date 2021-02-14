@@ -21,6 +21,7 @@ import PyPDF2
 import re
 import requests
 from lxml import html
+import urllib.request
 # ==============================================================================
 # -- codes -------------------------------------------------------------------
 # ==============================================================================
@@ -77,7 +78,7 @@ class dataGrabtn(object):
     def download4Website(self, csv_url, fRaw):
         #csv_url = self.l_state_config[5][1]
         # save csv file
-        urllib.urlretrieve(csv_url, fRaw)
+        urllib.request.urlretrieve(csv_url, fRaw)
         return True
     ## open a website 
     def open4Website(self, fRaw):
@@ -226,18 +227,20 @@ class dataGrabtn(object):
 
     ## paser data FL
     def parseData(self, name_target, date_target, type_download):
-            self.name_file = name_target
-            self.now_date = date_target
-            #step A, download raw data
-            f_target = self.dataDownload(name_target)
-            if(f_target == ''): return ([], name_target, '')
-            #step B, read data
-            l_d_sort = self.dataReadConfirmed(f_target)
-            #if(len(l_d_sort) > 0): l_d_all = self.dataReadDeath(l_d_sort, pdfReader)
-            #else: l_d_all = []
-            # Step C: filter data
-            l_data_all = self.dataFilter(l_d_sort)
-            #l_data_find = self.gotTheData(l_data_all)
-            return(l_data_all, self.name_file, self.now_date)  
+        print('hi--------------------')
+        print(pd.__version__)
+        self.name_file = name_target
+        self.now_date = date_target
+        #step A, download raw data
+        f_target = self.dataDownload(name_target)
+        if(f_target == ''): return ([], name_target, '')
+        #step B, read data
+        l_d_sort = self.dataReadConfirmed(f_target)
+        #if(len(l_d_sort) > 0): l_d_all = self.dataReadDeath(l_d_sort, pdfReader)
+        #else: l_d_all = []
+        # Step C: filter data
+        l_data_all = self.dataFilter(l_d_sort)
+        #l_data_find = self.gotTheData(l_data_all)
+        return(l_data_all, self.name_file, self.now_date)  
 
 ## end of file
