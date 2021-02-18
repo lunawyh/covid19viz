@@ -39,15 +39,19 @@ df['label'] = df[forecast_col].shift(-forecast_out)
 df.dropna(inplace=True)
 #print(df.head())
 
-x= np.array(df.drop(['labe1'], 1))
+X= np.array(df.drop(['labe1'], 1))
 y = np.array(df['labe1'])
 
-x = preprocessing.scale(x)
-x = x[:-forecast_out+1]
-df.dropna(inplace=True)
-
+X = preprocessing.scale(X)
+X = X[:-forecast_out+1]
+#df.dropna(inplace=True)
 y = np.array(df['label1'])
-print(len(x), len(y))
 
+X_train, X_test, y_train, y_test = cross_validation.train_test_split(X, y, test_size=0.2)
+clf= LinearRegression()
+clf.fit(X_train, y_train)
+accuracy = clf.score(X_test, y_test)
+
+print(accuracy)
 ''' '''
 ## end of file

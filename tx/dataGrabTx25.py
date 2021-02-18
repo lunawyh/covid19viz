@@ -19,6 +19,7 @@ import ssl
 import datetime 
 import urllib.request
 import numpy as np
+from datetime import date
 # ==============================================================================
 # -- codes -------------------------------------------------------------------
 # ==============================================================================
@@ -78,16 +79,20 @@ class dataGrabTx(object):
             xl_cdcd = xl_file.to_numpy()
             #print("  vvvvvvvvvvvvvvv", xl_cdcd)
             #print('sssssssssssssssssss', type(xl_cdcd))
-                
+            list_full = []
             for svsv in xl_cdcd[2:-2]:
                 susu = str(svsv)
                 #print('//////////////', susu)
                 #print('cccccccccccc', type(susu))
-                stst= susu.replacee("',", "").split(' ')
-                print('//////////////', stst)
+                stst= susu.replace("'", "").replace("[", "").replace("]", "")
+                #print('9999999999999', stst)
+                sisi = stst.split(' ')
+                #print('//////////////', sisi)
+                list_full.append([sisi[0], sisi[-3], 0])
+            print('list_full=============', list_full)
                 
 
-        return l_data
+        return list_full
     ## save downloaded data to daily or overal data 
     def saveLatestDateTx(self, l_raw_data, name_file):
         l_overall = []
@@ -114,11 +119,9 @@ class dataGrabTx(object):
             urllib.request.urlretrieve(self.l_state_config[5][1], f_name)#, context=gcontext)
             # step B: parse and open
             lst_raw_data = self.open4Xlsx(f_name)
-            if(s_date == ''): return []
-            #else:
-                    #dt_obj = datetime.datetime.strptime(s_date.replace('a', '')+'/2020', '%m/%d/%Y')
-                    #name_file = dt_obj.strftime('%Y%m%d')
-                    #now_date = dt_obj.strftime('%m/%d/%Y')
+            today = (date.today())
+            name_file = today.strftime('%Y%m%d')
+            now_date = today.strftime('%m/%d/%Y')
 
             # step C: convert to standard file and save
             lst_data = self.saveLatestDateTx(lst_raw_data, name_file)
