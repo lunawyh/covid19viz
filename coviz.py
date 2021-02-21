@@ -791,14 +791,14 @@ class runCoViz(object):
             lst_data, self.name_file, self.now_date = data_grab.parseData(self.name_file, self.now_date, type_download) 
         elif (type_download == 8273): 
             sys.path.insert(0, "./ri") 
-            from dataGrabRI import * 
+            from dataGrabRI import dataGrabRI 
             # step A: create new class 
             data_grab = dataGrabRI(self.l_state_config, self.state_name) 
             # step B: parse to standard file 
             lst_data, self.name_file, self.now_date = data_grab.parseData(self.name_file, self.now_date, type_download) 
         elif (type_download == 7368): 
             sys.path.insert(0, "./id") 
-            from dataGrabID import * 
+            from dataGrabID import dataGrabID
             # step A: create new class 
             data_grab = dataGrabID(self.l_state_config, self.state_name) 
             # step B: parse to standard file 
