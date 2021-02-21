@@ -90,26 +90,37 @@ class dataGrabID(object):
         # step B: parse and open
         #---------------------------case-------------------------
         img = cv2.imread(d_name)
+        for c1 in img:
+            for c2 in c1:
+                if c2[0] == 64 and c2[1] == 64 and c2[2] == 64:
+                    c2[0] = 0
+                    c2[1] = 0
+                    c2[2] = 0
+                if c2[0] == 27 and c2[1] == 27 and c2[2] == 27:
+                    c2[0] = 0
+                    c2[1] = 0
+                    c2[2] = 0
+            print("1")
         custom_config = r'--oem 3 --psm 6'
         if os.name == 'nt':
             pytesseract.pytesseract.tesseract_cmd = 'C:\Program Files\Tesseract-OCR\\tesseract.exe'
         text = ''
         crop_img = img[722:1612, 479:580]
         crop_img = cv2.resize(crop_img, (0, 0), fx=5, fy=5)
-        crop_img = crop_img * (70/127 + 1) - 70
+        crop_img = crop_img * 2
         key = cv2.waitKeyEx(3000)
         text1 = pytesseract.image_to_string(crop_img, config=custom_config).encode('utf8')
         print(text.splitlines())
 
         crop_img = img[722:1612, 866:967]
         crop_img = cv2.resize(crop_img, (0, 0), fx=5, fy=5)
-        crop_img = crop_img * (100 / 127 + 1) - 100
+        crop_img = crop_img * 2
         key = cv2.waitKeyEx(3000)
         text2 = pytesseract.image_to_string(crop_img, config=custom_config).encode('utf8')
 
         crop_img = img[722:1612, 71:180]
         crop_img = cv2.resize(crop_img, (0, 0), fx=5, fy=5)
-        crop_img = crop_img * (100 / 127 + 1) - 100
+        crop_img = crop_img * 2
         key = cv2.waitKeyEx(3000)
         text3 = pytesseract.image_to_string(crop_img, config=custom_config).encode('utf8')
 
