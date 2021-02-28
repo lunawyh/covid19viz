@@ -11,6 +11,7 @@
 # ==============================================================================
 from __future__ import print_function
 import os
+import shutil
 from os.path import isfile, join
 import csv
 import urllib
@@ -38,6 +39,18 @@ class dataGrabID(object):
         self.state_dir = './'+n_state.lower()+'/'
         self.l_state_config = l_config
         self.now_date = ''
+    ## save to csv
+    def get_download_path(self):
+        """Returns the default downloads path for linux or windows"""
+        if os.name == 'nt':
+            import winreg
+            sub_key = r'SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders'
+            downloads_guid = '{374DE290-123F-4565-9164-39C4925E467B}'
+            with winreg.OpenKey(winreg.HKEY_CURRENT_USER, sub_key) as key:
+                location = winreg.QueryValueEx(key, downloads_guid)[0]
+            return location
+        else:
+            return os.path.join(os.path.expanduser('~'), 'Downloads')
 
 
     ## save to csv 
@@ -72,17 +85,16 @@ class dataGrabID(object):
             siteOpen.execute_script("document.getElementsByClassName('fppw03o low-density')[1].click()")
 
             time.sleep(5)
-        
-        
-        #siteOpen.switch_to.window(siteOpen.window_handles[1])
 
-        #time.sleep(1)
-        #link = siteOpen.find_elements_by_xpath("//a[@class='csvLink_summary']")[
-        # 0].get_attribute("href")
-        #siteOpen.get(str(link))
-
-            os.rename("C:\Dennis\Covid19\covid19viz\id\data_raw\County.png",d_name)
-        cases,deaths,counties = self.readDataFromPng(d_name)
+            if os.name == 'nt':
+                os.rename("C:\Dennis\Covid19\covid19viz\id\data_raw\County.png",d_name)
+            else:
+                shutil.move(self.get_download_path() + "/County.png", d_name)
+                print('  downloaded to ', d_name)
+        if os.name == 'nt':
+            cases,deaths,counties = self.readDataFromPng(d_name)
+        else:
+            cases,deaths,counties = self.readDataFromPngLinux(d_name)
         return cases,deaths,counties
 
     def readDataFromPng(self, d_name):
@@ -152,9 +164,30 @@ class dataGrabID(object):
         else:
             text1 = pytesseract.image_to_string(result, lang='eng', \
                 config='--psm 6 --oem 3')
-
+        text1 = text1.strip()
         print("    detectFromImage", text1)
-        return text1.split('\n')
+        return text1
+
+    def readDataFromPngLinux(self, d_name):
+        print('  B.readDataFromPng', d_name)
+        # step B: parse and open
+        #---------------------------case-------------------------
+        img = cv2.imread(d_name)
+        
+        custom_config = r'--oem 3 --psm 6'
+        if os.name == 'nt':
+            pytesseract.pytesseract.tesseract_cmd = 'C:\Program Files\Tesseract-OCR\\tesseract.exe'
+        
+        crop_img = img[722:1612, 479:580]
+        text1 = self.detectFromImage(crop_img)
+        
+        crop_img = img[722:1612, 866:967]
+        text2 = self.detectFromImage(crop_img)
+
+        crop_img = img[722:1612, 71:180]
+        text3 = self.detectFromImage(crop_img, isDigital=False)
+
+        return text1,text2,text3
 
     def save_data(self, f_name, s_name, c,d,e):
         allList = []
@@ -165,7 +198,7 @@ class dataGrabID(object):
         c = c.splitlines()
 
         j = 0
-        for cc in c:
+        for cc in c:            
             c[j] = cc.replace(",","")
             j = j+1
         j = 0
@@ -191,9 +224,10 @@ class dataGrabID(object):
         allList.append(["Total",str(total_cases),str(total_deaths)])
 
 
-        with open(s_name,"wb") as f:
+        with open(s_name,"w") as f:
             wr = csv.writer(f)
             for c in allList:
+                print ('  save_data', c)
                 wr.writerow(c)
             f.close()
 
