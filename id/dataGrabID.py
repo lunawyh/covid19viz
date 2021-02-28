@@ -94,18 +94,8 @@ class dataGrabID(object):
 
         cases,deaths,counties = self.readDataFromPng(d_name)
         return cases,deaths,counties
-
-    def readDataFromPng(self, d_name):
-        print('  B.readDataFromPng', d_name)
-        # step B: parse and open
-        #---------------------------case-------------------------
-        img = cv2.imread(d_name)
-        
-        custom_config = r'--oem 3 --psm 6'
-        if os.name == 'nt':
-            pytesseract.pytesseract.tesseract_cmd = 'C:\Program Files\Tesseract-OCR\\tesseract.exe'
-        text = ''
-        crop_img = img[722:1612, 479:580]
+    def detectFromImage(self, crop_img, isDigital=True):
+        #print('  C.detectFromImage')
         # revert the color
         crop_img = cv2.bitwise_not(crop_img)
         # zoom in
@@ -119,22 +109,34 @@ class dataGrabID(object):
         cv2.imshow("readDataFromPng 1", result)
         key = cv2.waitKeyEx(3000)
         # detect digital
-        text1 = pytesseract.image_to_string(crop_img, lang='eng', \
-            config='--psm 6 --oem 3 -c tessedit_char_whitelist=0123456789')
-        print("readDataFromPng 1", text1)
-        return text1.split('\n'), [], []
+        if(isDigital):
+            text1 = pytesseract.image_to_string(crop_img, lang='eng', \
+                config='--psm 6 --oem 3 -c tessedit_char_whitelist=0123456789')
+        else:
+            text1 = pytesseract.image_to_string(crop_img, lang='eng', \
+                config='--psm 6 --oem 3')
 
+        print("    detectFromImage", text1)
+        return text1.split('\n')
+
+    def readDataFromPng(self, d_name):
+        print('  B.readDataFromPng', d_name)
+        # step B: parse and open
+        #---------------------------case-------------------------
+        img = cv2.imread(d_name)
+        
+        custom_config = r'--oem 3 --psm 6'
+        if os.name == 'nt':
+            pytesseract.pytesseract.tesseract_cmd = 'C:\Program Files\Tesseract-OCR\\tesseract.exe'
+        
+        crop_img = img[722:1612, 479:580]
+        text1 = self.detectFromImage(crop_img)
+        
         crop_img = img[722:1612, 866:967]
-        crop_img = cv2.resize(crop_img, (0, 0), fx=5, fy=5)
-        crop_img = crop_img * 2
-        key = cv2.waitKeyEx(3000)
-        text2 = pytesseract.image_to_string(crop_img, config=custom_config).encode('utf8')
+        text2 = self.detectFromImage(crop_img)
 
         crop_img = img[722:1612, 71:180]
-        crop_img = cv2.resize(crop_img, (0, 0), fx=5, fy=5)
-        crop_img = crop_img * 2
-        key = cv2.waitKeyEx(3000)
-        text3 = pytesseract.image_to_string(crop_img, config=custom_config).encode('utf8')
+        text3 = self.detectFromImage(crop_img, isDigital=False)
 
         return text1,text2,text3
 
@@ -189,6 +191,6 @@ class dataGrabID(object):
         c,d,e = self.openSite(f_name, s_name, page_url, d_name)
         data_csv = []
         if(len(c) > 0 and len(d) > 0): 
-            data_csv = self.save_data(f_name, s_name, c,d,e)
+            #data_csv = self.save_data(f_name, s_name, c,d,e)
             print('  total list of cases', len(data_csv))
         return (data_csv, self.name_file, self.now_date)
