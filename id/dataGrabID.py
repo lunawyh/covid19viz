@@ -110,10 +110,10 @@ class dataGrabID(object):
         key = cv2.waitKeyEx(3000)
         # detect digital
         if(isDigital):
-            text1 = pytesseract.image_to_string(crop_img, lang='eng', \
+            text1 = pytesseract.image_to_string(result, lang='eng', \
                 config='--psm 6 --oem 3 -c tessedit_char_whitelist=0123456789')
         else:
-            text1 = pytesseract.image_to_string(crop_img, lang='eng', \
+            text1 = pytesseract.image_to_string(result, lang='eng', \
                 config='--psm 6 --oem 3')
 
         print("    detectFromImage", text1)
