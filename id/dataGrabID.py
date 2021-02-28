@@ -11,6 +11,7 @@
 # ==============================================================================
 from __future__ import print_function
 import os
+import shutil
 from os.path import isfile, join
 import csv
 import urllib
@@ -38,6 +39,18 @@ class dataGrabID(object):
         self.state_dir = './'+n_state.lower()+'/'
         self.l_state_config = l_config
         self.now_date = ''
+    ## save to csv
+    def get_download_path(self):
+        """Returns the default downloads path for linux or windows"""
+        if os.name == 'nt':
+            import winreg
+            sub_key = r'SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders'
+            downloads_guid = '{374DE290-123F-4565-9164-39C4925E467B}'
+            with winreg.OpenKey(winreg.HKEY_CURRENT_USER, sub_key) as key:
+                location = winreg.QueryValueEx(key, downloads_guid)[0]
+            return location
+        else:
+            return os.path.join(os.path.expanduser('~'), 'Downloads')
 
 
     ## save to csv 
@@ -72,16 +85,13 @@ class dataGrabID(object):
             siteOpen.execute_script("document.getElementsByClassName('fppw03o low-density')[1].click()")
 
             time.sleep(5)
-        
-        
-        #siteOpen.switch_to.window(siteOpen.window_handles[1])
 
-        #time.sleep(1)
-        #link = siteOpen.find_elements_by_xpath("//a[@class='csvLink_summary']")[
-        # 0].get_attribute("href")
-        #siteOpen.get(str(link))
+            if os.name == 'nt':
+                os.rename("C:\Dennis\Covid19\covid19viz\id\data_raw\County.png",d_name)
+            else:
+                shutil.move(self.get_download_path() + "/County.png", d_name)
+                print('  downloaded to ', d_name)
 
-            os.rename("C:\Dennis\Covid19\covid19viz\id\data_raw\County.png",d_name)
         cases,deaths,counties = self.readDataFromPng(d_name)
         return cases,deaths,counties
 
@@ -90,27 +100,29 @@ class dataGrabID(object):
         # step B: parse and open
         #---------------------------case-------------------------
         img = cv2.imread(d_name)
-        for c1 in img:
-            for c2 in c1:
-                if c2[0] == 64 and c2[1] == 64 and c2[2] == 64:
-                    c2[0] = 0
-                    c2[1] = 0
-                    c2[2] = 0
-                if c2[0] == 27 and c2[1] == 27 and c2[2] == 27:
-                    c2[0] = 0
-                    c2[1] = 0
-                    c2[2] = 0
-            print("1")
+        
         custom_config = r'--oem 3 --psm 6'
         if os.name == 'nt':
             pytesseract.pytesseract.tesseract_cmd = 'C:\Program Files\Tesseract-OCR\\tesseract.exe'
         text = ''
         crop_img = img[722:1612, 479:580]
-        crop_img = cv2.resize(crop_img, (0, 0), fx=5, fy=5)
-        crop_img = crop_img * 2
+        # revert the color
+        crop_img = cv2.bitwise_not(crop_img)
+        # zoom in
+        image = cv2.resize(crop_img, (0, 0), fx=2, fy=2)
+        # remove background
+        gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+        thresh = cv2.threshold(gray,105, 255, cv2.THRESH_BINARY_INV)[1]
+        thresh = 255 - thresh
+        kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (3,3))
+        result = cv2.morphologyEx(thresh, cv2.MORPH_OPEN, kernel, iterations=1)
+        cv2.imshow("readDataFromPng 1", result)
         key = cv2.waitKeyEx(3000)
-        text1 = pytesseract.image_to_string(crop_img, config=custom_config).encode('utf8')
-        print(text.splitlines())
+        # detect digital
+        text1 = pytesseract.image_to_string(crop_img, lang='eng', \
+            config='--psm 6 --oem 3 -c tessedit_char_whitelist=0123456789')
+        print("readDataFromPng 1", text1)
+        return text1.split('\n'), [], []
 
         crop_img = img[722:1612, 866:967]
         crop_img = cv2.resize(crop_img, (0, 0), fx=5, fy=5)
@@ -129,10 +141,10 @@ class dataGrabID(object):
     def save_data(self, f_name, s_name, c,d,e):
         allList = []
         allList.append(['County', 'Cases', 'Deaths'])
-        countyList = enumerate(e.splitlines())
+        countyList = enumerate(e)  # .splitlines()
 
-        d = d.splitlines()
-        c = c.splitlines()
+        #d = d.splitlines()
+        #c = c.splitlines()
 
         j = 0
         for cc in c:
@@ -175,6 +187,8 @@ class dataGrabID(object):
         if (not os.path.isdir(self.state_dir + 'data_raw/')): os.mkdir(self.state_dir + 'data_raw/')
         # step A: downlowd and save
         c,d,e = self.openSite(f_name, s_name, page_url, d_name)
-        data_csv = self.save_data(f_name, s_name, c,d,e)
-        print('  total list of cases', len(data_csv))
+        data_csv = []
+        if(len(c) > 0 and len(d) > 0): 
+            data_csv = self.save_data(f_name, s_name, c,d,e)
+            print('  total list of cases', len(data_csv))
         return (data_csv, self.name_file, self.now_date)
