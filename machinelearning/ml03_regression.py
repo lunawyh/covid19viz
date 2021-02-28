@@ -18,6 +18,7 @@ import math
 import numpy as np
 from sklearn import preprocessing, svm
 from sklearn.model_selection import cross_validate
+from sklearn.linear_model import LinearRegression
 
 # ==============================================================================
 # -- codes -------------------------------------------------------------------
@@ -39,19 +40,36 @@ df['label'] = df[forecast_col].shift(-forecast_out)
 df.dropna(inplace=True)
 #print(df.head())
 
-X= np.array(df.drop(['labe1'], 1))
-y = np.array(df['labe1'])
+X= np.array(df.drop(['label'], 1))
+y = np.array(df['label'])
 
 X = preprocessing.scale(X)
 X = X[:-forecast_out+1]
 #df.dropna(inplace=True)
-y = np.array(df['label1'])
+y = np.array(df['label'])
+#
+# 
+from sklearn.model_selection import KFold, cross_validate
+from sklearn.datasets import load_boston
+from sklearn.tree import DecisionTreeRegressor
 
-X_train, X_test, y_train, y_test = cross_validation.train_test_split(X, y, test_size=0.2)
+#X, y = load_boston(return_X_y=True)
+n_splits = 5
+kf = KFold(n_splits=n_splits, shuffle=True)
+
+model = LinearRegression()
+scoring=('r2', 'neg_mean_squared_error')
+
+cv_results = cross_validate(model, X, y, cv=kf, scoring=scoring, return_train_score=False)
+
+print(cv_results)
+#
+'''
+X_train, X_test, y_train, y_test = cross_validate.train_test_split(X, y, test_size=0.2)
 clf= LinearRegression()
 clf.fit(X_train, y_train)
 accuracy = clf.score(X_test, y_test)
 
 print(accuracy)
-''' '''
+''' 
 ## end of file
