@@ -11,7 +11,6 @@
 # ==============================================================================
 from __future__ import print_function
 import os
-import shutil
 from os.path import isfile, join
 import csv
 import urllib
@@ -39,18 +38,6 @@ class dataGrabID(object):
         self.state_dir = './'+n_state.lower()+'/'
         self.l_state_config = l_config
         self.now_date = ''
-    ## save to csv
-    def get_download_path(self):
-        """Returns the default downloads path for linux or windows"""
-        if os.name == 'nt':
-            import winreg
-            sub_key = r'SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders'
-            downloads_guid = '{374DE290-123F-4565-9164-39C4925E467B}'
-            with winreg.OpenKey(winreg.HKEY_CURRENT_USER, sub_key) as key:
-                location = winreg.QueryValueEx(key, downloads_guid)[0]
-            return location
-        else:
-            return os.path.join(os.path.expanduser('~'), 'Downloads')
 
 
     ## save to csv 
@@ -85,15 +72,65 @@ class dataGrabID(object):
             siteOpen.execute_script("document.getElementsByClassName('fppw03o low-density')[1].click()")
 
             time.sleep(5)
+        
+        
+        #siteOpen.switch_to.window(siteOpen.window_handles[1])
 
-            if os.name == 'nt':
-                os.rename("C:\Dennis\Covid19\covid19viz\id\data_raw\County.png",d_name)
-            else:
-                shutil.move(self.get_download_path() + "/County.png", d_name)
-                print('  downloaded to ', d_name)
+        #time.sleep(1)
+        #link = siteOpen.find_elements_by_xpath("//a[@class='csvLink_summary']")[
+        # 0].get_attribute("href")
+        #siteOpen.get(str(link))
 
+            os.rename("C:\Dennis\Covid19\covid19viz\id\data_raw\County.png",d_name)
         cases,deaths,counties = self.readDataFromPng(d_name)
         return cases,deaths,counties
+
+    def readDataFromPng(self, d_name):
+        print('  B.readDataFromPng', d_name)
+        # step B: parse and open
+        #---------------------------case-------------------------
+        img = cv2.imread(d_name)
+        #for c1 in img:
+            #for c2 in c1:
+                #if c2[0] == 64 and c2[1] == 64 and c2[2] == 64:
+                    #c2[0] = 0
+                    #c2[1] = 0
+                    #c2[2] = 0
+                #if c2[0] == 27 and c2[1] == 27 and c2[2] == 27:
+                    #c2[0] = 0
+                    #c2[1] = 0
+                    #c2[2] = 0
+            #print("1")
+        custom_config = "-c tessedit_char_whitelist=0123456789 --psm 6"
+        if os.name == 'nt':
+            pytesseract.pytesseract.tesseract_cmd = 'C:\Program Files\Tesseract-OCR\\tesseract.exe'
+        text = ''
+        crop_img = img[722:1612, 479:580]
+        crop_img = cv2.resize(crop_img, (0, 0), fx=5, fy=5)
+        crop_img = crop_img * (80/127 + 1) - 80
+        cv2.imwrite("C:\Dennis\Covid19\covid19viz\id\data_raw\img.png", crop_img)
+        key = cv2.waitKeyEx(3000)
+        text1 = pytesseract.image_to_string(crop_img, config=custom_config).encode('utf8').strip()
+        print(text1)
+
+        crop_img = img[722:1612, 866:967]
+        crop_img = cv2.resize(crop_img, (0, 0), fx=5, fy=5)
+        crop_img = crop_img * (85/127 + 1) - 85
+        key = cv2.waitKeyEx(3000)
+        text2 = pytesseract.image_to_string(crop_img, config=custom_config).encode('utf8').strip()
+        print(text2)
+
+        crop_img = img[722:1612, 71:180]
+        crop_img = cv2.resize(crop_img, (0, 0), fx=5, fy=5)
+        crop_img = crop_img * (80/127 + 1) - 80
+        key = cv2.waitKeyEx(3000)
+        text3 = pytesseract.image_to_string(crop_img, config=r'--oem 3 --psm 6').encode('utf8').strip()
+        print(text3)
+
+
+
+        return text1,text2,text3
+
     def detectFromImage(self, crop_img, isDigital=True):
         #print('  C.detectFromImage')
         # revert the color
@@ -119,38 +156,21 @@ class dataGrabID(object):
         print("    detectFromImage", text1)
         return text1.split('\n')
 
-    def readDataFromPng(self, d_name):
-        print('  B.readDataFromPng', d_name)
-        # step B: parse and open
-        #---------------------------case-------------------------
-        img = cv2.imread(d_name)
-        
-        custom_config = r'--oem 3 --psm 6'
-        if os.name == 'nt':
-            pytesseract.pytesseract.tesseract_cmd = 'C:\Program Files\Tesseract-OCR\\tesseract.exe'
-        
-        crop_img = img[722:1612, 479:580]
-        text1 = self.detectFromImage(crop_img)
-        
-        crop_img = img[722:1612, 866:967]
-        text2 = self.detectFromImage(crop_img)
-
-        crop_img = img[722:1612, 71:180]
-        text3 = self.detectFromImage(crop_img, isDigital=False)
-
-        return text1,text2,text3
-
     def save_data(self, f_name, s_name, c,d,e):
         allList = []
         allList.append(['County', 'Cases', 'Deaths'])
-        countyList = enumerate(e)  # .splitlines()
+        countyList = enumerate(e.splitlines())
 
-        #d = d.splitlines()
-        #c = c.splitlines()
+        d = d.splitlines()
+        c = c.splitlines()
 
         j = 0
         for cc in c:
             c[j] = cc.replace(",","")
+            j = j+1
+        j = 0
+        for dd in d:
+            d[j] = dd.replace(" ","")
             j = j+1
 
         d = list(filter(None, d))
@@ -189,8 +209,6 @@ class dataGrabID(object):
         if (not os.path.isdir(self.state_dir + 'data_raw/')): os.mkdir(self.state_dir + 'data_raw/')
         # step A: downlowd and save
         c,d,e = self.openSite(f_name, s_name, page_url, d_name)
-        data_csv = []
-        if(len(c) > 0 and len(d) > 0): 
-            #data_csv = self.save_data(f_name, s_name, c,d,e)
-            print('  total list of cases', len(data_csv))
+        data_csv = self.save_data(f_name, s_name, c,d,e)
+        print('  total list of cases', len(data_csv))
         return (data_csv, self.name_file, self.now_date)
