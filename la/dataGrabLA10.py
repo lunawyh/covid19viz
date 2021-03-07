@@ -22,6 +22,7 @@ from lxml import html
 import requests
 import numpy as np
 import urllib.request
+import xlrd
 # ==============================================================================
 # -- codes -------------------------------------------------------------------
 # ============================================================================== ## save downloaded data to daily or overal data 
@@ -66,66 +67,40 @@ class dataGrabLa(object):
                 print('  find link at', a_address)
 		
         return a_address
-    ## parse from exel format to list 
-    def parseDfData(self, df, fName=None):
-        (n_rows, n_columns) = df.shape 
-        # check shape
-        #print('parseDfData', df.title)
-        lst_data = []
-        for ii in range(n_rows):
-            a_case = []
-            for jj in range(n_columns):
-                #is the 'iloc(select rows and columns by number)' is ' nan(not a number)'
-                if( str(df.iloc[ii, jj]) == 'nan'  ): 
-                    a_case.append( 0 )
 
-                    continue
-                #a_case will have all the data from the 'data'
-                a_case.append( df.iloc[ii, jj] )
-            lst_data.append( a_case )
-        # save to a database file
-        #print('......', lst_data)
+    ## open a xlsx 
+    def open4Xlsx(self, xlsx_name):
+        l_data = []
+        if(isfile(xlsx_name) ):
+            #pandas.core.frame.DataFrame            
+            df=pd.read_excel(xlsx_name, engine='openpyxl')
+            print('/////////////////////', df)
+            print('uuuuuuuuuuuuu', type(df))
+            df2 = df['Parish'].values.tolist()
+            #print('mmmmmmmmm', df2)
+            df3 = df['Daily Negative Test Count'].values.tolist()
+            #print('mmmmmmmmm', df3)
+        
+            l_cases3 = np.vstack((df2, df3, [0]*len(df3))).T 
+        list1= []
+        state_num = 0
+        state_name = ''
+        for a_lst in l_cases3:
+            if state_name == '':
+                state_name = a_lst[0]
+                state_num= a_lst[1]
+            elif a_lst[0] == state_name:
+                state_name = a_lst[0]
+                state_num= a_lst[1]
+            elif a_lst[0] != state_name:
+                list1.append([state_name, state_num, 0])
+                state_num = 0
+                state_name = ''
+        print('mmmmmmmmmm', list1)
 
-        state_nam = []
-        state_case = [ ]
-        case = 0
-        for a_lst in lst_data:
-            #print('111111111', a_lst)
-            if a_lst[1] not in state_nam:
-                if case is not 0:
-                  state_case = state_case[: -1]
-                  state_case.append(case)
-                  case = 0
+        
+        return list1
 
-                else:
-                    state_nam.append(a_lst[1])
-                    state_case.append((a_lst[5]))
-                    case +=(int(a_lst[5]))
-            else:
-                case += int(a_lst[5])
-
-        #print('22222222222', (state_nam))
-        #print('33333333333', (state_case))
-        #print('len 22222222222', len(state_nam))
-        #print('len 33333333333', len(state_case))
-
-        l_cases3 = np.vstack((state_nam, state_case, [0]*len(state_case))).T 
-
-
-        total_death = 0
-        total_case = 0
-        for a_line in l_cases3:
-                total_case += int(a_line[1])
-                total_death += int(a_line[2])
-
-        l_cases3 = np.append(l_cases3, [['Total', total_case, total_death]], axis=0)
-
-        #if the file do not already exist
-        if(fName is not None): self.save2File( l_cases3, fName )
-        #return the data that turned in to a ?? now you can use it?
-        print('555555555', l_cases3)
-        return l_cases3
-    ## save downloaded data to daily or overal data 
     def saveLatestDateTx(self, l_raw_data, name_file):
         l_overall = []
 
@@ -134,28 +109,6 @@ class dataGrabLa(object):
 
         self.save2File(lst_raw_data6, self.state_dir + 'data/'+self.state_name.lower()+'_covid19_'+name_file+'.csv')
         return lst_raw_data6
-    ## open a xlsx 
-    def open4Xlsx(self, xlsx_name):
-        l_data = []
-        if(isfile(xlsx_name) ):
-            xl_file = pd.ExcelFile(xlsx_name)
-            print('  sheet_names', xl_file.sheet_names)
-            nfx = ''
-            for sheet in xl_file.sheet_names:  # try to find known name of sheet
-                if ('TESTING' in (sheet)):
-                    print('  select sheet', sheet)
-                    nfx = sheet
-                    break
-            if nfx == '': # if not found, use the 1st sheet
-                if(len(xl_file.sheet_names) > 0): nfx = xl_file.sheet_names[0]
-                else: return []
-            df = xl_file.parse( nfx )
-            
-            l_data = self.parseDfData(df)
-            print('  88888888888888888 l_data', l_data)
-
-        return l_data
-
 
     ## paser data CA
     def parseData(self, name_file, date_target, type_download):

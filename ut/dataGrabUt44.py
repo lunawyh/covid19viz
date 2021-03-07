@@ -124,20 +124,20 @@ class dataGrabUT(object):
         get_source = driver.page_source 
   
         # Printing the URL 
-        #print(str(get_source))
+        print(str(get_source))
         datas= str(get_source)
         n_start_1st = datas.find('Washington County:')
         n_end_1st = datas.find('See the descriptions for how')
         date_1st = datas[n_start_1st:n_end_1st]
         print('kkkkkkkkkkkk', date_1st)
         data_2nd = date_1st.replace('<', '').replace('>', ' ').replace('/', '').replace('li', '').replace('strong', '').replace('ul', '').replace('em', '')
-        data_3rd = data_2nd.split('deaths')
+        data_3rd = data_2nd.split('   ')
         print('qqqqqqqqqqqq', data_3rd)
 
         list_1st= []
         for data in data_3rd:
             rata = data.split(' ')
-            #print('lllllllllllll', rata)
+            print('lllllllllllll', rata)
             list_1st.append(rata)
 
         list_a = []
@@ -180,16 +180,40 @@ class dataGrabUT(object):
         abcde_list=[(list_a)]+[(list_b)]+[(list_c)]+[(list_d)]+[(list_e)]
         print(';;;;;;;;;;;;;;;;;;;;', abcde_list)
 
+        final_list = []
+        list1 = list_1st[0]+list_1st[1]
+        final_list.append([list1[0], list1[2].replace('(', '').replace(',', ''), list1[4].replace('cases),', '')])
+        list2 = list_1st[2]+list_1st[3]
+        final_list.append([list2[0], list2[2].replace('(', '').replace(',', ''), list2[5]])
+        list3 = list_1st[4]+list_1st[5]
+        final_list.append([list3[0], list3[2].replace('(', '').replace(',', ''), list3[5]])
+        list4 = list_1st[6]+list_1st[7]
+        final_list.append([list4[0], list4[2].replace('(', '').replace(',', ''), list4[5]])
+        list5 = list_1st[8]+list_1st[9]
+        final_list.append([list5[0], list5[2].replace('(', '').replace(',', ''), list5[5]])
+        '''
         final_list= []
         for cdcd in abcde_list:
-            '''
-            if cdcd[0] == 'Washington':
-                final_list.append([cdcd[0], cdcd[11].replace('=', '').replace(',', ''), cdcd[-1]])
-            '''
-            sysy= cdcd[5].split('=')
-            print('mmmmm', sysy)
-            final_list.append([cdcd[0], sysy[-1].replace(',', ''), cdcd[-1]])
 
+            if cdcd[0] == 'Washington':
+                final_list.append([cdcd[0], cdcd[11].replace('=', '').replace(',', ''), cdcd[13]])
+            elif cdcd[0] == 'Iron':
+                final_list.append([cdcd[0], cdcd[11].replace('=', '').replace(',', ''), cdcd[13]])
+            elif cdcd[0] == 'Kane':
+                susu =  cdcd[10].split('=')
+                final_list.append([cdcd[0], susu[-1].replace(',', ''), cdcd[12]])
+            elif cdcd[0] == 'Beaver':
+                susu =  cdcd[10].split('=')
+                final_list.append([cdcd[0], susu[-1].replace(',', ''), cdcd[12]])
+            elif cdcd[0] == 'Garfield':
+                susu =  cdcd[10].split('=')
+                final_list.append([cdcd[0], susu[-1].replace(',', ''), cdcd[12]])
+        '''
+        '''
+        sysy= cdcd[11].split('=')
+        print('mmmmm', sysy)
+        final_list.append([cdcd[0], sysy[-1].replace(',', ''), cdcd[12]])
+        '''
         print('ffffffffffffffffff', final_list)
         return final_list
 

@@ -155,7 +155,7 @@ class dataGrabwa(object):
             else: l_dd.append(a_cc)
         print('444444444', l_dd)
 
-        l_data2 = np.reshape( l_dd, (len( l_dd)/3, 3)).T
+        l_data2 = np.reshape( l_dd[:117], ((117)/3, 3)).T
         print('3333333333333', l_data2)
 
         l_cases3 = np.vstack((l_data2[0], l_data2[1], l_data2[2])).T 

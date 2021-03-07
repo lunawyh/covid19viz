@@ -108,7 +108,7 @@ class dataGrabWY(object):
         caseNumbers = siteOpen.find_elements_by_xpath('//div[@class="et_pb_text_inner"]')
         #stateNames = siteOpen.find_elements_by_xpath('//div[@class="bc-row-label row-label chart-text label"]')
 
-        print('++++++++++', caseNumbers)
+        #print('++++++++++', caseNumbers)
         
         case_num_list = []
         for case_num in caseNumbers:  # this is cases------------------------------------bc-bar-inner dw-rect
@@ -117,7 +117,7 @@ class dataGrabWY(object):
             if 'Cumulative' in dStringList:
                 case_num_list=(dStringList)
         print('2222222222222222222222',case_num_list )
-        l_cnl = case_num_list[31: ]
+        l_cnl = case_num_list[21: 92]
         print('11111111111111111111', l_cnl)
 
         l_list = []

@@ -17,6 +17,13 @@ import csv
 import datetime 
 import urllib
 import urllib.request
+from selenium import webdriver 
+from selenium.webdriver.common.keys import Keys 
+import time
+import requests
+from lxml import html
+import numpy as np
+
 # ==============================================================================
 # -- codes -------------------------------------------------------------------
 # ==============================================================================
@@ -34,9 +41,52 @@ class dataGrabVt(object):
         self.name_file = ''
         self.now_date = ''
     ## save to csv
+
+
+    def saveWebsite(self, fRaw):
+        csv_url = self.l_state_config[5][1]
+        print('  download4Website', csv_url)
+
+        siteOpen = webdriver.Chrome()
+        siteOpen.get(csv_url)
+        time.sleep(7)
+
+        # save html file
+        c_page = requests.get(csv_url)
+        c_tree = html.fromstring(c_page.content)
+        with open(fRaw, 'wb') as f:
+            f.write(c_page.content)
+        print('  saved to ', fRaw)
+
+        iframe = siteOpen.find_element_by_xpath('//iframe[@id="ifrSafe"]')
+        siteOpen.switch_to.frame(iframe)
+
+        caseNumbers = siteOpen.find_elements_by_xpath('//div[@class="external-html"]')
+
+        #print('++++++++++', caseNumbers)
+        
+        case_num_list = []
+        for case_num in caseNumbers[1: 16]:  
+            dStringList = case_num.text.split()
+            print('  ------------case_num', dStringList )
+            case_num_list.append([dStringList[0], dStringList[-1], 0])
+
+        print('===============', case_num_list)
+        death= 0
+        case = 0
+        for a_da in case_num_list:
+            case += int(a_da[1])
+            death += int(a_da[2])
+        l_cases3 = np.append(case_num_list, [['Total', case, death]], axis=0)
+        #l_cases4 = l_cases3.tolist()
+        print('00000000000000000000000', l_cases3)
+
+        return l_cases3
+
+
     def save2File(self, l_data, csv_name):
-        csv_data_f = open(csv_name, 'wb')
-        # create the csv writer
+        csv_data_f = open(csv_name, 'w')
+        # create the csv writer 
         csvwriter = csv.writer(csv_data_f)
         # make sure the 1st row is colum names
         if('County' in str(l_data[0][0])): pass
@@ -44,108 +94,17 @@ class dataGrabVt(object):
         for a_row in l_data:
             csvwriter.writerow(a_row)
         csv_data_f.close()
-    ## parse from exel format to list
-    def parseDfData(self, df, fName=None):
-        (n_rows, n_columns) = df.shape
-        # check shape
-        #print('parseDfData', df.title)
-        lst_data = []
-        for ii in range(n_rows):
-            a_case = []
-            for jj in range(n_columns):
-                if( str(df.iloc[ii, jj]) == 'nan'  ):
-                    a_case.append( 0 )
-                    continue
-                a_case.append( df.iloc[ii, jj] )
-            lst_data.append( a_case )
-        # save to a database file
-        if(fName is not None): self.save2File( lst_data, fName )
-        return lst_data
-    ## open a csv
-    def open4File(self, csv_name):
-        if(isfile(csv_name) ):
-            df = pd.read_csv(csv_name)
-            l_data = self.parseDfData(df)
-        else: return []
-        return l_data
-    ## save to csv
+        print('  save2File', csv_name)
 
-    def saveLatestDateVt(self, l_data):
-        l_d_sort = sorted(l_data, key=lambda k: k[0], reverse=False)
-        # find different date time
-        l_date = []
-        for a_item in l_d_sort:
-            #
-            bFound = False
-            for a_date in l_date:
-                if(a_date in a_item[11]):
-                    bFound = True
-                    break
-            if(not bFound):
-                l_date.append(a_item[11])
-        # generate all daily data
-        l_daily = []
-        for a_date in l_date:
-            l_daily = self.saveDataFromDlCt(l_d_sort, a_date, bDaily=False)
-        return l_daily
-
-    def saveDataFromDlCt(self, l_data, a_test_date, bDaily=True):
-        initial_test_date = None
-        #l_daily = []
-        l_overral = []
-        l_overral.append(['County','Cases','Deaths'])
-        #total_daily = 0
-        total_overral = 0
-        total_overral_deaths = 0
-        for a_item in l_data:
-            if ('Pending Validation' in a_item[3]): continue
-            #if (a_test_date is None):
-            if (initial_test_date is None and a_test_date in a_item[11]):
-                initial_test_date = a_test_date
-                dt_obj = datetime.datetime.strptime(a_test_date[:19], '%Y/%m/%d %H:%M:%S')
-                self.name_file = dt_obj.strftime('%Y%m%d')
-                self.now_date = dt_obj.strftime('%m/%d/%Y')
-            elif (a_test_date in a_item[11]):
-                pass
-            else:
-                continue
-            #total_daily += int(a_item[2])
-            total_overral += int(a_item[7])
-            total_overral_deaths += int(a_item[8])
-            #l_daily.append([a_item[1], a_item[2], 0])
-            l_overral.append([a_item[3].replace(' County', ''), a_item[7], a_item[8]])
-        #l_daily.append(['Total', total_daily, 0])
-        l_overral.append(['Total', total_overral, total_overral_deaths])
-        #if (not os.path.isdir(self.state_dir + 'daily/')): os.mkdir(self.state_dir + 'daily/')
-        if (not os.path.isdir(self.state_dir + 'data/')): os.mkdir(self.state_dir + 'data/')
-        #self.save2File(l_daily,
-        #               self.state_dir + 'daily/' + self.state_name.lower() + '_covid19_' + self.name_file + '.csv')
-        self.save2File(l_overral,
-                       self.state_dir + 'data/' + self.state_name.lower() + '_covid19_' + self.name_file + '.csv')
-        return l_overral
-
-
-    ## download a website 
-    def download4Website(self, fRaw):
-        csv_url = self.l_state_config[5][1]
-        # save csv file
-        urllib.request.urlretrieve(csv_url, fRaw)
-        return True
     ## paser data CA
     def parseData(self, name_target, date_target, type_download):
             self.name_file = name_target
             f_name = self.state_dir + 'data_raw/'+self.state_name.lower()+'_covid19_'+self.name_file+'.csv'
             if(not os.path.isdir(self.state_dir + 'data_raw/') ): os.mkdir(self.state_dir + 'data_raw/')
-            # step A: downlowd and save
-            result = self.download4Website(f_name)
             # step B: parse and open
-            lst_raw_data = self.open4File(f_name)
-            # step C: convert to standard file and save
-            if( type_download == 5):
-                lst_data = self.saveLatestDateNy(lst_raw_data)
-            if( type_download == 14):
-                lst_data = self.saveLatestDateVt(lst_raw_data)
+            lst_raw_data = self.saveWebsite(f_name)
 
-            return(lst_data, self.name_file, self.now_date)  
+            self.save2File(lst_raw_data, self.state_dir + 'data/'+self.state_name.lower()+'_covid19_'+self.name_file+'.csv')
+            return(lst_raw_data, self.name_file, self.now_date)  
 
 ## end of file

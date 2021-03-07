@@ -169,7 +169,7 @@ class dataGrabCA(object):
         h = height+y
         #print(x, y, w, h)
 
-        croppedImg = image1.crop((x,276,w-80,h))
+        croppedImg = image1.crop((x,y,w-80,h))
         croppedImg.save(self.state_name.lower() + '_covid19_'+self.name_file+ '1st.png') #save to file
 
         #craft the photo #2=============================================
@@ -226,12 +226,25 @@ class dataGrabCA(object):
         n_start_1st = text.find('Los Angeles')
         date_1st = text[n_start_1st:]
         l_pageTxt_1st = date_1st.split('\n')
-        print('11111111111111111111', l_pageTxt_1st)
+        data_1st=[]
+        for stst in l_pageTxt_1st:
+            if stst == '':continue
+            elif stst == ' ': continue
+            else: data_1st.append(stst.replace(',', '').replace('.', ''))
+        print('11111111111111111111', data_1st)
         #find start word #2
         n_start_2st = text_2nd.find('Shasta')
         date_2st = text_2nd[n_start_2st:]
         l_pageTxt_2st = date_2st.split('\n')
-        print('22222222222222222222222', l_pageTxt_2st)
+        data1st_2nd=[]
+        for stst in l_pageTxt_2st:
+            if stst == '':continue
+            elif stst == ' ': continue
+            else: data1st_2nd.append(stst.replace(',', ''))
+
+        data_2nd = data1st_2nd[:12] +['Amador']+ data1st_2nd[13:]
+
+        print('22222222222222222222222', data_2nd)
         #find start word #3
         '''
         n_start_3st = text_3nd.find('Plumas')
@@ -239,31 +252,27 @@ class dataGrabCA(object):
         l_pageTxt_3st = date_3st.split('\n')
         print('33333333333333333', l_pageTxt_3st)
         '''
-        l_pageTxt_together = l_pageTxt_1st+ l_pageTxt_2st #+ l_pageTxt_3st
-        print('44444444444444444444444', l_pageTxt_together) 
+        l_pageTxt_name = data_1st[:30]+ data_2nd[:28] #+ l_pageTxt_3st
+        print('44444444444444444444444', l_pageTxt_name) 
+        print('----------------', len(l_pageTxt_name))
 
-        datas= []
-        for stst in l_pageTxt_together:
-            if stst == '': continue
-            elif stst == ' ': continue
-            else:
-                sdsd = stst.replace(',', '').replace(' ', '')
-                #if sdsd == Alpine n
-                sasa = [re.split('(\d.*)', pcode) for pcode in sdsd.split(' ')]
-                if sasa[0][0] == 'Butteern': continue
-                else:
-                    datas.append(sasa)
-        print('datas-------------------', sasa)
-        l_cases = []
-        for dada in datas :
-            if 'Amador' in dada[0][0]: l_cases.append(['Amador', dada[0][1], 0])
-            else:
-                l_cases.append([dada[0][0], dada[0][1].replace('.', '').replace(',', ''), 0])
+        l_pageTxt_number = data_1st[30:]+ data_2nd[30:-2] #+ l_pageTxt_3st
+        print('44444444444444444444444', l_pageTxt_number) 
+        print('----------------', len(l_pageTxt_number))
 
+        l_number=[]
+        for lll in l_pageTxt_number:
+            if lll == '5.115':
+                l_number.append(5115)
+            else: l_number.append(lll)
+
+
+        zeros= [0]*len(l_pageTxt_number)
+        l_data = np.vstack((l_pageTxt_name, l_number, zeros)).T 
         case = 0
-        for a_da in l_cases:
+        for a_da in l_data:
             case += int(a_da[1])
-        l_cases3 = np.append(l_cases, [['Total', case, 0]], axis=0)
+        l_cases3 = np.append(l_data, [['Total', case, 0]], axis=0)
         print('00000000000000000000000', l_cases3)
 
         os.chdir('..')

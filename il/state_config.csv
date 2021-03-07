@@ -4,7 +4,7 @@ VIZ_H,1000,,,1
 state_map,il_state_map.jpg,,,2
 cordinate,None,,,3
 weblink_num,18,,,4
-weblink_state,https://www.dph.illinois.gov/covid19/covid19-statistics,,,5
+weblink_state,https://www.dph.illinois.gov/covid19/data-portal,,,5
 state_name,Illinois,,,6
 basemap_type,1,,,7
 basemap_center,40.133125,-89.398528,,8
