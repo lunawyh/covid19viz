@@ -252,11 +252,11 @@ class dataGrabCA(object):
         l_pageTxt_3st = date_3st.split('\n')
         print('33333333333333333', l_pageTxt_3st)
         '''
-        l_pageTxt_name = data_1st[:30]+ data_2nd[:28] #+ l_pageTxt_3st
+        l_pageTxt_name = data_1st[:30]+ data_2nd[:30] #+ l_pageTxt_3st
         print('44444444444444444444444', l_pageTxt_name) 
         print('----------------', len(l_pageTxt_name))
 
-        l_pageTxt_number = data_1st[30:]+ data_2nd[30:-2] #+ l_pageTxt_3st
+        l_pageTxt_number = data_1st[30:-1]+ data_2nd[30:-1] #+ l_pageTxt_3st
         print('44444444444444444444444', l_pageTxt_number) 
         print('----------------', len(l_pageTxt_number))
 

@@ -296,7 +296,7 @@ class dataGrabks(object):
 
         print('////////////', d_data)
         print('////////////', len(d_data))
-        l_cases2 = np.reshape(d_data, (30, 2)).T
+        l_cases2 = np.reshape(d_data, (len(d_data)//2, 2)).T
         zero= [0]*len(l_cases2[0])
         l_data = np.vstack((l_cases2[0], l_cases2[1], zero)).T 
 
