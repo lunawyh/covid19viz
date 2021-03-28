@@ -85,13 +85,15 @@ class dataGrabUT(object):
         with open(fRaw, 'wb') as f:
             f.write(c_page.content)
         print('  saved to ', fRaw)
-
+        # src="https://coronavirus-dashboard.utah.gov/overview.html"
+        iframe = siteOpen.find_element_by_xpath('//iframe[@src="https://coronavirus-dashboard.utah.gov/overview.html"]')
+        siteOpen.switch_to.frame(iframe)
         caseNumbers = siteOpen.find_elements_by_xpath('//tr[@role="row"]')
         full_list = []
         #print('nnnnnnnnnnnnn', caseNumbers)
         for l_date in caseNumbers[1:15]:
             dStringList = l_date.text.split()
-            #print('mmmmmmmm', dStringList)
+            print('mmmmmmmm', dStringList)
             if len(dStringList) == 4:
                 full_list.append([dStringList[0], dStringList[1], dStringList[3]])
             elif len(dStringList) == 5:
@@ -106,7 +108,7 @@ class dataGrabUT(object):
                 cbcb= dStringList[0]+' '+dStringList[1]
                 full_list.append([cbcb, dStringList[3], dStringList[5]])
 
-        #print('full_listmmmmmmmmmmm', full_list)
+        print('full_listmmmmmmmmmmm', full_list)
         lst_data= []
         return full_list
 
@@ -124,20 +126,20 @@ class dataGrabUT(object):
         get_source = driver.page_source 
   
         # Printing the URL 
-        print(str(get_source))
+        #print(str(get_source))
         datas= str(get_source)
         n_start_1st = datas.find('Washington County:')
         n_end_1st = datas.find('See the descriptions for how')
         date_1st = datas[n_start_1st:n_end_1st]
-        print('kkkkkkkkkkkk', date_1st)
+        #print('kkkkkkkkkkkk', date_1st)
         data_2nd = date_1st.replace('<', '').replace('>', ' ').replace('/', '').replace('li', '').replace('strong', '').replace('ul', '').replace('em', '')
         data_3rd = data_2nd.split('   ')
-        print('qqqqqqqqqqqq', data_3rd)
+        #print('qqqqqqqqqqqq', data_3rd)
 
         list_1st= []
         for data in data_3rd:
             rata = data.split(' ')
-            print('lllllllllllll', rata)
+            #print('lllllllllllll', rata)
             list_1st.append(rata)
 
         list_a = []
@@ -146,39 +148,39 @@ class dataGrabUT(object):
             elif lili == '': continue
             else:
                 list_a.append(lili)
-        print('aaaaaaaaaaaaa', list_a)
+        #print('aaaaaaaaaaaaa', list_a)
         list_b = []
         for lili in list_1st[1]:
             if lili == ' ': continue
             elif lili == '': continue
             else:
                 list_b.append(lili)
-        print('aaaaaaaaaaaaa', list_b)
+        #print('aaaaaaaaaaaaa', list_b)
         list_c = []
         for lili in list_1st[2]:
             if lili == ' ': continue
             elif lili == '': continue
             else:
                 list_c.append(lili)
-        print('aaaaaaaaaaaaa', list_c)
+        #print('aaaaaaaaaaaaa', list_c)
         list_d = []
         for lili in list_1st[3]:
             if lili == ' ': continue
             elif lili == '': continue
             else:
                 list_d.append(lili)
-        print('aaaaaaaaaaaaa', list_d)
+        #print('aaaaaaaaaaaaa', list_d)
         list_e = []
         for lili in list_1st[4]:
             if lili == ' ': continue
             elif lili == '': continue
             else:
                 list_e.append(lili)
-        print('aaaaaaaaaaaaa', list_e)
+        #print('aaaaaaaaaaaaa', list_e)
 
         abcde_list=['list']
         abcde_list=[(list_a)]+[(list_b)]+[(list_c)]+[(list_d)]+[(list_e)]
-        print(';;;;;;;;;;;;;;;;;;;;', abcde_list)
+        #print(';;;;;;;;;;;;;;;;;;;;', abcde_list)
 
         final_list = []
         list1 = list_1st[0]+list_1st[1]
@@ -243,7 +245,7 @@ class dataGrabUT(object):
             dStringList = l_date.text.split()
             #print('mmmmmmmm', dStringList)
             full_list.append([dStringList[0], dStringList[2], 0])
-        #print('kkkkkkkkkkk', full_list)
+        print('kkkkkkkkkkk', full_list)
 
         return full_list
 

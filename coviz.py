@@ -758,6 +758,14 @@ class runCoViz(object):
             # step B: parse to standard file
             lst_data, self.name_file, self.now_date = data_grab.parseData(self.name_file, self.now_date, type_download)
 
+        elif (type_download == 327):  # download only
+            sys.path.insert(0, "./wi")
+            from dataGrabWI327 import dataGrabWI
+            # step A: create new class
+            data_grab = dataGrabWI(self.l_state_config, self.state_name)
+            # step B: parse to standard file
+            lst_data, self.name_file, self.now_date = data_grab.parseData(self.name_file, self.now_date, type_download)
+
         elif (type_download == 59):  # download only
             sys.path.insert(0, "./ny")
             from dataGrabNy59 import dataGrabNY
