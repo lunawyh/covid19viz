@@ -18,6 +18,7 @@ import datetime
 import urllib
 import ssl
 import numpy as np
+import urllib.request
 # ==============================================================================
 # -- codes -------------------------------------------------------------------
 # ==============================================================================
@@ -105,7 +106,7 @@ class dataGrabNY(object):
     def download4Website(self, fRaw):
         csv_url = self.l_state_config[5][1]
         # save csv file
-        urllib.urlretrieve(csv_url, fRaw)
+        urllib.request.urlretrieve(csv_url, fRaw)
         return True
     ## paser data CA
     def parseData(self, name_target, date_target, type_download):

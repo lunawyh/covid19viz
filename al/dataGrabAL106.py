@@ -25,7 +25,7 @@ from selenium import webdriver  # https://selenium-python.readthedocs.io/install
 import time
 from selenium.webdriver.common.keys import Keys 
 import bs4
-from urllib2 import urlopen as uReq
+import urllib.request as urllib2
 import itertools
 
 # ==============================================================================
@@ -90,85 +90,51 @@ class dataGrabAL(object):
                 f_name = self.state_dir + 'data_html/'+self.state_name.lower()+'_covid19_'+self.name_file+'.html'
                 return f_name, se_dates
         return fRaw, se_dates
+
+
     ## download a website 
     def saveWebsite(self, fRaw):
-        csv_url = self.l_state_config[5][1]
+        #csv_url = self.l_state_config[5][1]
+        #print('  download4Website', csv_url)
+
+        csv_url = "https://www.nytimes.com/interactive/2020/us/alabama-coronavirus-cases.html"
         print('  download4Website', csv_url)
+        driver = webdriver.Chrome()
+        driver.get(csv_url)
+        time.sleep(10)
 
-        #chrome_options = Options()
-        #chrome_options.add_argument('--no-sandbox')
-        #chrome_options.add_argument('--headless')
+        from selenium.webdriver.common.keys import Keys
+        element = driver.find_elements_by_xpath('//button[@class="expand svelte-1a4y62p"]') #[0].click()
+        element[0].send_keys("\n")
+        print('clicked the botton ==============')
 
-        siteOpen = webdriver.Chrome() #chrome_options=chrome_options)
-        siteOpen.get(csv_url)
-        time.sleep(7)
 
-        # save html file
-        c_page = requests.get(csv_url)
-        c_tree = html.fromstring(c_page.content)
-        with open(fRaw, 'wb') as f:
-            f.write(c_page.content)
-        print('  saved to ', fRaw)
-
-        caseNumbers = siteOpen.find_elements_by_xpath('//td[@data-field="CNTYFIPS"]')
-        #stateNames = siteOpen.find_elements_by_xpath('//div[@class="bc-row-label row-label chart-text label"]')
-
-        #print('++++++++++', caseNumbers)
-        case_nam_list = []
-        for case_num in caseNumbers:  # this is cases------------------------------------bc-bar-inner dw-rect
+        caseNumbers = driver.find_elements_by_xpath('//tbody[@class="top-level"]')
+        #print('ccccccccccccccc', caseNumbers)
+        case_list = []
+        for case_num in caseNumbers: 
             dStringList = case_num.text.split()
-            print('  ------------case_num', dStringList )
-            case_nam_list.append(dStringList)
-            
+            #print('  ------------case_num', dStringList )
+            case_list.append(dStringList)
 
-        state_case_list = []
-        caseNum = siteOpen.find_elements_by_xpath('//td[@data-field="CONFIRMED"]')
-        for case_num in caseNum:  # this is names------------------------------------
-            dStringList = case_num.text.split()
-            print('  2222222222222222', dStringList )
-            state_case_list.append(dStringList)
-
-        state_death_list = []
-        caseDea = siteOpen.find_elements_by_xpath('//td[@data-field="DIED"]')
-        for case_num in caseDea:  # this is names------------------------------------
-            dStringList = case_num.text.split()
-            print('  33333333333333333333333', dStringList )
-            state_death_list.append(dStringList)
-
-
-
-        #state_name_list2 = state_name_list[1: ]
-        case_nam_list= list(itertools.chain.from_iterable(case_nam_list))
-        case_n= []
-
-        for aa in case_nam_list:
-            if aa == 'St.': pass
-            elif aa == 'Clair':
-                aa= 'St. Clair'
-                case_n.append(aa)
+        list_data=[]
+        for cc in case_list[0][:5] + case_list[0][9:]:
+            if cc ==  '›': continue
+            elif cc ==  ' ': continue
+            elif cc ==  '': continue
+            elif cc ==  'Unknown': continue
+            elif cc ==  '—': continue
+            elif cc ==  'St.': continue
+            elif cc ==  'Clair': 
+                list_data.append('St.Clair')
             else:
-                case_n.append(aa)
+                list_data.append(cc.replace(',', ''))
+        print('llllllllllll', list_data)  
 
-        state_case_list= list(itertools.chain.from_iterable(state_case_list))
-        state_death_list= list(itertools.chain.from_iterable(state_death_list))
-        print('11111', len(case_n))
-        #print('22222', len(state_case_list))
-        print('33333', len(state_death_list))
-        print('11111111111111',case_n )
-        #print('11111111111111',state_case_list )
-        #print('11111111111111',state_death_list )
-        l_data = np.vstack((case_n, state_case_list, state_death_list)).T 
-        #l_data2_case = np.vstack((l_data_case[0], l_data_case[1], l_data_case[2])).T 
-        print('  saveWebsite: read data ', (l_data) )
-
-        case = 0
-        death = 0
-        for a_da in l_data:
-            case += int(a_da[1])
-            death += int(a_da[2])
-        l_cases3 = np.append(l_data, [['Total', case, death]], axis=0)
-
-        siteOpen.close()
+        l_cases2 = np.reshape(list_data, (len(list_data)//5, 5)).T
+        zeros= [0]*len(l_cases2[0])
+        l_cases3 = np.vstack((l_cases2[0], l_cases2[1],zeros)).T 
+        print('llllllllllll', l_cases3)  
         return l_cases3
 
 

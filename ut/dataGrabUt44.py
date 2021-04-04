@@ -23,6 +23,7 @@ import json
 import numpy as np
 from selenium import webdriver  # https://selenium-python.readthedocs.io/installation.html
 import time
+import urllib.request
 # ==============================================================================
 # -- codes -------------------------------------------------------------------
 # ==============================================================================
@@ -74,213 +75,179 @@ class dataGrabUT(object):
         csv_url = self.l_state_config[5][1]
         print('  open4WebsiteMain', csv_url)
         # save html file
-        if(not isfile(fRaw) ): 
-            urllib.urlretrieve(csv_url, fRaw)
+        siteOpen = webdriver.Chrome()
+        siteOpen.get(csv_url)
+        #time.sleep(7)
 
-        # read updated date
-        print('  read date')
-        if( isfile(fRaw) ): 
-            with open(fRaw, 'r') as file:
-                page_content = file.read()
-        else: return []
-        lst_data = []
-        c_tree = html.fromstring(page_content)
-        u_dates = c_tree.xpath('//p/text()')
-        for l_date in u_dates:
-            if('Report Date: ' in l_date):
-                #print('    data is updated,', l_date)
-                n_start = l_date.find(l_date)
-                s_date = l_date[n_start:].split(':')
-                #print ('    date:', s_date[1]) # an example,  May 24, 2020
-                mdy_date = s_date[1].split(',')
-                md_date = mdy_date[0].split(' ')
-                # Only use first 3 letters of month name
-                dt_obj = datetime.datetime.strptime(md_date[1][:3]+md_date[2]+mdy_date[1], "%b%d %Y")
-                self.name_file = dt_obj.strftime('%Y%m%d')
-                self.now_date = dt_obj.strftime('%m/%d/%Y')
-                #print('    name_file is updated:', self.name_file)
-                break
-        # read tables
-        print ('  read data table of counties')
-        # read 1st table: Overall Confirmed COVID-19 Cases by County
-        u_scripts = c_tree.xpath('//script/text()')
-        for l_script in u_scripts:
-            if('Jurisdiction' in l_script and 'Cases' in l_script and 'Deaths' in l_script):
-                #print('  ###############################################  counties data:', l_script)
-                lst_data = self.parseJsonString(l_script)
-                
-        return lst_data
-    ## parse from exel format to list 
-    def parseJsonString(self, j_str):
-        print('    parseJsonString')
-        lst_data = []
-        j_data = json.loads(j_str.replace(' County', ''))  # is a json string
-        l_raw_data = j_data['x']['data']		# fixed keys
-        #print('  ############################################### ', l_raw_data)
+        # save html file
+        c_page = requests.get(csv_url)
+        c_tree = html.fromstring(c_page.content)
+        with open(fRaw, 'wb') as f:
+            f.write(c_page.content)
+        print('  saved to ', fRaw)
+        # src="https://coronavirus-dashboard.utah.gov/overview.html"
+        iframe = siteOpen.find_element_by_xpath('//iframe[@src="https://coronavirus-dashboard.utah.gov/overview.html"]')
+        siteOpen.switch_to.frame(iframe)
+        caseNumbers = siteOpen.find_elements_by_xpath('//tr[@role="row"]')
+        full_list = []
+        #print('nnnnnnnnnnnnn', caseNumbers)
+        for l_date in caseNumbers[1:15]:
+            dStringList = l_date.text.split()
+            print('mmmmmmmm', dStringList)
+            if len(dStringList) == 4:
+                full_list.append([dStringList[0], dStringList[1], dStringList[3]])
+            elif len(dStringList) == 5:
+                if dStringList[1] == 'County':
+                    full_list.append([dStringList[0], dStringList[2], dStringList[4]])
+                elif dStringList[0] == 'Southeast': continue
+                elif dStringList[0] == 'Southwest': continue
+                else:
+                    cbcb= dStringList[0]+' '+dStringList[1]
+                    full_list.append([cbcb, dStringList[2], dStringList[4]])
+            else:
+                cbcb= dStringList[0]+' '+dStringList[1]
+                full_list.append([cbcb, dStringList[3], dStringList[5]])
 
-        l_raw_data = l_raw_data[:2] + l_raw_data[3:]  	# remove 3rd column of Hospitalizations
+        print('full_listmmmmmmmmmmm', full_list)
+        lst_data= []
+        return full_list
 
-
-        lst_data = zip(*l_raw_data)			# transpose the matrix
-        #print('seeeeeeeeeee', lst_data)        
-        #print('    counties', len(lst_data))
-        lst_dateee = lst_data[:5] + lst_data[7:]
-        #print('$$$$$$$$$$44', lst_dateee)
-        return lst_dateee
 
     # southwest counties
     def open4WebsiteSwu(self, fRaw, lst_data):  	# https://swuhealth.org/covid/
         csv_url = self.l_state_config[5][3]
-        #print('  open4WebsiteSwu', csv_url)
-        
-        # save html file, can not use urllib.urlretrieve
-        r = requests.get(csv_url)
-        fRaw = fRaw.replace('.html', 'swu.html')
-        with open(fRaw, 'wb') as f:
-            f.write(r.content)
+        print('  open4WebsiteMain', csv_url)
+        print('mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm')
+        # Opening the URL 
+        driver = webdriver.Chrome() 
+        driver.get(csv_url) 
+  
+        # Getting current URL source code 
+        get_source = driver.page_source 
+  
+        # Printing the URL 
+        #print(str(get_source))
+        datas= str(get_source)
+        n_start_1st = datas.find('Washington County:')
+        n_end_1st = datas.find('See the descriptions for how')
+        date_1st = datas[n_start_1st:n_end_1st]
+        #print('kkkkkkkkkkkk', date_1st)
+        data_2nd = date_1st.replace('<', '').replace('>', ' ').replace('/', '').replace('li', '').replace('strong', '').replace('ul', '').replace('em', '')
+        data_3rd = data_2nd.split('   ')
+        #print('qqqqqqqqqqqq', data_3rd)
 
-        # read updated date
-        print('  read date')
-        if( isfile(fRaw) ): 
-            with open(fRaw, 'r') as file:
-                page_content = file.read()
-        else: return []
-        lst_data = lst_data[0:-1]  # remove total row
-        lst_data_sw = []
-        # reset subtotal of SW
-        for a_item in lst_data:
-            if('Southwest Utah' in a_item[0]):
-                lst_data_sw.append(['Southwest Utah', 0, a_item[2]])
+        list_1st= []
+        for data in data_3rd:
+            rata = data.split(' ')
+            #print('lllllllllllll', rata)
+            list_1st.append(rata)
+
+        list_a = []
+        for lili in list_1st[0]:
+            if lili == ' ': continue
+            elif lili == '': continue
             else:
-                lst_data_sw.append(a_item)
-        
-        #-----------------------------------get date----------
-        c_tree = html.fromstring(page_content)
-        print('    look for updated date and county data')
-        sw_dates = c_tree.xpath('//ul//li//strong/text()')   # ('//div[@class="col-xs-12 button--wrap"]')
-        #sw_dates = c_tree.xpath('//ul//li/text()')  
-        #print('11111111111', sw_dates)
-        for sw_data in sw_dates:
-            if('COVID-19 CASES' in sw_data):
-                l_detail1 = sw_data.split('(')
-                #print('      ..............updated date', l_detail1)
-        #-----------------------------------get data----------
-        c_tree = html.fromstring(page_content)
-        #print('    look for county data')
-        sw_dates2 = c_tree.xpath('//ul//li/text()')
-        #print('222222222222222', sw_dates2)
-        death= []
-        total_death =0
-        for sw_data in sw_dates2:
-            
-            if('recovered,' in sw_data):
-                start = sw_data.find('recovered,')
-                data = sw_data[start: ]
+                list_a.append(lili)
+        #print('aaaaaaaaaaaaa', list_a)
+        list_b = []
+        for lili in list_1st[1]:
+            if lili == ' ': continue
+            elif lili == '': continue
+            else:
+                list_b.append(lili)
+        #print('aaaaaaaaaaaaa', list_b)
+        list_c = []
+        for lili in list_1st[2]:
+            if lili == ' ': continue
+            elif lili == '': continue
+            else:
+                list_c.append(lili)
+        #print('aaaaaaaaaaaaa', list_c)
+        list_d = []
+        for lili in list_1st[3]:
+            if lili == ' ': continue
+            elif lili == '': continue
+            else:
+                list_d.append(lili)
+        #print('aaaaaaaaaaaaa', list_d)
+        list_e = []
+        for lili in list_1st[4]:
+            if lili == ' ': continue
+            elif lili == '': continue
+            else:
+                list_e.append(lili)
+        #print('aaaaaaaaaaaaa', list_e)
 
-                dea = data.split(' ')
-                #print('33333333333333', dea)
-                if len(dea) >= 3:
-                    death.append(int(dea[1].replace('*', '')))
-                    total_death += int(dea[1].replace('*', ''))
-                    #print('333333', death)
+        abcde_list=['list']
+        abcde_list=[(list_a)]+[(list_b)]+[(list_c)]+[(list_d)]+[(list_e)]
+        #print(';;;;;;;;;;;;;;;;;;;;', abcde_list)
 
-        
-        sw_dates3 = c_tree.xpath('//ul//li//strong/text()')
-        num = []
-        name = []
-        total_confirmed = 0
-        for sw_data in sw_dates3:
-            print('4444444444444444', sw_data)
-            if(' County:' in sw_data):
-                print('..........', sw_data)
-                sw_s = sw_data.split(' ')
-                print(',,,,,,,,,', sw_s)
-                name.append(sw_s[0])
-                num.append(int(sw_s[2].replace(',', '')))
+        final_list = []
+        list1 = list_1st[0]+list_1st[1]
+        final_list.append([list1[0], list1[2].replace('(', '').replace(',', ''), list1[4].replace('cases),', '')])
+        list2 = list_1st[2]+list_1st[3]
+        final_list.append([list2[0], list2[2].replace('(', '').replace(',', ''), list2[5]])
+        list3 = list_1st[4]+list_1st[5]
+        final_list.append([list3[0], list3[2].replace('(', '').replace(',', ''), list3[5]])
+        list4 = list_1st[6]+list_1st[7]
+        final_list.append([list4[0], list4[2].replace('(', '').replace(',', ''), list4[5]])
+        list5 = list_1st[8]+list_1st[9]
+        final_list.append([list5[0], list5[2].replace('(', '').replace(',', ''), list5[5]])
+        '''
+        final_list= []
+        for cdcd in abcde_list:
 
-
-
-        #print('8888888', name)
-        #print('8888888', num)
-        #print('8888888', death)
-        l_data = np.vstack((name, num, death)).T 
-        #print('ppppppp', l_data)        
-        # calculate total------------------------------------------------
-        #total = (['Total', total_confirmed, total_death])
-        #l_data= np.append(l_data, total)
-
-        return l_data
+            if cdcd[0] == 'Washington':
+                final_list.append([cdcd[0], cdcd[11].replace('=', '').replace(',', ''), cdcd[13]])
+            elif cdcd[0] == 'Iron':
+                final_list.append([cdcd[0], cdcd[11].replace('=', '').replace(',', ''), cdcd[13]])
+            elif cdcd[0] == 'Kane':
+                susu =  cdcd[10].split('=')
+                final_list.append([cdcd[0], susu[-1].replace(',', ''), cdcd[12]])
+            elif cdcd[0] == 'Beaver':
+                susu =  cdcd[10].split('=')
+                final_list.append([cdcd[0], susu[-1].replace(',', ''), cdcd[12]])
+            elif cdcd[0] == 'Garfield':
+                susu =  cdcd[10].split('=')
+                final_list.append([cdcd[0], susu[-1].replace(',', ''), cdcd[12]])
+        '''
+        '''
+        sysy= cdcd[11].split('=')
+        print('mmmmm', sysy)
+        final_list.append([cdcd[0], sysy[-1].replace(',', ''), cdcd[12]])
+        '''
+        print('ffffffffffffffffff', final_list)
+        return final_list
 
     def open4WebsiteSeu(self, fRaw, lst_data):
-
         csv_url = self.l_state_config[5][2]
-        print('  search website==========', csv_url)
+        print('  open4WebsiteSeu', csv_url)
         # save html file
-        #urllib.urlretrieve(csv_url, fRaw)
+        siteOpen = webdriver.Chrome()
+        siteOpen.get(csv_url)
+        time.sleep(7)
+
         # save html file
         c_page = requests.get(csv_url)
         c_tree = html.fromstring(c_page.content)
-        l_dates = c_tree.xpath('//th//div/text()')
-        print('...............', l_dates)
-        #============================state name
-        county_name=[]
-        for a_li in l_dates:
-            if 'County' in a_li:
-                lic= a_li.replace('County', '').replace(' ', '')
-                if lic != '':
-                    county_name.append(lic)
-        print('cccccccc', county_name)
+        with open(fRaw, 'wb') as f:
+            f.write(c_page.content)
+        print('  saved to ', fRaw)
 
 
-        l_case = c_tree.xpath('//div//div[@class="_12zZG"]/text()')
-        print('case==================', l_case)
-        cases = []
-        for a_ca in l_case[:30]:
-            cases.append(a_ca)
-        print('ccccccccccccccccccccccc', cases)
-        l_cases2 = np.reshape(cases, (len(cases)/5, 5))
-        print('===========', l_cases2)
-        Deaths = []
-        total = []
-        for a_line in l_cases2:
-            if 'Total' in a_line:
-                total.append(a_line[1:4])
-            elif 'Deaths' in a_line:
-                Deaths.append(a_line[1:4])
+        iframe = siteOpen.find_element_by_xpath('//iframe[@title="htmlComp-iframe"]')
+        siteOpen.switch_to.frame(iframe)
 
-        print('=============', Deaths)
-        print('=============', total)
-        l_data = np.vstack((county_name, total, Deaths)).T 
-        print('++++++++++++++++', l_data)
-        '''
-        csv_url = self.l_state_config[5][2]
-        print('  open4WebsiteSeu', csv_url)
-        siteOpen = webdriver.Chrome()
-        siteOpen.get(csv_url)
-        time.sleep(10)
-        # county
-        countyNames = siteOpen.find_elements_by_xpath('//div[@class="_3-_lH"]')
-        #print('==================', countyNames)
-        for c_name in countyNames:
-            dStringList = c_name.text  #.split()
-            print('555555555555', dStringList)
-            if 'County' in dStringList: 
-                print('4444444444444444444444444', dStringList)
-                print('  countyNames', dStringList, len(dStringList))
-            break
-        # cases
-        caseNumbers = siteOpen.find_elements_by_xpath('//div[@class="_3-_lH"]')
-        for case_num in caseNumbers:
-            dStringList_num = case_num.text.split()
-            print('77777777777777', dStringList_num)
-            print('  caseNumbers', dStringList_num, len(dStringList))
-            break
+        caseNumbers = siteOpen.find_elements_by_xpath('//tr[@style="height: 48px;"]')
+        full_list = []
+        #print('nnnnnnnnnnnnn', caseNumbers)
+        for l_date in caseNumbers:
+            dStringList = l_date.text.split()
+            #print('mmmmmmmm', dStringList)
+            full_list.append([dStringList[0], dStringList[2], 0])
+        print('kkkkkkkkkkk', full_list)
 
-        time.sleep(3)
-        siteOpen.close()
-        '''
-
-        return l_data
+        return full_list
 
  
     

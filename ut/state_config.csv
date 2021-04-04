@@ -4,7 +4,7 @@ VIZ_H,1000,,,1
 state_map,utah-county-map.jpg,,,2
 cordinate,mi_county_cordination.csv,,,3
 weblink_num,44,,,4
-weblink_state,https://coronavirus-dashboard.utah.gov/,https://www.seuhealth.com/covid-19,https://swuhealth.org/covid/,5
+weblink_state,https://coronavirus.utah.gov/case-counts/,https://www.seuhealth.com/covid-19,https://swuhealth.org/covid/,5
 state_name,Utah,,,6
 basemap_type,1,,,7
 basemap_center,39.854635,-111.751988,,8

@@ -17,7 +17,7 @@ import csv
 import datetime 
 import urllib
 import re
-import requests
+#import urllib.request
 from lxml import html
 import json
 import numpy as np
@@ -25,8 +25,11 @@ from selenium import webdriver  # https://selenium-python.readthedocs.io/install
 import time
 from selenium.webdriver.common.keys import Keys 
 import bs4
-from urllib2 import urlopen as uReq
-
+#from urllib.request import urlopen as uReq
+try:
+    from urllib.request import urlopen
+except ImportError:
+    from urllib2 import urlopen
 # ==============================================================================
 # -- codes -------------------------------------------------------------------
 # ==============================================================================
@@ -99,14 +102,24 @@ class dataGrabOk(object):
         time.sleep(5)
         caseNumbers = siteOpen.find_elements_by_xpath('//div[@class="ag-center-cols-container"]')
         
+        dst_list= []
         for case_num in caseNumbers:
             dStringList = case_num.text.replace(',', '').split()
-            #print('  case_num', dStringList )
-        #print('list---', (dStringList))
+            print('  case_num', dStringList )
+            dst_list+=(dStringList)
+        print('list---', (dst_list))
 
+        all_list=[]
+        for lili in dst_list:
+            if lili == 'Le': continue
+            elif lili == "Flore":
+                all_list.append('Le Flore')
+            else:
+                all_list.append(lili)
 
-        print('len---------', len(dStringList))
-        l_cases2 = np.reshape(dStringList, (len(dStringList)/4, 4)).T
+        print('len---------', len(all_list))
+        print('len---------', type(len(all_list)))
+        l_cases2 = np.reshape(all_list, (56, 4)).T
 
         #l_data = np.vstack((l_cases2[0], case_s, death_s)).T 
         l_data = np.vstack((l_cases2[0], l_cases2[1], l_cases2[2]))

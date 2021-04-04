@@ -61,7 +61,7 @@ class dataGrabXyz(object):
         if(not os.path.isdir(self.state_dir + 'data_raw/') ): os.mkdir(self.state_dir + 'data_raw/')
 
         # download the html file
-	urllib.urlretrieve(data_url, f_raw_name)
+	    urllib.urlretrieve(data_url, f_raw_name)
         return f_raw_name, c_page.content
 
     ## read a html string and filter the data, then put into a list 

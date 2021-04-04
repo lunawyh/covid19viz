@@ -239,7 +239,7 @@ class dataGrabOh(object):
         
         siteOpen = webdriver.Chrome()
         siteOpen.get(csv_url)
-        time.sleep(7)
+        #time.sleep(7)
         #<a href="https://coronavirus.ohio.gov/static/dashboards/COVIDSummaryData.csv" title="Download&nbsp;the&nbsp;summary&nbsp;data&nbsp;(CSV)" target="_blank" data-auth="NotApplicable" rel="noopener noreferrer">Download&nbsp;the&nbsp;summary&nbsp;data&nbsp;(CSV)</a>
         # save html file
         c_page = requests.get(csv_url)

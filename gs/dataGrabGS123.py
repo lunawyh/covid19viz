@@ -129,7 +129,7 @@ class dataGrabGS(object):
         return l_raw_data
     def unzipdta(self, f_name):
         # save to raw file
-        urllib.urlretrieve(self.l_state_config[5][1], f_name)
+        urllib.request.urlretrieve(self.l_state_config[5][1], f_name)
         # open and unzip
         #filehandle, _ = urllib.urlretrieve(self.l_state_config[5][1])
         zip_file_object = zipfile.ZipFile(f_name, 'r')

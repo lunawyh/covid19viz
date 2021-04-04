@@ -758,6 +758,14 @@ class runCoViz(object):
             # step B: parse to standard file
             lst_data, self.name_file, self.now_date = data_grab.parseData(self.name_file, self.now_date, type_download)
 
+        elif (type_download == 327):  # download only
+            sys.path.insert(0, "./wi")
+            from dataGrabWI327 import dataGrabWI
+            # step A: create new class
+            data_grab = dataGrabWI(self.l_state_config, self.state_name)
+            # step B: parse to standard file
+            lst_data, self.name_file, self.now_date = data_grab.parseData(self.name_file, self.now_date, type_download)
+
         elif (type_download == 59):  # download only
             sys.path.insert(0, "./ny")
             from dataGrabNy59 import dataGrabNY
@@ -787,6 +795,27 @@ class runCoViz(object):
             from dataGrabSD import dataGrabSD 
             # step A: create new class 
             data_grab = dataGrabSD(self.l_state_config, self.state_name) 
+            # step B: parse to standard file 
+            lst_data, self.name_file, self.now_date = data_grab.parseData(self.name_file, self.now_date, type_download) 
+        elif (type_download == 8273): 
+            sys.path.insert(0, "./ri") 
+            from dataGrabRI import dataGrabRI
+            # step A: create new class 
+            data_grab = dataGrabRI(self.l_state_config, self.state_name) 
+            # step B: parse to standard file 
+            lst_data, self.name_file, self.now_date = data_grab.parseData(self.name_file, self.now_date, type_download) 
+        elif (type_download == 7368): 
+            sys.path.insert(0, "./id") 
+            from dataGrabID import dataGrabID
+            # step A: create new class 
+            data_grab = dataGrabID(self.l_state_config, self.state_name) 
+            # step B: parse to standard file 
+            lst_data, self.name_file, self.now_date = data_grab.parseData(self.name_file, self.now_date, type_download) 
+        elif (type_download == 9090): 
+            sys.path.insert(0, "./zz") 
+            from dataGrabZZ import dataGrabZZ 
+            # step A: create new class 
+            data_grab = dataGrabZZ(self.l_state_config, self.state_name) 
             # step B: parse to standard file 
             lst_data, self.name_file, self.now_date = data_grab.parseData(self.name_file, self.now_date, type_download) 
         ### This is a template entry into one state, to COPY and MODIFY, do NOT REMOVE or CHANGE
@@ -901,7 +930,7 @@ class runCoViz(object):
     def getDataListDeath(self, snd_data):
         lst_out = []
         for cov in snd_data:
-            if cov[2]>0:
+            if len(str(cov[2]))>0:
                 lst_out.append(cov)
         return lst_out
  

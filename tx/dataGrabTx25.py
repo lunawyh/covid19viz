@@ -17,6 +17,9 @@ import csv
 import urllib
 import ssl
 import datetime 
+import urllib.request
+import numpy as np
+from datetime import date
 # ==============================================================================
 # -- codes -------------------------------------------------------------------
 # ==============================================================================
@@ -68,26 +71,28 @@ class dataGrabTx(object):
         print("  open4Xlsx", xlsx_name)
         s_date = ''
         if(isfile(xlsx_name) ):
-            xl_file = pd.ExcelFile(xlsx_name)
-            print("  sheet names", xl_file.sheet_names)
-            nfx = ''
-            for sheet in xl_file.sheet_names:
-                if 'Cases and Fatalities' in (sheet):
-                    nfx = sheet
-                    break
-                if 'Case and Fatalities' in (sheet):  
-                    nfx = sheet 
-                    break
-            if nfx == '':return [], s_date
-            print("  select sheet", nfx)
-            df = xl_file.parse( nfx )
-            n_date = df.columns[0].find('as of')
-            if(n_date >= 0):
-                s_date = df.columns[0][n_date+6 : n_date+6+5].replace(' ', '')
-                print('  updated date is found', s_date)
-            l_data = self.parseDfData(df)
-        else: return [], s_date
-        return l_data, s_date
+            xl_file = pd.read_excel(xlsx_name, engine= 'openpyxl')
+            #xl_file = pd.read_excel(xlsx_name)
+            #print("  sheet names==================", xl_file)
+            #print('2222222222222222222222', type(xl_file))
+
+            xl_cdcd = xl_file.to_numpy()
+            #print("  vvvvvvvvvvvvvvv", xl_cdcd)
+            #print('sssssssssssssssssss', type(xl_cdcd))
+            list_full = []
+            for svsv in xl_cdcd[2:-2]:
+                susu = str(svsv)
+                #print('//////////////', susu)
+                #print('cccccccccccc', type(susu))
+                stst= susu.replace("'", "").replace("[", "").replace("]", "")
+                #print('9999999999999', stst)
+                sisi = stst.split(' ')
+                #print('//////////////', sisi)
+                list_full.append([sisi[0], sisi[-3], 0])
+            print('list_full=============', list_full)
+                
+
+        return list_full
     ## save downloaded data to daily or overal data 
     def saveLatestDateTx(self, l_raw_data, name_file):
         l_overall = []
@@ -110,15 +115,13 @@ class dataGrabTx(object):
             if(not os.path.isdir(self.state_dir + 'data_raw/') ): os.mkdir(self.state_dir + 'data_raw/')
             # step A: downlowd and save
             gcontext = ssl._create_unverified_context()
-            urllib.urlretrieve(self.l_state_config[5][2], f_n_total, context=gcontext)
-            urllib.urlretrieve(self.l_state_config[5][1], f_name, context=gcontext)
+            urllib.request.urlretrieve(self.l_state_config[5][2], f_n_total)#, context=gcontext)
+            urllib.request.urlretrieve(self.l_state_config[5][1], f_name)#, context=gcontext)
             # step B: parse and open
-            lst_raw_data, s_date = self.open4Xlsx(f_name)
-            if(s_date == ''): return []
-            else:
-                    dt_obj = datetime.datetime.strptime(s_date.replace('a', '')+'/2020', '%m/%d/%Y')
-                    name_file = dt_obj.strftime('%Y%m%d')
-                    now_date = dt_obj.strftime('%m/%d/%Y')
+            lst_raw_data = self.open4Xlsx(f_name)
+            today = (date.today())
+            name_file = today.strftime('%Y%m%d')
+            now_date = today.strftime('%m/%d/%Y')
 
             # step C: convert to standard file and save
             lst_data = self.saveLatestDateTx(lst_raw_data, name_file)

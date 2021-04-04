@@ -68,40 +68,86 @@ class dataGrabOR(object):
     ## $^&&
     def open4pdf(self, name_file):
         csv_url = self.l_state_config[5][1]
+        print('  #$$search website', csv_url)
+        #webbrowser.open(csv_url, new=1)
+        #time.sleep(20)
+        #print(os.getcwd())
+        os.chdir('..')
+        os.chdir('..')
+        os.chdir('..')
+        os.chdir('..')
+        os.chdir('..')
+        print('no in is in the home file')
         print(os.getcwd())
-        #
-        '''
-        siteOpen = webdriver.Chrome() #chrome_options=chrome_options)
-        siteOpen.get(csv_url)
-        time.sleep(7)
+        #move the files from download to data_raw
+        my_file = Path('/home/lunawang/Documents/luna2020/covid19viz/or/data_raw/' + self.state_name.lower() + '_covid19_start_'+self.name_file+ '1st.png')
+        if my_file.is_file() == True:
+            print('!!!!!! file already exsist')
+        else:
+            shutil.move('/home/lunawang/Downloads/Daily Data Update.png', '/home/lunawang/Documents/luna2020/covid19viz/or/data_raw/' + self.state_name.lower() + '_covid19_start_'+self.name_file+ '1st.png')
+        
+       
+        #print(os.getcwd())
+        os.chdir('/home/lunawang/Documents/luna2020/covid19viz/or/data_raw')
+        #print(os.getcwd())
 
-        # save html file
-        c_page = requests.get(csv_url)
-        c_tree = html.fromstring(c_page.content)
+        #craft the photo =============================================
+        image1 = Image.open(self.state_name.lower() + '_covid19_start_'+self.name_file+ '1st.png')
+        print(')))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))')
+        print(image1.size)
+        width, height = image1.size
+        numberOfSplits = 5
+        splitDist = width / numberOfSplits
 
-        f_name ="C:\Dennis\Covid19\covid19viz\id\data_raw"
+        x = 0
+        y = 0
+        w = splitDist
+        h = height+y
+        print(x, y, w, h)
 
-        chrome_options1 = webdriver.ChromeOptions()
-        prefs = {'download.default_directory': f_name}
-        chrome_options1.add_experimental_option('prefs', prefs)
-        siteOpen = webdriver.Chrome(chrome_options=chrome_options1)
-        siteOpen.get(csv_url)
+        croppedImg = image1.crop((x,890,1099,h-130))
+        croppedImg.save(self.state_name.lower() + '_covid19_'+self.name_file+ '1st.png') #save to file
+    
+        
+        #read words from picture--------------------------------------------------------------------------
+        #import pytesseract
+        img = cv2.imread(self.state_name.lower() + '_covid19_'+self.name_file+ '1st.png')
+        text = pytesseract.image_to_string(img, config='--psm 6')
+        print('111____________', text)
 
-        buttonslist2 = siteOpen.find_elements_by_xpath('//div[@role="button"]')
-        print('bbbbbbbbbbbbbbbbbb', buttonslist2)
-        down_button = buttonslist2[len(buttonslist2) - 5]
-        siteOpen.execute_script("document.getElementsByClassName('tabToolbarButton tab-widget download').click()")
-        #class="tabToolbarButton tab-widget download"
-        time.sleep(5)
-        '''
+        #now make data to list --------------------
+        n_start_1st = text.find('Baker')
+        date_1st = text[n_start_1st:]
+        l_pageTxt_1st = date_1st.split('\n')
+        print('11111111111111111111', l_pageTxt_1st)
+        #find start word #2
 
-        driver = webdriver.Chrome()
-        driver.get(csv_url)
-        button= driver.find_element_by_xpath("//div[@role='button']") 
-        print('111111111111111111111', button)
-        button = driver.find_element_by_id('class="tabToolbarButtonImg tab-icon-download"')
-        button.click()
+        datas= []
+        for sasa in l_pageTxt_1st[:-1]:
+            sdsd= sasa.split(' ')
+            print('sdsd-----------------', sdsd)
+            if 'iss' in sdsd[-1]: 
+                datas.append([sdsd[0], sdsd[-2].replace(',', ''), 155])
+            elif '$1' in sdsd[-1]: 
+                datas.append([sdsd[0], sdsd[-2].replace(',', ''), 51])
+            elif 'so' in sdsd[-1]: 
+                datas.append([sdsd[0], sdsd[-2].replace(',', ''), 59])
+            else:
+                datas.append([sdsd[0], sdsd[-2].replace(',', ''), sdsd[-1].replace(',', '')])
+        print('----------datas', datas)
+
+
+        case = 0
+        for a_da in datas:
+            case += int(a_da[1])
+        l_cases3 = np.append(datas, [['Total', case, 0]], axis=0)
+        print('00000000000000000000000', l_cases3)
+
+        os.chdir('..')
+        os.chdir('..')
+        print(os.getcwd())
         return l_cases3
+
 
         ## save to csv 
     def save2File(self, l_data, csv_name):
@@ -116,7 +162,7 @@ class dataGrabOR(object):
         csv_data_f.close()
         print('  save2File', csv_name)
 
-    ## paser data CA
+    ## paser data or
     def parseData(self, name_file, date_target, type_download):
             self.name_file = name_file
             # step A: read date

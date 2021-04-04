@@ -23,6 +23,7 @@ import requests
 from lxml import html
 import numpy as np
 import cv2
+import urllib.request
 # ==============================================================================
 # -- codes -------------------------------------------------------------------
 # ==============================================================================
@@ -79,7 +80,7 @@ class dataGrabFl(object):
     def download4Website(self, csv_url, fRaw):
         #csv_url = self.l_state_config[5][1]
         # save csv file
-        urllib.urlretrieve(csv_url, fRaw)
+        urllib.request.urlretrieve(csv_url, fRaw)
         return True
     ## open a website 
     def open4Website(self, fRaw):
@@ -200,7 +201,7 @@ class dataGrabFl(object):
             n_end = pageTxt.find('FL resident cases')
             pageTxt = pageTxt[n_start + 5: n_end-1]
             print('??????????', pageTxt)
-            pageTxt2 = pageTxt.encode('ascii','ignore').split('\n')
+            pageTxt2 = pageTxt.split('\n')
             print('++++++++++++++++', pageTxt2)
             print('===================== extractText', len(pageTxt2), pageTxt2[:7])
             l_data_all = []
@@ -336,43 +337,43 @@ class dataGrabFl(object):
             a_digital = 0
             l_numbers = []
             for a_row in l_pageTxt:
-		        #print('  a_row', a_row)
-		        if(state_machine == 1):
-		            if( a_row.lower().islower() ):
-		                # a county
-		                a_name = a_row
-		                l_numbers = []
-		                state_machine = 2
-		        elif(state_machine == 2):
-		            if( a_row.lower().islower() ):
-		                print('  error county name', a_row)
-		            else:
-		                # a line of numbers
-		                l_numbers.append(a_row)
-		                state_machine = 3
-		        elif(state_machine == 3):
-		            if( a_row == '' ):
-		                pass
-		            elif( a_row.lower().islower() ):
-		                # one or two lines of numbers
-		                a_digital = self.getNumberConfirmed(l_numbers, a_name)
-		                if(a_digital <= 0): print('    at a_row', a_name)
-		                if('Total' in a_name): 
-		                    case_total_rd =  a_digital
-		                    print('    Total is read', a_digital)
-		                else:
-		                    case_total += a_digital
-		                    if(a_name in 'Dade'): a_name = 'Miami-Dade'
-		                    l_overall.append([a_name, a_digital, 0])
-		                # another county
-		                a_name = a_row
-		                l_numbers = []
-		                state_machine = 2
-		                # to next county
-		            else:
-		                # a line of numbers
-		                l_numbers.append(a_row)
-		                state_machine = 3
+                #print('  a_row', a_row)
+                if(state_machine==1):
+                    if( a_row.lower().islower() ):
+                        # a county
+                        a_name = a_row
+                        l_numbers = []
+                        state_machine = 2
+                elif(state_machine == 2):
+                    if( a_row.lower().islower() ):
+                        print('  error county name', a_row)
+                    else:
+                        # a line of numbers
+                        l_numbers.append(a_row)
+                        state_machine = 3
+                elif(state_machine == 3):
+                    if( a_row == '' ):
+                        pass
+                    elif( a_row.lower().islower() ):
+                        # one or two lines of numbers
+                        a_digital = self.getNumberConfirmed(l_numbers, a_name)
+                        if(a_digital <= 0): print('    at a_row', a_name)
+                        if('Total' in a_name): 
+                            case_total_rd =  a_digital
+                            print('    Total is read', a_digital)
+                        else:
+                            case_total += a_digital
+                            if(a_name in 'Dade'): a_name = 'Miami-Dade'
+                            l_overall.append([a_name, a_digital, 0])
+                        # another county
+                        a_name = a_row
+                        l_numbers = []
+                        state_machine = 2
+                        # to next county
+                    else:
+                        # a line of numbers
+                        l_numbers.append(a_row)
+                        state_machine = 3
             # the last name and number
             a_digital = self.getNumberConfirmed(l_numbers)
             if('Total' in a_name): 
@@ -401,33 +402,33 @@ class dataGrabFl(object):
         #p_s, p_e = 30, 48 # page number in PDF for 4/24/2020
         case_total = 0
         for page in range(p_s-1, p_e+1):
-		    pageObj = pdfReader.getPage(page)
-		    pageTxt = pageObj.extractText()
-		    l_pageTxt = pageTxt.split('\n')
-		    if('line list of deaths in Florida residents' in l_pageTxt[0]): pass
-		    else: break
+            pageObj = pdfReader.getPage(page)
+            pageTxt = pageObj.extractText()
+            l_pageTxt = pageTxt.split('\n')
+            if('line list of deaths in Florida residents' in l_pageTxt[0]): pass
+            else: break
 
-		    #print('    pdf page is found', page)
-		    state_machine = 100
-		    for a_row in l_pageTxt:
-		        #print('    dataReadDeath4Pages:', a_row)    
-		        if(state_machine == 100):
-		            if('today' in a_row):
-		                state_machine = 200
-		            if('provisional' in a_row):
-		                state_machine = 200
-		        elif(state_machine == 200 ):
-		            if( a_row.lower().islower() ): pass
- 		            else: continue
- 		            #print('    dataReadDeath4Pages:', a_row) 
- 		            #if( 'Unknown' in a_row ): continue
- 		            if('Dade' in a_row): a_row = 'Miami-Dade'
- 		            for a_d_row in l_d_sort:
- 		                if a_d_row[0] in a_row:
- 		                    a_d_row[2] += 1
- 		                    case_total += 1
- 		                    break
-		    print('    found PDF page on', page+1, case_total)
+            #print('    pdf page is found', page)
+            state_machine = 100
+            for a_row in l_pageTxt:
+                #print('    dataReadDeath4Pages:', a_row)    
+                if(state_machine == 100):
+                    if('today' in a_row):
+                        state_machine = 200
+                    if('provisional' in a_row):
+                        state_machine = 200
+                elif(state_machine == 200 ):
+                    if( a_row.lower().islower() ): pass
+                    else: continue
+                #print('    dataReadDeath4Pages:', a_row) 
+                #if( 'Unknown' in a_row ): continue
+                if('Dade' in a_row): a_row = 'Miami-Dade'
+                for a_d_row in l_d_sort:
+                    if a_d_row[0] in a_row:
+                        a_d_row[2] += 1
+                        case_total += 1
+                        break
+                print('    found PDF page on', page+1, case_total)
 		    #break
         l_d_sort[-1][2] = case_total
         return l_d_sort 
@@ -450,42 +451,42 @@ class dataGrabFl(object):
             #else: continue
             state_machine = 1
             for a_row in l_pageTxt:
-		        print('dataReadDeath', a_row)    
-		        if(state_machine == 1):
-		            if('%' in a_row):
-		                state_machine = 2
+                print('dataReadDeath', a_row)    
+                if(state_machine == 1):
+                    if('%' in a_row):
+                        state_machine = 2
 		        
-		        elif(state_machine == 2 ):
-		            if('%' in a_row):
-		                state_machine = 3
-		        elif(state_machine == 3 ):
-		            if('%' in a_row):
-		                state_machine = 4
-		        elif(state_machine == 4 ):
-		            #print('   VVVVV_________________________________' ,a_row)
-		            if 'COVID-19: ' in a_row: break
-		            if '%' in a_row:
-		            	print('    _________% :', a_row)
+                elif(state_machine == 2 ):
+                    if('%' in a_row):
+                        state_machine = 3
+                elif(state_machine == 3 ):
+                    if('%' in a_row):
+                        state_machine = 4
+                elif(state_machine == 4 ):
+                    #print('   VVVVV_________________________________' ,a_row)
+                    if 'COVID-19: ' in a_row: break
+                    if '%' in a_row:
+                        print('    _________% :', a_row)
 		            	
-		            elif a_row.isalpha() == True :
-		            	#print('  ++++++letters :', a_row)
-		            	a_name = a_row
-		            	lst_cases.append([a_name, a_number, 0])
-		            else:
-		            	#print('----numbers :', a_row)
-		            	if ',' in a_row:
-		            		a_row = a_row.split(',')
-		            		print (' *************', a_row)
-		            		#a_row[0] = a_row[0][0:1 ]
-		            		print (' =======' ,a_row[0] + a_row[1])
-		            		a_row = a_row[0] + a_row[1]
-		            		a_number = int(a_row)
-		            		case_total_rd = a_number
-		            		lst_cases.append([a_name, a_number, 0])
-		            		break
-		            	a_number = int(a_row)
-		            	case_total_append += a_number
-		            	lst_cases.append([a_name, a_number, 0])
+                    elif a_row.isalpha() == True :
+                        #print('  ++++++letters :', a_row)
+                        a_name = a_row
+                        lst_cases.append([a_name, a_number, 0])
+                    else:
+                        #print('----numbers :', a_row)
+                        if ',' in a_row:
+                            a_row = a_row.split(',')
+                            print (' *************', a_row)
+                            #a_row[0] = a_row[0][0:1 ]
+                            print (' =======' ,a_row[0] + a_row[1])
+                            a_row = a_row[0] + a_row[1]
+                            a_number = int(a_row)
+                            case_total_rd = a_number
+                            lst_cases.append([a_name, a_number, 0])
+                            break
+                        a_number = int(a_row)
+                        case_total_append += a_number
+                        lst_cases.append([a_name, a_number, 0])
             print('    dataReadDeath', lst_cases)
             return l_d_sort 
     ## paser data FL

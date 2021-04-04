@@ -112,7 +112,7 @@ class dataGrabAR(object):
         l_dates = c_tree.xpath('//tbody//tr//p/text()')  # ('//div[@class="col-xs-12 button--wrap"]')
         #print ('^^^', l_dates)
 
-        l_cases2 = np.reshape(l_dates, (len(l_dates)/4, 4)).T
+        l_cases2 = np.reshape(l_dates, (len(l_dates)//4, 4)).T
         l_data = np.vstack((l_cases2[0], l_cases2[1], l_cases2[3])).T 
         l_data[-1][1] = l_data[-1][1].replace('*', '').replace(',', '')
         '''

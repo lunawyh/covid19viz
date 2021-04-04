@@ -22,6 +22,7 @@ from lxml import html
 import requests
 import numpy as np
 from datetime import date
+import urllib.request
 # ==============================================================================
 # -- codes -------------------------------------------------------------------
 # ============================================================================== ## save downloaded data to daily or overal data 
@@ -51,39 +52,7 @@ class dataGrabIN(object):
 
 
         return True
-    ## parse from exel format to list 
-    def parseDfData(self, df, fName=None):
-        (n_rows, n_columns) = df.shape 
-        # check shape
-        #print('parseDfData', df.title)
-        lst_data = []
-        for ii in range(n_rows):
-            a_case = []
-            for jj in range(n_columns):
-                #is the 'iloc(select rows and columns by number)' is ' nan(not a number)'
-                if( str(df.iloc[ii, jj]) == 'nan'  ): 
-                    a_case.append( 0 )
 
-                    continue
-                #a_case will have all the data from the 'data'
-                a_case.append( df.iloc[ii, jj] )
-            lst_data.append( a_case )
-        # save to a database file
-        print('>>>>>>>>>>>>>>>>>>>>>>', lst_data)
-
-        state_na= []
-        state_num= []
-        state_death = []
-        for lst in lst_data:
-            state_na.append(lst[-1])
-            state_num.append(lst[1])
-            state_death.append(lst[2])
-        l_data = np.vstack((state_na, state_num, state_death)).T 
-        print('<<<<<<<<<<<<<<<<<<<<<', l_data)
-        #if the file do not already exist
-        if(fName is not None): self.save2File( l_data, fName )
-        #return the data that turned in to a ?? now you can use it?
-        return l_data
     ## save downloaded data to daily or overal data 
     def saveLatestDateTx(self, l_raw_data, name_file):
         l_cases2 = np.append( [['County', 'Cases', 'Deaths']],l_raw_data, axis=0)
@@ -98,26 +67,40 @@ class dataGrabIN(object):
         return l_cases3
 
     ## open a xlsx 
-    def open4Xlsx(self, xlsx_name):
+    def open4Xlsx(self, xlsx_name, fName=None):
         l_data = []
         if(isfile(xlsx_name) ):
-            xl_file = pd.ExcelFile(xlsx_name)
-            print('  sheet_names', xl_file.sheet_names)
-            nfx = ''
-            for sheet in xl_file.sheet_names:  # try to find known name of sheet
-                if ('Report' in (sheet)):
-                    print('  select sheet', sheet)
-                    nfx = sheet
-                    break
-            if nfx == '': # if not found, use the 1st sheet
-                if(len(xl_file.sheet_names) > 0): nfx = xl_file.sheet_names[0]
-                else: return []
-            df = xl_file.parse( nfx )
-            
-            l_data = self.parseDfData(df)
-            #print('  l_data', l_data)
+            df = pd.read_excel(xlsx_name, engine='openpyxl')
+            print('/////////////////////', df)
+            print('uuuuuuuuuuuuu', type(df))
+            df2 = df['COUNTY_NAME'].values.tolist()
+            print('mmmmmmmmm', df2)
+            df3 = df['COVID_COUNT'].values.tolist()
+            #print('mmmmmmmmm', df3)
+            df4 = df['COVID_DEATHS'].values.tolist()
+            l_cases3 = np.vstack([df2, df3, df4]).T 
 
-        return l_data
+        list1= []
+        state_num = 0
+        state_name = ''
+        state_death = 0
+        for a_lst in l_cases3:
+            if state_name == '':
+                state_name = a_lst[0]
+                state_num= a_lst[1]
+                state_death= a_lst[2]
+            elif a_lst[0] == state_name:
+                state_name = a_lst[0]
+                state_num= a_lst[1]
+                state_death= a_lst[2]
+            elif a_lst[0] != state_name:
+                list1.append([state_name, state_num, state_death])
+                state_num = 0
+                state_death= 0
+                state_name = ''
+        print('mmmmmmmmmm', list1)
+
+        return list1
 
     ## $^&&
     def open4excel(self, name_file):
@@ -159,8 +142,8 @@ class dataGrabIN(object):
             f_n_total = self.state_dir + 'data_raw/'+self.state_name.lower()+'_covid19_'+self.name_file+'.xlsx'
             if(not os.path.isdir(self.state_dir + 'data_raw/') ): os.mkdir(self.state_dir + 'data_raw/')
             # 
-            urllib.urlretrieve(urlData, f_n_total)
-            urllib.urlretrieve(self.l_state_config[5][1], f_name)
+            urllib.request.urlretrieve(urlData, f_n_total)
+            urllib.request.urlretrieve(self.l_state_config[5][1], f_name)
             # step C: read data file and convert to standard file and save
             lst_raw_data = self.open4Xlsx(f_n_total)
             today = (date.today())
