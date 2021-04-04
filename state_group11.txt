@@ -1,0 +1,25 @@
+#s_postalcode	s_country	s_state	s_abbreviation	tb_id	s_region	s_team	s_finished
+CT	USA	Connecticut	Conn.	1008	Northeast	Dennis	10
+IL	USA	Illinois	Ill.	1015	Midwest	Dennis	10
+IN	USA	Indiana	Ind.	1016	Midwest	Dennis	10
+IA	USA	Iowa	Iowa	1017	Midwest	Dennis	0
+KS	USA	Kansas	Kans.	1018	Midwest	Dennis	10
+ME	USA	Maine	Maine	1021	Northeast	Dennis	10
+MA	USA	Massachusetts	Mass.	1023	Northeast	Dennis	10
+MI	USA	Michigan	Mich.	1024	Midwest	Dennis	10
+MN	USA	Minnesota	Minn.	1025	Midwest	Dennis	10
+MO	USA	Missouri	Mo.	1027	Midwest	Dennis	10
+NE	USA	Nebraska	Nebr.	1029	Midwest	Dennis	10
+NH	USA	New Hampshire	N.H.	1031	Northeast	Dennis	10
+NJ	USA	New Jersey	N.J.	1032	Northeast	Dennis	10
+NY	USA	New York	N.Y.	1034	Northeast	Dennis	10
+ND	USA	North Dakota	N.D.	1036	Midwest	Dennis	10
+OH	USA	Ohio	Ohio	1037	Midwest	Dennis	10
+PA	USA	Pennsylvania	Pa.	1040	Northeast	Dennis	10
+RI	USA	Rhode Island	R.I.	1041	Northeast	Dennis	10
+SD	USA	South Dakota	S.D.	1043	Midwest	Dennis	10
+VT	USA	Vermont	Vt.	1047	Northeast	Dennis	10
+WI	USA	Wisconsin	Wis.	1051	Midwest	Dennis	10
+##
+## Group 1
+##
