@@ -185,7 +185,24 @@ class dataGrabWI(object):
         print('lllllllllll', l_cases10)
         l_data = np.vstack((l_cases10[2], l_cases10[4], l_cases10[10])).T 
         print('lllllllllll', l_data)
-        return l_data
+        fin_list= []
+        for aaa in l_data:
+            print('aaa', aaa)
+            print('aaa', str(aaa[0]))
+            bbb= str(aaa[0]).replace('[', '').replace(']', '').replace("'", '')
+            ccc= str(aaa[1]).replace('[', '').replace(']', '').replace("'", '')
+            ddd= str(aaa[2]).replace('[', '').replace(']', '').replace("'", '')
+            fin_list.append([str(bbb), int(ccc), int(ddd)])
+        print(';;;;;;;;;;;;;;;;', fin_list)
+        total_num = 0
+        total_death = 0
+        for a_ll in fin_list:
+            total_num += int(a_ll[1])
+            total_death += int(a_ll[2])
+        l_cases4 = np.append(fin_list, [['Total', total_num, total_death]], axis=0)
+        print(';;;;;;;;;;;;;;;;', l_cases4)
+        print(';;;;;;;;;;;;;;', fin_list)
+        return l_cases4
 
     
     ## paser data Ut
