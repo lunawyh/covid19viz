@@ -4,7 +4,7 @@ VIZ_H,1000,0,0,1
 state_map,Must input,0,0,2
 cordinate,None,0,0,3
 type_download,9090,0,0,4
-weblink_state,https://bsaonline.com/SiteSearch/SiteSearchDetails?SearchFocus=All+Records&SearchCategory=Address&SearchText=5246+cameron&uid=406&PageIndex=1&ReferenceKey=88-20-07-479-007,0,0,5
+weblink_state,https://bsaonline.com/SiteSearch/SiteSearchDetails?SearchFocus=All+Records&SearchCategory=Address&SearchText=5246+cameron&uid=406&PageIndex=1&ReferenceKey=88-20-07-479-007,https://bsaonline.com/SiteSearch/SiteSearchDetails?SearchFocus=Tax&SearchCategory=Address&SearchText=846+provincetown&uid=462&PageIndex=1&ReferenceKey=02-14-35-380-004,https://bsaonline.com/SiteSearch/SiteSearchDetails?SearchFocus=All+Records&SearchCategory=Address&SearchText=820+mapleknoll&uid=269&PageIndex=1&ReferenceKey=44-25-13-128-011,https://bsaonline.com/SiteSearch/SiteSearchDetails?SearchFocus=All+Records&SearchCategory=Address&SearchText=1720+nottingham&uid=269&PageIndex=1&ReferenceKey=44-25-13-229-019
 state_name,Must input,0,0,6
 basemap_type,1,0,0,7
 basemap_center,0,0,0,8

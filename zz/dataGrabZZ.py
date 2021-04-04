@@ -19,7 +19,7 @@ from lxml import html
 import requests
 from selenium import webdriver
 import time
-
+from shutil import copyfile
 # ==============================================================================
 # -- codes -------------------------------------------------------------------
 # ============================================================================== 
@@ -45,12 +45,66 @@ class dataGrabZZ(object):
         for a_row in l_data:
             csvwriter.writerow(a_row)
         csv_data_f.close()
-
+    ## save to csv
+    def get_download_path(self):
+        """Returns the default downloads path for linux or windows"""
+        if os.name == 'nt':
+            import winreg
+            sub_key = r'SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders'
+            downloads_guid = '{374DE290-123F-4565-9164-39C4925E467B}'
+            with winreg.OpenKey(winreg.HKEY_CURRENT_USER, sub_key) as key:
+                location = winreg.QueryValueEx(key, downloads_guid)[0]
+            return location
+        else:
+            return os.path.join(os.path.expanduser('~'), 'Downloads')
+    ## save to csv
+    def save2datapublic(self, f_data_raw):
+        f_dl_name = self.get_download_path() + '/report.pdf'
+        # copy
+        copyfile(f_dl_name, f_data_raw)
+        print('  save2datapublic', f_data_raw)
     ## open a website 
-    def open4Website(self, name_file, date_target):
-        data_url = self.l_state_config[5][1]
-        print("  open4Website", data_url)
-        if('http' not in data_url): return '', None
+    def downloadWaterBill(self, index, pdf_target, siteOpen):
+        data_url = self.l_state_config[5][index]
+        print('    downloadWaterBill', data_url)
+        f_dl_name = self.get_download_path() + '/report.pdf'
+        # delete if existing
+        if os.path.isfile(f_dl_name):
+            os.remove(f_dl_name)
+        # get tab        
+        siteOpen.get(data_url)
+        time.sleep(19)
+        # Utility Bill Info.
+        # <input class="t-button t-state-default bsa-button" id="138f66fb-5887-46b9-a3ec-af2ae18e3a0c" 
+        # onclick="javascript:DisplayUBReportImagePopup(3973, 'CAMR-005246-0000-01', '1700435', 'true', '3/15/2021 12:00:00 AM', '6151271');" onkeydown="function(e){ if(e.keyCode == 90){ javascript:DisplayUBReportImagePopup(3973, 'CAMR-005246-0000-01', '1700435', 'true', '3/15/2021 12:00:00 AM', '6151271'); } }" name="PrintUBBillButton" 
+        # value="Click here for your current Utility Bill" type="button">
+        ref_tabs = siteOpen.find_elements_by_xpath('//a')
+        for a_ref_tab in ref_tabs:  
+            if('Utility Bill Info.' in a_ref_tab.text):
+                #ref_utility = a_ref_tab.get_attribute('href')                
+                #print('  ref_utility', ref_utility)
+                a_ref_tab.click()
+                time.sleep(18)
+                inputs = siteOpen.find_elements_by_xpath("//input[@value='Click here for your current Utility Bill']")
+                for a_input in inputs:  
+                    print('    a_input:', a_input.get_attribute('value'))                     
+                    a_input.click()
+                    time.sleep(17)
+                    # <div onclick="RedirectToNewPage('/Reporting/ViewSavedReport?application=10&amp;reportGuid=9b3a5a53-36b8-45ab-b995-6749bc568cfb&amp;saveToDisk=true'); return false;" onkeydown="function(e){ if(e.keyCode == 90){ RedirectToNewPage('/Reporting/ViewSavedReport?application=10&amp;reportGuid=9b3a5a53-36b8-45ab-b995-6749bc568cfb&amp;saveToDisk=true'); return false; } }" 
+                    # id="pdfButton" class="action-container"><div class="action-text">Save As PDF</div>
+                    downloads = siteOpen.find_elements_by_xpath("//div[@id='pdfButton']")
+                    for a_download in downloads:
+                        print('    a_download:', a_download.get_attribute('id'))                     
+                        a_download.click()
+                        time.sleep(5)
+                        #    
+                        self.save2datapublic('../datapublic/house/uploaded_files/h'+pdf_target+'_waterbill.pdf')                             
+                        break
+                    break
+                break
+    ## open a website 
+    def open4Website(self):        
+        print("  open4Website")
 
         siteOpen = webdriver.Chrome()
         
@@ -84,22 +138,19 @@ class dataGrabZZ(object):
             for a_input in inputs:
                 if(a_input.get_attribute('name') == 'signIn'):
                     a_input.click()
+                    time.sleep(3)
                     break
-        # get tab
-        time.sleep(3)
-        siteOpen.get(data_url)
-        time.sleep(5)
-
-        c_content = None
-        f_raw_name = self.state_dir + 'data_raw/'+self.state_name.lower()+'_covid19_'+self.name_file+'.html'
-        if(not os.path.isdir(self.state_dir + 'data_raw/') ): os.mkdir(self.state_dir + 'data_raw/')
-
         #
-        time.sleep(7)  
+        self.downloadWaterBill(1, '5246', siteOpen)
+        self.downloadWaterBill(2, '846', siteOpen)
+        self.downloadWaterBill(3, '820', siteOpen)
+        self.downloadWaterBill(4, '1720', siteOpen)
+        #
+        time.sleep(3)  
         siteOpen.close()
-
+        time.sleep(1)
         siteOpen.quit()  # close the window
-        return f_raw_name, c_content
+        return True
 
     ## read a html string and filter the data, then put into a list 
     def grabData4Content(self, f_raw_name, page_content):
@@ -138,11 +189,8 @@ class dataGrabZZ(object):
         self.name_file = name_file
         self.now_date = date_target
         # step A: read date and save the raw data into a file
-        f_raw_name, contents = self.open4Website(name_file, date_target)
-        # step B: filter data and convert to a raw list
-        l_raw_data = self.grabData4Content(f_raw_name, contents)
-        # step C:  convert to a standard list and save
-        lst_data = self.saveData4Raw(l_raw_data, self.name_file)       
-        return(lst_data, self.name_file, self.now_date)  
+        self.open4Website()
+             
+        return([], self.name_file, self.now_date)  
 ## end of file
 
