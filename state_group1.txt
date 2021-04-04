@@ -1,0 +1,16 @@
+CT	# NE on 9/1/2020
+MA
+ME
+NH
+NJ
+NY
+PA 	#
+VT
+CA	#WEST on 9/1/2020
+UT
+WA
+WY
+RI      #
+##
+## Group 1
+##

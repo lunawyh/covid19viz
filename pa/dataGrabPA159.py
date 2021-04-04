@@ -59,7 +59,7 @@ class dataGrabPA(object):
         c_page = requests.get(csv_url)
         c_tree = html.fromstring(c_page.content)
         # get pdf address
-        l_dates = c_tree.xpath('//ul//ul//li//a')  # ('//div[@class="col-xs-12 button--wrap"]')
+        l_dates = c_tree.xpath('//div//li//a')  # ('//div[@class="col-xs-12 button--wrap"]')
         #print('   dddd', l_dates)
         a_address, b_address = '', ''
         for l_date in l_dates:
@@ -68,21 +68,19 @@ class dataGrabPA(object):
                 #print('   sss', l_date) 
                 a_address = 'https://www.health.pa.gov' + l_date.get('href')
                 print('  find pdf 1 at', a_address)
-                f_n_total = self.state_dir + 'data_raw/'+self.state_name.lower()+'_covid19_'+self.name_file+'.pdf'
-                urllib.urlretrieve(a_address, f_n_total)
             if('Death by county of residence' in l_date.text_content() or 'See state linelist' in l_date.text_content()):
                 #print('   sss', l_date)
                 b_address = 'https://www.health.pa.gov' + l_date.get('href')
                 print('  find pdf 2 at', b_address)
                 #break
         # get updated time
-        l_dates = c_tree.xpath('//p/text()')  
+        l_dates = c_tree.xpath('//div//p//em/text()')  
         for l_date in l_dates:
             #
-            if('This information has been extracted from death' in l_date):
+            if('Page last updated????' in l_date):
                 print('   found ', l_date) 
                 #s_date = '20200729'
-                dt_obj = datetime.datetime.strptime(l_date.split(' ')[-1].replace('.', '' ), '%m/%d/%Y')
+                dt_obj = datetime.datetime.strptime(l_date.split(' ')[-1], '%m/%d/%Y')
                 #print('  updated on', dt_obj)
                 #nums = int(n_start)
                 self.name_file = dt_obj.strftime('%Y%m%d')
@@ -139,51 +137,103 @@ class dataGrabPA(object):
             # step B: parse and open
             #---------------------------case-------------------------
             text = extract_text(f_namea)
+            #print('  ...................dataReadConfirmed', text)
             l_text = text.split('\n')
             #print('  ...................222222', l_text)
-            
-            #state names for cases
             l_cases1 = []
-            for aaa in l_text[267:315]:
-                if len(aaa) <= 2: continue
+            l_cases1_sub = []
+            #print(';;;;;;;;;;;;', l_text)
+            for a_text in l_text:
+                if(a_text == '' and len(l_cases1_sub)>0 ):
+                    l_cases1.append(l_cases1_sub)
+                    l_cases1_sub = []
                 else:
-                    l_cases1.append(aaa) 
-            state_name= l_text[1:43] + l_cases1
-            full_name = []
-            #print('vvvvvvvvvvvvvvvvvvvvv', state_name)
-            for stst in state_name:
-                sasa = stst[0] + stst[1:].lower()
-                #print('tttttttttttttt', sasa)
-                full_name.append(sasa)
+                    l_cases1_sub.append(a_text)
+            #print('  l_cases1', len(l_cases1), len(l_cases1[0]))        
+            for l_sub1 in l_cases1:
+                pass #print('  l_sub1', l_sub1[0])
+            #return []
+            #print('/////////////', l_cases1)
+            listch= []
 
-            state_cases = l_text[93:135] + l_text[316:341]
-            #print('llllllllllllllllllll', state_cases)
+            for case in l_cases1[9]:
+                sss= case.replace('\x0c', '')
+                if(len(sss) > 2): listch.append(sss)
+            nam_list = l_cases1[0][1:]+ listch
+           
+     
+            num_list = l_cases1[5] + l_cases1[10]             
+            print('  num list  ..........', len(num_list))
+            print('  name list ..........', len(nam_list))
+            NamNum_list = np.vstack( (nam_list, num_list, [0]*len(nam_list) )).T
+
+            return (NamNum_list)
+            #---------------------------death-------------------------
+            print('  B.dataReadConfirmed on page 1', f_namea)
+            # step B: parse and open
+            text = extract_text(f_nameb)
+            #print('  dataReadConfirmed', text)
+            l_text = text.split('\n')
+            l_cases1 = []
+            l_cases1_sub = []
+            print(';;;;;;;;;;;;', l_text)
 
 
-            #cases death-------------------------
-            text2 = extract_text(f_nameb)
-            l_text2 = text2.split('\n')
-            #print('  ...................222222', l_text2)
-            state2_cases = l_text2[50:91] + l_text2[233:259]
+            for a_text in l_text:
+                if(a_text == '' and len(l_cases1_sub)>0 ):
+                    l_cases1.append(l_cases1_sub)
+                    l_cases1_sub = []
+                else:
+                    l_cases1_sub.append(a_text)
+            #print('  l_cases1', len(l_cases1), len(l_cases1[0]))        
+            for l_sub1 in l_cases1:
+                print('  l_sub1', l_sub1[0])
+            print('/////////////', l_cases1)
 
-            cases_death = []
-            for caca in state2_cases:
-                cvcv= caca.replace(',', '')
-                cases_death.append(cvcv)
-           #-----------------------------------
-            l_data = np.vstack((full_name, state_cases, cases_death)).T
-            #print('777777777777', l_data)
+            d_case1=[]
+            for dcase in l_cases1[12]:
+                d_case1.append(dcase.replace('\x0c', '').replace(',', ''))
+            #print(';;;;;', d_case1)
+
+            deth_nam = l_cases1[3][1:] + l_cases1[11][1:]
+            #print('death state name;;;;', deth_nam)
+            deth_case = l_cases1[4] + d_case1
+            #print('death case num;;;;', deth_case)
+            #print('death name', len(deth_nam))
+            #print('death cases', len(deth_case))
+            d_NamNum_list = np.vstack((deth_nam, deth_case)).T
+            print('death list', d_NamNum_list)
+
+            #----------------------------------------------------
+            finall_list = []
+            print('', type(d_NamNum_list))
+
+            #for death in d_NamNum_list and for case in NamNum_list:
+            for (death, case) in zip(d_NamNum_list, NamNum_list):
+		#print('death....', death)
+		#for case in NamNum_list :
+			if case[0] == death[0]:
+				print('death', death)
+				print('', death)
+				finall_list.append([case[0], case[1], death[1]])
+				case[2] += death[1]
+				break
+			else: 
+				finall_list.append([case[0], case[1], case[2]])
+				break
 
 
-            case = 0
-            death = 0
-            for a_da in l_data:
-                case += int(a_da[1])
-                death += int(a_da[2])
-            l_cases3 = np.append(l_data, [['Total', case, death]], axis=0)
-            print('[[[[[[[[[[[[[[[[[[[[', l_cases3)
-            return l_cases3
-            #return (finall_list)
+            total_death = 0
+            total_case = 0
+            for a_line in finall_list:
+                total_case += int(a_line[1])
+                total_death += int(a_line[2])
+            finall_list.append(['Total', total_case, total_death])  
+
+
+            print(';;;;;;;;;;;;;;;;', finall_list)
+
+            return (finall_list)
 
     ## paser data FL************
     def dataDownload(self, name_target):
@@ -237,13 +287,6 @@ class dataGrabPA(object):
             if(len(l_d_sort) > 0): l_d_all = self.dataReadDeath4Pages(l_d_sort, f_targetb)
             else: l_d_all = []
             #print('7777777777', l_d_all)
-            anum = 0
-            adeath = 0
-            for a_ll in l_d_all:
-                anum += int(a_ll[1])
-                adeath += int(a_ll[2])
-
-            l_d_all = np.append(l_d_all, [['Total', anum, adeath]], axis=0)
 
             return(l_d_all, self.name_file, self.now_date)  
 
