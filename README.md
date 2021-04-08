@@ -38,7 +38,7 @@ New visualization and prediction of COVID-19 in USA, such as Michigan, CA, OH, N
      
      pip3 install scipy
 
-7. Run python coviz.py
+7. Run python3 coviz.py
 8. Optionally install base map
  
      download and install
@@ -76,7 +76,7 @@ New visualization and prediction of COVID-19 in USA, such as Michigan, CA, OH, N
     pip3 install --user https://github.com/matplotlib/basemap/archive/master.zip
 
 # How to run in Ubuntu
-1. Run python coviz.py
+1. Run python3 coviz.py
 
 # Funcational keys in main window
 <div align="center">
