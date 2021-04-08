@@ -21,22 +21,22 @@ New visualization and prediction of COVID-19 in USA, such as Michigan, CA, OH, N
 3. Show data in new diagram
 
 # How to run in Windows
-1. Download and install python at https://www.python.org/downloads/ to c:/python27
-2. Add path c:/python27 to system path of Windows
-3. To install pip, download get-pip.py by following this link: https://bootstrap.pypa.io/get-pip.py. Save to c:/python27
-4. Go to c:/python27, run python get-pip.py
-5. Add path c:/python27/scripts to system path of Windows
+1. Download and install python at https://www.python.org/downloads/ to c:/python3
+2. Add path c:/python3 to system path of Windows
+3. To install pip, download get-pip.py by following this link: https://bootstrap.pypa.io/get-pip.py. Save to c:/python3
+4. Go to c:/python3, run python get-pip.py
+5. Add path c:/python3/scripts to system path of Windows
 6. Run cmd.exe to enter command window, install libraries by 
 
-     pip install opencv-python
+     pip3 install opencv-python
      
-     pip install pandas
+     pip3 install pandas
      
-     pip install matplotlib
+     pip3 install matplotlib
      
-     pip install lxml
+     pip3 install lxml
      
-     pip install scipy
+     pip3 install scipy
 
 7. Run python coviz.py
 8. Optionally install base map
@@ -47,7 +47,7 @@ New visualization and prediction of COVID-19 in USA, such as Michigan, CA, OH, N
    
           https://download.microsoft.com/download/7/9/6/796EF2E4-801B-4FC4-AB28-B59FBF6D907B/VCForPython27.msi
      
-     pip install pyproj==1.9.6
+     pip3 install pyproj==1.9.6
    
      set the system environment variable: 
      
@@ -57,8 +57,8 @@ New visualization and prediction of COVID-19 in USA, such as Michigan, CA, OH, N
                                                          
      add    C:\OSGeo4W64\bin to PATH
    
-     pip install --user git+https://github.com/matplotlib/basemap.git or 
-     pip install basemap‑1.2.1‑cp27‑cp27m‑win_amd64.whl (downloaded from https://www.lfd.uci.edu/~gohlke/pythonlibs/)
+     pip3 install --user git+https://github.com/matplotlib/basemap.git or 
+     pip3 install basemap‑1.2.1‑cp27‑cp27m‑win_amd64.whl (downloaded from https://www.lfd.uci.edu/~gohlke/pythonlibs/)
  9. install chrome driver
  
      https://selenium-python.readthedocs.io/installation.html
@@ -73,7 +73,7 @@ New visualization and prediction of COVID-19 in USA, such as Michigan, CA, OH, N
     
     sudo apt-get install libgeos-dev
     
-    pip install --user https://github.com/matplotlib/basemap/archive/master.zip
+    pip3 install --user https://github.com/matplotlib/basemap/archive/master.zip
 
 # How to run in Ubuntu
 1. Run python coviz.py
@@ -89,7 +89,7 @@ New visualization and prediction of COVID-19 in USA, such as Michigan, CA, OH, N
 #
 1. to be rooted on ubantu, if you have a password, run 'su'. if there is no password, run 'sudo -i'
 2. when using pythn 2, to download pytesseract, you need to run this coad in the terminal: 
-    sudo pip install pytesseract==0.3.0
+    sudo pip3 install pytesseract==0.3.0
 
 
 
