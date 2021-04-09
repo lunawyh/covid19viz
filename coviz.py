@@ -818,6 +818,13 @@ class runCoViz(object):
             data_grab = dataGrabZZ(self.l_state_config, self.state_name) 
             # step B: parse to standard file 
             lst_data, self.name_file, self.now_date = data_grab.parseData(self.name_file, self.now_date, type_download) 
+        elif (type_download == 8989): 
+            sys.path.insert(0, "./yy") 
+            from dataGrabYY import dataGrabYY 
+            # step A: create new class 
+            data_grab = dataGrabYY(self.l_state_config, self.state_name) 
+            # step B: parse to standard file 
+            lst_data, self.name_file, self.now_date = data_grab.parseData(self.name_file, self.now_date, type_download) 
         ### This is a template entry into one state, to COPY and MODIFY, do NOT REMOVE or CHANGE
         '''  
         elif (type_download == 1):  # download only
