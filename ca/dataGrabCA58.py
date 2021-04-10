@@ -117,7 +117,7 @@ class dataGrabCA(object):
     ## $^&&
     def open4excel(self, name_file):
         #csv_url = self.l_state_config[5][1]
-        csv_url ='https://public.tableau.com/views/COVID-19CasesDashboard_15931020425010/Cases?:embed=y&:showVizHome=no'
+        csv_url ='https://public.tableau.com/profile/ca.open.data#!/vizhome/COVID-19CasesDashboardv2_0/CaseStatistics'
         print('  #$$search website', csv_url)
         #webbrowser.open(csv_url, new=1)
         #time.sleep(20)
@@ -130,25 +130,18 @@ class dataGrabCA(object):
         print('no in is in the home file')
         print(os.getcwd())
         #move the files from download to data_raw
-        my_file = Path('/home/lunawang/Documents/luna2020/covid19viz/ca/data_raw/' + self.state_name.lower() + '_covid19_start_'+self.name_file+ '1st.png')
+        my_file = Path('/home/lunawang/Documents/luna2020/covid19viz/ca/data_raw/' + self.state_name.lower() + '_covid19_start_'+self.name_file+ '1st.pdf')
         if my_file.is_file() == True:
             print('!!!!!! file already exsist')
         else:
-            shutil.move('/home/lunawang/Downloads/Cases.png', '/home/lunawang/Documents/luna2020/covid19viz/ca/data_raw/' + self.state_name.lower() + '_covid19_start_'+self.name_file+ '1st.png')
+            shutil.move('/home/lunawang/Downloads/Case Statistics.pdf', '/home/lunawang/Documents/luna2020/covid19viz/ca/data_raw/' + self.state_name.lower() + '_covid19_start_'+self.name_file+ '1st.pdf')
         
-        my_file_2 = Path('/home/lunawang/Documents/luna2020/covid19viz/ca/data_raw/' + self.state_name.lower() + '_covid19_start_'+self.name_file+ '2nd.png')
+        my_file_2 = Path('/home/lunawang/Documents/luna2020/covid19viz/ca/data_raw/' + self.state_name.lower() + '_covid19_start_'+self.name_file+ '2nd.pdf')
         if my_file_2.is_file() == True:
             print('!!!!!! file already exsist')
         else:
-            shutil.move('/home/lunawang/Downloads/Cases (1).png', '/home/lunawang/Documents/luna2020/covid19viz/ca/data_raw/' + self.state_name.lower() + '_covid19_start_'+self.name_file+ '2nd.png')
+            shutil.move('/home/lunawang/Downloads/Case Statistics (1).pdf', '/home/lunawang/Documents/luna2020/covid19viz/ca/data_raw/' + self.state_name.lower() + '_covid19_start_'+self.name_file+ '2nd.pdf')
 
-        '''
-        my_file_2 = Path('/home/lunawang/Documents/luna2020/covid19viz/ca/data_raw/' + self.state_name.lower() + '_covid19_start_'+self.name_file+ '3rd.png')
-        if my_file_2.is_file() == True:
-            print('!!!!!! file already exsist')
-        else:
-            shutil.move('/home/lunawang/Downloads/Cases (2).png', '/home/lunawang/Documents/luna2020/covid19viz/ca/data_raw/' + self.state_name.lower() + '_covid19_start_'+self.name_file+ '3rd.png')
-        '''
 
         #get back to start file
         #print(os.getcwd())
@@ -156,115 +149,14 @@ class dataGrabCA(object):
         #print(os.getcwd())
 
         #craft the photo =============================================
-        image1 = Image.open(self.state_name.lower() + '_covid19_start_'+self.name_file+ '1st.png')
+        pdf_1st = (self.state_name.lower() + '_covid19_start_'+self.name_file+ '1st.pdf')
+        pdf_2nd = (self.state_name.lower() + '_covid19_start_'+self.name_file+ '2nd.pdf')
         print(')))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))')
-        print(image1.size)
-        width, height = image1.size
-        numberOfSplits = 5
-        splitDist = width / numberOfSplits
-
-        x = 0
-        y = 0
-        w = splitDist+x
-        h = height+y
-        #print(x, y, w, h)
-
-        croppedImg = image1.crop((x,y,w-80,h))
-        croppedImg.save(self.state_name.lower() + '_covid19_'+self.name_file+ '1st.png') #save to file
-
-        #craft the photo #2=============================================
-        image1 = Image.open(self.state_name.lower() + '_covid19_start_'+self.name_file+ '2nd.png')
-        #print(image1.size)
-        width, height = image1.size
-        numberOfSplits = 5
-        splitDist = width / numberOfSplits
-
-        x = 0
-        y = 0
-        w = splitDist+x
-        h = height+y
-        #print(x, y, w, h)
-
-        croppedImg = image1.crop((x,y,w-80,h))
-        croppedImg.save(self.state_name.lower() + '_covid19_'+self.name_file+ '2nd.png') #save to file
-
-        #craft the photo #3=============================================
-        '''
-        image1 = Image.open(self.state_name.lower() + '_covid19_start_'+self.name_file+ '3rd.png')
-        #print(image1.size)
-        width, height = image1.size
-        numberOfSplits = 5
-        splitDist = width / numberOfSplits
-
-        x = 0
-        y = 0
-        w = splitDist+x
-        h = height+y
-        #print(x, y, w, h)
-
-        croppedImg = image1.crop((x,y,w-80,h))
-        croppedImg.save(self.state_name.lower() + '_covid19_'+self.name_file+ '3rd.png') #save to file
-        '''
-        print('photo 3 done--------------------------------------------------')
-        
-        #read words from picture--------------------------------------------------------------------------
-        #import pytesseract
-        img = cv2.imread(self.state_name.lower() + '_covid19_'+self.name_file+ '1st.png')
-        text = pytesseract.image_to_string(img)
-        print('111____________', text)
-        img2 = cv2.imread(self.state_name.lower() + '_covid19_'+self.name_file+ '2nd.png')
-        text_2nd = pytesseract.image_to_string(img2)
-        print('222__________', text_2nd)
-        '''
-        img3 = cv2.imread(self.state_name.lower() + '_covid19_'+self.name_file+ '3rd.png')
-        text_3nd = pytesseract.image_to_string(img3)
-        print('333__________', text_3nd)
-
-        '''
-
-        #now make data to list --------------------
-        n_start_1st = text.find('Los Angeles')
-        date_1st = text[n_start_1st:]
-        l_pageTxt_1st = date_1st.split('\n')
-        data_1st=[]
-        for stst in l_pageTxt_1st:
-            if stst == '':continue
-            elif stst == ' ': continue
-            else: data_1st.append(stst.replace(',', '').replace('.', ''))
-        print('11111111111111111111', data_1st)
-        #find start word #2
-        n_start_2st = text_2nd.find('Shasta')
-        date_2st = text_2nd[n_start_2st:]
-        l_pageTxt_2st = date_2st.split('\n')
-        data1st_2nd=[]
-        for stst in l_pageTxt_2st:
-            if stst == '':continue
-            elif stst == ' ': continue
-            else: data1st_2nd.append(stst.replace(',', ''))
-
-        data_2nd = data1st_2nd[:12] +['Amador']+ data1st_2nd[13:]
-
-        print('22222222222222222222222', data_2nd)
-        #find start word #3
-        '''
-        n_start_3st = text_3nd.find('Plumas')
-        date_3st = text_3nd[n_start_2st:]
-        l_pageTxt_3st = date_3st.split('\n')
-        print('33333333333333333', l_pageTxt_3st)
-        '''
-        l_pageTxt_name = data_1st[:30]+ data_2nd[:30] #+ l_pageTxt_3st
-        print('44444444444444444444444', l_pageTxt_name) 
-        print('----------------', len(l_pageTxt_name))
-
-        l_pageTxt_number = data_1st[30:-1]+ data_2nd[30:-1] #+ l_pageTxt_3st
-        print('44444444444444444444444', l_pageTxt_number) 
-        print('----------------', len(l_pageTxt_number))
-
-        l_number=[]
-        for lll in l_pageTxt_number:
-            if lll == '5.115':
-                l_number.append(5115)
-            else: l_number.append(lll)
+        import pdfplumber
+        with pdfplumber.open(pdf_1st) as pdf:
+            first_page = pdf.pages[0]
+            print('llllllllllllllllllllllllllllllllllll')
+            print(first_page.extract_text())
 
 
         zeros= [0]*len(l_pageTxt_number)

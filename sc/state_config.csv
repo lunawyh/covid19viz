@@ -1,0 +1,20 @@
+name,value,lon,quantity,offset
+VIZ_W,880,0,0,0
+VIZ_H,1000,0,0,1
+state_map,Must input,0,0,2
+cordinate,None,0,0,3
+type_download,8367,0,0,4
+weblink_state,Must input,0,0,5
+state_name,Must input,0,0,6
+basemap_type,1,0,0,7
+basemap_center,0,0.0,0,8
+basemap_size,0,0.0,0,9
+basemap_list_num,2,0,0,10
+basemap_title,3.156759,-1.8989880000000001,1.0,11
+basemap_logo,2.476629,3.7835059999999996,1.0,12
+basemap_list1,1.139652,-4.390411,0.0,13
+basemap_list2,0.339652,-2.390411,45.0,14
+basemap_list3,0,0.0,0.0,15
+basemap_list4,0,0.0,0.0,16
+basemap_list5,0,0.0,0.0,17
+basemap_list6,0,0.0,0.0,18

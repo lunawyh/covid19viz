@@ -96,45 +96,71 @@ class dataGrabAL(object):
     def saveWebsite(self, fRaw):
         #csv_url = self.l_state_config[5][1]
         #print('  download4Website', csv_url)
+        #https://www.alreporter.com/mapping-coronavirus-in-alabama/
 
-        csv_url = "https://www.nytimes.com/interactive/2020/us/alabama-coronavirus-cases.html"
+        csv_url = "https://dph1.adph.state.al.us/covid-19/"
         print('  download4Website', csv_url)
-        driver = webdriver.Chrome()
-        driver.get(csv_url)
-        time.sleep(10)
-
-        from selenium.webdriver.common.keys import Keys
-        element = driver.find_elements_by_xpath('//button[@class="expand svelte-1a4y62p"]') #[0].click()
-        element[0].send_keys("\n")
-        print('clicked the botton ==============')
+        siteOpen = webdriver.Chrome()
+        siteOpen.get(csv_url)
+        time.sleep(7)
 
 
-        caseNumbers = driver.find_elements_by_xpath('//tbody[@class="top-level"]')
+        from pynput.mouse import Button, Controller
+        mouse = Controller()
+        print('mmmmmmmmmmmm', mouse.position)
+        #mouse.move(-150, 300)
+        mouse.position = (784, 431)
+        print('moving ------', mouse.position)
+        #time.sleep(5)
+        mouse.click(Button.left, 1)
+        time.sleep(4)
+
+        caseName = siteOpen.find_elements_by_xpath('//td[@data-field="CNTYFIPS"]')
+        #print('ccccccccccccccc', caseName)
+        #stateNames = siteOpen.find_elements_by_xpath('//div[@class="bc-row-label row-label chart-text label"]')
+        stateName_list = []
+        for case_num in caseName: 
+            dStringList = case_num.text.split()
+            #print('  ------------case_num', dStringList )
+            stateName_list.append(str(dStringList).replace('[', '').replace(']', '').replace("'", ''))
+        print('nnnnnnnn', stateName_list)     
+        print('dddddddddddddddds', len(stateName_list)) 
+
+        caseNumbers = siteOpen.find_elements_by_xpath('//td[@data-field="CONFIRMED"]')
         #print('ccccccccccccccc', caseNumbers)
-        case_list = []
+        #stateNames = siteOpen.find_elements_by_xpath('//div[@class="bc-row-label row-label chart-text label"]')
+        stateCase_list = []
         for case_num in caseNumbers: 
             dStringList = case_num.text.split()
             #print('  ------------case_num', dStringList )
-            case_list.append(dStringList)
+            stateCase_list.append(str(dStringList).replace('[', '').replace(']', '').replace("'", ''))
+        print('ccccccccc', stateCase_list)  
+        print('dddddddddddddddds', len(stateCase_list))
 
-        list_data=[]
-        for cc in case_list[0][:5] + case_list[0][9:]:
-            if cc ==  '›': continue
-            elif cc ==  ' ': continue
-            elif cc ==  '': continue
-            elif cc ==  'Unknown': continue
-            elif cc ==  '—': continue
-            elif cc ==  'St.': continue
-            elif cc ==  'Clair': 
-                list_data.append('St.Clair')
-            else:
-                list_data.append(cc.replace(',', ''))
-        print('llllllllllll', list_data)  
+        caseDeath = siteOpen.find_elements_by_xpath('//td[@data-field="DIED"]')
+        #print('ccccccccccccccc', caseDeath)
+        #stateNames = siteOpen.find_elements_by_xpath('//div[@class="bc-row-label row-label chart-text label"]')
+        stateDeath_list = []
+        for case_num in caseDeath: 
+            dStringList = case_num.text.split()
+            #print('  ------------case_num', dStringList )
+            stateDeath_list.append(str(dStringList).replace('[', '').replace(']', '').replace("'", ''))
+        print('dddddddddddddddds', stateDeath_list) 
+        print('dddddddddddddddds', len(stateDeath_list))
 
-        l_cases2 = np.reshape(list_data, (len(list_data)//5, 5)).T
-        zeros= [0]*len(l_cases2[0])
-        l_cases3 = np.vstack((l_cases2[0], l_cases2[1],zeros)).T 
-        print('llllllllllll', l_cases3)  
+
+        l_data = np.vstack((stateName_list, stateCase_list, stateDeath_list)).T
+        print('777777777777', l_data)
+
+        total_num = 0
+        total_death = 0
+        for a_ll in l_data:
+            total_num += int(a_ll[1])
+            total_death += int(a_ll[2])
+
+        l_cases3 = np.append(l_data, [['Total', total_num, total_death]], axis=0)
+        print(';;;;;;;;;;;;;;;;', l_cases3)
+
         return l_cases3
 
 

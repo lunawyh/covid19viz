@@ -73,7 +73,7 @@ class dataGrabMS(object):
         csv_url = self.l_state_config[5][1]
         print('  from', csv_url)
         # save html file
-        urllib.urlretrieve(csv_url, fRaw)
+        urllib.request.urlretrieve(csv_url, fRaw)
         # save html file
         c_page = requests.get(csv_url)
         c_tree = html.fromstring(c_page.content)

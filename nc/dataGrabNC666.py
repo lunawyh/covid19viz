@@ -87,62 +87,17 @@ class dataGrabnc(object):
         return True
     ## open a website 
     def open4Website(self, fRaw):
-        csv_url = self.l_state_config[5][1]
-        print('  search website', csv_url)
-        # save html file
-        #c_page = requests.get(csv_url)
-        #c_tree = html.fromstring(c_page.content)
-        #
-        driver = webdriver.Chrome()
-        driver.get(csv_url)
+        csv_url = 'https://covid19.ncdhhs.gov/dashboard#main-content' s#self.l_state_config[5][1] #'https://maryland.maps.arcgis.com/apps/opsdashboard/index.html#/d83b7887227e45728e6daf51a6c91c9f'
+        print('  download4Website', csv_url)
+        
+        siteOpen = webdriver.Chrome()
+        siteOpen.get(csv_url)
         time.sleep(5)
-        page_text = driver.page_source
-
-        with open(fRaw, "w") as fp:
-	        fp.write(page_text.encode('utf8'))
-        #
-        c_tree = html.fromstring(page_text)
-        #print('  ooooooooooopen4Website', page_text)
-        l_text_data = c_tree.xpath('//div//div//p//strong/text()')
-        #print('  open4Website date:', l_text_data)
-        statemachine = 100
-        for a_data in l_text_data:
-            if(statemachine == 100):
-                if('Website Last Updated' in a_data): statemachine = 200
-            elif(statemachine == 200):
-                print('    found date:', a_data)
-                break
-
-        l_text_data_nam = c_tree.xpath('//div//div//div//table//tbody//tr//td//a/text()')
-        print('  open4Website county:', l_text_data)
-        l_text_data_num = c_tree.xpath('//div//div//div//table//tbody//tr//td/text()')
-        #l_ending = 'Negative'
-        #l_text_data_num = l_text_data_num.split(',')
-        print('  vvvvvvvvvv county:', l_text_data_num)
-        l_cases1 = []
-        for l_rrr in l_text_data_num:
-            if l_rrr == 'Negative': break
-            elif l_rrr == 'Unassigned': continue
-            else:
-                l_cases1.append(l_rrr)
-        # delete , and convert to int
-        l_cases2 = []
-        for r_lj in l_cases1:
-            l_cases2.append(int(str(r_lj).replace(',', '')))                
-        # change shape        
-        l_cases3 = np.reshape( l_cases2, (len( l_cases2)/3, 3)).T
-        print('  l_text_data_num:', len(l_cases3), len(l_cases3[0]))
-        l_text_data_nam.append('Unassigned')
-        l_text_data_nam.append('Total')
-        print('  l_text_data_nam:', len(l_text_data_nam))
-        # put together   
-
-        print(len(l_text_data_nam))
-        print(len(l_cases3[0]))
-        print(len(l_cases3[2]))
-        l_cases3 = np.vstack((l_text_data_nam, l_cases3[0], l_cases3[2])).T 
-        print('  list name+number:', len(l_cases3), len(l_cases3[0]))
-        driver.quit()  # close the window
+        #iframe = siteOpen.find_element_by_xpath('//iframe[@style="height: 1200px"]')
+        iframe = siteOpen.find_element_by_xpath('//iframe[@style="display: block; width: 700px; height: 1627px; margin: 0px; padding: 0px; border: none;"]')
+        siteOpen.switch_to.frame(iframe)
+        time.sleep(10)
+        caseNumbers = siteOpen.find_elements_by_xpath('//span[@style="font-size:11px"]')
         return l_cases3
 
 

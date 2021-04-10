@@ -818,6 +818,55 @@ class runCoViz(object):
             data_grab = dataGrabZZ(self.l_state_config, self.state_name) 
             # step B: parse to standard file 
             lst_data, self.name_file, self.now_date = data_grab.parseData(self.name_file, self.now_date, type_download) 
+        elif (type_download == 7784): 
+            sys.path.insert(0, "./mt") 
+            from dataGrabMT import dataGrabMT 
+            # step A: create new class 
+            data_grab = dataGrabMT(self.l_state_config, self.state_name) 
+            # step B: parse to standard file 
+            lst_data, self.name_file, self.now_date = data_grab.parseData(self.name_file, self.now_date, type_download) 
+        elif (type_download == 6590): 
+            sys.path.insert(0, "./az") 
+            from dataGrabAZ import dataGrabAZ 
+            # step A: create new class 
+            data_grab = dataGrabAZ(self.l_state_config, self.state_name) 
+            # step B: parse to standard file 
+            lst_data, self.name_file, self.now_date = data_grab.parseData(self.name_file, self.now_date, type_download) 
+        elif (type_download == 7877): 
+            sys.path.insert(0, "./nm") 
+            from dataGrabNM import dataGrabNM 
+            # step A: create new class 
+            data_grab = dataGrabNM(self.l_state_config, self.state_name) 
+            # step B: parse to standard file 
+            lst_data, self.name_file, self.now_date = data_grab.parseData(self.name_file, self.now_date, type_download) 
+        elif (type_download == 8367): 
+            sys.path.insert(0, "./sc") 
+            from dataGrabSC import dataGrabSC
+            # step A: create new class 
+            data_grab = dataGrabSC(self.l_state_config, self.state_name) 
+            # step B: parse to standard file 
+            lst_data, self.name_file, self.now_date = data_grab.parseData(self.name_file, self.now_date, type_download) 
+        elif (type_download == 8665): 
+            sys.path.insert(0, "./va") 
+            from dataGrabVA import dataGrabVA 
+            # step A: create new class 
+            data_grab = dataGrabVA(self.l_state_config, self.state_name) 
+            # step B: parse to standard file 
+            lst_data, self.name_file, self.now_date = data_grab.parseData(self.name_file, self.now_date, type_download) 
+        elif (type_download == 6867): 
+            sys.path.insert(0, "./dc") 
+            from dataGrabDC import dataGrabDC
+            # step A: create new class 
+            data_grab = dataGrabDC(self.l_state_config, self.state_name) 
+            # step B: parse to standard file 
+            lst_data, self.name_file, self.now_date = data_grab.parseData(self.name_file, self.now_date, type_download) 
+        elif (type_download == 6869): 
+            sys.path.insert(0, "./de") 
+            from dataGrabDE import dataGrabDE 
+            # step A: create new class 
+            data_grab = dataGrabDE(self.l_state_config, self.state_name) 
+            # step B: parse to standard file 
+            lst_data, self.name_file, self.now_date = data_grab.parseData(self.name_file, self.now_date, type_download) 
         ### This is a template entry into one state, to COPY and MODIFY, do NOT REMOVE or CHANGE
         '''  
         elif (type_download == 1):  # download only
