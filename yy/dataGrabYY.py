@@ -105,8 +105,8 @@ class dataGrabYY(object):
         siteOpen = webdriver.Chrome()
         #
         l_books = []
-        if(isfile('./yy/dat2/bible_books.csv')): 
-            self.csv_sheet_read(l_books, './yy/dat2/bible_books.csv')
+        if(isfile('./yy/dat2/bible_book0_catalogue.csv')): 
+            self.csv_sheet_read(l_books, './yy/dat2/bible_book0_catalogue.csv')
         # catalogue
         if(len(l_books) < 1):
             siteOpen.get(self.l_state_config[5][1])
@@ -125,7 +125,7 @@ class dataGrabYY(object):
         # chapter
         
         for a_book in l_books:
-            if( int(a_book[2]) != 61 ): continue
+            #if( int(a_book[2]) != 61 ): continue
             l_chapters = []
             if(isfile('./yy/dat2/bible_book%s_chapters.csv'%(a_book[2]))):
                 self.csv_sheet_read(l_chapters, './yy/dat2/bible_book%s_chapters.csv'%(a_book[2]))
@@ -177,7 +177,7 @@ class dataGrabYY(object):
                 
             a_wb.save('./yy/dat2/bible_book%s_chapter_all.xlsx'%(a_book[2]))
             
-        #self.save_csv24(l_books, './yy/dat2/bible_books.csv')
+        #self.save_csv24(l_books, './yy/dat2/bible_book0_catalogue.csv')
 
         #
         time.sleep(3)  
