@@ -24,7 +24,7 @@ import numpy as np
 from selenium import webdriver  # https://selenium-python.readthedocs.io/installation.html
 import time
 from selenium.webdriver.common.keys import Keys 
-import bs4
+
 import urllib.request as urllib2
 import itertools
 

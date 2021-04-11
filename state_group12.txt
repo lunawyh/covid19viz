@@ -60,10 +60,10 @@ ca
 wy
 nv
 ut
-COs
-az-cant find data
-nm- no data
+CO
+az -cant find data
+nm - no data
 al
-nc- data hard to hind
+nc - data hard to hind
 va - cant find data
 
