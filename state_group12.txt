@@ -1,3 +1,14 @@
+CA	USA	California	Calif.	1006	West	Luna	10
+WY	USA	Wyoming	Wyo.	1052	West	Luna	10
+NV	USA	Nevada	Nev.	1030	West	Luna	0
+UT	USA	Utah	Utah	1046	West	Luna	10
+CO	USA	Colorado	Colo.	1007	West	Luna	0
+AZ	USA	Arizona	Ariz.	1004	West	Luna	10
+NM	USA	New Mexico	N.M.	1033	West	Luna	0
+AL	USA	Alabama	Ala.	1002	South	Luna	10
+NC	USA	North Carolina	N.C.	1035	South	Luna	10
+VA	USA	Virginia	Va.	1048	South	Luna	0
+#
 #s_postalcode	s_country	s_state	s_abbreviation	tb_id	s_region	s_team	s_finished
 AL	USA	Alabama	Ala.	1002	South	Luna	10
 AK	USA	Alaska	Alaska	1003	West	Luna	10
