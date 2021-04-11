@@ -32,3 +32,17 @@ WY	USA	Wyoming	Wyo.	1052	West	Luna	10
 ##
 ## Group 2
 ##
+
+##west and south states
+### has problem
+ca
+wy
+nv
+ut
+COs
+az-cant find data
+nm- no data
+al
+nc- data hard to hind
+va - cant find data
+
