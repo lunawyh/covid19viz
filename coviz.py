@@ -53,8 +53,10 @@ class runCoViz(object):
             with open('../state.txt', 'r') as f:
                 self.states_valid = f.readlines()
         a_state = 'MI'
-        if( len(self.states_valid) > 0):
-                a_state = self.states_valid[0][0:2]
+        for a_state_v in self.states_valid:
+            if(a_state_v[0] != '#'):
+                a_state = a_state_v[0:2]
+                break
         print('  state', a_state)
         self.stateMachine = 0 
         self.stateMaSub = 0 
