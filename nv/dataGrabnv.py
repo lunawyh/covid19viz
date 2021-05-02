@@ -79,93 +79,64 @@ class dataGrabnv(object):
     ## open a xlsx 
     def open4Xlsx(self, xlsx_name, fName=None):
         l_data = []
+        print('xlsx_name.....', xlsx_name)
+        if xlsx_name is None:
+            print("Error! A file exported from magicdraw is not found.")
+            return
+        sheet_xlsx_name = 'Tests, Cases, and Deaths'
+        df = pd.read_excel(xlsx_name, sheet_name=sheet_xlsx_name)
+        (n_rows, n_columns) = df.shape
+        print("  excel_sheet_read", sheet_xlsx_name, df.shape)
+        csv_data =[]
+        for ii in range(n_rows):
+            a_row = []
+            for jj in range(n_columns):
+                if str(df.iloc[ii, jj]) == "nan":
+                    a_row.append("")
+                else:
+                    a_row.append(df.iloc[ii, jj])
+            csv_data.append(a_row)
+        print('data;;;;;;;;;;;;;;', csv_data)
 
-        #////////////////////////////////
-        print('os.getcwd()...')
-        os.chdir('/home/lunawang/Documents/luna2020/covid19viz/nv/data_raw/') 
-        print(os.getcwd())
-        #File_name = "/nv/data_raw/" +self.state_name.lower() + '_covid19_'+self.name_file+ '.xlsx'
-        name_of_file = self.state_name.lower() + '_covid19_'+self.name_file+ '.xlsx'
-        time.sleep(5)
-        print('xlsx_name....', str(name_of_file))
-        file_name = str(name_of_file)
-        print('type of file name.....', type(file_name))
-        wb = load_workbook(file_name) #(filename = str(name_of_file))
-        print('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>')
-        sheet_ranges = wb['range names']
-        print(sheet_ranges['D18'].value)
-
-        '''
-        if(isfile(xlsx_name) ):
-            df = pd.read_excel(xlsx_name, engine='openpyxl')
-            print('/////////////////////', df)
-            
-            
-            print('uuuuuuuuuuuuu', type(df))
-            df2 = df['COUNTY_NAME'].values.tolist()
-            print('mmmmmmmmm', df2)
-            df3 = df['COVID_COUNT'].values.tolist()
-            #print('mmmmmmmmm', df3)
-            df4 = df['COVID_DEATHS'].values.tolist()
-            l_cases3 = np.vstack([df2, df3, df4]).T 
-        '''
-
-        list1= []
-        state_num = 0
-        state_name = ''
-        state_death = 0
-        for a_lst in l_cases3:
-            if state_name == '':
-                state_name = a_lst[0]
-                state_num= a_lst[1]
-                state_death= a_lst[2]
-            elif a_lst[0] == state_name:
-                state_name = a_lst[0]
-                state_num= a_lst[1]
-                state_death= a_lst[2]
-            elif a_lst[0] != state_name:
-                list1.append([state_name, state_num, state_death])
-                state_num = 0
-                state_death= 0
-                state_name = ''
-        print('mmmmmmmmmm', list1)
-
-        return list1
+        list_l = []
+        for ccc in csv_data[2:]:
+            list_l.append([ccc[0], ccc[2], ccc[3]])
+        print('list.....', list_l)
+        return list_l
 
     ## $^&&
     def open4excel(self, name_file):
         print("  open4Website")
-        csv_url = 'https://app.powerbigov.us/view?r=eyJrIjoiMjA2ZThiOWUtM2FlNS00MGY5LWFmYjUtNmQwNTQ3Nzg5N2I2IiwidCI6ImU0YTM0MGU2LWI4OWUtNGU2OC04ZWFhLTE1NDRkMjcwMzk4MCJ9'
+        csv_url = self.l_state_config[5][1]
         print('data', csv_url)
         siteOpen = webdriver.Chrome()
         siteOpen.get(csv_url)
-        time.sleep(5)
+        time.sleep(25)
 
-        siteOpen.find_elements_by_link_text('Download Data')[0].click()
-        print('click the button===========')
-        #============================================
-        #print(os.getcwd())
-        os.chdir('..')
-        os.chdir('..')
-        os.chdir('..')
-        os.chdir('..')
-        os.chdir('..')
-        print('no in is in the home file')
-        print(os.getcwd())
-        print('to the start file')
-        time.sleep(5)
-
-        my_file = Path("/home/lunawang/Documents/luna2020/covid19viz/nv/data_raw/"+self.state_name.lower() + '_covid19_'+self.name_file+ '.xlsx')
+        my_file = Path("./nv/data_raw/"+self.state_name.lower() + '_covid19_'+self.name_file+ '.xlsx') #when under folders, use '.' to represent path
         if my_file.is_file() == True:
-            print('!!!!!! file already exsist')
+            print('!!!!!! file already exsist, for first')
         else:
-            shutil.move('/home/lunawang/Downloads/Nevada Dashboard Extract.xlsx', "/home/lunawang/Documents/luna2020/covid19viz/nv/data_raw/"+self.state_name.lower() + '_covid19_'+self.name_file+ '.xlsx')
+            siteOpen.find_elements_by_link_text('Download Data')[0].click()
+            print('click the button===========')
+            #============================================
+            #print(os.getcwd())
 
-        #nv_covid19_20210416.xlsx
-        os.chdir('/home/lunawang/Documents/luna2020/covid19viz/') 
+            shutil.move(self.get_download_path() + "/Nevada Dashboard Extract.xlsx", my_file)
+
         print('..........................................')
 
-    
+    def get_download_path(self):
+        """Returns the default downloads path for linux or windows"""
+        if os.name == 'nt':
+            import winreg
+            sub_key = r'SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders'
+            downloads_guid = '{374DE290-123F-4565-9164-39C4925E467B}'
+            with winreg.OpenKey(winreg.HKEY_CURRENT_USER, sub_key) as key:
+                location = winreg.QueryValueEx(key, downloads_guid)[0]
+            return location
+        else:
+            return os.path.join(os.path.expanduser('~'), 'Downloads')
 
 
     ## paser data CA

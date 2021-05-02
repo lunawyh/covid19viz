@@ -1,0 +1,20 @@
+name,value,lon,quantity,offset
+VIZ_W,750,,,0
+VIZ_H,415,,,1
+state_map,nrcseprd1446439.jpg,,,2
+cordinate,None,,,3
+weblink_num,427,,,4
+weblink_state,https://cv.nmhealth.org/2021/04/26/new-mexico-covid-19-update-673-new-cases-totaling-196844/,,,5
+state_name,New Mexico,,,6
+basemap_type,1,,,7
+basemap_center,0,0,,8
+basemap_size,0,0,,9
+basemap_list_num,2,,,10
+basemap_title,1.16,-0.6,1,11
+basemap_logo,1,1.5,1,12
+basemap_list1,1.15,-1.8,0,13
+basemap_list2,-0.5,-1.8,10,14
+basemap_list3,0,0,0,15
+basemap_list4,0,0,0,16
+basemap_list5,0,0,0,17
+basemap_list6,0,0,0,18
