@@ -15,7 +15,6 @@ from os.path import isfile, join
 import pandas as pd
 import csv
 import datetime 
-import urllib
 import re
 import requests
 from lxml import html
@@ -25,7 +24,6 @@ from selenium import webdriver  # https://selenium-python.readthedocs.io/install
 import time
 from selenium.webdriver.common.keys import Keys 
 import bs4
-import urllib.request as urllib2
 import itertools
 #dataGrabWI327.py
 # ==============================================================================

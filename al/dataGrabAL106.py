@@ -113,11 +113,12 @@ class dataGrabAL(object):
 
         name_state = siteOpen.find_elements_by_xpath('//td[@data-field="CNTYFIPS"]')
         
-        dst_list= []
+        dst_list= [] #[['Autauga'], ['Baldwin'], ['Barour'], ['Bibb'], ['Blount'], ['Bullock'], ['Butler']]
         for case_num in name_state:
             dStringList = case_num.text.replace(',', '').split()
             print('  case_num', dStringList )
-            dst_list.append(dStringList)
+            dst_list.append((str(dStringList)).replace('[', '').replace(']', '').replace("'", ''))
+        dst_list = ['Autauga', 'Baldwin', 'Barour', 'Bibb', 'Blount', 'Bullock', 'Butler'] + dst_list[7:]
         print('list---', (dst_list))
 
 
@@ -127,7 +128,7 @@ class dataGrabAL(object):
         for case_num in cases_number:
             dStringList = case_num.text.replace(',', '').split()
             print('  case_num', dStringList )
-            cal_list.append(dStringList)
+            cal_list.append((str(dStringList)).replace('[', '').replace(']', '').replace("'", ''))
         print('list---', (cal_list))
 
 
@@ -137,8 +138,14 @@ class dataGrabAL(object):
         for case_num in death_state:
             dStringList = case_num.text.replace(',', '').split()
             print('  case_num', dStringList )
-            dcl_list.append(dStringList)
+            dcl_list.append((str(dStringList)).replace('[', '').replace(']', '').replace("'", ''))
         print('list---', (dcl_list))
+
+
+
+        print('..................', len(dst_list))
+        print('..................', len(cal_list))
+        print('..................', len(dcl_list))
 
 
         all_list = np.vstack((dst_list, cal_list, dcl_list)).T 

@@ -68,33 +68,17 @@ class dataGrabWV(object):
         # save html file
         c_page = requests.get(csv_url)
         c_tree = html.fromstring(c_page.content)
-        l_dates = c_tree.xpath('//a')  # ('//div[@class="col-xs-12 button--wrap"]')
+        l_dates = c_tree.xpath('//div//a')  # ('//div[@class="col-xs-12 button--wrap"]')
         #print('   dddd', l_dates)
 
-
-        today = date.today()
-        print("Today is: ", today) 
-        datall = ''
-        # Yesterday date 
-        yesterday = today - timedelta(days = 1) 
-        print("Yesterday was: ", yesterday) 
-
-        dt_obj = str(yesterday) 
-        print("++++++++++++++ ", dt_obj) 
-        print("++++++++++++++ ", type(dt_obj))
-
-        dt_obj = datetime.datetime.strptime(dt_obj, '%Y-%m-%d')
-        datall = dt_obj.strftime('%m-%d-%Y')
-
-        print('ddddddddddddddd', datall)
         a_address = ''
         for l_date in l_dates:
-            #print(l_date.text_content())
-            if('COVID-19 Daily Update ' + datall[:2]) in l_date.text_content(): 
+            print(l_date.text_content())
+            if('COVID-19 Daily Update ') in l_date.text_content(): 
                 print('   sss', l_date)
                 a_address =l_date.get('href')
                 break
-        #print('11111111111111', a_address)
+        print('11111111111111', a_address)
         return a_address
 
     ## paser data FL
@@ -123,18 +107,27 @@ class dataGrabWV(object):
         c_page = requests.get(f_name)
         c_tree = html.fromstring(c_page.content)
       
-        caseNumbers = siteOpen.find_elements_by_xpath('//font[@size="3"]')
+        caseNumbers = siteOpen.find_elements_by_xpath('//div[@id="ctl00_PlaceHolderMain_ctl02__ControlWrapper_RichHtmlField"]')
 
         case_num_list = []
         for case_num in caseNumbers:  # this is cases------------------------------------bc-bar-inner dw-rect
             dStringList = case_num.text.split()
             #print('  ------------case_num', dStringList )
-            if 'Barbour' in dStringList:
+            if 'Virginia' in dStringList:
                 print('  ------------case_num', dStringList )
                 case_num_list=(dStringList)
 
+        list_aaa = []
+        list_ll = case_num_list[174:284]
+        print('lllllllllll......', list_ll)
+        for lll in list_ll:
+            aaa = lll.replace('(', '').replace(')', '').replace(',', '').replace('.', '')
+            list_aaa.append(aaa)
 
-        l_cases2 = np.reshape(case_num_list[1:], (len(case_num_list[1:])/2, 2)).T
+        print('aaaaaaaaaa......', list_aaa)
+
+
+        l_cases2 = np.reshape(list_aaa, (len(list_aaa)//2, 2)).T
         print('ccccccccccccccc', l_cases2)
         cases= []
         for c_c in l_cases2[1]:

@@ -24,7 +24,6 @@ import numpy as np
 from selenium import webdriver  
 import time
 from selenium.webdriver.common.keys import Keys 
-import bs4
 import urllib.request as urllib2
 import itertools
 import pyautogui
@@ -81,41 +80,37 @@ class dataGrabHI(object):
     def saveWebsite(self, fRaw):
         #csv_url = self.l_state_config[5][1]
         #print('  download4Website', csv_url)
-
-        csv_url = self.l_state_config[5][1]
-        print('  download4Website', csv_url)
-        driver = webdriver.Chrome()
-        driver.get(csv_url)
-        time.sleep(5)
-        #'''
-        #data-src="https://hiema.maps.arcgis.com/apps/opsdashboard/index.html#/9a19e1adeceb46c58185cb0396faf36b"
-        #iframe = driver.find_element_by_xpath('//iframe[@scrolling="no"]')
-        #driver.switch_to.frame(iframe)
-        #time.sleep(10)
-
-        element = driver.find_elements_by_link_text('Cases')[0].click()
-        print('click to the element page...........')
-        time.sleep(5)
-        
-        poto = self.state_name.lower() + '_covid19_start_'+self.name_file+ '1st.png'
-        ####
-        my_file = Path('/home/lunawang/Documents/luna2020/covid19viz/hi/data_raw/' + self.state_name.lower() + '_covid19_start_'+self.name_file+ '1st.png')
+        my_file = Path('./hi/data_raw/' + self.state_name.lower() + '_covid19_start_'+self.name_file+ '1st.png')
         if my_file.is_file() == True:
             print('!!!!!! file already exsist')
         else:
+
+
+            csv_url = self.l_state_config[5][1]
+            print('  download4Website', csv_url)
+            driver = webdriver.Chrome()
+            driver.get(csv_url)
+            time.sleep(5)
+
+            element = driver.find_elements_by_link_text('Cases')[0].click()
+            print('click to the element page...........')
+            time.sleep(5)
+        
+            poto = self.state_name.lower() + '_covid19_start_'+self.name_file+ '1st.png'
+            ####
             print(os.getcwd())
             print('cccccccccccccccccccc')
             myScreenshot = pyautogui.screenshot()
-            myScreenshot.save('/home/lunawang/Documents/luna2020/covid19viz/hi/data_raw/' + self.state_name.lower() + '_covid19_start_'+self.name_file+ '1st.png') #\home\lunawang\Documents\luna2020\covid19viz
+            myScreenshot.save('./hi/data_raw/' + self.state_name.lower() + '_covid19_start_'+self.name_file+ '1st.png') #\home\lunawang\Documents\luna2020\covid19viz
             print('save the screenshot.............')
 
         ##................2
-        image1 = Image.open('/home/lunawang/Documents/luna2020/covid19viz/hi/data_raw/' + self.state_name.lower() + '_covid19_start_'+self.name_file+ '1st.png')
+        image1 = Image.open('./hi/data_raw/' + self.state_name.lower() + '_covid19_start_'+self.name_file+ '1st.png')
         print(')))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))')
 
 
         ## ............3
-        my_file = Path('/home/lunawang/Documents/luna2020/covid19viz/hi/data_raw/' + self.state_name.lower() + '_covid19_'+self.name_file+ '.png')
+        my_file = Path('./hi/data_raw/' + self.state_name.lower() + '_covid19_'+self.name_file+ '.png')
         if my_file.is_file() == True:
             print('!!!!!! file 2nd already exsist')
         else:
@@ -132,11 +127,11 @@ class dataGrabHI(object):
             print(x, y, w, h)
             #croppedImg = image1.crop((x+640,y+750,1500,h+300))
             croppedImg = image1.crop((x+640,y+750,820,h+600))
-            croppedImg.save('/home/lunawang/Documents/luna2020/covid19viz/hi/data_raw/' + self.state_name.lower() + '_covid19_'+self.name_file+ '.png') 
+            croppedImg.save('./hi/data_raw/' + self.state_name.lower() + '_covid19_'+self.name_file+ '.png') 
             print('save the photo craft')
 
         ## .....3
-        img = cv2.imread('/home/lunawang/Documents/luna2020/covid19viz/hi/data_raw/' + self.state_name.lower() + '_covid19_'+self.name_file+ '.png')
+        img = cv2.imread('./hi/data_raw/' + self.state_name.lower() + '_covid19_'+self.name_file+ '.png')
         text = pytesseract.image_to_string(img, config='--psm 6')
         #print('111____________', text)
         test_l = text.split('\n')
@@ -158,13 +153,13 @@ class dataGrabHI(object):
         #print('first one ===============')
 
         ## ............4
-        my_file = Path('/home/lunawang/Documents/luna2020/covid19viz/hi/data_raw/' + self.state_name.lower() + '_covid19_'+self.name_file+ '_total_confirmed_cases.png')
+        my_file = Path('./hi/data_raw/' + self.state_name.lower() + '_covid19_'+self.name_file+ '_total_confirmed_cases.png')
         if my_file.is_file() == True:
             print('!!!!!! file 2nd already exsist')
         else:
             # FOR THE TOTAL NUMBER TOGETHER
             # FOR THE NUMBERS OF THE COUNTRY
-            print(image1.size)
+            print('image_size..........', image1.size)
             width, height = image1.size
             numberOfSplits = 5
             splitDist1 = width / numberOfSplits
@@ -173,37 +168,24 @@ class dataGrabHI(object):
             y = 0
             w = splitDist1
             h = height+y
-            print(x, y, w, h)
+            print('image_size..........',x, y, w, h)
             #croppedImg =image1.crop((x+60,y+250,350,h+300))
-            croppedImg = image1.crop((x+60,y+255,350,h+100))
-            croppedImg.save('/home/lunawang/Documents/luna2020/covid19viz/hi/data_raw/' + self.state_name.lower() + '_covid19_'+self.name_file+ '_total_confirmed_cases.png') 
+            croppedImg = image1.crop((50, 250, 350, 500))
+            croppedImg.save('./hi/data_raw/' + self.state_name.lower() + '_covid19_'+self.name_file+ '_total_confirmed_cases.png') 
             print('save the photo craft')
 
         ## .....3 ) because there is no data for the 'Kalawao' county, we nee to find the 
         # total cases, then minues it by the other four county cases
-        img2 = cv2.imread('/home/lunawang/Documents/luna2020/covid19viz/hi/data_raw/' + self.state_name.lower() + '_covid19_'+self.name_file+ '_total_confirmed_cases.png')
+        img2 = cv2.imread('./hi/data_raw/' + self.state_name.lower() + '_covid19_'+self.name_file+ '_total_confirmed_cases.png')
         text2 = pytesseract.image_to_string(img2, config='--psm 6')
         print('222____________', text2)
         test_l = text2.split('\n')
-        print('llll.....', test_l[3])
+        
+        test_ll = test_l[2].replace(',', '')
+        print(test_ll)
 
-        test_ll = test_l[3].split(' ')
-        time_number = float(test_ll[1].replace('%', '')) * float(0.01)
-        print('1) time_number..........', time_number)
-        last_time_cases = int(test_ll[-1].replace('(', '').replace(')', '').replace(',', ''))
-        print('2) last_time_cases........', last_time_cases)
-        full_cases = (time_number * last_time_cases)  + last_time_cases
-        print('3) all the cases plus together...........', full_cases)
-        #full_cases_ll = round(float(full_cases), 0)
-        full_cases2 = int((str(full_cases).split('.'))[0])
-        print('4) full_cases_ll...........', full_cases2)
-
-        #......4
-        four_county_full_cases = int(number_li[0])+ int(number_li[1])+ int(number_li[2])+ int(number_li[3])
-        Kalawao_cases = full_cases2 - four_county_full_cases
-        print('Kalawao_cases..........', Kalawao_cases)
         name_li.append('Kalawao')
-        number_li.append(Kalawao_cases)
+        number_li.append(test_ll)
         zeros = len(name_li) *[0]
         l_data = np.vstack((name_li, number_li, zeros)).T 
         print('lllllllllll', l_data)

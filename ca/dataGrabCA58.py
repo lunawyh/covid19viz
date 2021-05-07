@@ -117,7 +117,7 @@ class dataGrabCA(object):
     ## $^&&
     def open4excel(self, name_file):
         #csv_url = self.l_state_config[5][1]
-        csv_url ='https://public.tableau.com/views/COVID-19CasesDashboard_15931020425010/Cases?:embed=y&:showVizHome=no'
+        csv_url ='https://public.tableau.com/profile/ca.open.data#!/vizhome/COVID-19CasesDashboardv2_0/CaseStatistics'
         print('  #$$search website', csv_url)
         #webbrowser.open(csv_url, new=1)
         #time.sleep(20)
@@ -134,13 +134,13 @@ class dataGrabCA(object):
         if my_file.is_file() == True:
             print('!!!!!! file already exsist')
         else:
-            shutil.move('/home/lunawang/Downloads/Cases.png', '/home/lunawang/Documents/luna2020/covid19viz/ca/data_raw/' + self.state_name.lower() + '_covid19_start_'+self.name_file+ '1st.png')
+            shutil.move('/home/lunawang/Downloads/Case Statistics.png', '/home/lunawang/Documents/luna2020/covid19viz/ca/data_raw/' + self.state_name.lower() + '_covid19_start_'+self.name_file+ '1st.png')
         
         my_file_2 = Path('/home/lunawang/Documents/luna2020/covid19viz/ca/data_raw/' + self.state_name.lower() + '_covid19_start_'+self.name_file+ '2nd.png')
         if my_file_2.is_file() == True:
             print('!!!!!! file already exsist')
         else:
-            shutil.move('/home/lunawang/Downloads/Cases (1).png', '/home/lunawang/Documents/luna2020/covid19viz/ca/data_raw/' + self.state_name.lower() + '_covid19_start_'+self.name_file+ '2nd.png')
+            shutil.move('/home/lunawang/Downloads/Case Statistics (1).png', '/home/lunawang/Documents/luna2020/covid19viz/ca/data_raw/' + self.state_name.lower() + '_covid19_start_'+self.name_file+ '2nd.png')
 
         '''
         my_file_2 = Path('/home/lunawang/Documents/luna2020/covid19viz/ca/data_raw/' + self.state_name.lower() + '_covid19_start_'+self.name_file+ '3rd.png')
