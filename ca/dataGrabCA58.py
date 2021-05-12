@@ -169,8 +169,31 @@ class dataGrabCA(object):
         h = height+y
         #print(x, y, w, h)
 
-        croppedImg = image1.crop((x,y,w-80,h))
-        croppedImg.save(self.state_name.lower() + '_covid19_'+self.name_file+ '1st.png') #save to file
+        croppedImg = image1.crop((x,y+150,w-100,h))
+        croppedImg.save(self.state_name.lower() + '_covid19_'+self.name_file+ '_names_1st.png') #save to file
+
+
+
+
+        #craft the photo ============================================= numbers
+        image1 = Image.open(self.state_name.lower() + '_covid19_start_'+self.name_file+ '1st.png')
+        print(')))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))')
+        print(image1.size)
+        width, height = image1.size
+        numberOfSplits = 5
+        splitDist = width / numberOfSplits
+
+        x = 0
+        y = 0
+        w = splitDist+x
+        h = height+y
+        #print(x, y, w, h)
+
+        croppedImg = image1.crop((x+100,y+150,w-50,h))
+        croppedImg.save(self.state_name.lower() + '_covid19_'+self.name_file+ '_numbers_1st.png') #save to file
+
+
+
 
         #craft the photo #2=============================================
         image1 = Image.open(self.state_name.lower() + '_covid19_start_'+self.name_file+ '2nd.png')
@@ -185,12 +208,14 @@ class dataGrabCA(object):
         h = height+y
         #print(x, y, w, h)
 
-        croppedImg = image1.crop((x,y,w-80,h))
-        croppedImg.save(self.state_name.lower() + '_covid19_'+self.name_file+ '2nd.png') #save to file
+        croppedImg = image1.crop((x,y+150,w-100,h))
+        croppedImg.save(self.state_name.lower() + '_covid19_'+self.name_file+ '_names_2nd.png') #save to file
 
-        #craft the photo #3=============================================
-        '''
-        image1 = Image.open(self.state_name.lower() + '_covid19_start_'+self.name_file+ '3rd.png')
+
+
+
+        #craft the photo #2=============================================
+        image1 = Image.open(self.state_name.lower() + '_covid19_start_'+self.name_file+ '2nd.png')
         #print(image1.size)
         width, height = image1.size
         numberOfSplits = 5
@@ -202,19 +227,28 @@ class dataGrabCA(object):
         h = height+y
         #print(x, y, w, h)
 
-        croppedImg = image1.crop((x,y,w-80,h))
-        croppedImg.save(self.state_name.lower() + '_covid19_'+self.name_file+ '3rd.png') #save to file
-        '''
-        print('photo 3 done--------------------------------------------------')
-        
+        croppedImg = image1.crop((x+110,y+150,w-50,h))
+        croppedImg.save(self.state_name.lower() + '_covid19_'+self.name_file+ '_numbers_2nd.png') #save to file
+
+
+
+
+        #craft the photo #3=============================================
+
         #read words from picture--------------------------------------------------------------------------
         #import pytesseract
-        img = cv2.imread(self.state_name.lower() + '_covid19_'+self.name_file+ '1st.png')
+        img = cv2.imread(self.state_name.lower() + '_covid19_'+self.name_file+ '_names_1st.png')
         text = pytesseract.image_to_string(img)
         print('111____________', text)
-        img2 = cv2.imread(self.state_name.lower() + '_covid19_'+self.name_file+ '2nd.png')
+        img2 = cv2.imread(self.state_name.lower() + '_covid19_'+self.name_file+ '_numbers_1st.png', lang='eng')
         text_2nd = pytesseract.image_to_string(img2)
         print('222__________', text_2nd)
+        img3 = cv2.imread(self.state_name.lower() + '_covid19_'+self.name_file+ '_names_2nd.png')
+        text_3rd = pytesseract.image_to_string(img3)
+        print('333____________', text_3rd)
+        img4 = cv2.imread(self.state_name.lower() + '_covid19_'+self.name_file+ '_numbers_2nd.png', lang='eng')
+        text_4th = pytesseract.image_to_string(img4)
+        print('444__________', text_4th)
         '''
         img3 = cv2.imread(self.state_name.lower() + '_covid19_'+self.name_file+ '3rd.png')
         text_3nd = pytesseract.image_to_string(img3)
