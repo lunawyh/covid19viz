@@ -80,7 +80,7 @@ class dataGrabKY(object):
             dStringList = case_num.text.split()
             print('  ------------case_num', dStringList )
 
-            case_list.append([dStringList[0], dStringList[8].replace(',', ''), dStringList[10].replace(',', '')])
+            case_list.append([dStringList[0], dStringList[-3].replace(',', ''), dStringList[-1].replace(',', '')])
         print('llllllllllll', case_list)      
 	#    l_cases3 = np.append(case_list, [['Total', case, death]], axis=0)
         case = 0
