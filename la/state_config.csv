@@ -1,0 +1,20 @@
+name,value,lon,quatity,offset
+VIZ_W,800,,,0
+VIZ_H,800,,,1
+state_map,la_state_map.jpg,,,2
+cordinate,position file,,,3
+weblink_num,10,,,4
+weblink_state,https://ldh.la.gov/coronavirus/,,,5
+state_name,Louisiana,,,6
+basemap_type,1,,,7
+basemap_center,31.590091,-91.89965,,8
+basemap_size,300000,300000,,9
+basemap_list_num,2,,,10
+basemap_title,2.3,-2,,11
+basemap_logo,2,1.8,,12
+basemap_list1,2.35,-3.5,0,13
+basemap_list2,1.4,2.2,45,14
+basemap_list3,,,,15
+basemap_list4,,,,16
+basemap_list5,,,,17
+basemap_list6,,,,18

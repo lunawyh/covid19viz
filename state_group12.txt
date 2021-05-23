@@ -1,0 +1,69 @@
+AK	USA	Alaska	Alaska	1003	West	Luna	10
+AR	USA	Arkansas	Ark.	1005	South	Luna	10
+DE	USA	Delaware	Del.	1009	South	Luna	0
+DC	USA	District of Columbia	D.C.	1010	South	Luna	0
+FL	USA	Florida	Fla.	1011	South	Luna	10
+GA	USA	Georgia	Ga.	1012	South	Luna	10
+HI	USA	Hawaii	Hawaii	1013	West	Luna	0
+ID	USA	Idaho	Idaho	1014	West	Luna	0
+KY	USA	Kentucky	Ky.	1019	South	Luna	10
+LA	USA	Louisiana	La.	1020	South	Luna	10
+MD	USA	Maryland	Md.	1022	South	Luna	10
+MS	USA	Mississippi	Miss.	1026	South	Luna	10
+MT	USA	Montana	Mont.	1028	West	Luna	0
+OK	USA	Oklahoma	Okla.	1038	South	Luna	10
+OR	USA	Oregon	Ore.	1039	West	Luna	10
+SC	USA	South Carolina	S.C.	1042	South	Luna	0
+TN	USA	Tennessee	Tenn.	1044	South	Luna	10
+TX	USA	Texas	Tex.	1045	South	Luna	10
+WA	USA	Washington	Wash.	1049	West	Luna	10
+WV	USA	West Virginia	W.Va.	1050	South	Luna	10
+#
+#s_postalcode	s_country	s_state	s_abbreviation	tb_id	s_region	s_team	s_finished
+AL	USA	Alabama	Ala.	1002	South	Luna	10
+AK	USA	Alaska	Alaska	1003	West	Luna	10
+AZ	USA	Arizona	Ariz.	1004	West	Luna	10
+AR	USA	Arkansas	Ark.	1005	South	Luna	10
+CA	USA	California	Calif.	1006	West	Luna	10
+CO	USA	Colorado	Colo.	1007	West	Luna	0
+DE	USA	Delaware	Del.	1009	South	Luna	0
+DC	USA	District of Columbia	D.C.	1010	South	Luna	0
+FL	USA	Florida	Fla.	1011	South	Luna	10
+GA	USA	Georgia	Ga.	1012	South	Luna	10
+HI	USA	Hawaii	Hawaii	1013	West	Luna	0
+ID	USA	Idaho	Idaho	1014	West	Luna	0
+KY	USA	Kentucky	Ky.	1019	South	Luna	10
+LA	USA	Louisiana	La.	1020	South	Luna	10
+MD	USA	Maryland	Md.	1022	South	Luna	10
+MS	USA	Mississippi	Miss.	1026	South	Luna	10
+MT	USA	Montana	Mont.	1028	West	Luna	0
+NV	USA	Nevada	Nev.	1030	West	Luna	0
+NM	USA	New Mexico	N.M.	1033	West	Luna	0
+NC	USA	North Carolina	N.C.	1035	South	Luna	10
+OK	USA	Oklahoma	Okla.	1038	South	Luna	10
+OR	USA	Oregon	Ore.	1039	West	Luna	10
+SC	USA	South Carolina	S.C.	1042	South	Luna	0
+TN	USA	Tennessee	Tenn.	1044	South	Luna	10
+TX	USA	Texas	Tex.	1045	South	Luna	10
+UT	USA	Utah	Utah	1046	West	Luna	10
+VA	USA	Virginia	Va.	1048	South	Luna	0
+WA	USA	Washington	Wash.	1049	West	Luna	10
+WV	USA	West Virginia	W.Va.	1050	South	Luna	10
+WY	USA	Wyoming	Wyo.	1052	West	Luna	10
+##
+## Group 2
+##
+
+##west and south states
+### has problem
+ca
+wy
+nv
+ut
+CO
+az -cant find data
+nm - no data
+al
+nc - data hard to hind
+va - cant find data
+

@@ -1,0 +1,21 @@
+IL	# MIDWEST on 9/1/2020
+KS
+MI
+OH
+FL	# South on 9/1/2020
+GA
+LA
+MD
+MS
+TN
+TX
+##
+## Group 2
+##
+### has problem
+DC
+DE
+SC
+VA
+
+

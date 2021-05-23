@@ -1,0 +1,21 @@
+name,value,lon,quatity,offset
+VIZ_W,1000,,,0
+VIZ_H,1000,,,1
+state_map,unnamed.jpg,,,2
+cordinate,None,,,3
+weblink_num,8368,,,4
+weblink_state,https://app.powerbigov.us/view?r=eyJrIjoiMmNlOWNjM2MtOTU1Zi00MjY3LWIxZTgtZDg0MWNkMTkwYTg0IiwidCI6IjcwYWY1NDdjLTY5YWItNDE2ZC1iNGE2LTU0M2I1Y2U1MmI5OSJ9,,,5
+state_name,South Dakota,,,6
+basemap_type,1,,,7
+basemap_center,38.756465," -76.981570
+",,8
+basemap_size,200000,200000,,9
+basemap_list_num,4,,,10
+basemap_title,1.5,-2.5,,11
+basemap_logo,1.5,1,,12
+basemap_list1,0.4,-2,0,13
+basemap_list2,0.4,1,26,14
+basemap_list3,-0.3,0,52,15
+basemap_list4,-0.3,2,78,16
+basemap_list5,0,0,0,17
+basemap_list6,0,0,0,18
