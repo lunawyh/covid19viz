@@ -130,6 +130,7 @@ class dataGrabCA(object):
         print('no in is in the home file')
         print(os.getcwd())
         #move the files from download to data_raw
+<<<<<<< HEAD
         my_file = Path('/home/lunawang/Documents/luna2020/covid19viz/ca/data_raw/' + self.state_name.lower() + '_covid19_start_'+self.name_file+ '1st.png')
         if my_file.is_file() == True:
             print('!!!!!! file already exsist')
@@ -149,6 +150,20 @@ class dataGrabCA(object):
         else:
             shutil.move('/home/lunawang/Downloads/Cases (2).png', '/home/lunawang/Documents/luna2020/covid19viz/ca/data_raw/' + self.state_name.lower() + '_covid19_start_'+self.name_file+ '3rd.png')
         '''
+=======
+        my_file = Path('/home/lunawang/Documents/luna2020/covid19viz/ca/data_raw/' + self.state_name.lower() + '_covid19_start_'+self.name_file+ '1st.pdf')
+        if my_file.is_file() == True:
+            print('!!!!!! file already exsist')
+        else:
+            shutil.move('/home/lunawang/Downloads/Case Statistics.pdf', '/home/lunawang/Documents/luna2020/covid19viz/ca/data_raw/' + self.state_name.lower() + '_covid19_start_'+self.name_file+ '1st.pdf')
+        
+        my_file_2 = Path('/home/lunawang/Documents/luna2020/covid19viz/ca/data_raw/' + self.state_name.lower() + '_covid19_start_'+self.name_file+ '2nd.pdf')
+        if my_file_2.is_file() == True:
+            print('!!!!!! file already exsist')
+        else:
+            shutil.move('/home/lunawang/Downloads/Case Statistics (1).pdf', '/home/lunawang/Documents/luna2020/covid19viz/ca/data_raw/' + self.state_name.lower() + '_covid19_start_'+self.name_file+ '2nd.pdf')
+
+>>>>>>> 6337489a8b1fe08500c24132eb5a24f03cfe0f99
 
         #get back to start file
         #print(os.getcwd())
@@ -156,6 +171,7 @@ class dataGrabCA(object):
         #print(os.getcwd())
 
         #craft the photo =============================================
+<<<<<<< HEAD
         image1 = Image.open(self.state_name.lower() + '_covid19_start_'+self.name_file+ '1st.png')
         print(')))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))')
         print(image1.size)
@@ -299,6 +315,16 @@ class dataGrabCA(object):
             if lll == '5.115':
                 l_number.append(5115)
             else: l_number.append(lll)
+=======
+        pdf_1st = (self.state_name.lower() + '_covid19_start_'+self.name_file+ '1st.pdf')
+        pdf_2nd = (self.state_name.lower() + '_covid19_start_'+self.name_file+ '2nd.pdf')
+        print(')))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))')
+        import pdfplumber
+        with pdfplumber.open(pdf_1st) as pdf:
+            first_page = pdf.pages[0]
+            print('llllllllllllllllllllllllllllllllllll')
+            print(first_page.extract_text())
+>>>>>>> 6337489a8b1fe08500c24132eb5a24f03cfe0f99
 
 
         zeros= [0]*len(l_pageTxt_number)

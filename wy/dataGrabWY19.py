@@ -25,7 +25,11 @@ from selenium import webdriver  # https://selenium-python.readthedocs.io/install
 import time
 from selenium.webdriver.common.keys import Keys 
 import bs4
+<<<<<<< HEAD
 #from urllib2 import urlopen as uReq
+=======
+from urllib2 import urlopen as uReq
+>>>>>>> 6337489a8b1fe08500c24132eb5a24f03cfe0f99
 
 # ==============================================================================
 # -- codes -------------------------------------------------------------------
@@ -134,11 +138,15 @@ class dataGrabWY(object):
             else: 
                 l_list.append(cnl.replace(':', '').replace(',', ''))
         print('333333333333333333333', l_list)
+<<<<<<< HEAD
         list_ll = l_list[:-10]
         print(',,,,,,,,,,,,,,,,,,,,,,,,,', len(list_ll))
         print(type(len(list_ll)))
         lenOfList = len(list_ll)
         l_cases2 = np.reshape(list_ll, (len(list_ll)//3, 3)).T
+=======
+        l_cases2 = np.reshape(l_list, (len(l_list)/3, 3)).T
+>>>>>>> 6337489a8b1fe08500c24132eb5a24f03cfe0f99
         zeros= [0]*len(l_cases2[0])
         l_data = np.vstack((l_cases2[0], l_cases2[1], zeros)).T
         print('..................', l_data)

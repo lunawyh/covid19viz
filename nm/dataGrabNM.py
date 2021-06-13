@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf8 -*-
-# 			dataGrabAZ.py
+# 			dataGrabNM.py
 #
-#	grab data from AZ state websites
+#	grab data from NM state websites
 #
 #
 
@@ -21,12 +21,12 @@ import requests
 # -- codes -------------------------------------------------------------------
 # ============================================================================== 
 # save downloaded data to daily or overal data 
-# class for dataGrabAZ
-class dataGrabAZ(object):
+# class for dataGrabNM
+class dataGrabNM(object):
     ## the start entry of this class
     def __init__(self, l_config, n_state):
         # create a node
-        print("welcome to dataGrabAZ")
+        print("welcome to dataGrabNM")
         self.state_name = n_state
         self.state_dir = './'+n_state.lower()+'/'
         self.l_state_config = l_config
@@ -61,11 +61,7 @@ class dataGrabAZ(object):
         if(not os.path.isdir(self.state_dir + 'data_raw/') ): os.mkdir(self.state_dir + 'data_raw/')
 
         # download the html file
-<<<<<<< HEAD
 	    urllib.urlretrieve(data_url, f_raw_name)
-=======
-        urllib.urlretrieve(data_url, f_raw_name)
->>>>>>> 6337489a8b1fe08500c24132eb5a24f03cfe0f99
         return f_raw_name, c_page.content
 
     ## read a html string and filter the data, then put into a list 
@@ -99,7 +95,7 @@ class dataGrabAZ(object):
         self.save2File(l_overall, self.state_dir + 'data/'+self.state_name.lower()+'_covid19_'+name_file+'.csv')
         return l_overall
 
-    ## paser data AZ
+    ## paser data NM
     def parseData(self, name_file, date_target, type_download):
         print("  parseData")
         self.name_file = name_file

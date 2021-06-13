@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 AK	USA	Alaska	Alaska	1003	West	Luna	10
 AR	USA	Arkansas	Ark.	1005	South	Luna	10
 DE	USA	Delaware	Del.	1009	South	Luna	0
@@ -19,6 +20,8 @@ TX	USA	Texas	Tex.	1045	South	Luna	10
 WA	USA	Washington	Wash.	1049	West	Luna	10
 WV	USA	West Virginia	W.Va.	1050	South	Luna	10
 #
+=======
+>>>>>>> 6337489a8b1fe08500c24132eb5a24f03cfe0f99
 #s_postalcode	s_country	s_state	s_abbreviation	tb_id	s_region	s_team	s_finished
 AL	USA	Alabama	Ala.	1002	South	Luna	10
 AK	USA	Alaska	Alaska	1003	West	Luna	10
@@ -53,6 +56,7 @@ WY	USA	Wyoming	Wyo.	1052	West	Luna	10
 ##
 ## Group 2
 ##
+<<<<<<< HEAD
 
 ##west and south states
 ### has problem
@@ -67,3 +71,5 @@ al
 nc - data hard to hind
 va - cant find data
 
+=======
+>>>>>>> 6337489a8b1fe08500c24132eb5a24f03cfe0f99

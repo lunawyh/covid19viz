@@ -24,7 +24,11 @@ import numpy as np
 from selenium import webdriver  # https://selenium-python.readthedocs.io/installation.html
 import time
 from selenium.webdriver.common.keys import Keys 
+<<<<<<< HEAD
 
+=======
+import bs4
+>>>>>>> 6337489a8b1fe08500c24132eb5a24f03cfe0f99
 import urllib.request as urllib2
 import itertools
 
@@ -96,11 +100,16 @@ class dataGrabAL(object):
     def saveWebsite(self, fRaw):
         #csv_url = self.l_state_config[5][1]
         #print('  download4Website', csv_url)
+<<<<<<< HEAD
+=======
+        #https://www.alreporter.com/mapping-coronavirus-in-alabama/
+>>>>>>> 6337489a8b1fe08500c24132eb5a24f03cfe0f99
 
         csv_url = "https://dph1.adph.state.al.us/covid-19/"
         print('  download4Website', csv_url)
         siteOpen = webdriver.Chrome()
         siteOpen.get(csv_url)
+<<<<<<< HEAD
         time.sleep(5)
 
         from pynput.mouse import Button, Controller
@@ -159,6 +168,67 @@ class dataGrabAL(object):
         l_cases3 = np.append(all_list, [['Total', case, death]], axis=0)
         print('[[[[[[[[[[[[[[[[[[[[', l_cases3)
         siteOpen.close()
+=======
+        time.sleep(7)
+
+
+        from pynput.mouse import Button, Controller
+        mouse = Controller()
+        print('mmmmmmmmmmmm', mouse.position)
+        #mouse.move(-150, 300)
+        mouse.position = (784, 431)
+        print('moving ------', mouse.position)
+        #time.sleep(5)
+        mouse.click(Button.left, 1)
+        time.sleep(4)
+
+        caseName = siteOpen.find_elements_by_xpath('//td[@data-field="CNTYFIPS"]')
+        #print('ccccccccccccccc', caseName)
+        #stateNames = siteOpen.find_elements_by_xpath('//div[@class="bc-row-label row-label chart-text label"]')
+        stateName_list = []
+        for case_num in caseName: 
+            dStringList = case_num.text.split()
+            #print('  ------------case_num', dStringList )
+            stateName_list.append(str(dStringList).replace('[', '').replace(']', '').replace("'", ''))
+        print('nnnnnnnn', stateName_list)     
+        print('dddddddddddddddds', len(stateName_list)) 
+
+        caseNumbers = siteOpen.find_elements_by_xpath('//td[@data-field="CONFIRMED"]')
+        #print('ccccccccccccccc', caseNumbers)
+        #stateNames = siteOpen.find_elements_by_xpath('//div[@class="bc-row-label row-label chart-text label"]')
+        stateCase_list = []
+        for case_num in caseNumbers: 
+            dStringList = case_num.text.split()
+            #print('  ------------case_num', dStringList )
+            stateCase_list.append(str(dStringList).replace('[', '').replace(']', '').replace("'", ''))
+        print('ccccccccc', stateCase_list)  
+        print('dddddddddddddddds', len(stateCase_list))
+
+        caseDeath = siteOpen.find_elements_by_xpath('//td[@data-field="DIED"]')
+        #print('ccccccccccccccc', caseDeath)
+        #stateNames = siteOpen.find_elements_by_xpath('//div[@class="bc-row-label row-label chart-text label"]')
+        stateDeath_list = []
+        for case_num in caseDeath: 
+            dStringList = case_num.text.split()
+            #print('  ------------case_num', dStringList )
+            stateDeath_list.append(str(dStringList).replace('[', '').replace(']', '').replace("'", ''))
+        print('dddddddddddddddds', stateDeath_list) 
+        print('dddddddddddddddds', len(stateDeath_list))
+
+
+        l_data = np.vstack((stateName_list, stateCase_list, stateDeath_list)).T
+        print('777777777777', l_data)
+
+        total_num = 0
+        total_death = 0
+        for a_ll in l_data:
+            total_num += int(a_ll[1])
+            total_death += int(a_ll[2])
+
+        l_cases3 = np.append(l_data, [['Total', total_num, total_death]], axis=0)
+        print(';;;;;;;;;;;;;;;;', l_cases3)
+
+>>>>>>> 6337489a8b1fe08500c24132eb5a24f03cfe0f99
         return l_cases3
 
 
