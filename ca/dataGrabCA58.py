@@ -205,6 +205,29 @@ class dataGrabCA(object):
         h = height+y
         #print(x, y, w, h)
 
+<<<<<<< HEAD
+=======
+        croppedImg = image1.crop((x,y+150,w-100,h))
+        croppedImg.save(self.state_name.lower() + '_covid19_'+self.name_file+ '_names_1st.png') #save to file
+
+
+
+
+        #craft the photo ============================================= numbers
+        image1 = Image.open(self.state_name.lower() + '_covid19_start_'+self.name_file+ '1st.png')
+        print(')))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))')
+        print(image1.size)
+        width, height = image1.size
+        numberOfSplits = 5
+        splitDist = width / numberOfSplits
+
+        x = 0
+        y = 0
+        w = splitDist+x
+        h = height+y
+        #print(x, y, w, h)
+
+>>>>>>> 3cb83a1a9978df701a57bd2d1a534f395d23eec5
         croppedImg = image1.crop((x+100,y+150,w-50,h))
         croppedImg.save(self.state_name.lower() + '_covid19_'+self.name_file+ '_numbers_1st.png') #save to file
 

@@ -13,11 +13,15 @@ TX
 ## Group 2
 ##
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 3cb83a1a9978df701a57bd2d1a534f395d23eec5
 ### has problem
 DC
 DE
 SC
 VA
+<<<<<<< HEAD
 
 
 =======
@@ -29,12 +33,14 @@ MN - only have half or less of the state can be get
 MO - no data source
 WI - no data found
 SC- no constant data
+=======
+>>>>>>> 3cb83a1a9978df701a57bd2d1a534f395d23eec5
 
-VA-data not found
-DC--no county data 'https://coronavirus.dc.gov/page/reopening-metrics'
-CE--no county data
 
+<<<<<<< HEAD
 #finnished
 AL
 WV
 >>>>>>> 6337489a8b1fe08500c24132eb5a24f03cfe0f99
+=======
+>>>>>>> 3cb83a1a9978df701a57bd2d1a534f395d23eec5

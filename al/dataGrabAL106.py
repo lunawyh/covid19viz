@@ -25,10 +25,14 @@ from selenium import webdriver  # https://selenium-python.readthedocs.io/install
 import time
 from selenium.webdriver.common.keys import Keys 
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 =======
 import bs4
 >>>>>>> 6337489a8b1fe08500c24132eb5a24f03cfe0f99
+=======
+
+>>>>>>> 3cb83a1a9978df701a57bd2d1a534f395d23eec5
 import urllib.request as urllib2
 import itertools
 
@@ -110,6 +114,9 @@ class dataGrabAL(object):
         siteOpen = webdriver.Chrome()
         siteOpen.get(csv_url)
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 3cb83a1a9978df701a57bd2d1a534f395d23eec5
         time.sleep(5)
 
         from pynput.mouse import Button, Controller
@@ -168,6 +175,7 @@ class dataGrabAL(object):
         l_cases3 = np.append(all_list, [['Total', case, death]], axis=0)
         print('[[[[[[[[[[[[[[[[[[[[', l_cases3)
         siteOpen.close()
+<<<<<<< HEAD
 =======
         time.sleep(7)
 
@@ -229,6 +237,8 @@ class dataGrabAL(object):
         print(';;;;;;;;;;;;;;;;', l_cases3)
 
 >>>>>>> 6337489a8b1fe08500c24132eb5a24f03cfe0f99
+=======
+>>>>>>> 3cb83a1a9978df701a57bd2d1a534f395d23eec5
         return l_cases3
 
 

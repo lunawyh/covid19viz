@@ -60,9 +60,13 @@ class dataGrabKY(object):
         csv_url = self.l_state_config[5][1]
         print('  download4Website', csv_url)
 <<<<<<< HEAD
+<<<<<<< HEAD
         print(' !!================================ remember to full screen the webpage ====================!!!')
 =======
 >>>>>>> 6337489a8b1fe08500c24132eb5a24f03cfe0f99
+=======
+        print(' !!================================ remember to full screen the webpage ====================!!!')
+>>>>>>> 3cb83a1a9978df701a57bd2d1a534f395d23eec5
 
         siteOpen = webdriver.Chrome()
         siteOpen.get(csv_url)
@@ -71,6 +75,7 @@ class dataGrabKY(object):
         # save html file
         c_page = requests.get(csv_url)
         c_tree = html.fromstring(c_page.content)
+<<<<<<< HEAD
 <<<<<<< HEAD
         time.sleep(7)
 
@@ -88,18 +93,27 @@ class dataGrabKY(object):
         print('llllllllllll', case_list)      
 	#    l_cases3 = np.append(case_list, [['Total', case, death]], axis=0)
 =======
+=======
+        time.sleep(7)
+>>>>>>> 3cb83a1a9978df701a57bd2d1a534f395d23eec5
 
+        iframe = siteOpen.find_element_by_xpath('//iframe[@class="iframe-widget_3"]')
+        siteOpen.switch_to.frame(iframe)
+        time.sleep(7)
         caseNumbers = siteOpen.find_elements_by_xpath('//div[@class="external-html"]')
         #print('ccccccccccccccc', caseNumbers)
-        #stateNames = siteOpen.find_elements_by_xpath('//div[@class="bc-row-label row-label chart-text label"]')
         case_list = []
         for case_num in caseNumbers: 
             dStringList = case_num.text.split()
-            #print('  ------------case_num', dStringList )
-            case_list.append([dStringList[0], dStringList[8].replace(',', ''), dStringList[10].replace(',', '')])
-        #print('llllllllllll', case_list)      
+            print('  ------------case_num', dStringList )
 
+<<<<<<< HEAD
 >>>>>>> 6337489a8b1fe08500c24132eb5a24f03cfe0f99
+=======
+            case_list.append([dStringList[0], dStringList[-3].replace(',', ''), dStringList[-1].replace(',', '')])
+        print('llllllllllll', case_list)      
+	#    l_cases3 = np.append(case_list, [['Total', case, death]], axis=0)
+>>>>>>> 3cb83a1a9978df701a57bd2d1a534f395d23eec5
         case = 0
         death = 0
         for a_da in case_list:

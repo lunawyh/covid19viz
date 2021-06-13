@@ -1,4 +1,7 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 3cb83a1a9978df701a57bd2d1a534f395d23eec5
 "name","value","lon","quantity","offset"
 "VIZ_W",431,,,0
 "VIZ_H",750,,,1
@@ -19,6 +22,7 @@
 "basemap_list4",0,0,0,16
 "basemap_list5",0,0,0,17
 "basemap_list6",0,0,0,18
+<<<<<<< HEAD
 =======
 name,value,lon,quantity,offset
 VIZ_W,431,,,0
@@ -41,3 +45,5 @@ basemap_list4,0,0,0,16
 basemap_list5,0,0,0,17
 basemap_list6,0,0,0,18
 >>>>>>> 6337489a8b1fe08500c24132eb5a24f03cfe0f99
+=======
+>>>>>>> 3cb83a1a9978df701a57bd2d1a534f395d23eec5

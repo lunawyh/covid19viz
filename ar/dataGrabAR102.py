@@ -114,27 +114,28 @@ class dataGrabAR(object):
 
         l_cases2 = np.reshape(l_dates, (len(l_dates)//4, 4)).T
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 3cb83a1a9978df701a57bd2d1a534f395d23eec5
         print('////////////', l_cases2[0])
         print('////////////', l_cases2[1])
         print('////////////', l_cases2[3])
 
 
+<<<<<<< HEAD
         l_data = np.vstack((l_cases2[0], l_cases2[1], l_cases2[3])).T 
         l_data[-1][1] = l_data[-1][1].replace('*', '').replace(',', '')
 
         return l_data
 
 =======
+=======
+>>>>>>> 3cb83a1a9978df701a57bd2d1a534f395d23eec5
         l_data = np.vstack((l_cases2[0], l_cases2[1], l_cases2[3])).T 
         l_data[-1][1] = l_data[-1][1].replace('*', '').replace(',', '')
-        '''
-        l_data_1 = l_data[:-1] 
-        l_data_2 = l_data[-1]
-        l_data_3 = [l_data_2[0], l_data_2[1].replace('*', '').replace(',', ''), l_data_2[2]]     
-        l_data_4 = np.vstack((l_data_1, l_data_3))
-        return(l_data_4)
-        '''
+
         return l_data
+<<<<<<< HEAD
         #print ('^^^', l_data_4)
 
         #print('      cases reshaped', len(l_cases2))
@@ -145,6 +146,9 @@ class dataGrabAR(object):
         #l_data = np.vstack((np.array(l_cases2[0]), l_cases2[1], l_cases2[3]))          
         #return np.vstack((l_data.T, np.array(['Total', total_cases, total_death])))
 >>>>>>> 6337489a8b1fe08500c24132eb5a24f03cfe0f99
+=======
+
+>>>>>>> 3cb83a1a9978df701a57bd2d1a534f395d23eec5
 
         ## save downloaded data to daily or overal data 
     def saveLatestDate(self, l_raw_data, name_file):

@@ -1,4 +1,7 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 3cb83a1a9978df701a57bd2d1a534f395d23eec5
 "name","value","lon","quantity","offset"
 "VIZ_W",1140,,,0
 "VIZ_H",941,,,1
@@ -19,6 +22,7 @@
 "basemap_list4",0,0,0,16
 "basemap_list5",0,0,0,17
 "basemap_list6",0,0,0,18
+<<<<<<< HEAD
 ,,,,
 ,"https://govstatus.egov.com/kycovid19",,,
 =======
@@ -45,3 +49,7 @@ basemap_list6,0,0,0,18
 ,,,,
 ,https://govstatus.egov.com/kycovid19,,,
 >>>>>>> 6337489a8b1fe08500c24132eb5a24f03cfe0f99
+=======
+,,,,
+,"https://govstatus.egov.com/kycovid19",,,
+>>>>>>> 3cb83a1a9978df701a57bd2d1a534f395d23eec5
