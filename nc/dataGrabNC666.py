@@ -14,8 +14,6 @@ import os
 from os.path import isfile, join
 import pandas as pd
 import csv
-<<<<<<< HEAD
-<<<<<<< HEAD
 import urllib
 import ssl
 from lxml import html
@@ -43,10 +41,6 @@ import pytesseract
 # ==============================================================================
 # -- codes -------------------------------------------------------------------
 # ============================================================================== ## save downloaded data to daily or overal data 
-=======
-import datetime 
-=======
->>>>>>> 3cb83a1a9978df701a57bd2d1a534f395d23eec5
 import urllib
 import ssl
 from lxml import html
@@ -71,15 +65,6 @@ import PyPDF2
 import pytesseract
 
 
-# ==============================================================================
-# -- codes -------------------------------------------------------------------
-<<<<<<< HEAD
-# ==============================================================================
-
->>>>>>> 6337489a8b1fe08500c24132eb5a24f03cfe0f99
-=======
-# ============================================================================== ## save downloaded data to daily or overal data 
->>>>>>> 3cb83a1a9978df701a57bd2d1a534f395d23eec5
 # class for dataGrab
 class dataGrabnc(object):
     ## the start entry of this class
@@ -90,18 +75,8 @@ class dataGrabnc(object):
         self.state_name = n_state
         self.state_dir = './'+n_state.lower()+'/'
         self.l_state_config = l_config
-<<<<<<< HEAD
-<<<<<<< HEAD
-
-
-=======
         self.name_file = ''
         self.now_date = ''
->>>>>>> 6337489a8b1fe08500c24132eb5a24f03cfe0f99
-=======
-
-
->>>>>>> 3cb83a1a9978df701a57bd2d1a534f395d23eec5
     ## save to csv 
     def save2File(self, l_data, csv_name):
         csv_data_f = open(csv_name, 'w')
@@ -113,8 +88,6 @@ class dataGrabnc(object):
         for a_row in l_data:
             csvwriter.writerow(a_row)
         csv_data_f.close()
-<<<<<<< HEAD
-<<<<<<< HEAD
 
 
     ## $^&&
@@ -329,54 +302,6 @@ class dataGrabnc(object):
 
             return(urlData, self.name_file, str(today))  
 
-=======
-    ## parse from exel format to list 
-    def parseDfData(self, df, fName=None):
-        (n_rows, n_columns) = df.shape 
-        # check shape
-        #print('parseDfData', df.title)
-        lst_data = []
-        for ii in range(n_rows):
-            a_case = []
-            for jj in range(n_columns):
-                if( str(df.iloc[ii, jj]) == 'nan'  ): 
-                    a_case.append( 0 )
-                    continue
-                a_case.append( df.iloc[ii, jj] )
-            lst_data.append( a_case )
-        # save to a database file
-        if(fName is not None): self.save2File( lst_data, fName )
-        return lst_data
-    ## open a csv 
-    def open4File(self, csv_name):
-        if(isfile(csv_name) ):
-            df = pd.read_csv(csv_name)
-            l_data = self.parseDfData(df)
-        else: return []
-        return l_data
-
-    ## download a website 
-    def download4Website(self, csv_url, fRaw):
-        #csv_url = self.l_state_config[5][1]
-        # save csv file
-        urllib.urlretrieve(csv_url, fRaw)
-        return True
-    ## open a website 
-    def open4Website(self, fRaw):
-        csv_url = 'https://covid19.ncdhhs.gov/dashboard#main-content' s#self.l_state_config[5][1] #'https://maryland.maps.arcgis.com/apps/opsdashboard/index.html#/d83b7887227e45728e6daf51a6c91c9f'
-        print('  download4Website', csv_url)
-        
-        siteOpen = webdriver.Chrome()
-        siteOpen.get(csv_url)
-        time.sleep(5)
-        #iframe = siteOpen.find_element_by_xpath('//iframe[@style="height: 1200px"]')
-        iframe = siteOpen.find_element_by_xpath('//iframe[@style="display: block; width: 700px; height: 1627px; margin: 0px; padding: 0px; border: none;"]')
-        siteOpen.switch_to.frame(iframe)
-        time.sleep(10)
-        caseNumbers = siteOpen.find_elements_by_xpath('//span[@style="font-size:11px"]')
-        return l_cases3
-=======
->>>>>>> 3cb83a1a9978df701a57bd2d1a534f395d23eec5
 
 
     ## $^&&
@@ -591,8 +516,4 @@ class dataGrabnc(object):
 
             return(urlData, self.name_file, str(today))  
 
-<<<<<<< HEAD
 ## end of file
->>>>>>> 6337489a8b1fe08500c24132eb5a24f03cfe0f99
-=======
->>>>>>> 3cb83a1a9978df701a57bd2d1a534f395d23eec5

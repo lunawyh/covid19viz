@@ -68,8 +68,6 @@ class dataGrabWV(object):
         # save html file
         c_page = requests.get(csv_url)
         c_tree = html.fromstring(c_page.content)
-<<<<<<< HEAD
-<<<<<<< HEAD
         l_dates = c_tree.xpath('//div//a')  # ('//div[@class="col-xs-12 button--wrap"]')
         #print('   dddd', l_dates)
 
@@ -81,12 +79,7 @@ class dataGrabWV(object):
                 a_address =l_date.get('href')
                 break
         print('11111111111111', a_address)
-=======
-        l_dates = c_tree.xpath('//a')  # ('//div[@class="col-xs-12 button--wrap"]')
-=======
         l_dates = c_tree.xpath('//div//a')  # ('//div[@class="col-xs-12 button--wrap"]')
->>>>>>> 3cb83a1a9978df701a57bd2d1a534f395d23eec5
-        #print('   dddd', l_dates)
 
         a_address = ''
         for l_date in l_dates:
@@ -95,12 +88,6 @@ class dataGrabWV(object):
                 print('   sss', l_date)
                 a_address =l_date.get('href')
                 break
-<<<<<<< HEAD
-        #print('11111111111111', a_address)
->>>>>>> 6337489a8b1fe08500c24132eb5a24f03cfe0f99
-=======
-        print('11111111111111', a_address)
->>>>>>> 3cb83a1a9978df701a57bd2d1a534f395d23eec5
         return a_address
 
     ## paser data FL
@@ -129,22 +116,12 @@ class dataGrabWV(object):
         c_page = requests.get(f_name)
         c_tree = html.fromstring(c_page.content)
       
-<<<<<<< HEAD
-<<<<<<< HEAD
         caseNumbers = siteOpen.find_elements_by_xpath('//div[@id="ctl00_PlaceHolderMain_ctl02__ControlWrapper_RichHtmlField"]')
-=======
-        caseNumbers = siteOpen.find_elements_by_xpath('//font[@size="3"]')
->>>>>>> 6337489a8b1fe08500c24132eb5a24f03cfe0f99
-=======
-        caseNumbers = siteOpen.find_elements_by_xpath('//div[@id="ctl00_PlaceHolderMain_ctl02__ControlWrapper_RichHtmlField"]')
->>>>>>> 3cb83a1a9978df701a57bd2d1a534f395d23eec5
 
         case_num_list = []
         for case_num in caseNumbers:  # this is cases------------------------------------bc-bar-inner dw-rect
             dStringList = case_num.text.split()
             #print('  ------------case_num', dStringList )
-<<<<<<< HEAD
-<<<<<<< HEAD
             if 'Virginia' in dStringList:
                 print('  ------------case_num', dStringList )
                 case_num_list=(dStringList)
@@ -160,11 +137,7 @@ class dataGrabWV(object):
 
 
         l_cases2 = np.reshape(list_aaa, (len(list_aaa)//2, 2)).T
-=======
-            if 'Barbour' in dStringList:
-=======
             if 'Virginia' in dStringList:
->>>>>>> 3cb83a1a9978df701a57bd2d1a534f395d23eec5
                 print('  ------------case_num', dStringList )
                 case_num_list=(dStringList)
 
@@ -178,12 +151,7 @@ class dataGrabWV(object):
         print('aaaaaaaaaa......', list_aaa)
 
 
-<<<<<<< HEAD
-        l_cases2 = np.reshape(case_num_list[1:], (len(case_num_list[1:])/2, 2)).T
->>>>>>> 6337489a8b1fe08500c24132eb5a24f03cfe0f99
-=======
         l_cases2 = np.reshape(list_aaa, (len(list_aaa)//2, 2)).T
->>>>>>> 3cb83a1a9978df701a57bd2d1a534f395d23eec5
         print('ccccccccccccccc', l_cases2)
         cases= []
         for c_c in l_cases2[1]:

@@ -53,21 +53,12 @@ class runCoViz(object):
             with open('../state.txt', 'r') as f:
                 self.states_valid = f.readlines()
         a_state = 'MI'
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 3cb83a1a9978df701a57bd2d1a534f395d23eec5
         for a_state_v in self.states_valid:
             if(a_state_v[0] != '#'):
                 a_state = a_state_v[0:2]
                 break
-<<<<<<< HEAD
-=======
         if( len(self.states_valid) > 0):
                 a_state = self.states_valid[0][0:2]
->>>>>>> 6337489a8b1fe08500c24132eb5a24f03cfe0f99
-=======
->>>>>>> 3cb83a1a9978df701a57bd2d1a534f395d23eec5
         print('  state', a_state)
         self.stateMachine = 0 
         self.stateMaSub = 0 
@@ -600,10 +591,6 @@ class runCoViz(object):
             lst_data, name_file, now_date = data_grab.parseData(self.name_file, self.now_date, type_download)		
             if(len(lst_data) > 0): 
                 self.name_file, self.now_date = name_file, now_date
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 3cb83a1a9978df701a57bd2d1a534f395d23eec5
 
         elif( type_download == 427):   # download only
             sys.path.insert(0, "./nm")
@@ -615,11 +602,6 @@ class runCoViz(object):
             if(len(lst_data) > 0): 
                 self.name_file, self.now_date = name_file, now_date
 
-<<<<<<< HEAD
-=======
->>>>>>> 6337489a8b1fe08500c24132eb5a24f03cfe0f99
-=======
->>>>>>> 3cb83a1a9978df701a57bd2d1a534f395d23eec5
             ########
         elif( type_download == 19):   # download only
             sys.path.insert(0, "./wy")
@@ -676,10 +658,6 @@ class runCoViz(object):
             if(len(lst_data) > 0): 
                 self.name_file, self.now_date = name_file, now_date
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 3cb83a1a9978df701a57bd2d1a534f395d23eec5
         elif( type_download == 422):   # download only
             sys.path.insert(0, "./mt")
             from dataGrabMT422 import dataGrabMT
@@ -691,11 +669,6 @@ class runCoViz(object):
             if(len(lst_data) > 0): 
                 self.name_file, self.now_date = name_file, now_date
 
-<<<<<<< HEAD
-=======
->>>>>>> 6337489a8b1fe08500c24132eb5a24f03cfe0f99
-=======
->>>>>>> 3cb83a1a9978df701a57bd2d1a534f395d23eec5
         elif( type_download == 10):   # download only
             sys.path.insert(0, "./la")
             from dataGrabLA10 import dataGrabLa
@@ -819,10 +792,6 @@ class runCoViz(object):
             # step B: parse to standard file
             lst_data, self.name_file, self.now_date = data_grab.parseData(self.name_file, self.now_date, type_download)
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 3cb83a1a9978df701a57bd2d1a534f395d23eec5
         elif (type_download == 428):  # download only
             sys.path.insert(0, "./hi")
             from dataGrabHI428 import dataGrabHI
@@ -839,11 +808,6 @@ class runCoViz(object):
             # step B: parse to standard file
             lst_data, self.name_file, self.now_date = data_grab.parseData(self.name_file, self.now_date, type_download)
 
-<<<<<<< HEAD
-=======
->>>>>>> 6337489a8b1fe08500c24132eb5a24f03cfe0f99
-=======
->>>>>>> 3cb83a1a9978df701a57bd2d1a534f395d23eec5
         elif (type_download == 59):  # download only
             sys.path.insert(0, "./ny")
             from dataGrabNy59 import dataGrabNY
@@ -896,10 +860,6 @@ class runCoViz(object):
             data_grab = dataGrabZZ(self.l_state_config, self.state_name) 
             # step B: parse to standard file 
             lst_data, self.name_file, self.now_date = data_grab.parseData(self.name_file, self.now_date, type_download) 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 3cb83a1a9978df701a57bd2d1a534f395d23eec5
         elif (type_download == 8989): 
             sys.path.insert(0, "./yy") 
             from dataGrabYY import dataGrabYY 
@@ -926,8 +886,6 @@ class runCoViz(object):
             from dataGrabDE import dataGrabDE 
             # step A: create new class 
             data_grab = dataGrabDE(self.l_state_config, self.state_name) 
-<<<<<<< HEAD
-=======
         elif (type_download == 7784): 
             sys.path.insert(0, "./mt") 
             from dataGrabMT import dataGrabMT 
@@ -947,9 +905,6 @@ class runCoViz(object):
             from dataGrabNM import dataGrabNM 
             # step A: create new class 
             data_grab = dataGrabNM(self.l_state_config, self.state_name) 
->>>>>>> 6337489a8b1fe08500c24132eb5a24f03cfe0f99
-=======
->>>>>>> 3cb83a1a9978df701a57bd2d1a534f395d23eec5
             # step B: parse to standard file 
             lst_data, self.name_file, self.now_date = data_grab.parseData(self.name_file, self.now_date, type_download) 
         elif (type_download == 8367): 
@@ -966,10 +921,6 @@ class runCoViz(object):
             data_grab = dataGrabVA(self.l_state_config, self.state_name) 
             # step B: parse to standard file 
             lst_data, self.name_file, self.now_date = data_grab.parseData(self.name_file, self.now_date, type_download) 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 3cb83a1a9978df701a57bd2d1a534f395d23eec5
         elif (type_download == 6575): 
             sys.path.insert(0, "./ak") 
             from dataGrabAK import dataGrabAK 
@@ -982,8 +933,6 @@ class runCoViz(object):
             from dataGrabAZ import dataGrabAZ 
             # step A: create new class 
             data_grab = dataGrabAZ(self.l_state_config, self.state_name) 
-<<<<<<< HEAD
-=======
         elif (type_download == 6867): 
             sys.path.insert(0, "./dc") 
             from dataGrabDC import dataGrabDC
@@ -996,9 +945,6 @@ class runCoViz(object):
             from dataGrabDE import dataGrabDE 
             # step A: create new class 
             data_grab = dataGrabDE(self.l_state_config, self.state_name) 
->>>>>>> 6337489a8b1fe08500c24132eb5a24f03cfe0f99
-=======
->>>>>>> 3cb83a1a9978df701a57bd2d1a534f395d23eec5
             # step B: parse to standard file 
             lst_data, self.name_file, self.now_date = data_grab.parseData(self.name_file, self.now_date, type_download) 
         ### This is a template entry into one state, to COPY and MODIFY, do NOT REMOVE or CHANGE

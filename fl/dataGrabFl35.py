@@ -261,10 +261,6 @@ class dataGrabFl(object):
             arr_data_all = np.array(l_data_all)
             print('0000000000000', arr_data_all)
             l_cases2 = arr_data_all.T
-<<<<<<< HEAD
-=======
-            print('.............', l_cases2[0])
->>>>>>> 6337489a8b1fe08500c24132eb5a24f03cfe0f99
             l_data = np.vstack((l_cases2[0], l_cases2[4], l_cases2[5])).T 
             return (l_data)
     ## paser data FL

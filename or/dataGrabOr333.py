@@ -126,16 +126,10 @@ class dataGrabOR(object):
         for sasa in l_pageTxt_1st[:-1]:
             sdsd= sasa.split(' ')
             print('sdsd-----------------', sdsd)
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 3cb83a1a9978df701a57bd2d1a534f395d23eec5
             if 'i' or '$' or 's' in sdsd[-1]: 
                 datas.append([sdsd[0], sdsd[-2].replace(',', ''), sdsd[-1].replace('i', '1').replace('$', '5').replace('s', '5')])
             else:
                 datas.append([sdsd[0], sdsd[-2].replace(',', ''), sdsd[-1]])
-<<<<<<< HEAD
-=======
             '''
             if 'iss' in sdsd[-1]: 
                 datas.append([sdsd[0], sdsd[-2].replace(',', ''), 155])
@@ -147,9 +141,6 @@ class dataGrabOR(object):
             number= sdsd[-2].replace('i', '1').replace('s', '5').replace('S', '5').replace(',', '')
             death= sdsd[-1].replace('i', '1').replace('s', '5').replace('S', '5').replace(',', '')
             datas.append([sdsd[0], number, death])
->>>>>>> 6337489a8b1fe08500c24132eb5a24f03cfe0f99
-=======
->>>>>>> 3cb83a1a9978df701a57bd2d1a534f395d23eec5
         print('----------datas', datas)
 
 

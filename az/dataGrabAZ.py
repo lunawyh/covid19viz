@@ -61,15 +61,7 @@ class dataGrabAZ(object):
         if(not os.path.isdir(self.state_dir + 'data_raw/') ): os.mkdir(self.state_dir + 'data_raw/')
 
         # download the html file
-<<<<<<< HEAD
-<<<<<<< HEAD
 	    urllib.urlretrieve(data_url, f_raw_name)
-=======
-        urllib.urlretrieve(data_url, f_raw_name)
->>>>>>> 6337489a8b1fe08500c24132eb5a24f03cfe0f99
-=======
-	    urllib.urlretrieve(data_url, f_raw_name)
->>>>>>> 3cb83a1a9978df701a57bd2d1a534f395d23eec5
         return f_raw_name, c_page.content
 
     ## read a html string and filter the data, then put into a list 
