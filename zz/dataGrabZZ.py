@@ -131,7 +131,7 @@ class dataGrabZZ(object):
                     siteOpen.execute_script("arguments[0].setAttribute('value','wzijian')", a_input)
                     #a_input.setAttribute('value', 'wzijian')  
                 if(a_input.get_attribute('id') == 'Password'):
-                    siteOpen.execute_script("arguments[0].setAttribute('value','zzy403!')", a_input)
+                    siteOpen.execute_script("arguments[0].setAttribute('value','???')", a_input)
                     #a_input.setAttribute('value', 'zzy403')     
             time.sleep(1) 
             # <input class="t-button t-state-default bsa-button" id="" name="signIn" value="Sign In" type="submit">   
