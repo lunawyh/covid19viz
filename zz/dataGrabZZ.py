@@ -98,7 +98,7 @@ class dataGrabZZ(object):
                         a_download.click()
                         time.sleep(5)
                         #    
-                        self.save2datapublic('../datapublic/house/uploaded_files/h'+pdf_target+'_waterbill.pdf')                             
+                        self.save2datapublic('../cloudH/house/uploaded_files/h'+pdf_target+'_waterbill.pdf')                             
                         break
                     break
                 break
@@ -145,6 +145,9 @@ class dataGrabZZ(object):
         self.downloadWaterBill(2, '846', siteOpen)
         self.downloadWaterBill(3, '820', siteOpen)
         self.downloadWaterBill(4, '1720', siteOpen)
+        #
+        # check 3256
+        # https://bsaonline.com/OnlinePayment/OnlinePaymentSearch?PaymentApplicationType=10&uid=305&showEmbeddedView=true
         #
         time.sleep(3)  
         siteOpen.close()
