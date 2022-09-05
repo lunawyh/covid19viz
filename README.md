@@ -1,9 +1,9 @@
 <div align="center">
-  <img src="http://www.appstorego.com/img/icon_appstorego.png">
+  <img src="http://www.cloudh.org/img/icon_appstorego.png">
 </div>
 
 # covid19viz
-New visualization and prediction of COVID-19 in USA, such as Michigan, CA, OH, NY, TX, showing here at www.appstorego.com.
+New visualization and prediction of COVID-19 in USA, such as Michigan, CA, OH, NY, TX, showing here at www.cloudh.org/datapublic.
 
     I. Visualize the data of COVID-19 today
 
