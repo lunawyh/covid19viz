@@ -58,6 +58,7 @@ New visualization and prediction of COVID-19 in USA, such as Michigan, CA, OH, N
      add    C:\OSGeo4W64\bin to PATH
    
      pip3 install --user git+https://github.com/matplotlib/basemap.git or 
+     
      pip3 install basemap‑1.2.1‑cp27‑cp27m‑win_amd64.whl (downloaded from https://www.lfd.uci.edu/~gohlke/pythonlibs/)
  9. install chrome driver
  
@@ -65,6 +66,7 @@ New visualization and prediction of COVID-19 in USA, such as Michigan, CA, OH, N
      
      In linux: 
          download file at https://sites.google.com/chromium.org/driver/downloads?authuser=0
+         
          sudo cp  ~/Downloads/chromedriver /usr/local/bin/
 
 10. another way to install basemap on ubantu, run these coads in ubantu:
