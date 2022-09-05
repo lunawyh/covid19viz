@@ -64,7 +64,7 @@ New visualization and prediction of COVID-19 in USA, such as Michigan, CA, OH, N
      https://selenium-python.readthedocs.io/installation.html
      
      In linux: 
-     
+         download file at https://sites.google.com/chromium.org/driver/downloads?authuser=0
          sudo cp  ~/Downloads/chromedriver /usr/local/bin/
 
 10. another way to install basemap on ubantu, run these coads in ubantu:
