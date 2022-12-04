@@ -95,4 +95,5 @@ New visualization and prediction of COVID-19 in USA, such as Michigan, CA, OH, N
 
 # Add you SSH key to the setting of your github
 1. Before commit your codes, please add SSH key
-
+2. Use git push with Token: 
+	How to get token? Refer to   https://ginnyfahs.medium.com/github-error-authentication-failed-from-command-line-3a545bfd0ca8
