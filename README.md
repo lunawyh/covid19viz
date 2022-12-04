@@ -88,10 +88,11 @@ New visualization and prediction of COVID-19 in USA, such as Michigan, CA, OH, N
 # SIR model
 1. Predict with SIR model / SIRmodel, referring to Wuhan data
 
-#
+# pytesseract
 1. to be rooted on ubantu, if you have a password, run 'su'. if there is no password, run 'sudo -i'
 2. when using pythn 2, to download pytesseract, you need to run this coad in the terminal: 
     sudo pip3 install pytesseract==0.3.0
 
-
+# Add you SSH key to the setting of your github
+1. Before commit your codes, please add SSH key
 
